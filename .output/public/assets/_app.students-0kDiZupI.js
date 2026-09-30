@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-dev-runtime-kfSKQyiO.js";import{m as t}from"./index-JgC6YLnk.js";var n=e(),r=`D:/React APP/uniquesta-core-main/src/routes/_app.students.tsx?tsr-split=component`;function i(){return(0,n.jsxDEV)(t,{},void 0,!1,{fileName:r,lineNumber:3,columnNumber:10},this)}export{i as component};

@@ -1,0 +1,832 @@
+import { o as __toESM } from "../_runtime.mjs";
+import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
+import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
+import { t as Button } from "./button-Th46ikol.mjs";
+import { t as Badge } from "./badge-h6Nj5OpU.mjs";
+import { y as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
+import { n as useQuery } from "../_libs/tanstack__react-query.mjs";
+import { B as LogOut, F as Navigation, Ft as Bus, I as MessageSquare, Mt as Calendar, O as Phone, S as RefreshCw, r as Users, u as Ticket, w as Printer } from "../_libs/lucide-react.mjs";
+import { t as toast } from "../_libs/sonner.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/traveler-portal-BCmzd4z5.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_dev_runtime = require_jsx_dev_runtime();
+var _jsxFileName = "D:/React APP/uniquesta-core-main/src/routes/traveler-portal.tsx?tsr-split=component";
+function StandaloneTravelerPortalPage() {
+	const navigate = useNavigate();
+	const [travelerUser, setTravelerUser] = (0, import_react.useState)(null);
+	const [token, setToken] = (0, import_react.useState)(null);
+	(0, import_react.useEffect)(() => {
+		const storedToken = localStorage.getItem("uniquesta_traveler_token");
+		const storedUser = localStorage.getItem("uniquesta_traveler_user");
+		if (!storedToken || !storedUser) {
+			toast.info("Please enter your booking reference or mobile number");
+			navigate({ to: "/traveler-login" });
+			return;
+		}
+		try {
+			setToken(storedToken);
+			setTravelerUser(JSON.parse(storedUser));
+		} catch {
+			navigate({ to: "/traveler-login" });
+		}
+	}, [navigate]);
+	const handleLogout = () => {
+		localStorage.removeItem("uniquesta_traveler_token");
+		localStorage.removeItem("uniquesta_traveler_user");
+		toast.success("Logged out from traveler portal");
+		navigate({ to: "/traveler-login" });
+	};
+	const { data: trips = [], isLoading, isFetching, refetch } = useQuery({
+		queryKey: [
+			"traveler-my-trips",
+			travelerUser?.phone,
+			travelerUser?.name
+		],
+		enabled: !!token,
+		queryFn: async () => {
+			const res = await fetch("/api/traveler/my-trips", { headers: { Authorization: `Bearer ${token}` } });
+			const json = await res.json();
+			if (!res.ok) throw new Error(json.error || "Failed to load trips");
+			return json.data || [];
+		}
+	});
+	const getStatusBadge = (status) => {
+		switch (status) {
+			case "On Trip":
+			case "Trip Started": return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+				className: "bg-amber-500 text-slate-950 font-black animate-pulse text-[10px] sm:text-xs py-0.5 px-2",
+				children: "🚗 DRIVER ON THE WAY"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 67,
+				columnNumber: 16
+			}, this);
+			case "Assigned to Driver": return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+				className: "bg-blue-600 text-white font-bold text-[10px] sm:text-xs py-0.5 px-2",
+				children: "📋 DRIVER ASSIGNED"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 71,
+				columnNumber: 16
+			}, this);
+			case "Completed": return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+				className: "bg-emerald-600 text-white font-bold text-[10px] sm:text-xs py-0.5 px-2",
+				children: "✅ TRIP COMPLETED"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 75,
+				columnNumber: 16
+			}, this);
+			default: return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+				variant: "outline",
+				className: "text-slate-300 border-slate-700 text-[10px] sm:text-xs",
+				children: status || "CONFIRMED"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 79,
+				columnNumber: 16
+			}, this);
+		}
+	};
+	if (!travelerUser) return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+		className: "min-h-screen bg-slate-950 flex items-center justify-center text-slate-400 text-xs sm:text-sm",
+		children: "Loading your travel boarding pass..."
+	}, void 0, false, {
+		fileName: _jsxFileName,
+		lineNumber: 85,
+		columnNumber: 12
+	}, this);
+	return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+		className: "min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between font-sans antialiased selection:bg-[#E52E20] selection:text-white pb-safe overflow-x-hidden",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("header", {
+				className: "sticky top-0 z-30 bg-slate-950/95 border-b border-slate-800/80 backdrop-blur px-3.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between",
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "flex items-center gap-2.5 min-w-0",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white shrink-0 shadow-md",
+						children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Ticket, { className: "h-5 w-5" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 94,
+							columnNumber: 13
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 93,
+						columnNumber: 11
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "min-w-0",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "font-black text-xs sm:text-sm tracking-tight text-white leading-none truncate",
+							children: [
+								"Uni",
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "text-[#E52E20]",
+									children: "Questa"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 98,
+									columnNumber: 18
+								}, this),
+								" Boarding Pass"
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 97,
+							columnNumber: 13
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "text-[10px] sm:text-xs text-slate-400 truncate mt-1",
+							children: ["Traveler: ", /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "text-white font-bold",
+								children: travelerUser.name
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 101,
+								columnNumber: 25
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 100,
+							columnNumber: 13
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 96,
+						columnNumber: 11
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 92,
+					columnNumber: 9
+				}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "flex items-center gap-1 sm:gap-2 shrink-0",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+							onClick: () => window.print(),
+							variant: "outline",
+							size: "sm",
+							className: "border-slate-800 bg-slate-900 text-slate-200 hover:bg-slate-800 h-8 sm:h-9 px-2 sm:px-3 rounded-xl text-xs hidden sm:inline-flex",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Printer, { className: "h-3.5 w-3.5 mr-1" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 108,
+								columnNumber: 13
+							}, this), " Print"]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 107,
+							columnNumber: 11
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+							onClick: () => refetch(),
+							variant: "outline",
+							size: "sm",
+							className: "border-slate-800 bg-slate-900 text-slate-200 hover:bg-slate-800 h-8 sm:h-9 px-2 sm:px-3 rounded-xl text-xs",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(RefreshCw, { className: `h-3.5 w-3.5 sm:mr-1 ${isFetching ? "animate-spin text-blue-500" : ""}` }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 112,
+								columnNumber: 13
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "hidden sm:inline",
+								children: "Sync"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 113,
+								columnNumber: 13
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 111,
+							columnNumber: 11
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+							onClick: handleLogout,
+							variant: "ghost",
+							size: "sm",
+							className: "text-slate-400 hover:text-red-400 hover:bg-red-950/30 h-8 sm:h-9 px-2 sm:px-3 rounded-xl text-xs",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LogOut, { className: "h-3.5 w-3.5 sm:mr-1" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 117,
+								columnNumber: 13
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "hidden sm:inline",
+								children: "Exit"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 118,
+								columnNumber: 13
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 116,
+							columnNumber: 11
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 106,
+					columnNumber: 9
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 91,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("main", {
+				className: "flex-1 max-w-2xl w-full mx-auto px-3.5 py-4 sm:p-6 space-y-4",
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "rounded-2xl bg-gradient-to-r from-blue-950/90 via-slate-900 to-blue-950/90 p-4 sm:p-5 border border-blue-900/60 shadow-lg flex items-center justify-between",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "min-w-0",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "text-[10px] sm:text-xs text-blue-400 font-bold uppercase tracking-wider",
+								children: "Confirmed Booking Itinerary"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 128,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+								className: "text-base sm:text-xl font-black text-white truncate mt-0.5",
+								children: [
+									"Welcome, ",
+									travelerUser.name,
+									"!"
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 131,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+								className: "text-[11px] sm:text-xs text-slate-300 mt-0.5 truncate",
+								children: "Track your driver, route, and digital ticket pass below."
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 134,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 127,
+						columnNumber: 11
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "h-10 w-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-xl shrink-0",
+						children: "🎟️"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 138,
+						columnNumber: 11
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 126,
+					columnNumber: 9
+				}, this), isLoading ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "py-12 text-center text-slate-400 bg-slate-900/50 rounded-2xl border border-slate-800 text-xs sm:text-sm",
+					children: "Fetching your travel ticket from database..."
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 144,
+					columnNumber: 22
+				}, this) : trips.length === 0 ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "rounded-2xl border-dashed border-2 border-slate-800 bg-slate-900/30 p-10 text-center text-white",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Ticket, { className: "h-10 w-10 text-slate-600 mx-auto mb-2.5" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 147,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h3", {
+							className: "text-sm sm:text-base font-bold text-slate-200",
+							children: "No Active Bookings Found"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 148,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+							className: "text-xs text-slate-400 mt-1 max-w-xs mx-auto",
+							children: "We couldn't find an active booking under this phone number. Please check with your travel agent or booking manager."
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 149,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 146,
+					columnNumber: 41
+				}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "space-y-4 sm:space-y-6",
+					children: trips.map((trip) => {
+						const driverPhoneClean = trip.driver_phone?.replace(/[^0-9]/g, "");
+						const isCashDue = trip.payment_status?.toLowerCase().includes("pending") || trip.payment_status?.toLowerCase().includes("cash");
+						return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "rounded-2xl sm:rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl overflow-hidden divide-y divide-slate-800",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "p-4 sm:p-5 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 flex items-center justify-between gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "min-w-0",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "text-[10px] uppercase font-bold text-slate-400 tracking-wider",
+										children: "E-TICKET / PNR"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 160,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "font-mono text-sm sm:text-base font-black text-white tracking-widest truncate",
+										children: trip.booking_ref
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 163,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 159,
+									columnNumber: 21
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "shrink-0",
+									children: getStatusBadge(trip.trip_status)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 167,
+									columnNumber: 21
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 158,
+								columnNumber: 19
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "p-4 sm:p-6 space-y-4",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "bg-slate-950/80 p-3.5 sm:p-5 rounded-2xl border border-slate-800 space-y-3",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "flex items-start gap-2.5 sm:gap-3",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "flex flex-col items-center mt-1",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { className: "h-3 w-3 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20" }, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 176,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { className: "w-0.5 h-7 sm:h-8 bg-slate-800 my-0.5" }, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 177,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 175,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "min-w-0 flex-1",
+													children: [
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+															className: "text-[10px] uppercase font-bold text-emerald-400",
+															children: "PICKUP SPOT (ORIGIN)"
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 180,
+															columnNumber: 27
+														}, this),
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+															className: "text-sm sm:text-base font-bold text-white break-words",
+															children: trip.origin || "Pickup Point"
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 183,
+															columnNumber: 27
+														}, this),
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+															className: "text-[10px] sm:text-xs text-slate-400 mt-0.5",
+															children: "Please report 15 mins before departure"
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 186,
+															columnNumber: 27
+														}, this)
+													]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 179,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 174,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "flex items-start gap-2.5 sm:gap-3",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { className: "h-3 w-3 rounded-full bg-[#E52E20] ring-4 ring-red-500/20 mt-1 shrink-0" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 194,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "min-w-0 flex-1",
+													children: [
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+															className: "text-[10px] uppercase font-bold text-[#E52E20]",
+															children: "DROP DESTINATION"
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 196,
+															columnNumber: 27
+														}, this),
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+															className: "text-sm sm:text-base font-bold text-white break-words",
+															children: trip.destination
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 199,
+															columnNumber: 27
+														}, this),
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+															className: "text-[10px] sm:text-xs text-slate-400 mt-0.5",
+															children: trip.travel_type || "Direct Travel Package"
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 202,
+															columnNumber: 27
+														}, this)
+													]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 195,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 193,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+													className: "flex items-center gap-1 font-semibold text-slate-200",
+													children: [
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Calendar, { className: "h-3.5 w-3.5 text-blue-400" }, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 210,
+															columnNumber: 27
+														}, this),
+														trip.departure_date,
+														trip.return_date ? ` to ${trip.return_date}` : ""
+													]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 209,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+													className: "flex items-center gap-1 font-bold text-white bg-slate-900 px-2 py-0.5 rounded border border-slate-800",
+													children: [
+														/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Users, { className: "h-3 w-3 text-slate-400" }, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 215,
+															columnNumber: 27
+														}, this),
+														trip.passengers_count || 1,
+														" ",
+														trip.passengers_count === 1 ? "Pax" : "Passengers"
+													]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 214,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 208,
+												columnNumber: 23
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 172,
+										columnNumber: 21
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border border-amber-900/40 space-y-3",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "flex items-center justify-between border-b border-slate-800/80 pb-2",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Bus, { className: "h-4 w-4" }, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 225,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Assigned Bus Captain & Vehicle" }, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 226,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 224,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+													variant: "outline",
+													className: "text-[10px] text-amber-300 border-amber-500/40",
+													children: "Verified Driver"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 228,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 223,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-0.5",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "text-slate-400 text-[10px] uppercase font-bold",
+														children: "Driver Name"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 236,
+														columnNumber: 27
+													}, this),
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "text-sm sm:text-base font-black text-white mt-0.5",
+														children: trip.assigned_driver || "Assigned by Fleet Operations"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 237,
+														columnNumber: 27
+													}, this),
+													trip.driver_phone && /* @__PURE__ */ (void 0)("div", {
+														className: "text-slate-300 text-xs font-mono mt-0.5",
+														children: ["📞 ", trip.driver_phone]
+													}, void 0, true, {
+														fileName: _jsxFileName,
+														lineNumber: 240,
+														columnNumber: 49
+													}, this)
+												] }, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 235,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "text-slate-400 text-[10px] uppercase font-bold",
+														children: "Bus Model & Number Plate"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 247,
+														columnNumber: 27
+													}, this),
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "text-xs sm:text-sm font-bold text-white mt-0.5",
+														children: trip.vehicle_type || "Deluxe Commercial Bus"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 248,
+														columnNumber: 27
+													}, this),
+													trip.vehicle_number && /* @__PURE__ */ (void 0)("div", {
+														className: "font-mono text-amber-300 font-bold text-xs mt-0.5",
+														children: ["Plate: ", trip.vehicle_number]
+													}, void 0, true, {
+														fileName: _jsxFileName,
+														lineNumber: 251,
+														columnNumber: 51
+													}, this)
+												] }, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 246,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 233,
+												columnNumber: 23
+											}, this),
+											trip.driver_phone ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "pt-2 grid grid-cols-2 sm:grid-cols-3 gap-2",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+														asChild: true,
+														className: "h-11 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-bold text-xs shadow-md",
+														children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+															href: `tel:${trip.driver_phone}`,
+															className: "flex items-center justify-center gap-1.5",
+															children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Phone, { className: "h-4 w-4" }, void 0, false, {
+																fileName: _jsxFileName,
+																lineNumber: 261,
+																columnNumber: 31
+															}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Call Driver" }, void 0, false, {
+																fileName: _jsxFileName,
+																lineNumber: 262,
+																columnNumber: 31
+															}, this)]
+														}, void 0, true, {
+															fileName: _jsxFileName,
+															lineNumber: 260,
+															columnNumber: 29
+														}, this)
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 259,
+														columnNumber: 27
+													}, this),
+													driverPhoneClean ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+														asChild: true,
+														variant: "outline",
+														className: "h-11 rounded-xl border-emerald-700 bg-emerald-950/40 hover:bg-emerald-900/60 active:scale-[0.98] text-emerald-300 font-bold text-xs",
+														children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+															href: `https://wa.me/${driverPhoneClean}?text=Hello%20Captain%20${encodeURIComponent(trip.assigned_driver)},%20I%20am%20passenger%20${encodeURIComponent(trip.passenger_name)}%20for%20trip%20${trip.booking_ref}.`,
+															target: "_blank",
+															rel: "noreferrer",
+															className: "flex items-center justify-center gap-1.5",
+															children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(MessageSquare, { className: "h-4 w-4 text-emerald-400" }, void 0, false, {
+																fileName: _jsxFileName,
+																lineNumber: 268,
+																columnNumber: 33
+															}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "WhatsApp" }, void 0, false, {
+																fileName: _jsxFileName,
+																lineNumber: 269,
+																columnNumber: 33
+															}, this)]
+														}, void 0, true, {
+															fileName: _jsxFileName,
+															lineNumber: 267,
+															columnNumber: 31
+														}, this)
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 266,
+														columnNumber: 47
+													}, this) : null,
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+														asChild: true,
+														variant: "outline",
+														className: "col-span-2 sm:col-span-1 h-11 rounded-xl border-slate-700 bg-slate-950 hover:bg-slate-800 active:scale-[0.98] text-slate-200 font-bold text-xs",
+														children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+															href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${trip.origin} to ${trip.destination}`)}`,
+															target: "_blank",
+															rel: "noreferrer",
+															className: "flex items-center justify-center gap-1.5",
+															children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Navigation, { className: "h-4 w-4 text-blue-400" }, void 0, false, {
+																fileName: _jsxFileName,
+																lineNumber: 275,
+																columnNumber: 31
+															}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "View Route" }, void 0, false, {
+																fileName: _jsxFileName,
+																lineNumber: 276,
+																columnNumber: 31
+															}, this)]
+														}, void 0, true, {
+															fileName: _jsxFileName,
+															lineNumber: 274,
+															columnNumber: 29
+														}, this)
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 273,
+														columnNumber: 27
+													}, this)
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 258,
+												columnNumber: 44
+											}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "p-2.5 rounded-xl bg-slate-950 text-slate-400 text-xs text-center",
+												children: "Driver contact details will be unlocked shortly before departure."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 279,
+												columnNumber: 34
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 222,
+										columnNumber: 21
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "p-4 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "text-[10px] uppercase font-bold text-slate-400",
+											children: "Total Fare Charged"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 287,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "text-base sm:text-lg font-black text-white mt-0.5",
+											children: trip.total_amount || `₹ ${trip.customer_price?.toLocaleString("en-IN")}`
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 288,
+											columnNumber: 25
+										}, this)] }, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 286,
+											columnNumber: 23
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "sm:text-right",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "text-[10px] uppercase font-bold text-slate-400",
+												children: "Payment Status"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 294,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "mt-0.5",
+												children: isCashDue ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+													className: "bg-amber-950 text-amber-300 border-amber-800 text-xs",
+													children: ["💵 Pay Cash to Driver on Drop: ", trip.total_amount]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 296,
+													columnNumber: 40
+												}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+													className: "bg-emerald-950 text-emerald-300 border-emerald-800 text-xs",
+													children: [
+														"✅ Fully Paid Online (",
+														trip.payment_status || "Confirmed",
+														")"
+													]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 298,
+													columnNumber: 40
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 295,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 293,
+											columnNumber: 23
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 285,
+										columnNumber: 21
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 171,
+								columnNumber: 19
+							}, this)]
+						}, trip.id || trip.booking_ref, true, {
+							fileName: _jsxFileName,
+							lineNumber: 156,
+							columnNumber: 18
+						}, this);
+					})
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 152,
+					columnNumber: 20
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 124,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("footer", {
+				className: "p-3.5 border-t border-slate-800/80 bg-slate-950 text-center text-[11px] sm:text-xs text-slate-500",
+				children: [
+					"Uniquesta Passenger Care 24x7 Helpline: ",
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("a", {
+						href: "tel:+919820011111",
+						className: "text-white font-bold hover:underline",
+						children: "+91 98200 11111"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 312,
+						columnNumber: 49
+					}, this),
+					" · care@uniquesta.com"
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 311,
+				columnNumber: 7
+			}, this)
+		]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 89,
+		columnNumber: 10
+	}, this);
+}
+//#endregion
+export { StandaloneTravelerPortalPage as component };

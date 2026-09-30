@@ -1,0 +1,37 @@
+//#region node_modules/.nitro/vite/services/ssr/assets/auth-CMDgS_mZ.js
+function getToken() {
+	if (typeof window === "undefined") return null;
+	return localStorage.getItem("uniquesta_token");
+}
+function setToken(token) {
+	localStorage.setItem("uniquesta_token", token);
+}
+function clearToken() {
+	localStorage.removeItem("uniquesta_token");
+	localStorage.removeItem("uniquesta_user");
+}
+function getUser() {
+	if (typeof window === "undefined") return null;
+	const raw = localStorage.getItem("uniquesta_user");
+	if (!raw) return null;
+	try {
+		return JSON.parse(raw);
+	} catch {
+		return null;
+	}
+}
+function setUser(user) {
+	localStorage.setItem("uniquesta_user", JSON.stringify(user));
+}
+function isLoggedIn() {
+	return !!getToken();
+}
+function isStaffRole(user) {
+	const u = user !== void 0 ? user : getUser();
+	if (!u) return false;
+	const role = (u.role || "").toLowerCase();
+	const email = (u.email || "").toLowerCase();
+	return !(role === "super_admin" || role === "branch_admin" || role === "admin" || role === "director" || role === "executive" || role.includes("admin") || role.includes("director") || role.includes("ceo") || email === "admin@uniquesta.com" || email === "director@uniquesta.com");
+}
+//#endregion
+export { setToken as a, isStaffRole as i, getUser as n, setUser as o, isLoggedIn as r, clearToken as t };

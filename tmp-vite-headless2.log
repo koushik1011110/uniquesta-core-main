@@ -1,0 +1,15 @@
+(node:8) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+> dev
+> vite dev --port 5183 --host 127.0.0.1
+
+(node:21) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+
+  VITE v8.2.2  ready in 1528 ms
+
+  ➜  Local:   http://127.0.0.1:5183/
+5:03:18 pm [vite] (ssr) connected.
+[DB] MySQL not available, using in-memory store: connect ECONNREFUSED 127.0.0.1:3306

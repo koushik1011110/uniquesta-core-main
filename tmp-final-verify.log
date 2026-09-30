@@ -1,0 +1,36 @@
+(node:8) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+> dev
+> vite dev --port 5184 --host 127.0.0.1
+
+(node:21) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+node:internal/fs/watchers:254
+    const error = new UVException({
+                  ^
+
+Error: ENOSPC: System limit for number of file watchers reached, watch '/home/koushik/Documents/PROJECT/uniquesta-core-main/vite.config.ts'
+    at FSWatcher.<computed> (node:internal/fs/watchers:254:19)
+    at Object.watch (node:fs:2554:36)
+    at createFsWatchInstance (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:9429:16)
+    at setFsWatchListener (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:9471:14)
+    at NodeFsHandler._watchWithNodeFs (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:9586:20)
+    at NodeFsHandler._handleFile (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:9630:24)
+    at NodeFsHandler._addToNodeFs (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:9804:26)
+    at async file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:10447:18
+    at async Promise.all (index 1)
+Emitted 'error' event on FSWatcher instance at:
+    at FSWatcher._handleError (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:10606:146)
+    at NodeFsHandler._addToNodeFs (file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:9809:18)
+    at async file:///home/koushik/Documents/PROJECT/uniquesta-core-main/node_modules/vite/dist/node/chunks/node.js:10447:18
+    at async Promise.all (index 1) {
+  errno: -28,
+  syscall: 'watch',
+  code: 'ENOSPC',
+  path: '/home/koushik/Documents/PROJECT/uniquesta-core-main/vite.config.ts',
+  filename: '/home/koushik/Documents/PROJECT/uniquesta-core-main/vite.config.ts'
+}
+
+Node.js v22.22.3

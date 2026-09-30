@@ -1,0 +1,672 @@
+import { o as __toESM } from "./_runtime.mjs";
+import { u as require_react } from "./_libs/@floating-ui/react-dom+[...].mjs";
+import { t as require_jsx_dev_runtime } from "./_libs/react.mjs";
+import { t as Button } from "./_ssr/button-Th46ikol.mjs";
+import { t as Input } from "./_ssr/input-CWiOSw9Q.mjs";
+import { t as api } from "./_ssr/api-06dRWXHB.mjs";
+import { i as useQueryClient, n as useQuery, t as useMutation } from "./_libs/tanstack__react-query.mjs";
+import { Bt as ArrowUpRight, H as LoaderCircle, T as Plus, Ut as ArrowDownLeft, l as Trash2, lt as Download } from "./_libs/lucide-react.mjs";
+import { t as toast } from "./_libs/sonner.mjs";
+import { t as PageHeader } from "./_ssr/page-header-DRgCwu0n.mjs";
+import { a as CardTitle, i as CardHeader, n as CardContent, t as Card } from "./_ssr/card-BpRCf_XK.mjs";
+import { a as DialogHeader, i as DialogFooter, n as DialogContent, o as DialogTitle, t as Dialog } from "./_ssr/dialog-BvRIEwxi.mjs";
+import { t as Label } from "./_ssr/label-DPnTa5YU.mjs";
+import { a as SelectValue, i as SelectTrigger, n as SelectContent, r as SelectItem, t as Select } from "./_ssr/select-C1idR5Ws.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/_app.finance-By4Z7gui.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_dev_runtime = require_jsx_dev_runtime();
+var _jsxFileName = "D:/React APP/uniquesta-core-main/src/routes/_app.finance.tsx?tsr-split=component";
+var tone = {
+	Paid: "bg-success/10 text-success",
+	Pending: "bg-warning/15 text-warning",
+	Overdue: "bg-destructive/10 text-destructive"
+};
+function FinancePage() {
+	const qc = useQueryClient();
+	const [open, setOpen] = (0, import_react.useState)(false);
+	const [form, setForm] = (0, import_react.useState)({
+		student: "",
+		amount: "",
+		type: "Tuition Instalment",
+		status: "Pending",
+		date: (/* @__PURE__ */ new Date()).toISOString().slice(0, 10)
+	});
+	const { data, isLoading } = useQuery({
+		queryKey: ["invoices"],
+		queryFn: async () => {
+			const res = await api.get("/invoices", { limit: 50 });
+			return res.data ?? res ?? [];
+		}
+	});
+	const invoices = Array.isArray(data) ? data : data?.data ?? [];
+	const create = useMutation({
+		mutationFn: async () => api.post("/invoices", {
+			...form,
+			amount_value: parseInt(form.amount.replace(/\D/g, ""), 10) || 0,
+			currency: form.amount.includes("€") ? "EUR" : form.amount.includes("$") ? "USD" : "INR"
+		}),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["invoices"] });
+			setOpen(false);
+			toast.success("Invoice created");
+		},
+		onError: (e) => toast.error(e.message)
+	});
+	const del = useMutation({
+		mutationFn: async (code) => api.del(`/invoices/${code}`),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["invoices"] });
+			toast.success("Deleted");
+		},
+		onError: (e) => toast.error(e.message)
+	});
+	return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(PageHeader, {
+			title: "Finance",
+			description: "FY 2026 · Consolidated across all branches",
+			actions: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+				variant: "outline",
+				className: "rounded-lg",
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Download, { className: "h-4 w-4" }, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 68,
+					columnNumber: 62
+				}, this), " Export"]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 68,
+				columnNumber: 13
+			}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+				className: "rounded-lg",
+				onClick: () => setOpen(true),
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Plus, { className: "h-4 w-4" }, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 69,
+					columnNumber: 74
+				}, this), " New Invoice"]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 69,
+				columnNumber: 13
+			}, this)] }, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 67,
+				columnNumber: 101
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 67,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+			className: "grid gap-4 sm:grid-cols-2 xl:grid-cols-4",
+			children: [
+				{
+					label: "Revenue MTD",
+					value: "₹ 6.42 Cr",
+					delta: "+18%",
+					up: true
+				},
+				{
+					label: "Receivables",
+					value: "₹ 1.87 Cr",
+					delta: "-4%",
+					up: true
+				},
+				{
+					label: "Refunds",
+					value: "₹ 32.1 L",
+					delta: "+2%",
+					up: false
+				},
+				{
+					label: "Commissions Earned",
+					value: "₹ 2.16 Cr",
+					delta: "+11%",
+					up: true
+				}
+			].map((k) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+				className: "rounded-2xl shadow-soft",
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+					className: "p-5",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "text-sm text-muted-foreground",
+							children: k.label
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 95,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "mt-1 text-2xl font-bold",
+							children: k.value
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 96,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: `mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${k.up ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive"}`,
+							children: [k.up ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ArrowUpRight, { className: "h-3 w-3" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 98,
+								columnNumber: 25
+							}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ArrowDownLeft, { className: "h-3 w-3" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 98,
+								columnNumber: 64
+							}, this), k.delta]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 97,
+							columnNumber: 15
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 94,
+					columnNumber: 13
+				}, this)
+			}, k.label, false, {
+				fileName: _jsxFileName,
+				lineNumber: 93,
+				columnNumber: 19
+			}, this))
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 72,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+			className: "mt-6 rounded-2xl shadow-soft",
+			children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardTitle, {
+				className: "text-base",
+				children: "Recent Invoices"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 105,
+				columnNumber: 21
+			}, this) }, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 105,
+				columnNumber: 9
+			}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+				className: "p-0",
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "overflow-x-auto",
+					children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("table", {
+						className: "w-full text-sm",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("thead", {
+							className: "bg-muted/40 text-xs uppercase tracking-wide text-muted-foreground",
+							children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("tr", { children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", {
+									className: "px-5 py-3 text-left font-medium",
+									children: "Invoice"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 111,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", {
+									className: "px-5 py-3 text-left font-medium",
+									children: "Student"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 112,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", {
+									className: "px-5 py-3 text-left font-medium",
+									children: "Type"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 113,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", {
+									className: "px-5 py-3 text-right font-medium",
+									children: "Amount"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 114,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", {
+									className: "px-5 py-3 text-left font-medium",
+									children: "Date"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 115,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", {
+									className: "px-5 py-3 text-left font-medium",
+									children: "Status"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 116,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("th", { className: "px-5 py-3 text-right font-medium" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 117,
+									columnNumber: 19
+								}, this)
+							] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 110,
+								columnNumber: 17
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 109,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("tbody", { children: isLoading ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("tr", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+							colSpan: 7,
+							className: "px-5 py-6 text-center text-sm text-muted-foreground",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LoaderCircle, { className: "h-4 w-4 animate-spin inline" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 121,
+								columnNumber: 114
+							}, this), " Loading…"]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 121,
+							columnNumber: 34
+						}, this) }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 121,
+							columnNumber: 30
+						}, this) : invoices.map((i) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("tr", {
+							className: "border-t border-border/60 hover:bg-muted/30",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3 font-medium",
+									children: i.code
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 122,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3",
+									children: i.student
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 123,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3 text-muted-foreground",
+									children: i.type
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 124,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3 text-right font-semibold tabular-nums",
+									children: i.amount
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 125,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3 text-muted-foreground",
+									children: i.date ? new Date(i.date).toLocaleDateString() : i.date
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 126,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3",
+									children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: `rounded-full px-2 py-0.5 text-xs font-medium ${tone[i.status] ?? "bg-muted text-muted-foreground"}`,
+										children: i.status
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 128,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 127,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("td", {
+									className: "px-5 py-3 text-right",
+									children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+										variant: "ghost",
+										size: "icon",
+										className: "h-7 w-7",
+										onClick: () => del.mutate(i.code),
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Trash2, { className: "h-3.5 w-3.5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 130,
+											columnNumber: 149
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 130,
+										columnNumber: 58
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 130,
+									columnNumber: 21
+								}, this)
+							]
+						}, i.id ?? i.code, true, {
+							fileName: _jsxFileName,
+							lineNumber: 121,
+							columnNumber: 212
+						}, this)) }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 120,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 108,
+						columnNumber: 13
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 107,
+					columnNumber: 11
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 106,
+				columnNumber: 9
+			}, this)]
+		}, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 104,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open,
+			onOpenChange: setOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, { children: [
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, { children: "New Invoice" }, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 140,
+					columnNumber: 25
+				}, this) }, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 140,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "grid gap-3",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid gap-1.5",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, { children: "Student *" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 142,
+								columnNumber: 43
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+								value: form.student,
+								onChange: (e) => setForm({
+									...form,
+									student: e.target.value
+								}),
+								placeholder: "Priya Nair"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 142,
+								columnNumber: 67
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 142,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid grid-cols-2 gap-3",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, { children: "Amount *" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 147,
+									columnNumber: 45
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: form.amount,
+									onChange: (e) => setForm({
+										...form,
+										amount: e.target.value
+									}),
+									placeholder: "₹ 1,24,000"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 147,
+									columnNumber: 68
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 147,
+								columnNumber: 15
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, { children: "Type" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 151,
+									columnNumber: 45
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+									value: form.type,
+									onValueChange: (v) => setForm({
+										...form,
+										type: v
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 156,
+										columnNumber: 34
+									}, this) }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 156,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Tuition Instalment",
+											children: "Tuition Instalment"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 158,
+											columnNumber: 21
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Service Fee",
+											children: "Service Fee"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 159,
+											columnNumber: 21
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Application Fee",
+											children: "Application Fee"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 160,
+											columnNumber: 21
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Visa & Travel",
+											children: "Visa & Travel"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 161,
+											columnNumber: 21
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "University Fee",
+											children: "University Fee"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 162,
+											columnNumber: 21
+										}, this)
+									] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 157,
+										columnNumber: 19
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 152,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 151,
+								columnNumber: 15
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 146,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid grid-cols-2 gap-3",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, { children: "Date" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 168,
+									columnNumber: 45
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									type: "date",
+									value: form.date,
+									onChange: (e) => setForm({
+										...form,
+										date: e.target.value
+									})
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 168,
+									columnNumber: 64
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 168,
+								columnNumber: 15
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, { children: "Status" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 172,
+									columnNumber: 45
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+									value: form.status,
+									onValueChange: (v) => setForm({
+										...form,
+										status: v
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 177,
+										columnNumber: 34
+									}, this) }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 177,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Paid",
+											children: "Paid"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 179,
+											columnNumber: 21
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Pending",
+											children: "Pending"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 179,
+											columnNumber: 63
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Overdue",
+											children: "Overdue"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 179,
+											columnNumber: 111
+										}, this)
+									] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 178,
+										columnNumber: 19
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 173,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 172,
+								columnNumber: 15
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 167,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 141,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+					variant: "outline",
+					onClick: () => setOpen(false),
+					children: "Cancel"
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 186,
+					columnNumber: 13
+				}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+					onClick: () => create.mutate(),
+					disabled: !form.student || !form.amount || create.isPending,
+					children: [create.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "h-4 w-4 animate-spin" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 187,
+						columnNumber: 135
+					}, this), " Create"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 187,
+					columnNumber: 13
+				}, this)] }, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 185,
+					columnNumber: 11
+				}, this)
+			] }, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 139,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 138,
+			columnNumber: 7
+		}, this)
+	] }, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 66,
+		columnNumber: 10
+	}, this);
+}
+//#endregion
+export { FinancePage as component };

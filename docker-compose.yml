@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: uniquesta_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: uniquesta_root
+      MYSQL_DATABASE: uniquesta
+      MYSQL_USER: uniquesta
+      MYSQL_PASSWORD: uniquesta_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-puniquesta_root"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:
