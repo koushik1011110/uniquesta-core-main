@@ -13,6 +13,9 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as DriverLoginRouteImport } from './routes/driver-login'
 import { Route as DriverPortalRouteImport } from './routes/driver-portal'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as OfficeLoginRouteImport } from './routes/office-login'
+import { Route as StaffLoginRouteImport } from './routes/staff-login'
+import { Route as SuperAdminLoginRouteImport } from './routes/super-admin-login'
 import { Route as TravelerLoginRouteImport } from './routes/traveler-login'
 import { Route as TravelerPortalRouteImport } from './routes/traveler-portal'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
@@ -51,6 +54,21 @@ const DriverPortalRoute = DriverPortalRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OfficeLoginRoute = OfficeLoginRouteImport.update({
+  id: '/office-login',
+  path: '/office-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffLoginRoute = StaffLoginRouteImport.update({
+  id: '/staff-login',
+  path: '/staff-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuperAdminLoginRoute = SuperAdminLoginRouteImport.update({
+  id: '/super-admin-login',
+  path: '/super-admin-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TravelerLoginRoute = TravelerLoginRouteImport.update({
@@ -159,6 +177,9 @@ export interface FileRoutesByFullPath {
   '/driver-login': typeof DriverLoginRoute
   '/driver-portal': typeof DriverPortalRoute
   '/login': typeof LoginRoute
+  '/office-login': typeof OfficeLoginRoute
+  '/staff-login': typeof StaffLoginRoute
+  '/super-admin-login': typeof SuperAdminLoginRoute
   '/traveler-login': typeof TravelerLoginRoute
   '/traveler-portal': typeof TravelerPortalRoute
   '/applications': typeof AppApplicationsRoute
@@ -183,6 +204,9 @@ export interface FileRoutesByTo {
   '/driver-login': typeof DriverLoginRoute
   '/driver-portal': typeof DriverPortalRoute
   '/login': typeof LoginRoute
+  '/office-login': typeof OfficeLoginRoute
+  '/staff-login': typeof StaffLoginRoute
+  '/super-admin-login': typeof SuperAdminLoginRoute
   '/traveler-login': typeof TravelerLoginRoute
   '/traveler-portal': typeof TravelerPortalRoute
   '/applications': typeof AppApplicationsRoute
@@ -209,6 +233,9 @@ export interface FileRoutesById {
   '/driver-login': typeof DriverLoginRoute
   '/driver-portal': typeof DriverPortalRoute
   '/login': typeof LoginRoute
+  '/office-login': typeof OfficeLoginRoute
+  '/staff-login': typeof StaffLoginRoute
+  '/super-admin-login': typeof SuperAdminLoginRoute
   '/traveler-login': typeof TravelerLoginRoute
   '/traveler-portal': typeof TravelerPortalRoute
   '/_app/applications': typeof AppApplicationsRoute
@@ -237,6 +264,9 @@ export interface FileRouteTypes {
     | '/driver-login'
     | '/driver-portal'
     | '/login'
+    | '/office-login'
+    | '/staff-login'
+    | '/super-admin-login'
     | '/traveler-login'
     | '/traveler-portal'
     | '/applications'
@@ -261,6 +291,9 @@ export interface FileRouteTypes {
     | '/driver-login'
     | '/driver-portal'
     | '/login'
+    | '/office-login'
+    | '/staff-login'
+    | '/super-admin-login'
     | '/traveler-login'
     | '/traveler-portal'
     | '/applications'
@@ -286,6 +319,9 @@ export interface FileRouteTypes {
     | '/driver-login'
     | '/driver-portal'
     | '/login'
+    | '/office-login'
+    | '/staff-login'
+    | '/super-admin-login'
     | '/traveler-login'
     | '/traveler-portal'
     | '/_app/applications'
@@ -313,6 +349,9 @@ export interface RootRouteChildren {
   DriverLoginRoute: typeof DriverLoginRoute
   DriverPortalRoute: typeof DriverPortalRoute
   LoginRoute: typeof LoginRoute
+  OfficeLoginRoute: typeof OfficeLoginRoute
+  StaffLoginRoute: typeof StaffLoginRoute
+  SuperAdminLoginRoute: typeof SuperAdminLoginRoute
   TravelerLoginRoute: typeof TravelerLoginRoute
   TravelerPortalRoute: typeof TravelerPortalRoute
 }
@@ -345,6 +384,27 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/office-login': {
+      id: '/office-login'
+      path: '/office-login'
+      fullPath: '/office-login'
+      preLoaderRoute: typeof OfficeLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff-login': {
+      id: '/staff-login'
+      path: '/staff-login'
+      fullPath: '/staff-login'
+      preLoaderRoute: typeof StaffLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/super-admin-login': {
+      id: '/super-admin-login'
+      path: '/super-admin-login'
+      fullPath: '/super-admin-login'
+      preLoaderRoute: typeof SuperAdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/traveler-login': {
@@ -549,6 +609,9 @@ const rootRouteChildren: RootRouteChildren = {
   DriverLoginRoute: DriverLoginRoute,
   DriverPortalRoute: DriverPortalRoute,
   LoginRoute: LoginRoute,
+  OfficeLoginRoute: OfficeLoginRoute,
+  StaffLoginRoute: StaffLoginRoute,
+  SuperAdminLoginRoute: SuperAdminLoginRoute,
   TravelerLoginRoute: TravelerLoginRoute,
   TravelerPortalRoute: TravelerPortalRoute,
 }

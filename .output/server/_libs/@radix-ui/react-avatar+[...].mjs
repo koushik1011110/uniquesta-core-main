@@ -188,11 +188,131 @@ var require_jsx_runtime = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_jsx_runtime_production();
 }));
 //#endregion
-//#region node_modules/@radix-ui/react-primitive/dist/index.mjs
-var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+//#region node_modules/@radix-ui/react-context/dist/index.mjs
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp$3 = Object.defineProperty;
 var __name$3 = (target, value) => __defProp$3(target, "name", {
+	value,
+	configurable: true
+});
+// @__NO_SIDE_EFFECTS__
+function createContext2(rootComponentName, defaultContext) {
+	const Context = import_react.createContext(defaultContext);
+	Context.displayName = rootComponentName + "Context";
+	const Provider = /* @__PURE__ */ __name$3((props) => {
+		const { children, ...context } = props;
+		const value = import_react.useMemo(() => context, Object.values(context));
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Context.Provider, {
+			value,
+			children
+		});
+	}, "Provider");
+	Provider.displayName = rootComponentName + "Provider";
+	function useContext2(consumerName, options = {}) {
+		const { optional = false } = options;
+		const context = import_react.useContext(Context);
+		if (context) return context;
+		if (defaultContext !== void 0) return defaultContext;
+		if (optional) return void 0;
+		throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+	}
+	__name$3(useContext2, "useContext");
+	return [Provider, useContext2];
+}
+__name$3(createContext2, "createContext");
+// @__NO_SIDE_EFFECTS__
+function createContextScope(scopeName, createContextScopeDeps = []) {
+	let defaultContexts = [];
+	function createContext3(rootComponentName, defaultContext) {
+		const BaseContext = import_react.createContext(defaultContext);
+		BaseContext.displayName = rootComponentName + "Context";
+		const index = defaultContexts.length;
+		defaultContexts = [...defaultContexts, defaultContext];
+		const Provider = /* @__PURE__ */ __name$3((props) => {
+			const { scope, children, ...context } = props;
+			const Context = scope?.[scopeName]?.[index] || BaseContext;
+			const value = import_react.useMemo(() => context, Object.values(context));
+			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Context.Provider, {
+				value,
+				children
+			});
+		}, "Provider");
+		Provider.displayName = rootComponentName + "Provider";
+		function useContext2(consumerName, scope, options = {}) {
+			const { optional = false } = options;
+			const Context = scope?.[scopeName]?.[index] || BaseContext;
+			const context = import_react.useContext(Context);
+			if (context) return context;
+			if (defaultContext !== void 0) return defaultContext;
+			if (optional) return void 0;
+			throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+		}
+		__name$3(useContext2, "useContext");
+		return [Provider, useContext2];
+	}
+	__name$3(createContext3, "createContext");
+	const createScope = /* @__PURE__ */ __name$3(() => {
+		const scopeContexts = defaultContexts.map((defaultContext) => {
+			return import_react.createContext(defaultContext);
+		});
+		return /* @__PURE__ */ __name$3(function useScope(scope) {
+			const contexts = scope?.[scopeName] || scopeContexts;
+			return import_react.useMemo(() => ({ [`__scope${scopeName}`]: {
+				...scope,
+				[scopeName]: contexts
+			} }), [scope, contexts]);
+		}, "useScope");
+	}, "createScope");
+	createScope.scopeName = scopeName;
+	return [createContext3, composeContextScopes(createScope, ...createContextScopeDeps)];
+}
+__name$3(createContextScope, "createContextScope");
+function composeContextScopes(...scopes) {
+	const baseScope = scopes[0];
+	if (scopes.length === 1) return baseScope;
+	const createScope = /* @__PURE__ */ __name$3(() => {
+		const scopeHooks = scopes.map((createScope2) => ({
+			useScope: createScope2(),
+			scopeName: createScope2.scopeName
+		}));
+		return /* @__PURE__ */ __name$3(function useComposedScopes(overrideScopes) {
+			const nextScopes = scopeHooks.reduce((nextScopes2, { useScope, scopeName }) => {
+				const currentScope = useScope(overrideScopes)[`__scope${scopeName}`];
+				return {
+					...nextScopes2,
+					...currentScope
+				};
+			}, {});
+			return import_react.useMemo(() => ({ [`__scope${baseScope.scopeName}`]: nextScopes }), [nextScopes]);
+		}, "useComposedScopes");
+	}, "createScope");
+	createScope.scopeName = baseScope.scopeName;
+	return createScope;
+}
+__name$3(composeContextScopes, "composeContextScopes");
+//#endregion
+//#region node_modules/@radix-ui/react-use-callback-ref/dist/index.mjs
+var __defProp$2 = Object.defineProperty;
+var __name$2 = (target, value) => __defProp$2(target, "name", {
+	value,
+	configurable: true
+});
+function useCallbackRef(callback) {
+	const callbackRef = import_react.useRef(callback);
+	import_react.useEffect(() => {
+		callbackRef.current = callback;
+	});
+	return import_react.useMemo(() => ((...args) => callbackRef.current?.(...args)), []);
+}
+__name$2(useCallbackRef, "useCallbackRef");
+//#endregion
+//#region node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs
+var useLayoutEffect2 = globalThis?.document ? import_react.useLayoutEffect : () => {};
+//#endregion
+//#region node_modules/@radix-ui/react-primitive/dist/index.mjs
+var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
+var __defProp$1 = Object.defineProperty;
+var __name$1 = (target, value) => __defProp$1(target, "name", {
 	value,
 	configurable: true
 });
@@ -234,127 +354,7 @@ var Primitive = [
 function dispatchDiscreteCustomEvent(target, event) {
 	if (target) import_react_dom.flushSync(() => target.dispatchEvent(event));
 }
-__name$3(dispatchDiscreteCustomEvent, "dispatchDiscreteCustomEvent");
-//#endregion
-//#region node_modules/@radix-ui/react-context/dist/index.mjs
-var __defProp$2 = Object.defineProperty;
-var __name$2 = (target, value) => __defProp$2(target, "name", {
-	value,
-	configurable: true
-});
-// @__NO_SIDE_EFFECTS__
-function createContext2(rootComponentName, defaultContext) {
-	const Context = import_react.createContext(defaultContext);
-	Context.displayName = rootComponentName + "Context";
-	const Provider = /* @__PURE__ */ __name$2((props) => {
-		const { children, ...context } = props;
-		const value = import_react.useMemo(() => context, Object.values(context));
-		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Context.Provider, {
-			value,
-			children
-		});
-	}, "Provider");
-	Provider.displayName = rootComponentName + "Provider";
-	function useContext2(consumerName, options = {}) {
-		const { optional = false } = options;
-		const context = import_react.useContext(Context);
-		if (context) return context;
-		if (defaultContext !== void 0) return defaultContext;
-		if (optional) return void 0;
-		throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
-	}
-	__name$2(useContext2, "useContext");
-	return [Provider, useContext2];
-}
-__name$2(createContext2, "createContext");
-// @__NO_SIDE_EFFECTS__
-function createContextScope(scopeName, createContextScopeDeps = []) {
-	let defaultContexts = [];
-	function createContext3(rootComponentName, defaultContext) {
-		const BaseContext = import_react.createContext(defaultContext);
-		BaseContext.displayName = rootComponentName + "Context";
-		const index = defaultContexts.length;
-		defaultContexts = [...defaultContexts, defaultContext];
-		const Provider = /* @__PURE__ */ __name$2((props) => {
-			const { scope, children, ...context } = props;
-			const Context = scope?.[scopeName]?.[index] || BaseContext;
-			const value = import_react.useMemo(() => context, Object.values(context));
-			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Context.Provider, {
-				value,
-				children
-			});
-		}, "Provider");
-		Provider.displayName = rootComponentName + "Provider";
-		function useContext2(consumerName, scope, options = {}) {
-			const { optional = false } = options;
-			const Context = scope?.[scopeName]?.[index] || BaseContext;
-			const context = import_react.useContext(Context);
-			if (context) return context;
-			if (defaultContext !== void 0) return defaultContext;
-			if (optional) return void 0;
-			throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
-		}
-		__name$2(useContext2, "useContext");
-		return [Provider, useContext2];
-	}
-	__name$2(createContext3, "createContext");
-	const createScope = /* @__PURE__ */ __name$2(() => {
-		const scopeContexts = defaultContexts.map((defaultContext) => {
-			return import_react.createContext(defaultContext);
-		});
-		return /* @__PURE__ */ __name$2(function useScope(scope) {
-			const contexts = scope?.[scopeName] || scopeContexts;
-			return import_react.useMemo(() => ({ [`__scope${scopeName}`]: {
-				...scope,
-				[scopeName]: contexts
-			} }), [scope, contexts]);
-		}, "useScope");
-	}, "createScope");
-	createScope.scopeName = scopeName;
-	return [createContext3, composeContextScopes(createScope, ...createContextScopeDeps)];
-}
-__name$2(createContextScope, "createContextScope");
-function composeContextScopes(...scopes) {
-	const baseScope = scopes[0];
-	if (scopes.length === 1) return baseScope;
-	const createScope = /* @__PURE__ */ __name$2(() => {
-		const scopeHooks = scopes.map((createScope2) => ({
-			useScope: createScope2(),
-			scopeName: createScope2.scopeName
-		}));
-		return /* @__PURE__ */ __name$2(function useComposedScopes(overrideScopes) {
-			const nextScopes = scopeHooks.reduce((nextScopes2, { useScope, scopeName }) => {
-				const currentScope = useScope(overrideScopes)[`__scope${scopeName}`];
-				return {
-					...nextScopes2,
-					...currentScope
-				};
-			}, {});
-			return import_react.useMemo(() => ({ [`__scope${baseScope.scopeName}`]: nextScopes }), [nextScopes]);
-		}, "useComposedScopes");
-	}, "createScope");
-	createScope.scopeName = baseScope.scopeName;
-	return createScope;
-}
-__name$2(composeContextScopes, "composeContextScopes");
-//#endregion
-//#region node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs
-var useLayoutEffect2 = globalThis?.document ? import_react.useLayoutEffect : () => {};
-//#endregion
-//#region node_modules/@radix-ui/react-use-callback-ref/dist/index.mjs
-var __defProp$1 = Object.defineProperty;
-var __name$1 = (target, value) => __defProp$1(target, "name", {
-	value,
-	configurable: true
-});
-function useCallbackRef(callback) {
-	const callbackRef = import_react.useRef(callback);
-	import_react.useEffect(() => {
-		callbackRef.current = callback;
-	});
-	return import_react.useMemo(() => ((...args) => callbackRef.current?.(...args)), []);
-}
-__name$1(useCallbackRef, "useCallbackRef");
+__name$1(dispatchDiscreteCustomEvent, "dispatchDiscreteCustomEvent");
 //#endregion
 //#region node_modules/@radix-ui/react-avatar/dist/index.mjs
 var __defProp = Object.defineProperty;
@@ -467,4 +467,4 @@ __name(useImageCount, "useImageCount");
 function useUpdateImageCount(setImageCount) {}
 __name(useUpdateImageCount, "useUpdateImageCount");
 //#endregion
-export { useLayoutEffect2 as a, dispatchDiscreteCustomEvent as c, createSlot as d, createSlottable as f, useCallbackRef as i, require_jsx_runtime as l, AvatarFallback as n, createContextScope as o, useComposedRefs as p, AvatarImage as r, Primitive as s, Avatar as t, Slot as u };
+export { dispatchDiscreteCustomEvent as a, createContextScope as c, createSlot as d, createSlottable as f, Primitive as i, require_jsx_runtime as l, AvatarFallback as n, useLayoutEffect2 as o, useComposedRefs as p, AvatarImage as r, useCallbackRef as s, Avatar as t, Slot as u };

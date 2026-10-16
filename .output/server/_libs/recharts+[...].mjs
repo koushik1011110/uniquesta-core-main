@@ -1,7 +1,7 @@
 import { o as __toESM, r as __exportAll } from "../_runtime.mjs";
 import { u as require_react } from "./@floating-ui/react-dom+[...].mjs";
 import { n as clsx } from "./class-variance-authority+clsx.mjs";
-import { C as require_isFunction, S as require_memoize, _ as require_isNaN, a as require_range, b as require_isNil, c as require_last, d as require_min, f as require_max, g as require_upperFirst, h as require_uniqBy, i as require_some, l as require_isEqual, m as require_sortBy, n as require_every, o as require_isBoolean, p as require_throttle, r as require_mapValues, s as require_isPlainObject, t as require_find, u as require_flatMap, v as require_isNumber, w as require_isObject, x as require_get, y as require_isString } from "./lodash.mjs";
+import { C as require_get, E as require_isObject, S as require_isNil, T as require_isFunction, _ as require_uniqBy, a as require_range, b as require_isNumber, c as require_minBy, d as require_isEqual, f as require_flatMap, g as require_sortBy, h as require_throttle, i as require_some, l as require_maxBy, m as require_max, n as require_every, o as require_isBoolean, p as require_min, r as require_mapValues, s as require_isPlainObject, t as require_find, u as require_last, v as require_upperFirst, w as require_memoize, x as require_isString, y as require_isNaN } from "./lodash.mjs";
 import { t as require_react_is } from "./react-is.mjs";
 import { C as cross_default, D as area_default, E as bumpY, O as line_default, S as diamond_default, T as bumpX, _ as Symbol$1, a as none_default$1, b as star_default, c as stepBefore, d as monotoneX, f as monotoneY, g as basis_default, h as basisClosed_default, i as stack_default, k as linear_default, l as step_default, m as basisOpen_default, n as silhouette_default, o as none_default, p as linearClosed_default, r as expand_default, s as stepAfter, t as wiggle_default, u as natural_default, v as wye_default, w as circle_default, x as square_default, y as triangle_default } from "./d3-shape.mjs";
 import { C as linear, D as implicit, E as point, O as ordinal, S as identity$1, T as band, _ as radial, a as divergingSymlog, b as symlog, c as sequentialLog, d as sequentialSymlog, f as utcTime, g as quantile, h as quantize, i as divergingSqrt, l as sequentialPow, m as threshold, n as divergingLog, o as sequentialQuantile, p as time, r as divergingPow, s as sequential, t as diverging, u as sequentialSqrt, v as pow, w as tickFormat, x as log, y as sqrt } from "./d3-scale+[...].mjs";
@@ -118,13 +118,13 @@ function shallowEqual(a, b) {
 }
 //#endregion
 //#region node_modules/recharts/es6/util/types.js
-function _typeof$39(o) {
+function _typeof$43(o) {
 	"@babel/helpers - typeof";
-	return _typeof$39 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$43 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$39(o);
+	}, _typeof$43(o);
 }
 /**
 * Determines how values are stacked:
@@ -668,7 +668,7 @@ var getEventHandlerOfChild = function getEventHandlerOfChild(originalHandler, da
 	};
 };
 var adaptEventsOfChild = function adaptEventsOfChild(props, data, index) {
-	if (!(0, import_isObject.default)(props) || _typeof$39(props) !== "object") return null;
+	if (!(0, import_isObject.default)(props) || _typeof$43(props) !== "object") return null;
 	var out = null;
 	Object.keys(props).forEach(function(key) {
 		var item = props[key];
@@ -681,11 +681,11 @@ var adaptEventsOfChild = function adaptEventsOfChild(props, data, index) {
 };
 //#endregion
 //#region node_modules/recharts/es6/util/ReactUtils.js
-var _excluded$15 = ["children"];
-var _excluded2$5 = ["children"];
-function _objectWithoutProperties$15(source, excluded) {
+var _excluded$18 = ["children"];
+var _excluded2$7 = ["children"];
+function _objectWithoutProperties$18(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$15(source, excluded);
+	var target = _objectWithoutPropertiesLoose$18(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -698,7 +698,7 @@ function _objectWithoutProperties$15(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$15(source, excluded) {
+function _objectWithoutPropertiesLoose$18(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -707,13 +707,13 @@ function _objectWithoutPropertiesLoose$15(source, excluded) {
 	}
 	return target;
 }
-function _typeof$38(o) {
+function _typeof$42(o) {
 	"@babel/helpers - typeof";
-	return _typeof$38 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$42 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$38(o);
+	}, _typeof$42(o);
 }
 var REACT_BROWSER_EVENT_MAP = {
 	click: "onClick",
@@ -868,7 +868,7 @@ var isSvgElement = function isSvgElement(child) {
 	return child && child.type && (0, import_isString.default)(child.type) && SVG_TAGS.indexOf(child.type) >= 0;
 };
 var hasClipDot = function hasClipDot(dot) {
-	return dot && _typeof$38(dot) === "object" && "clipDot" in dot;
+	return dot && _typeof$42(dot) === "object" && "clipDot" in dot;
 };
 /**
 * Checks if the property is valid to spread onto an SVG element or onto a specific component
@@ -931,8 +931,8 @@ var isChildrenEqual = function isChildrenEqual(nextChildren, prevChildren) {
 var isSingleChildEqual = function isSingleChildEqual(nextChild, prevChild) {
 	if ((0, import_isNil.default)(nextChild) && (0, import_isNil.default)(prevChild)) return true;
 	if (!(0, import_isNil.default)(nextChild) && !(0, import_isNil.default)(prevChild)) {
-		var _ref = nextChild.props || {}, nextChildren = _ref.children, nextProps = _objectWithoutProperties$15(_ref, _excluded$15);
-		var _ref2 = prevChild.props || {}, prevChildren = _ref2.children, prevProps = _objectWithoutProperties$15(_ref2, _excluded2$5);
+		var _ref = nextChild.props || {}, nextChildren = _ref.children, nextProps = _objectWithoutProperties$18(_ref, _excluded$18);
+		var _ref2 = prevChild.props || {}, prevChildren = _ref2.children, prevProps = _objectWithoutProperties$18(_ref2, _excluded2$7);
 		if (nextChildren && prevChildren) return shallowEqual(nextProps, prevProps) && isChildrenEqual(nextChildren, prevChildren);
 		if (!nextChildren && !prevChildren) return shallowEqual(nextProps, prevProps);
 		return false;
@@ -969,7 +969,7 @@ var parseChildIndex = function parseChildIndex(child, children) {
 /**
 * @fileOverview Surface
 */
-var _excluded$14 = [
+var _excluded$17 = [
 	"children",
 	"width",
 	"height",
@@ -979,19 +979,19 @@ var _excluded$14 = [
 	"title",
 	"desc"
 ];
-function _extends$25() {
-	_extends$25 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$30() {
+	_extends$30 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$25.apply(this, arguments);
+	return _extends$30.apply(this, arguments);
 }
-function _objectWithoutProperties$14(source, excluded) {
+function _objectWithoutProperties$17(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$14(source, excluded);
+	var target = _objectWithoutPropertiesLoose$17(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -1004,7 +1004,7 @@ function _objectWithoutProperties$14(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$14(source, excluded) {
+function _objectWithoutPropertiesLoose$17(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -1014,7 +1014,7 @@ function _objectWithoutPropertiesLoose$14(source, excluded) {
 	return target;
 }
 function Surface(props) {
-	var children = props.children, width = props.width, height = props.height, viewBox = props.viewBox, className = props.className, style = props.style, title = props.title, desc = props.desc, others = _objectWithoutProperties$14(props, _excluded$14);
+	var children = props.children, width = props.width, height = props.height, viewBox = props.viewBox, className = props.className, style = props.style, title = props.title, desc = props.desc, others = _objectWithoutProperties$17(props, _excluded$17);
 	var svgView = viewBox || {
 		width,
 		height,
@@ -1022,7 +1022,7 @@ function Surface(props) {
 		y: 0
 	};
 	var layerClass = clsx("recharts-surface", className);
-	return /*#__PURE__*/ import_react.createElement("svg", _extends$25({}, filterProps(others, true, "svg"), {
+	return /*#__PURE__*/ import_react.createElement("svg", _extends$30({}, filterProps(others, true, "svg"), {
 		className: layerClass,
 		width,
 		height,
@@ -1032,20 +1032,20 @@ function Surface(props) {
 }
 //#endregion
 //#region node_modules/recharts/es6/container/Layer.js
-var _excluded$13 = ["children", "className"];
-function _extends$24() {
-	_extends$24 = Object.assign ? Object.assign.bind() : function(target) {
+var _excluded$16 = ["children", "className"];
+function _extends$29() {
+	_extends$29 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$24.apply(this, arguments);
+	return _extends$29.apply(this, arguments);
 }
-function _objectWithoutProperties$13(source, excluded) {
+function _objectWithoutProperties$16(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$13(source, excluded);
+	var target = _objectWithoutPropertiesLoose$16(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -1058,7 +1058,7 @@ function _objectWithoutProperties$13(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$13(source, excluded) {
+function _objectWithoutPropertiesLoose$16(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -1068,9 +1068,9 @@ function _objectWithoutPropertiesLoose$13(source, excluded) {
 	return target;
 }
 var Layer = /*#__PURE__*/ import_react.forwardRef(function(props, ref) {
-	var children = props.children, className = props.className, others = _objectWithoutProperties$13(props, _excluded$13);
+	var children = props.children, className = props.className, others = _objectWithoutProperties$16(props, _excluded$16);
 	var layerClass = clsx("recharts-layer", className);
-	return /*#__PURE__*/ import_react.createElement("g", _extends$24({ className: layerClass }, filterProps(others, true), { ref }), children);
+	return /*#__PURE__*/ import_react.createElement("g", _extends$29({ className: layerClass }, filterProps(others, true), { ref }), children);
 });
 //#endregion
 //#region node_modules/recharts/es6/util/LogUtils.js
@@ -1083,30 +1083,30 @@ var warn = function warn(condition, format) {
 * @fileOverview Curve
 */
 var import_upperFirst = /* @__PURE__ */ __toESM(require_upperFirst());
-function _typeof$37(o) {
+function _typeof$41(o) {
 	"@babel/helpers - typeof";
-	return _typeof$37 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$41 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$37(o);
+	}, _typeof$41(o);
 }
-var _excluded$12 = [
+var _excluded$15 = [
 	"type",
 	"size",
 	"sizeType"
 ];
-function _extends$23() {
-	_extends$23 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$28() {
+	_extends$28 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$23.apply(this, arguments);
+	return _extends$28.apply(this, arguments);
 }
-function ownKeys$31(e, r) {
+function ownKeys$35(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -1116,19 +1116,19 @@ function ownKeys$31(e, r) {
 	}
 	return t;
 }
-function _objectSpread$31(e) {
+function _objectSpread$35(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$31(Object(t), !0).forEach(function(r) {
-			_defineProperty$36(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$31(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$35(Object(t), !0).forEach(function(r) {
+			_defineProperty$40(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$35(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$36(obj, key, value) {
-	key = _toPropertyKey$37(key);
+function _defineProperty$40(obj, key, value) {
+	key = _toPropertyKey$41(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -1138,23 +1138,23 @@ function _defineProperty$36(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$37(t) {
-	var i = _toPrimitive$37(t, "string");
-	return "symbol" == _typeof$37(i) ? i : i + "";
+function _toPropertyKey$41(t) {
+	var i = _toPrimitive$41(t, "string");
+	return "symbol" == _typeof$41(i) ? i : i + "";
 }
-function _toPrimitive$37(t, r) {
-	if ("object" != _typeof$37(t) || !t) return t;
+function _toPrimitive$41(t, r) {
+	if ("object" != _typeof$41(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$37(i)) return i;
+		if ("object" != _typeof$41(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
-function _objectWithoutProperties$12(source, excluded) {
+function _objectWithoutProperties$15(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$12(source, excluded);
+	var target = _objectWithoutPropertiesLoose$15(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -1167,7 +1167,7 @@ function _objectWithoutProperties$12(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$12(source, excluded) {
+function _objectWithoutPropertiesLoose$15(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -1185,7 +1185,7 @@ var symbolFactories = {
 	symbolTriangle: triangle_default,
 	symbolWye: wye_default
 };
-var RADIAN$1 = Math.PI / 180;
+var RADIAN$2 = Math.PI / 180;
 var getSymbolFactory = function getSymbolFactory(type) {
 	return symbolFactories["symbol".concat((0, import_upperFirst.default)(type))] || circle_default;
 };
@@ -1196,7 +1196,7 @@ var calculateAreaSize = function calculateAreaSize(size, sizeType, type) {
 		case "diamond": return .5 * size * size / Math.sqrt(3);
 		case "square": return size * size;
 		case "star":
-			var angle = 18 * RADIAN$1;
+			var angle = 18 * RADIAN$2;
 			return 1.25 * size * size * (Math.tan(angle) - Math.tan(angle * 2) * Math.pow(Math.tan(angle), 2));
 		case "triangle": return Math.sqrt(3) * size * size / 4;
 		case "wye": return (21 - 10 * Math.sqrt(3)) * size * size / 8;
@@ -1208,7 +1208,7 @@ var registerSymbol = function registerSymbol(key, factory) {
 };
 var Symbols = function Symbols(_ref) {
 	var _ref$type = _ref.type, type = _ref$type === void 0 ? "circle" : _ref$type, _ref$size = _ref.size, size = _ref$size === void 0 ? 64 : _ref$size, _ref$sizeType = _ref.sizeType, sizeType = _ref$sizeType === void 0 ? "area" : _ref$sizeType;
-	var props = _objectSpread$31(_objectSpread$31({}, _objectWithoutProperties$12(_ref, _excluded$12)), {}, {
+	var props = _objectSpread$35(_objectSpread$35({}, _objectWithoutProperties$15(_ref, _excluded$15)), {}, {
 		type,
 		size,
 		sizeType
@@ -1223,7 +1223,7 @@ var Symbols = function Symbols(_ref) {
 	};
 	var className = props.className, cx = props.cx, cy = props.cy;
 	var filteredProps = filterProps(props, true);
-	if (cx === +cx && cy === +cy && size === +size) return /*#__PURE__*/ import_react.createElement("path", _extends$23({}, filteredProps, {
+	if (cx === +cx && cy === +cy && size === +size) return /*#__PURE__*/ import_react.createElement("path", _extends$28({}, filteredProps, {
 		className: clsx("recharts-symbols", className),
 		transform: "translate(".concat(cx, ", ").concat(cy, ")"),
 		d: getPath()
@@ -1236,25 +1236,25 @@ Symbols.registerSymbol = registerSymbol;
 /**
 * @fileOverview Default Legend Content
 */
-function _typeof$36(o) {
+function _typeof$40(o) {
 	"@babel/helpers - typeof";
-	return _typeof$36 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$40 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$36(o);
+	}, _typeof$40(o);
 }
-function _extends$22() {
-	_extends$22 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$27() {
+	_extends$27 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$22.apply(this, arguments);
+	return _extends$27.apply(this, arguments);
 }
-function ownKeys$30(e, r) {
+function ownKeys$34(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -1264,62 +1264,62 @@ function ownKeys$30(e, r) {
 	}
 	return t;
 }
-function _objectSpread$30(e) {
+function _objectSpread$34(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$30(Object(t), !0).forEach(function(r) {
-			_defineProperty$35(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$30(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$34(Object(t), !0).forEach(function(r) {
+			_defineProperty$39(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$34(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _classCallCheck$17(instance, Constructor) {
+function _classCallCheck$20(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties$17(target, props) {
+function _defineProperties$20(target, props) {
 	for (var i = 0; i < props.length; i++) {
 		var descriptor = props[i];
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$36(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$40(descriptor.key), descriptor);
 	}
 }
-function _createClass$17(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$17(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$17(Constructor, staticProps);
+function _createClass$20(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$20(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$20(Constructor, staticProps);
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function _callSuper$14(t, o, e) {
-	return o = _getPrototypeOf$14(o), _possibleConstructorReturn$14(t, _isNativeReflectConstruct$14() ? Reflect.construct(o, e || [], _getPrototypeOf$14(t).constructor) : o.apply(t, e));
+function _callSuper$17(t, o, e) {
+	return o = _getPrototypeOf$17(o), _possibleConstructorReturn$17(t, _isNativeReflectConstruct$17() ? Reflect.construct(o, e || [], _getPrototypeOf$17(t).constructor) : o.apply(t, e));
 }
-function _possibleConstructorReturn$14(self, call) {
-	if (call && (_typeof$36(call) === "object" || typeof call === "function")) return call;
+function _possibleConstructorReturn$17(self, call) {
+	if (call && (_typeof$40(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
-	return _assertThisInitialized$14(self);
+	return _assertThisInitialized$17(self);
 }
-function _assertThisInitialized$14(self) {
+function _assertThisInitialized$17(self) {
 	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	return self;
 }
-function _isNativeReflectConstruct$14() {
+function _isNativeReflectConstruct$17() {
 	try {
 		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
 	} catch (t) {}
-	return (_isNativeReflectConstruct$14 = function _isNativeReflectConstruct() {
+	return (_isNativeReflectConstruct$17 = function _isNativeReflectConstruct() {
 		return !!t;
 	})();
 }
-function _getPrototypeOf$14(o) {
-	_getPrototypeOf$14 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+function _getPrototypeOf$17(o) {
+	_getPrototypeOf$17 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
 		return o.__proto__ || Object.getPrototypeOf(o);
 	};
-	return _getPrototypeOf$14(o);
+	return _getPrototypeOf$17(o);
 }
-function _inherits$14(subClass, superClass) {
+function _inherits$17(subClass, superClass) {
 	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
 	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
 		value: subClass,
@@ -1327,17 +1327,17 @@ function _inherits$14(subClass, superClass) {
 		configurable: true
 	} });
 	Object.defineProperty(subClass, "prototype", { writable: false });
-	if (superClass) _setPrototypeOf$14(subClass, superClass);
+	if (superClass) _setPrototypeOf$17(subClass, superClass);
 }
-function _setPrototypeOf$14(o, p) {
-	_setPrototypeOf$14 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+function _setPrototypeOf$17(o, p) {
+	_setPrototypeOf$17 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
 		o.__proto__ = p;
 		return o;
 	};
-	return _setPrototypeOf$14(o, p);
+	return _setPrototypeOf$17(o, p);
 }
-function _defineProperty$35(obj, key, value) {
-	key = _toPropertyKey$36(key);
+function _defineProperty$39(obj, key, value) {
+	key = _toPropertyKey$40(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -1347,16 +1347,16 @@ function _defineProperty$35(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$36(t) {
-	var i = _toPrimitive$36(t, "string");
-	return "symbol" == _typeof$36(i) ? i : i + "";
+function _toPropertyKey$40(t) {
+	var i = _toPrimitive$40(t, "string");
+	return "symbol" == _typeof$40(i) ? i : i + "";
 }
-function _toPrimitive$36(t, r) {
-	if ("object" != _typeof$36(t) || !t) return t;
+function _toPrimitive$40(t, r) {
+	if ("object" != _typeof$40(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$36(i)) return i;
+		if ("object" != _typeof$40(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -1364,11 +1364,11 @@ function _toPrimitive$36(t, r) {
 var SIZE = 32;
 var DefaultLegendContent = /*#__PURE__*/ function(_PureComponent) {
 	function DefaultLegendContent() {
-		_classCallCheck$17(this, DefaultLegendContent);
-		return _callSuper$14(this, DefaultLegendContent, arguments);
+		_classCallCheck$20(this, DefaultLegendContent);
+		return _callSuper$17(this, DefaultLegendContent, arguments);
 	}
-	_inherits$14(DefaultLegendContent, _PureComponent);
-	return _createClass$17(DefaultLegendContent, [
+	_inherits$17(DefaultLegendContent, _PureComponent);
+	return _createClass$20(DefaultLegendContent, [
 		{
 			key: "renderIcon",
 			value: 
@@ -1408,7 +1408,7 @@ var DefaultLegendContent = /*#__PURE__*/ function(_PureComponent) {
 					className: "recharts-legend-icon"
 				});
 				if (/*#__PURE__*/ import_react.isValidElement(data.legendIcon)) {
-					var iconProps = _objectSpread$30({}, data);
+					var iconProps = _objectSpread$34({}, data);
 					delete iconProps.legendIcon;
 					return /*#__PURE__*/ import_react.cloneElement(data.legendIcon, iconProps);
 				}
@@ -1444,12 +1444,12 @@ var DefaultLegendContent = /*#__PURE__*/ function(_PureComponent) {
 				};
 				return payload.map(function(entry, i) {
 					var finalFormatter = entry.formatter || formatter;
-					var className = clsx(_defineProperty$35(_defineProperty$35({ "recharts-legend-item": true }, "legend-item-".concat(i), true), "inactive", entry.inactive));
+					var className = clsx(_defineProperty$39(_defineProperty$39({ "recharts-legend-item": true }, "legend-item-".concat(i), true), "inactive", entry.inactive));
 					if (entry.type === "none") return null;
 					var entryValue = !(0, import_isFunction.default)(entry.value) ? entry.value : null;
 					warn(!(0, import_isFunction.default)(entry.value), "The name property is also required when using a function for the dataKey of a chart's cartesian components. Ex: <Bar name=\"Name of my Data\"/>");
 					var color = entry.inactive ? inactiveColor : entry.color;
-					return /*#__PURE__*/ import_react.createElement("li", _extends$22({
+					return /*#__PURE__*/ import_react.createElement("li", _extends$27({
 						className,
 						style: itemStyle,
 						key: "legend-item-".concat(i)
@@ -1483,8 +1483,8 @@ var DefaultLegendContent = /*#__PURE__*/ function(_PureComponent) {
 		}
 	]);
 }(import_react.PureComponent);
-_defineProperty$35(DefaultLegendContent, "displayName", "Legend");
-_defineProperty$35(DefaultLegendContent, "defaultProps", {
+_defineProperty$39(DefaultLegendContent, "displayName", "Legend");
+_defineProperty$39(DefaultLegendContent, "defaultProps", {
 	iconSize: 14,
 	layout: "horizontal",
 	align: "center",
@@ -1511,16 +1511,16 @@ function getUniqPayload(payload, option, defaultUniqBy) {
 /**
 * @fileOverview Legend
 */
-function _typeof$35(o) {
+function _typeof$39(o) {
 	"@babel/helpers - typeof";
-	return _typeof$35 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$39 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$35(o);
+	}, _typeof$39(o);
 }
-var _excluded$11 = ["ref"];
-function ownKeys$29(e, r) {
+var _excluded$14 = ["ref"];
+function ownKeys$33(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -1530,62 +1530,62 @@ function ownKeys$29(e, r) {
 	}
 	return t;
 }
-function _objectSpread$29(e) {
+function _objectSpread$33(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$29(Object(t), !0).forEach(function(r) {
-			_defineProperty$34(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$29(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$33(Object(t), !0).forEach(function(r) {
+			_defineProperty$38(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$33(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _classCallCheck$16(instance, Constructor) {
+function _classCallCheck$19(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties$16(target, props) {
+function _defineProperties$19(target, props) {
 	for (var i = 0; i < props.length; i++) {
 		var descriptor = props[i];
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$35(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$39(descriptor.key), descriptor);
 	}
 }
-function _createClass$16(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$16(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$16(Constructor, staticProps);
+function _createClass$19(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$19(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$19(Constructor, staticProps);
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function _callSuper$13(t, o, e) {
-	return o = _getPrototypeOf$13(o), _possibleConstructorReturn$13(t, _isNativeReflectConstruct$13() ? Reflect.construct(o, e || [], _getPrototypeOf$13(t).constructor) : o.apply(t, e));
+function _callSuper$16(t, o, e) {
+	return o = _getPrototypeOf$16(o), _possibleConstructorReturn$16(t, _isNativeReflectConstruct$16() ? Reflect.construct(o, e || [], _getPrototypeOf$16(t).constructor) : o.apply(t, e));
 }
-function _possibleConstructorReturn$13(self, call) {
-	if (call && (_typeof$35(call) === "object" || typeof call === "function")) return call;
+function _possibleConstructorReturn$16(self, call) {
+	if (call && (_typeof$39(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
-	return _assertThisInitialized$13(self);
+	return _assertThisInitialized$16(self);
 }
-function _assertThisInitialized$13(self) {
+function _assertThisInitialized$16(self) {
 	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	return self;
 }
-function _isNativeReflectConstruct$13() {
+function _isNativeReflectConstruct$16() {
 	try {
 		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
 	} catch (t) {}
-	return (_isNativeReflectConstruct$13 = function _isNativeReflectConstruct() {
+	return (_isNativeReflectConstruct$16 = function _isNativeReflectConstruct() {
 		return !!t;
 	})();
 }
-function _getPrototypeOf$13(o) {
-	_getPrototypeOf$13 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+function _getPrototypeOf$16(o) {
+	_getPrototypeOf$16 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
 		return o.__proto__ || Object.getPrototypeOf(o);
 	};
-	return _getPrototypeOf$13(o);
+	return _getPrototypeOf$16(o);
 }
-function _inherits$13(subClass, superClass) {
+function _inherits$16(subClass, superClass) {
 	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
 	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
 		value: subClass,
@@ -1593,17 +1593,17 @@ function _inherits$13(subClass, superClass) {
 		configurable: true
 	} });
 	Object.defineProperty(subClass, "prototype", { writable: false });
-	if (superClass) _setPrototypeOf$13(subClass, superClass);
+	if (superClass) _setPrototypeOf$16(subClass, superClass);
 }
-function _setPrototypeOf$13(o, p) {
-	_setPrototypeOf$13 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+function _setPrototypeOf$16(o, p) {
+	_setPrototypeOf$16 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
 		o.__proto__ = p;
 		return o;
 	};
-	return _setPrototypeOf$13(o, p);
+	return _setPrototypeOf$16(o, p);
 }
-function _defineProperty$34(obj, key, value) {
-	key = _toPropertyKey$35(key);
+function _defineProperty$38(obj, key, value) {
+	key = _toPropertyKey$39(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -1613,23 +1613,23 @@ function _defineProperty$34(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$35(t) {
-	var i = _toPrimitive$35(t, "string");
-	return "symbol" == _typeof$35(i) ? i : i + "";
+function _toPropertyKey$39(t) {
+	var i = _toPrimitive$39(t, "string");
+	return "symbol" == _typeof$39(i) ? i : i + "";
 }
-function _toPrimitive$35(t, r) {
-	if ("object" != _typeof$35(t) || !t) return t;
+function _toPrimitive$39(t, r) {
+	if ("object" != _typeof$39(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$35(i)) return i;
+		if ("object" != _typeof$39(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
-function _objectWithoutProperties$11(source, excluded) {
+function _objectWithoutProperties$14(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$11(source, excluded);
+	var target = _objectWithoutPropertiesLoose$14(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -1642,7 +1642,7 @@ function _objectWithoutProperties$11(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$11(source, excluded) {
+function _objectWithoutPropertiesLoose$14(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -1658,24 +1658,24 @@ function renderContent$1(content, props) {
 	if (/*#__PURE__*/ import_react.isValidElement(content)) return /*#__PURE__*/ import_react.cloneElement(content, props);
 	if (typeof content === "function") return /*#__PURE__*/ import_react.createElement(content, props);
 	props.ref;
-	var otherProps = _objectWithoutProperties$11(props, _excluded$11);
+	var otherProps = _objectWithoutProperties$14(props, _excluded$14);
 	return /*#__PURE__*/ import_react.createElement(DefaultLegendContent, otherProps);
 }
 var EPS$1 = 1;
 var Legend = /*#__PURE__*/ function(_PureComponent) {
 	function Legend() {
 		var _this;
-		_classCallCheck$16(this, Legend);
+		_classCallCheck$19(this, Legend);
 		for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) args[_key] = arguments[_key];
-		_this = _callSuper$13(this, Legend, [].concat(args));
-		_defineProperty$34(_this, "lastBoundingBox", {
+		_this = _callSuper$16(this, Legend, [].concat(args));
+		_defineProperty$38(_this, "lastBoundingBox", {
 			width: -1,
 			height: -1
 		});
 		return _this;
 	}
-	_inherits$13(Legend, _PureComponent);
-	return _createClass$16(Legend, [
+	_inherits$16(Legend, _PureComponent);
+	return _createClass$19(Legend, [
 		{
 			key: "componentDidMount",
 			value: function componentDidMount() {
@@ -1721,7 +1721,7 @@ var Legend = /*#__PURE__*/ function(_PureComponent) {
 		{
 			key: "getBBoxSnapshot",
 			value: function getBBoxSnapshot() {
-				if (this.lastBoundingBox.width >= 0 && this.lastBoundingBox.height >= 0) return _objectSpread$29({}, this.lastBoundingBox);
+				if (this.lastBoundingBox.width >= 0 && this.lastBoundingBox.height >= 0) return _objectSpread$33({}, this.lastBoundingBox);
 				return {
 					width: 0,
 					height: 0
@@ -1745,7 +1745,7 @@ var Legend = /*#__PURE__*/ function(_PureComponent) {
 						vPos = { top: ((chartHeight || 0) - _box.height) / 2 };
 					} else vPos = verticalAlign === "bottom" ? { bottom: margin && margin.bottom || 0 } : { top: margin && margin.top || 0 };
 				}
-				return _objectSpread$29(_objectSpread$29({}, hPos), vPos);
+				return _objectSpread$33(_objectSpread$33({}, hPos), vPos);
 			}
 		},
 		{
@@ -1753,7 +1753,7 @@ var Legend = /*#__PURE__*/ function(_PureComponent) {
 			value: function render() {
 				var _this2 = this;
 				var _this$props2 = this.props, content = _this$props2.content, width = _this$props2.width, height = _this$props2.height, wrapperStyle = _this$props2.wrapperStyle, payloadUniqBy = _this$props2.payloadUniqBy, payload = _this$props2.payload;
-				var outerStyle = _objectSpread$29(_objectSpread$29({
+				var outerStyle = _objectSpread$33(_objectSpread$33({
 					position: "absolute",
 					width: width || "auto",
 					height: height || "auto"
@@ -1764,21 +1764,21 @@ var Legend = /*#__PURE__*/ function(_PureComponent) {
 					ref: function ref(node) {
 						_this2.wrapperNode = node;
 					}
-				}, renderContent$1(content, _objectSpread$29(_objectSpread$29({}, this.props), {}, { payload: getUniqPayload(payload, payloadUniqBy, defaultUniqBy$1) })));
+				}, renderContent$1(content, _objectSpread$33(_objectSpread$33({}, this.props), {}, { payload: getUniqPayload(payload, payloadUniqBy, defaultUniqBy$1) })));
 			}
 		}
 	], [{
 		key: "getWithHeight",
 		value: function getWithHeight(item, chartWidth) {
-			var layout = _objectSpread$29(_objectSpread$29({}, this.defaultProps), item.props).layout;
+			var layout = _objectSpread$33(_objectSpread$33({}, this.defaultProps), item.props).layout;
 			if (layout === "vertical" && isNumber(item.props.height)) return { height: item.props.height };
 			if (layout === "horizontal") return { width: item.props.width || chartWidth };
 			return null;
 		}
 	}]);
 }(import_react.PureComponent);
-_defineProperty$34(Legend, "displayName", "Legend");
-_defineProperty$34(Legend, "defaultProps", {
+_defineProperty$38(Legend, "displayName", "Legend");
+_defineProperty$38(Legend, "defaultProps", {
 	iconSize: 14,
 	layout: "horizontal",
 	align: "center",
@@ -1786,48 +1786,49 @@ _defineProperty$34(Legend, "defaultProps", {
 });
 //#endregion
 //#region node_modules/recharts/es6/component/DefaultTooltipContent.js
+var import_memoize = /* @__PURE__ */ __toESM(require_memoize());
 /**
 * @fileOverview Default Tooltip Content
 */
 var import_sortBy = /* @__PURE__ */ __toESM(require_sortBy());
-function _typeof$34(o) {
+function _typeof$38(o) {
 	"@babel/helpers - typeof";
-	return _typeof$34 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$38 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$34(o);
+	}, _typeof$38(o);
 }
-function _extends$21() {
-	_extends$21 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$26() {
+	_extends$26 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$21.apply(this, arguments);
+	return _extends$26.apply(this, arguments);
 }
-function _slicedToArray$9(arr, i) {
-	return _arrayWithHoles$9(arr) || _iterableToArrayLimit$9(arr, i) || _unsupportedIterableToArray$14(arr, i) || _nonIterableRest$9();
+function _slicedToArray$10(arr, i) {
+	return _arrayWithHoles$10(arr) || _iterableToArrayLimit$10(arr, i) || _unsupportedIterableToArray$16(arr, i) || _nonIterableRest$10();
 }
-function _nonIterableRest$9() {
+function _nonIterableRest$10() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$14(o, minLen) {
+function _unsupportedIterableToArray$16(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$14(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$16(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$14(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$16(o, minLen);
 }
-function _arrayLikeToArray$14(arr, len) {
+function _arrayLikeToArray$16(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _iterableToArrayLimit$9(r, l) {
+function _iterableToArrayLimit$10(r, l) {
 	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	if (null != t) {
 		var e, n, i, u, a = [], f = !0, o = !1;
@@ -1848,10 +1849,10 @@ function _iterableToArrayLimit$9(r, l) {
 		return a;
 	}
 }
-function _arrayWithHoles$9(arr) {
+function _arrayWithHoles$10(arr) {
 	if (Array.isArray(arr)) return arr;
 }
-function ownKeys$28(e, r) {
+function ownKeys$32(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -1861,19 +1862,19 @@ function ownKeys$28(e, r) {
 	}
 	return t;
 }
-function _objectSpread$28(e) {
+function _objectSpread$32(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$28(Object(t), !0).forEach(function(r) {
-			_defineProperty$33(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$28(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$32(Object(t), !0).forEach(function(r) {
+			_defineProperty$37(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$32(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$33(obj, key, value) {
-	key = _toPropertyKey$34(key);
+function _defineProperty$37(obj, key, value) {
+	key = _toPropertyKey$38(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -1883,16 +1884,16 @@ function _defineProperty$33(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$34(t) {
-	var i = _toPrimitive$34(t, "string");
-	return "symbol" == _typeof$34(i) ? i : i + "";
+function _toPropertyKey$38(t) {
+	var i = _toPrimitive$38(t, "string");
+	return "symbol" == _typeof$38(i) ? i : i + "";
 }
-function _toPrimitive$34(t, r) {
-	if ("object" != _typeof$34(t) || !t) return t;
+function _toPrimitive$38(t, r) {
+	if ("object" != _typeof$38(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$34(i)) return i;
+		if ("object" != _typeof$38(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -1910,7 +1911,7 @@ var DefaultTooltipContent = function DefaultTooltipContent(props) {
 			};
 			var items = (itemSorter ? (0, import_sortBy.default)(payload, itemSorter) : payload).map(function(entry, i) {
 				if (entry.type === "none") return null;
-				var finalItemStyle = _objectSpread$28({
+				var finalItemStyle = _objectSpread$32({
 					display: "block",
 					paddingTop: 4,
 					paddingBottom: 4,
@@ -1923,7 +1924,7 @@ var DefaultTooltipContent = function DefaultTooltipContent(props) {
 				if (finalFormatter && finalValue != null && finalName != null) {
 					var formatted = finalFormatter(value, name, entry, i, payload);
 					if (Array.isArray(formatted)) {
-						var _formatted = _slicedToArray$9(formatted, 2);
+						var _formatted = _slicedToArray$10(formatted, 2);
 						finalValue = _formatted[0];
 						finalName = _formatted[1];
 					} else finalValue = formatted;
@@ -1941,14 +1942,14 @@ var DefaultTooltipContent = function DefaultTooltipContent(props) {
 		}
 		return null;
 	};
-	var finalStyle = _objectSpread$28({
+	var finalStyle = _objectSpread$32({
 		margin: 0,
 		padding: 10,
 		backgroundColor: "#fff",
 		border: "1px solid #ccc",
 		whiteSpace: "nowrap"
 	}, contentStyle);
-	var finalLabelStyle = _objectSpread$28({ margin: 0 }, labelStyle);
+	var finalLabelStyle = _objectSpread$32({ margin: 0 }, labelStyle);
 	var hasLabel = !(0, import_isNil.default)(label);
 	var finalLabel = hasLabel ? label : "";
 	var wrapperCN = clsx("recharts-default-tooltip", wrapperClassName);
@@ -1958,7 +1959,7 @@ var DefaultTooltipContent = function DefaultTooltipContent(props) {
 		role: "status",
 		"aria-live": "assertive"
 	} : {};
-	return /*#__PURE__*/ import_react.createElement("div", _extends$21({
+	return /*#__PURE__*/ import_react.createElement("div", _extends$26({
 		className: wrapperCN,
 		style: finalStyle
 	}, accessibilityAttributes), /*#__PURE__*/ import_react.createElement("p", {
@@ -1968,16 +1969,16 @@ var DefaultTooltipContent = function DefaultTooltipContent(props) {
 };
 //#endregion
 //#region node_modules/recharts/es6/util/tooltip/translate.js
-function _typeof$33(o) {
+function _typeof$37(o) {
 	"@babel/helpers - typeof";
-	return _typeof$33 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$37 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$33(o);
+	}, _typeof$37(o);
 }
-function _defineProperty$32(obj, key, value) {
-	key = _toPropertyKey$33(key);
+function _defineProperty$36(obj, key, value) {
+	key = _toPropertyKey$37(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -1987,16 +1988,16 @@ function _defineProperty$32(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$33(t) {
-	var i = _toPrimitive$33(t, "string");
-	return "symbol" == _typeof$33(i) ? i : i + "";
+function _toPropertyKey$37(t) {
+	var i = _toPrimitive$37(t, "string");
+	return "symbol" == _typeof$37(i) ? i : i + "";
 }
-function _toPrimitive$33(t, r) {
-	if ("object" != _typeof$33(t) || !t) return t;
+function _toPrimitive$37(t, r) {
+	if ("object" != _typeof$37(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$33(i)) return i;
+		if ("object" != _typeof$37(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -2005,7 +2006,7 @@ var CSS_CLASS_PREFIX = "recharts-tooltip-wrapper";
 var TOOLTIP_HIDDEN = { visibility: "hidden" };
 function getTooltipCSSClassName(_ref) {
 	var coordinate = _ref.coordinate, translateX = _ref.translateX, translateY = _ref.translateY;
-	return clsx(CSS_CLASS_PREFIX, _defineProperty$32(_defineProperty$32(_defineProperty$32(_defineProperty$32({}, "".concat(CSS_CLASS_PREFIX, "-right"), isNumber(translateX) && coordinate && isNumber(coordinate.x) && translateX >= coordinate.x), "".concat(CSS_CLASS_PREFIX, "-left"), isNumber(translateX) && coordinate && isNumber(coordinate.x) && translateX < coordinate.x), "".concat(CSS_CLASS_PREFIX, "-bottom"), isNumber(translateY) && coordinate && isNumber(coordinate.y) && translateY >= coordinate.y), "".concat(CSS_CLASS_PREFIX, "-top"), isNumber(translateY) && coordinate && isNumber(coordinate.y) && translateY < coordinate.y));
+	return clsx(CSS_CLASS_PREFIX, _defineProperty$36(_defineProperty$36(_defineProperty$36(_defineProperty$36({}, "".concat(CSS_CLASS_PREFIX, "-right"), isNumber(translateX) && coordinate && isNumber(coordinate.x) && translateX >= coordinate.x), "".concat(CSS_CLASS_PREFIX, "-left"), isNumber(translateX) && coordinate && isNumber(coordinate.x) && translateX < coordinate.x), "".concat(CSS_CLASS_PREFIX, "-bottom"), isNumber(translateY) && coordinate && isNumber(coordinate.y) && translateY >= coordinate.y), "".concat(CSS_CLASS_PREFIX, "-top"), isNumber(translateY) && coordinate && isNumber(coordinate.y) && translateY < coordinate.y));
 }
 function getTooltipTranslateXY(_ref2) {
 	var allowEscapeViewBox = _ref2.allowEscapeViewBox, coordinate = _ref2.coordinate, key = _ref2.key, offsetTopLeft = _ref2.offsetTopLeft, position = _ref2.position, reverseDirection = _ref2.reverseDirection, tooltipDimension = _ref2.tooltipDimension, viewBox = _ref2.viewBox, viewBoxDimension = _ref2.viewBoxDimension;
@@ -2067,15 +2068,15 @@ function getTooltipTranslate(_ref4) {
 }
 //#endregion
 //#region node_modules/recharts/es6/component/TooltipBoundingBox.js
-function _typeof$32(o) {
+function _typeof$36(o) {
 	"@babel/helpers - typeof";
-	return _typeof$32 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$36 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$32(o);
+	}, _typeof$36(o);
 }
-function ownKeys$27(e, r) {
+function ownKeys$31(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -2085,62 +2086,62 @@ function ownKeys$27(e, r) {
 	}
 	return t;
 }
-function _objectSpread$27(e) {
+function _objectSpread$31(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$27(Object(t), !0).forEach(function(r) {
-			_defineProperty$31(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$27(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$31(Object(t), !0).forEach(function(r) {
+			_defineProperty$35(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$31(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _classCallCheck$15(instance, Constructor) {
+function _classCallCheck$18(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties$15(target, props) {
+function _defineProperties$18(target, props) {
 	for (var i = 0; i < props.length; i++) {
 		var descriptor = props[i];
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$32(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$36(descriptor.key), descriptor);
 	}
 }
-function _createClass$15(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$15(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$15(Constructor, staticProps);
+function _createClass$18(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$18(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$18(Constructor, staticProps);
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function _callSuper$12(t, o, e) {
-	return o = _getPrototypeOf$12(o), _possibleConstructorReturn$12(t, _isNativeReflectConstruct$12() ? Reflect.construct(o, e || [], _getPrototypeOf$12(t).constructor) : o.apply(t, e));
+function _callSuper$15(t, o, e) {
+	return o = _getPrototypeOf$15(o), _possibleConstructorReturn$15(t, _isNativeReflectConstruct$15() ? Reflect.construct(o, e || [], _getPrototypeOf$15(t).constructor) : o.apply(t, e));
 }
-function _possibleConstructorReturn$12(self, call) {
-	if (call && (_typeof$32(call) === "object" || typeof call === "function")) return call;
+function _possibleConstructorReturn$15(self, call) {
+	if (call && (_typeof$36(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
-	return _assertThisInitialized$12(self);
+	return _assertThisInitialized$15(self);
 }
-function _assertThisInitialized$12(self) {
+function _assertThisInitialized$15(self) {
 	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	return self;
 }
-function _isNativeReflectConstruct$12() {
+function _isNativeReflectConstruct$15() {
 	try {
 		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
 	} catch (t) {}
-	return (_isNativeReflectConstruct$12 = function _isNativeReflectConstruct() {
+	return (_isNativeReflectConstruct$15 = function _isNativeReflectConstruct() {
 		return !!t;
 	})();
 }
-function _getPrototypeOf$12(o) {
-	_getPrototypeOf$12 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+function _getPrototypeOf$15(o) {
+	_getPrototypeOf$15 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
 		return o.__proto__ || Object.getPrototypeOf(o);
 	};
-	return _getPrototypeOf$12(o);
+	return _getPrototypeOf$15(o);
 }
-function _inherits$12(subClass, superClass) {
+function _inherits$15(subClass, superClass) {
 	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
 	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
 		value: subClass,
@@ -2148,17 +2149,17 @@ function _inherits$12(subClass, superClass) {
 		configurable: true
 	} });
 	Object.defineProperty(subClass, "prototype", { writable: false });
-	if (superClass) _setPrototypeOf$12(subClass, superClass);
+	if (superClass) _setPrototypeOf$15(subClass, superClass);
 }
-function _setPrototypeOf$12(o, p) {
-	_setPrototypeOf$12 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+function _setPrototypeOf$15(o, p) {
+	_setPrototypeOf$15 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
 		o.__proto__ = p;
 		return o;
 	};
-	return _setPrototypeOf$12(o, p);
+	return _setPrototypeOf$15(o, p);
 }
-function _defineProperty$31(obj, key, value) {
-	key = _toPropertyKey$32(key);
+function _defineProperty$35(obj, key, value) {
+	key = _toPropertyKey$36(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -2168,16 +2169,16 @@ function _defineProperty$31(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$32(t) {
-	var i = _toPrimitive$32(t, "string");
-	return "symbol" == _typeof$32(i) ? i : i + "";
+function _toPropertyKey$36(t) {
+	var i = _toPrimitive$36(t, "string");
+	return "symbol" == _typeof$36(i) ? i : i + "";
 }
-function _toPrimitive$32(t, r) {
-	if ("object" != _typeof$32(t) || !t) return t;
+function _toPrimitive$36(t, r) {
+	if ("object" != _typeof$36(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$32(i)) return i;
+		if ("object" != _typeof$36(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -2186,10 +2187,10 @@ var EPSILON = 1;
 var TooltipBoundingBox = /*#__PURE__*/ function(_PureComponent) {
 	function TooltipBoundingBox() {
 		var _this;
-		_classCallCheck$15(this, TooltipBoundingBox);
+		_classCallCheck$18(this, TooltipBoundingBox);
 		for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) args[_key] = arguments[_key];
-		_this = _callSuper$12(this, TooltipBoundingBox, [].concat(args));
-		_defineProperty$31(_this, "state", {
+		_this = _callSuper$15(this, TooltipBoundingBox, [].concat(args));
+		_defineProperty$35(_this, "state", {
 			dismissed: false,
 			dismissedAtCoordinate: {
 				x: 0,
@@ -2200,7 +2201,7 @@ var TooltipBoundingBox = /*#__PURE__*/ function(_PureComponent) {
 				height: -1
 			}
 		});
-		_defineProperty$31(_this, "handleKeyDown", function(event) {
+		_defineProperty$35(_this, "handleKeyDown", function(event) {
 			if (event.key === "Escape") {
 				var _this$props$coordinat, _this$props$coordinat2, _this$props$coordinat3, _this$props$coordinat4;
 				_this.setState({
@@ -2214,8 +2215,8 @@ var TooltipBoundingBox = /*#__PURE__*/ function(_PureComponent) {
 		});
 		return _this;
 	}
-	_inherits$12(TooltipBoundingBox, _PureComponent);
-	return _createClass$15(TooltipBoundingBox, [
+	_inherits$15(TooltipBoundingBox, _PureComponent);
+	return _createClass$18(TooltipBoundingBox, [
 		{
 			key: "updateBBox",
 			value: function updateBBox() {
@@ -2268,7 +2269,7 @@ var TooltipBoundingBox = /*#__PURE__*/ function(_PureComponent) {
 					useTranslate3d,
 					viewBox
 				}), cssClasses = _getTooltipTranslate.cssClasses, cssProperties = _getTooltipTranslate.cssProperties;
-				var outerStyle = _objectSpread$27(_objectSpread$27({ transition: isAnimationActive && active ? "transform ".concat(animationDuration, "ms ").concat(animationEasing) : void 0 }, cssProperties), {}, {
+				var outerStyle = _objectSpread$31(_objectSpread$31({ transition: isAnimationActive && active ? "transform ".concat(animationDuration, "ms ").concat(animationEasing) : void 0 }, cssProperties), {}, {
 					pointerEvents: "none",
 					visibility: !this.state.dismissed && active && hasPayload ? "visible" : "hidden",
 					position: "absolute",
@@ -2309,15 +2310,15 @@ var Global = {
 /**
 * @fileOverview Tooltip
 */
-function _typeof$31(o) {
+function _typeof$35(o) {
 	"@babel/helpers - typeof";
-	return _typeof$31 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$35 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$31(o);
+	}, _typeof$35(o);
 }
-function ownKeys$26(e, r) {
+function ownKeys$30(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -2327,62 +2328,62 @@ function ownKeys$26(e, r) {
 	}
 	return t;
 }
-function _objectSpread$26(e) {
+function _objectSpread$30(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$26(Object(t), !0).forEach(function(r) {
-			_defineProperty$30(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$26(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$30(Object(t), !0).forEach(function(r) {
+			_defineProperty$34(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$30(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _classCallCheck$14(instance, Constructor) {
+function _classCallCheck$17(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties$14(target, props) {
+function _defineProperties$17(target, props) {
 	for (var i = 0; i < props.length; i++) {
 		var descriptor = props[i];
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$31(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$35(descriptor.key), descriptor);
 	}
 }
-function _createClass$14(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$14(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$14(Constructor, staticProps);
+function _createClass$17(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$17(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$17(Constructor, staticProps);
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function _callSuper$11(t, o, e) {
-	return o = _getPrototypeOf$11(o), _possibleConstructorReturn$11(t, _isNativeReflectConstruct$11() ? Reflect.construct(o, e || [], _getPrototypeOf$11(t).constructor) : o.apply(t, e));
+function _callSuper$14(t, o, e) {
+	return o = _getPrototypeOf$14(o), _possibleConstructorReturn$14(t, _isNativeReflectConstruct$14() ? Reflect.construct(o, e || [], _getPrototypeOf$14(t).constructor) : o.apply(t, e));
 }
-function _possibleConstructorReturn$11(self, call) {
-	if (call && (_typeof$31(call) === "object" || typeof call === "function")) return call;
+function _possibleConstructorReturn$14(self, call) {
+	if (call && (_typeof$35(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
-	return _assertThisInitialized$11(self);
+	return _assertThisInitialized$14(self);
 }
-function _assertThisInitialized$11(self) {
+function _assertThisInitialized$14(self) {
 	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	return self;
 }
-function _isNativeReflectConstruct$11() {
+function _isNativeReflectConstruct$14() {
 	try {
 		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
 	} catch (t) {}
-	return (_isNativeReflectConstruct$11 = function _isNativeReflectConstruct() {
+	return (_isNativeReflectConstruct$14 = function _isNativeReflectConstruct() {
 		return !!t;
 	})();
 }
-function _getPrototypeOf$11(o) {
-	_getPrototypeOf$11 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+function _getPrototypeOf$14(o) {
+	_getPrototypeOf$14 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
 		return o.__proto__ || Object.getPrototypeOf(o);
 	};
-	return _getPrototypeOf$11(o);
+	return _getPrototypeOf$14(o);
 }
-function _inherits$11(subClass, superClass) {
+function _inherits$14(subClass, superClass) {
 	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
 	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
 		value: subClass,
@@ -2390,17 +2391,17 @@ function _inherits$11(subClass, superClass) {
 		configurable: true
 	} });
 	Object.defineProperty(subClass, "prototype", { writable: false });
-	if (superClass) _setPrototypeOf$11(subClass, superClass);
+	if (superClass) _setPrototypeOf$14(subClass, superClass);
 }
-function _setPrototypeOf$11(o, p) {
-	_setPrototypeOf$11 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+function _setPrototypeOf$14(o, p) {
+	_setPrototypeOf$14 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
 		o.__proto__ = p;
 		return o;
 	};
-	return _setPrototypeOf$11(o, p);
+	return _setPrototypeOf$14(o, p);
 }
-function _defineProperty$30(obj, key, value) {
-	key = _toPropertyKey$31(key);
+function _defineProperty$34(obj, key, value) {
+	key = _toPropertyKey$35(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -2410,16 +2411,16 @@ function _defineProperty$30(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$31(t) {
-	var i = _toPrimitive$31(t, "string");
-	return "symbol" == _typeof$31(i) ? i : i + "";
+function _toPropertyKey$35(t) {
+	var i = _toPrimitive$35(t, "string");
+	return "symbol" == _typeof$35(i) ? i : i + "";
 }
-function _toPrimitive$31(t, r) {
-	if ("object" != _typeof$31(t) || !t) return t;
+function _toPrimitive$35(t, r) {
+	if ("object" != _typeof$35(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$31(i)) return i;
+		if ("object" != _typeof$35(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -2434,11 +2435,11 @@ function renderContent(content, props) {
 }
 var Tooltip = /*#__PURE__*/ function(_PureComponent) {
 	function Tooltip() {
-		_classCallCheck$14(this, Tooltip);
-		return _callSuper$11(this, Tooltip, arguments);
+		_classCallCheck$17(this, Tooltip);
+		return _callSuper$14(this, Tooltip, arguments);
 	}
-	_inherits$11(Tooltip, _PureComponent);
-	return _createClass$14(Tooltip, [{
+	_inherits$14(Tooltip, _PureComponent);
+	return _createClass$17(Tooltip, [{
 		key: "render",
 		value: function render() {
 			var _this = this;
@@ -2462,12 +2463,12 @@ var Tooltip = /*#__PURE__*/ function(_PureComponent) {
 				useTranslate3d,
 				viewBox,
 				wrapperStyle
-			}, renderContent(content, _objectSpread$26(_objectSpread$26({}, this.props), {}, { payload: finalPayload })));
+			}, renderContent(content, _objectSpread$30(_objectSpread$30({}, this.props), {}, { payload: finalPayload })));
 		}
 	}]);
 }(import_react.PureComponent);
-_defineProperty$30(Tooltip, "displayName", "Tooltip");
-_defineProperty$30(Tooltip, "defaultProps", {
+_defineProperty$34(Tooltip, "displayName", "Tooltip");
+_defineProperty$34(Tooltip, "defaultProps", {
 	accessibilityLayer: false,
 	allowEscapeViewBox: {
 		x: false,
@@ -2508,15 +2509,15 @@ _defineProperty$30(Tooltip, "defaultProps", {
 * @fileOverview Wrapper component to make charts adapt to the size of parent * DOM
 */
 var import_throttle = /* @__PURE__ */ __toESM(require_throttle());
-function _typeof$30(o) {
+function _typeof$34(o) {
 	"@babel/helpers - typeof";
-	return _typeof$30 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$34 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$30(o);
+	}, _typeof$34(o);
 }
-function ownKeys$25(e, r) {
+function ownKeys$29(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -2526,19 +2527,19 @@ function ownKeys$25(e, r) {
 	}
 	return t;
 }
-function _objectSpread$25(e) {
+function _objectSpread$29(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$25(Object(t), !0).forEach(function(r) {
-			_defineProperty$29(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$25(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$29(Object(t), !0).forEach(function(r) {
+			_defineProperty$33(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$29(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$29(obj, key, value) {
-	key = _toPropertyKey$30(key);
+function _defineProperty$33(obj, key, value) {
+	key = _toPropertyKey$34(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -2548,40 +2549,40 @@ function _defineProperty$29(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$30(t) {
-	var i = _toPrimitive$30(t, "string");
-	return "symbol" == _typeof$30(i) ? i : i + "";
+function _toPropertyKey$34(t) {
+	var i = _toPrimitive$34(t, "string");
+	return "symbol" == _typeof$34(i) ? i : i + "";
 }
-function _toPrimitive$30(t, r) {
-	if ("object" != _typeof$30(t) || !t) return t;
+function _toPrimitive$34(t, r) {
+	if ("object" != _typeof$34(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$30(i)) return i;
+		if ("object" != _typeof$34(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
-function _slicedToArray$8(arr, i) {
-	return _arrayWithHoles$8(arr) || _iterableToArrayLimit$8(arr, i) || _unsupportedIterableToArray$13(arr, i) || _nonIterableRest$8();
+function _slicedToArray$9(arr, i) {
+	return _arrayWithHoles$9(arr) || _iterableToArrayLimit$9(arr, i) || _unsupportedIterableToArray$15(arr, i) || _nonIterableRest$9();
 }
-function _nonIterableRest$8() {
+function _nonIterableRest$9() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$13(o, minLen) {
+function _unsupportedIterableToArray$15(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$13(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$15(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$13(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$15(o, minLen);
 }
-function _arrayLikeToArray$13(arr, len) {
+function _arrayLikeToArray$15(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _iterableToArrayLimit$8(r, l) {
+function _iterableToArrayLimit$9(r, l) {
 	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	if (null != t) {
 		var e, n, i, u, a = [], f = !0, o = !1;
@@ -2602,7 +2603,7 @@ function _iterableToArrayLimit$8(r, l) {
 		return a;
 	}
 }
-function _arrayWithHoles$8(arr) {
+function _arrayWithHoles$9(arr) {
 	if (Array.isArray(arr)) return arr;
 }
 var ResponsiveContainer = /*#__PURE__*/ (0, import_react.forwardRef)(function(_ref, ref) {
@@ -2622,7 +2623,7 @@ var ResponsiveContainer = /*#__PURE__*/ (0, import_react.forwardRef)(function(_r
 			configurable: true
 		});
 	});
-	var _useState2 = _slicedToArray$8((0, import_react.useState)({
+	var _useState2 = _slicedToArray$9((0, import_react.useState)({
 		containerWidth: initialDimension.width,
 		containerHeight: initialDimension.height
 	}), 2), sizes = _useState2[0], setSizes = _useState2[1];
@@ -2671,10 +2672,10 @@ var ResponsiveContainer = /*#__PURE__*/ (0, import_react.forwardRef)(function(_r
 		warn(calculatedWidth > 0 || calculatedHeight > 0, "The width(%s) and height(%s) of chart should be greater than 0,\n       please check the style of container, or the props width(%s) and height(%s),\n       or add a minWidth(%s) or minHeight(%s) or use aspect(%s) to control the\n       height and width.", calculatedWidth, calculatedHeight, width, height, minWidth, minHeight, aspect);
 		var isCharts = !Array.isArray(children) && getDisplayName(children.type).endsWith("Chart");
 		return import_react.Children.map(children, function(child) {
-			if (/*#__PURE__*/ import_react.isValidElement(child)) return /*#__PURE__*/ (0, import_react.cloneElement)(child, _objectSpread$25({
+			if (/*#__PURE__*/ import_react.isValidElement(child)) return /*#__PURE__*/ (0, import_react.cloneElement)(child, _objectSpread$29({
 				width: calculatedWidth,
 				height: calculatedHeight
-			}, isCharts ? { style: _objectSpread$25({
+			}, isCharts ? { style: _objectSpread$29({
 				height: "100%",
 				width: "100%",
 				maxHeight: calculatedHeight,
@@ -2695,7 +2696,7 @@ var ResponsiveContainer = /*#__PURE__*/ (0, import_react.forwardRef)(function(_r
 	return /*#__PURE__*/ import_react.createElement("div", {
 		id: id ? "".concat(id) : void 0,
 		className: clsx("recharts-responsive-container", className),
-		style: _objectSpread$25(_objectSpread$25({}, style), {}, {
+		style: _objectSpread$29(_objectSpread$29({}, style), {}, {
 			width,
 			height,
 			minWidth,
@@ -2716,15 +2717,15 @@ var Cell = function Cell(_props) {
 Cell.displayName = "Cell";
 //#endregion
 //#region node_modules/recharts/es6/util/DOMUtils.js
-function _typeof$29(o) {
+function _typeof$33(o) {
 	"@babel/helpers - typeof";
-	return _typeof$29 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$33 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$29(o);
+	}, _typeof$33(o);
 }
-function ownKeys$24(e, r) {
+function ownKeys$28(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -2734,19 +2735,19 @@ function ownKeys$24(e, r) {
 	}
 	return t;
 }
-function _objectSpread$24(e) {
+function _objectSpread$28(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$24(Object(t), !0).forEach(function(r) {
-			_defineProperty$28(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$24(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$28(Object(t), !0).forEach(function(r) {
+			_defineProperty$32(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$28(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$28(obj, key, value) {
-	key = _toPropertyKey$29(key);
+function _defineProperty$32(obj, key, value) {
+	key = _toPropertyKey$33(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -2756,16 +2757,16 @@ function _defineProperty$28(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$29(t) {
-	var i = _toPrimitive$29(t, "string");
-	return "symbol" == _typeof$29(i) ? i : i + "";
+function _toPropertyKey$33(t) {
+	var i = _toPrimitive$33(t, "string");
+	return "symbol" == _typeof$33(i) ? i : i + "";
 }
-function _toPrimitive$29(t, r) {
-	if ("object" != _typeof$29(t) || !t) return t;
+function _toPrimitive$33(t, r) {
+	if ("object" != _typeof$33(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$29(i)) return i;
+		if ("object" != _typeof$33(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -2786,7 +2787,7 @@ var SPAN_STYLE = {
 };
 var MEASUREMENT_SPAN_ID = "recharts_measurement_span";
 function removeInvalidKeys(obj) {
-	var copyObj = _objectSpread$24({}, obj);
+	var copyObj = _objectSpread$28({}, obj);
 	Object.keys(copyObj).forEach(function(key) {
 		if (!copyObj[key]) delete copyObj[key];
 	});
@@ -2812,7 +2813,7 @@ var getStringSize = function getStringSize(text) {
 			measurementSpan.setAttribute("aria-hidden", "true");
 			document.body.appendChild(measurementSpan);
 		}
-		var measurementSpanStyle = _objectSpread$24(_objectSpread$24({}, SPAN_STYLE), copyStyle);
+		var measurementSpanStyle = _objectSpread$28(_objectSpread$28({}, SPAN_STYLE), copyStyle);
 		Object.assign(measurementSpan.style, measurementSpanStyle);
 		measurementSpan.textContent = "".concat(text);
 		var rect = measurementSpan.getBoundingClientRect();
@@ -2841,34 +2842,34 @@ var getOffset = function getOffset(rect) {
 };
 //#endregion
 //#region node_modules/recharts/es6/util/ReduceCSSCalc.js
-function _typeof$28(o) {
+function _typeof$32(o) {
 	"@babel/helpers - typeof";
-	return _typeof$28 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$32 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$28(o);
+	}, _typeof$32(o);
 }
-function _slicedToArray$7(arr, i) {
-	return _arrayWithHoles$7(arr) || _iterableToArrayLimit$7(arr, i) || _unsupportedIterableToArray$12(arr, i) || _nonIterableRest$7();
+function _slicedToArray$8(arr, i) {
+	return _arrayWithHoles$8(arr) || _iterableToArrayLimit$8(arr, i) || _unsupportedIterableToArray$14(arr, i) || _nonIterableRest$8();
 }
-function _nonIterableRest$7() {
+function _nonIterableRest$8() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$12(o, minLen) {
+function _unsupportedIterableToArray$14(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$12(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$14(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$12(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$14(o, minLen);
 }
-function _arrayLikeToArray$12(arr, len) {
+function _arrayLikeToArray$14(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _iterableToArrayLimit$7(r, l) {
+function _iterableToArrayLimit$8(r, l) {
 	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	if (null != t) {
 		var e, n, i, u, a = [], f = !0, o = !1;
@@ -2889,37 +2890,37 @@ function _iterableToArrayLimit$7(r, l) {
 		return a;
 	}
 }
-function _arrayWithHoles$7(arr) {
+function _arrayWithHoles$8(arr) {
 	if (Array.isArray(arr)) return arr;
 }
-function _classCallCheck$13(instance, Constructor) {
+function _classCallCheck$16(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties$13(target, props) {
+function _defineProperties$16(target, props) {
 	for (var i = 0; i < props.length; i++) {
 		var descriptor = props[i];
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$28(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$32(descriptor.key), descriptor);
 	}
 }
-function _createClass$13(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$13(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$13(Constructor, staticProps);
+function _createClass$16(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$16(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$16(Constructor, staticProps);
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function _toPropertyKey$28(t) {
-	var i = _toPrimitive$28(t, "string");
-	return "symbol" == _typeof$28(i) ? i : i + "";
+function _toPropertyKey$32(t) {
+	var i = _toPrimitive$32(t, "string");
+	return "symbol" == _typeof$32(i) ? i : i + "";
 }
-function _toPrimitive$28(t, r) {
-	if ("object" != _typeof$28(t) || !t) return t;
+function _toPrimitive$32(t, r) {
+	if ("object" != _typeof$32(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$28(i)) return i;
+		if ("object" != _typeof$32(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -2944,7 +2945,7 @@ function convertToPx(value, unit) {
 }
 var DecimalCSS = /*#__PURE__*/ function() {
 	function DecimalCSS(num, unit) {
-		_classCallCheck$13(this, DecimalCSS);
+		_classCallCheck$16(this, DecimalCSS);
 		this.num = num;
 		this.unit = unit;
 		this.num = num;
@@ -2959,7 +2960,7 @@ var DecimalCSS = /*#__PURE__*/ function() {
 			this.unit = "px";
 		}
 	}
-	return _createClass$13(DecimalCSS, [
+	return _createClass$16(DecimalCSS, [
 		{
 			key: "add",
 			value: function add(other) {
@@ -3004,7 +3005,7 @@ var DecimalCSS = /*#__PURE__*/ function() {
 		key: "parse",
 		value: function parse(str) {
 			var _NUM_SPLIT_REGEX$exec;
-			var _ref2 = _slicedToArray$7((_NUM_SPLIT_REGEX$exec = NUM_SPLIT_REGEX.exec(str)) !== null && _NUM_SPLIT_REGEX$exec !== void 0 ? _NUM_SPLIT_REGEX$exec : [], 3), numStr = _ref2[1], unit = _ref2[2];
+			var _ref2 = _slicedToArray$8((_NUM_SPLIT_REGEX$exec = NUM_SPLIT_REGEX.exec(str)) !== null && _NUM_SPLIT_REGEX$exec !== void 0 ? _NUM_SPLIT_REGEX$exec : [], 3), numStr = _ref2[1], unit = _ref2[2];
 			return new DecimalCSS(parseFloat(numStr), unit !== null && unit !== void 0 ? unit : "");
 		}
 	}]);
@@ -3014,7 +3015,7 @@ function calculateArithmetic(expr) {
 	var newExpr = expr;
 	while (newExpr.includes("*") || newExpr.includes("/")) {
 		var _MULTIPLY_OR_DIVIDE_R;
-		var _ref4 = _slicedToArray$7((_MULTIPLY_OR_DIVIDE_R = MULTIPLY_OR_DIVIDE_REGEX.exec(newExpr)) !== null && _MULTIPLY_OR_DIVIDE_R !== void 0 ? _MULTIPLY_OR_DIVIDE_R : [], 4), leftOperand = _ref4[1], operator = _ref4[2], rightOperand = _ref4[3];
+		var _ref4 = _slicedToArray$8((_MULTIPLY_OR_DIVIDE_R = MULTIPLY_OR_DIVIDE_REGEX.exec(newExpr)) !== null && _MULTIPLY_OR_DIVIDE_R !== void 0 ? _MULTIPLY_OR_DIVIDE_R : [], 4), leftOperand = _ref4[1], operator = _ref4[2], rightOperand = _ref4[3];
 		var lTs = DecimalCSS.parse(leftOperand !== null && leftOperand !== void 0 ? leftOperand : "");
 		var rTs = DecimalCSS.parse(rightOperand !== null && rightOperand !== void 0 ? rightOperand : "");
 		var result = operator === "*" ? lTs.multiply(rTs) : lTs.divide(rTs);
@@ -3023,7 +3024,7 @@ function calculateArithmetic(expr) {
 	}
 	while (newExpr.includes("+") || /.-\d+(?:\.\d+)?/.test(newExpr)) {
 		var _ADD_OR_SUBTRACT_REGE;
-		var _ref6 = _slicedToArray$7((_ADD_OR_SUBTRACT_REGE = ADD_OR_SUBTRACT_REGEX.exec(newExpr)) !== null && _ADD_OR_SUBTRACT_REGE !== void 0 ? _ADD_OR_SUBTRACT_REGE : [], 4), _leftOperand = _ref6[1], _operator = _ref6[2], _rightOperand = _ref6[3];
+		var _ref6 = _slicedToArray$8((_ADD_OR_SUBTRACT_REGE = ADD_OR_SUBTRACT_REGEX.exec(newExpr)) !== null && _ADD_OR_SUBTRACT_REGE !== void 0 ? _ADD_OR_SUBTRACT_REGE : [], 4), _leftOperand = _ref6[1], _operator = _ref6[2], _rightOperand = _ref6[3];
 		var _lTs = DecimalCSS.parse(_leftOperand !== null && _leftOperand !== void 0 ? _leftOperand : "");
 		var _rTs = DecimalCSS.parse(_rightOperand !== null && _rightOperand !== void 0 ? _rightOperand : "");
 		var _result = _operator === "+" ? _lTs.add(_rTs) : _lTs.subtract(_rTs);
@@ -3036,7 +3037,7 @@ var PARENTHESES_REGEX = /\(([^()]*)\)/;
 function calculateParentheses(expr) {
 	var newExpr = expr;
 	while (newExpr.includes("(")) {
-		var parentheticalExpression = _slicedToArray$7(PARENTHESES_REGEX.exec(newExpr), 2)[1];
+		var parentheticalExpression = _slicedToArray$8(PARENTHESES_REGEX.exec(newExpr), 2)[1];
 		newExpr = newExpr.replace(PARENTHESES_REGEX, calculateArithmetic(parentheticalExpression));
 	}
 	return newExpr;
@@ -3062,7 +3063,7 @@ function reduceCSSCalc(expression) {
 }
 //#endregion
 //#region node_modules/recharts/es6/component/Text.js
-var _excluded$10 = [
+var _excluded$13 = [
 	"x",
 	"y",
 	"lineHeight",
@@ -3072,26 +3073,26 @@ var _excluded$10 = [
 	"verticalAnchor",
 	"fill"
 ];
-var _excluded2$4 = [
+var _excluded2$6 = [
 	"dx",
 	"dy",
 	"angle",
 	"className",
 	"breakAll"
 ];
-function _extends$20() {
-	_extends$20 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$25() {
+	_extends$25 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$20.apply(this, arguments);
+	return _extends$25.apply(this, arguments);
 }
-function _objectWithoutProperties$10(source, excluded) {
+function _objectWithoutProperties$13(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$10(source, excluded);
+	var target = _objectWithoutPropertiesLoose$13(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -3104,7 +3105,7 @@ function _objectWithoutProperties$10(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$10(source, excluded) {
+function _objectWithoutPropertiesLoose$13(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -3113,26 +3114,26 @@ function _objectWithoutPropertiesLoose$10(source, excluded) {
 	}
 	return target;
 }
-function _slicedToArray$6(arr, i) {
-	return _arrayWithHoles$6(arr) || _iterableToArrayLimit$6(arr, i) || _unsupportedIterableToArray$11(arr, i) || _nonIterableRest$6();
+function _slicedToArray$7(arr, i) {
+	return _arrayWithHoles$7(arr) || _iterableToArrayLimit$7(arr, i) || _unsupportedIterableToArray$13(arr, i) || _nonIterableRest$7();
 }
-function _nonIterableRest$6() {
+function _nonIterableRest$7() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$11(o, minLen) {
+function _unsupportedIterableToArray$13(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$11(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$13(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$11(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$13(o, minLen);
 }
-function _arrayLikeToArray$11(arr, len) {
+function _arrayLikeToArray$13(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _iterableToArrayLimit$6(r, l) {
+function _iterableToArrayLimit$7(r, l) {
 	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	if (null != t) {
 		var e, n, i, u, a = [], f = !0, o = !1;
@@ -3153,7 +3154,7 @@ function _iterableToArrayLimit$6(r, l) {
 		return a;
 	}
 }
-function _arrayWithHoles$6(arr) {
+function _arrayWithHoles$7(arr) {
 	if (Array.isArray(arr)) return arr;
 }
 var BREAKING_SPACES = /[ \f\n\r\t\v\u2028\u2029]+/;
@@ -3222,8 +3223,8 @@ var calculateWordsByLines = function calculateWordsByLines(_ref2, initialWordsWi
 	var trimmedResult;
 	while (start <= end && iterations <= text.length - 1) {
 		var middle = Math.floor((start + end) / 2);
-		var _checkOverflow2 = _slicedToArray$6(checkOverflow(middle - 1), 2), doesPrevOverflow = _checkOverflow2[0], result = _checkOverflow2[1];
-		var doesMiddleOverflow = _slicedToArray$6(checkOverflow(middle), 1)[0];
+		var _checkOverflow2 = _slicedToArray$7(checkOverflow(middle - 1), 2), doesPrevOverflow = _checkOverflow2[0], result = _checkOverflow2[1];
+		var doesMiddleOverflow = _slicedToArray$7(checkOverflow(middle), 1)[0];
 		if (!doesPrevOverflow && !doesMiddleOverflow) start = middle + 1;
 		if (doesPrevOverflow && doesMiddleOverflow) end = middle - 1;
 		if (!doesPrevOverflow && doesMiddleOverflow) {
@@ -3262,7 +3263,7 @@ var getWordsByLines = function getWordsByLines(_ref4) {
 };
 var DEFAULT_FILL = "#808080";
 var Text = function Text(_ref5) {
-	var _ref5$x = _ref5.x, propsX = _ref5$x === void 0 ? 0 : _ref5$x, _ref5$y = _ref5.y, propsY = _ref5$y === void 0 ? 0 : _ref5$y, _ref5$lineHeight = _ref5.lineHeight, lineHeight = _ref5$lineHeight === void 0 ? "1em" : _ref5$lineHeight, _ref5$capHeight = _ref5.capHeight, capHeight = _ref5$capHeight === void 0 ? "0.71em" : _ref5$capHeight, _ref5$scaleToFit = _ref5.scaleToFit, scaleToFit = _ref5$scaleToFit === void 0 ? false : _ref5$scaleToFit, _ref5$textAnchor = _ref5.textAnchor, textAnchor = _ref5$textAnchor === void 0 ? "start" : _ref5$textAnchor, _ref5$verticalAnchor = _ref5.verticalAnchor, verticalAnchor = _ref5$verticalAnchor === void 0 ? "end" : _ref5$verticalAnchor, _ref5$fill = _ref5.fill, fill = _ref5$fill === void 0 ? DEFAULT_FILL : _ref5$fill, props = _objectWithoutProperties$10(_ref5, _excluded$10);
+	var _ref5$x = _ref5.x, propsX = _ref5$x === void 0 ? 0 : _ref5$x, _ref5$y = _ref5.y, propsY = _ref5$y === void 0 ? 0 : _ref5$y, _ref5$lineHeight = _ref5.lineHeight, lineHeight = _ref5$lineHeight === void 0 ? "1em" : _ref5$lineHeight, _ref5$capHeight = _ref5.capHeight, capHeight = _ref5$capHeight === void 0 ? "0.71em" : _ref5$capHeight, _ref5$scaleToFit = _ref5.scaleToFit, scaleToFit = _ref5$scaleToFit === void 0 ? false : _ref5$scaleToFit, _ref5$textAnchor = _ref5.textAnchor, textAnchor = _ref5$textAnchor === void 0 ? "start" : _ref5$textAnchor, _ref5$verticalAnchor = _ref5.verticalAnchor, verticalAnchor = _ref5$verticalAnchor === void 0 ? "end" : _ref5$verticalAnchor, _ref5$fill = _ref5.fill, fill = _ref5$fill === void 0 ? DEFAULT_FILL : _ref5$fill, props = _objectWithoutProperties$13(_ref5, _excluded$13);
 	var wordsByLines = (0, import_react.useMemo)(function() {
 		return getWordsByLines({
 			breakAll: props.breakAll,
@@ -3280,7 +3281,7 @@ var Text = function Text(_ref5) {
 		props.style,
 		props.width
 	]);
-	var dx = props.dx, dy = props.dy, angle = props.angle, className = props.className, breakAll = props.breakAll, textProps = _objectWithoutProperties$10(props, _excluded2$4);
+	var dx = props.dx, dy = props.dy, angle = props.angle, className = props.className, breakAll = props.breakAll, textProps = _objectWithoutProperties$13(props, _excluded2$6);
 	if (!isNumOrStr(propsX) || !isNumOrStr(propsY)) return null;
 	var x = propsX + (isNumber(dx) ? dx : 0);
 	var y = propsY + (isNumber(dy) ? dy : 0);
@@ -3302,7 +3303,7 @@ var Text = function Text(_ref5) {
 	}
 	if (angle) transforms.push("rotate(".concat(angle, ", ").concat(x, ", ").concat(y, ")"));
 	if (transforms.length) textProps.transform = transforms.join(" ");
-	return /*#__PURE__*/ import_react.createElement("text", _extends$20({}, filterProps(textProps, true), {
+	return /*#__PURE__*/ import_react.createElement("text", _extends$25({}, filterProps(textProps, true), {
 		x,
 		y,
 		className: clsx("recharts-text", className),
@@ -3355,27 +3356,27 @@ var import_max = /* @__PURE__ */ __toESM(require_max());
 var import_min = /* @__PURE__ */ __toESM(require_min());
 var import_flatMap = /* @__PURE__ */ __toESM(require_flatMap());
 var import_isEqual = /* @__PURE__ */ __toESM(require_isEqual());
-function _toConsumableArray$6(arr) {
-	return _arrayWithoutHoles$6(arr) || _iterableToArray$6(arr) || _unsupportedIterableToArray$10(arr) || _nonIterableSpread$6();
+function _toConsumableArray$7(arr) {
+	return _arrayWithoutHoles$7(arr) || _iterableToArray$7(arr) || _unsupportedIterableToArray$12(arr) || _nonIterableSpread$7();
 }
-function _nonIterableSpread$6() {
+function _nonIterableSpread$7() {
 	throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$10(o, minLen) {
+function _unsupportedIterableToArray$12(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$10(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$12(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$10(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$12(o, minLen);
 }
-function _iterableToArray$6(iter) {
+function _iterableToArray$7(iter) {
 	if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
-function _arrayWithoutHoles$6(arr) {
-	if (Array.isArray(arr)) return _arrayLikeToArray$10(arr);
+function _arrayWithoutHoles$7(arr) {
+	if (Array.isArray(arr)) return _arrayLikeToArray$12(arr);
 }
-function _arrayLikeToArray$10(arr, len) {
+function _arrayLikeToArray$12(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
@@ -3406,7 +3407,7 @@ var curryN = function curryN(n, fn) {
 			var newArgs = args.map(function(arg) {
 				return isPlaceHolder(arg) ? restArgs.shift() : arg;
 			});
-			return fn.apply(void 0, _toConsumableArray$6(newArgs).concat(restArgs));
+			return fn.apply(void 0, _toConsumableArray$7(newArgs).concat(restArgs));
 		}));
 	});
 };
@@ -3520,38 +3521,38 @@ var arithmetic_default = {
 * @author xile611, arcthur
 * @date 2015-09-17
 */
-function _toConsumableArray$5(arr) {
-	return _arrayWithoutHoles$5(arr) || _iterableToArray$5(arr) || _unsupportedIterableToArray$9(arr) || _nonIterableSpread$5();
+function _toConsumableArray$6(arr) {
+	return _arrayWithoutHoles$6(arr) || _iterableToArray$6(arr) || _unsupportedIterableToArray$11(arr) || _nonIterableSpread$6();
 }
-function _nonIterableSpread$5() {
+function _nonIterableSpread$6() {
 	throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _iterableToArray$5(iter) {
+function _iterableToArray$6(iter) {
 	if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
 }
-function _arrayWithoutHoles$5(arr) {
-	if (Array.isArray(arr)) return _arrayLikeToArray$9(arr);
+function _arrayWithoutHoles$6(arr) {
+	if (Array.isArray(arr)) return _arrayLikeToArray$11(arr);
 }
-function _slicedToArray$5(arr, i) {
-	return _arrayWithHoles$5(arr) || _iterableToArrayLimit$5(arr, i) || _unsupportedIterableToArray$9(arr, i) || _nonIterableRest$5();
+function _slicedToArray$6(arr, i) {
+	return _arrayWithHoles$6(arr) || _iterableToArrayLimit$6(arr, i) || _unsupportedIterableToArray$11(arr, i) || _nonIterableRest$6();
 }
-function _nonIterableRest$5() {
+function _nonIterableRest$6() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$9(o, minLen) {
+function _unsupportedIterableToArray$11(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$9(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$11(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$9(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$11(o, minLen);
 }
-function _arrayLikeToArray$9(arr, len) {
+function _arrayLikeToArray$11(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _iterableToArrayLimit$5(arr, i) {
+function _iterableToArrayLimit$6(arr, i) {
 	if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
 	var _arr = [];
 	var _n = true;
@@ -3574,7 +3575,7 @@ function _iterableToArrayLimit$5(arr, i) {
 	}
 	return _arr;
 }
-function _arrayWithHoles$5(arr) {
+function _arrayWithHoles$6(arr) {
 	if (Array.isArray(arr)) return arr;
 }
 /**
@@ -3585,7 +3586,7 @@ function _arrayWithHoles$5(arr) {
 * @return {Array} An interval
 */
 function getValidInterval(_ref) {
-	var _ref2 = _slicedToArray$5(_ref, 2), min = _ref2[0], max = _ref2[1];
+	var _ref2 = _slicedToArray$6(_ref, 2), min = _ref2[0], max = _ref2[1];
 	var validMin = min, validMax = max;
 	if (min > max) {
 		validMin = max;
@@ -3682,15 +3683,15 @@ function calculateStep(min, max, tickCount, allowDecimals) {
 * @return {Array}   ticks
 */
 function getNiceTickValuesFn(_ref3) {
-	var _ref4 = _slicedToArray$5(_ref3, 2), min = _ref4[0], max = _ref4[1];
+	var _ref4 = _slicedToArray$6(_ref3, 2), min = _ref4[0], max = _ref4[1];
 	var tickCount = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 6;
 	var allowDecimals = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
 	var count = Math.max(tickCount, 2);
-	var _getValidInterval2 = _slicedToArray$5(getValidInterval([min, max]), 2), cormin = _getValidInterval2[0], cormax = _getValidInterval2[1];
+	var _getValidInterval2 = _slicedToArray$6(getValidInterval([min, max]), 2), cormin = _getValidInterval2[0], cormax = _getValidInterval2[1];
 	if (cormin === -Infinity || cormax === Infinity) {
-		var _values = cormax === Infinity ? [cormin].concat(_toConsumableArray$5(range$2(0, tickCount - 1).map(function() {
+		var _values = cormax === Infinity ? [cormin].concat(_toConsumableArray$6(range$2(0, tickCount - 1).map(function() {
 			return Infinity;
-		}))) : [].concat(_toConsumableArray$5(range$2(0, tickCount - 1).map(function() {
+		}))) : [].concat(_toConsumableArray$6(range$2(0, tickCount - 1).map(function() {
 			return -Infinity;
 		})), [cormax]);
 		return min > max ? reverse(_values) : _values;
@@ -3710,14 +3711,14 @@ function getNiceTickValuesFn(_ref3) {
 * @return {Array}   ticks
 */
 function getTickValuesFixedDomainFn(_ref7, tickCount) {
-	var _ref8 = _slicedToArray$5(_ref7, 2), min = _ref8[0], max = _ref8[1];
+	var _ref8 = _slicedToArray$6(_ref7, 2), min = _ref8[0], max = _ref8[1];
 	var allowDecimals = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
-	var _getValidInterval6 = _slicedToArray$5(getValidInterval([min, max]), 2), cormin = _getValidInterval6[0], cormax = _getValidInterval6[1];
+	var _getValidInterval6 = _slicedToArray$6(getValidInterval([min, max]), 2), cormin = _getValidInterval6[0], cormax = _getValidInterval6[1];
 	if (cormin === -Infinity || cormax === Infinity) return [min, max];
 	if (cormin === cormax) return [cormin];
 	var count = Math.max(tickCount, 2);
 	var step = getFormatStep(new decimal_default(cormax).sub(cormin).div(count - 1), allowDecimals, 0);
-	var values = [].concat(_toConsumableArray$5(arithmetic_default.rangeStep(new decimal_default(cormin), new decimal_default(cormax).sub(new decimal_default(.99).mul(step)), step)), [cormax]);
+	var values = [].concat(_toConsumableArray$6(arithmetic_default.rangeStep(new decimal_default(cormin), new decimal_default(cormax).sub(new decimal_default(.99).mul(step)), step)), [cormax]);
 	return min > max ? reverse(values) : values;
 }
 var getNiceTickValues = memoize$1(getNiceTickValuesFn);
@@ -3734,7 +3735,7 @@ function invariant(condition, message) {
 /**
 * @fileOverview Render a group of error bar
 */
-var _excluded$9 = [
+var _excluded$12 = [
 	"offset",
 	"layout",
 	"width",
@@ -3744,44 +3745,44 @@ var _excluded$9 = [
 	"xAxis",
 	"yAxis"
 ];
-function _typeof$27(o) {
+function _typeof$31(o) {
 	"@babel/helpers - typeof";
-	return _typeof$27 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$31 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$27(o);
+	}, _typeof$31(o);
 }
-function _extends$19() {
-	_extends$19 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$24() {
+	_extends$24 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$19.apply(this, arguments);
+	return _extends$24.apply(this, arguments);
 }
-function _slicedToArray$4(arr, i) {
-	return _arrayWithHoles$4(arr) || _iterableToArrayLimit$4(arr, i) || _unsupportedIterableToArray$8(arr, i) || _nonIterableRest$4();
+function _slicedToArray$5(arr, i) {
+	return _arrayWithHoles$5(arr) || _iterableToArrayLimit$5(arr, i) || _unsupportedIterableToArray$10(arr, i) || _nonIterableRest$5();
 }
-function _nonIterableRest$4() {
+function _nonIterableRest$5() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$8(o, minLen) {
+function _unsupportedIterableToArray$10(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$8(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$10(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$8(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$10(o, minLen);
 }
-function _arrayLikeToArray$8(arr, len) {
+function _arrayLikeToArray$10(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _iterableToArrayLimit$4(r, l) {
+function _iterableToArrayLimit$5(r, l) {
 	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
 	if (null != t) {
 		var e, n, i, u, a = [], f = !0, o = !1;
@@ -3802,12 +3803,12 @@ function _iterableToArrayLimit$4(r, l) {
 		return a;
 	}
 }
-function _arrayWithHoles$4(arr) {
+function _arrayWithHoles$5(arr) {
 	if (Array.isArray(arr)) return arr;
 }
-function _objectWithoutProperties$9(source, excluded) {
+function _objectWithoutProperties$12(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$9(source, excluded);
+	var target = _objectWithoutPropertiesLoose$12(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -3820,7 +3821,7 @@ function _objectWithoutProperties$9(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$9(source, excluded) {
+function _objectWithoutPropertiesLoose$12(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -3829,51 +3830,51 @@ function _objectWithoutPropertiesLoose$9(source, excluded) {
 	}
 	return target;
 }
-function _classCallCheck$12(instance, Constructor) {
+function _classCallCheck$15(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
-function _defineProperties$12(target, props) {
+function _defineProperties$15(target, props) {
 	for (var i = 0; i < props.length; i++) {
 		var descriptor = props[i];
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$27(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$31(descriptor.key), descriptor);
 	}
 }
-function _createClass$12(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$12(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$12(Constructor, staticProps);
+function _createClass$15(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$15(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$15(Constructor, staticProps);
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function _callSuper$10(t, o, e) {
-	return o = _getPrototypeOf$10(o), _possibleConstructorReturn$10(t, _isNativeReflectConstruct$10() ? Reflect.construct(o, e || [], _getPrototypeOf$10(t).constructor) : o.apply(t, e));
+function _callSuper$13(t, o, e) {
+	return o = _getPrototypeOf$13(o), _possibleConstructorReturn$13(t, _isNativeReflectConstruct$13() ? Reflect.construct(o, e || [], _getPrototypeOf$13(t).constructor) : o.apply(t, e));
 }
-function _possibleConstructorReturn$10(self, call) {
-	if (call && (_typeof$27(call) === "object" || typeof call === "function")) return call;
+function _possibleConstructorReturn$13(self, call) {
+	if (call && (_typeof$31(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
-	return _assertThisInitialized$10(self);
+	return _assertThisInitialized$13(self);
 }
-function _assertThisInitialized$10(self) {
+function _assertThisInitialized$13(self) {
 	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	return self;
 }
-function _isNativeReflectConstruct$10() {
+function _isNativeReflectConstruct$13() {
 	try {
 		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
 	} catch (t) {}
-	return (_isNativeReflectConstruct$10 = function _isNativeReflectConstruct() {
+	return (_isNativeReflectConstruct$13 = function _isNativeReflectConstruct() {
 		return !!t;
 	})();
 }
-function _getPrototypeOf$10(o) {
-	_getPrototypeOf$10 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+function _getPrototypeOf$13(o) {
+	_getPrototypeOf$13 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
 		return o.__proto__ || Object.getPrototypeOf(o);
 	};
-	return _getPrototypeOf$10(o);
+	return _getPrototypeOf$13(o);
 }
-function _inherits$10(subClass, superClass) {
+function _inherits$13(subClass, superClass) {
 	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
 	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
 		value: subClass,
@@ -3881,17 +3882,17 @@ function _inherits$10(subClass, superClass) {
 		configurable: true
 	} });
 	Object.defineProperty(subClass, "prototype", { writable: false });
-	if (superClass) _setPrototypeOf$10(subClass, superClass);
+	if (superClass) _setPrototypeOf$13(subClass, superClass);
 }
-function _setPrototypeOf$10(o, p) {
-	_setPrototypeOf$10 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+function _setPrototypeOf$13(o, p) {
+	_setPrototypeOf$13 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
 		o.__proto__ = p;
 		return o;
 	};
-	return _setPrototypeOf$10(o, p);
+	return _setPrototypeOf$13(o, p);
 }
-function _defineProperty$27(obj, key, value) {
-	key = _toPropertyKey$27(key);
+function _defineProperty$31(obj, key, value) {
+	key = _toPropertyKey$31(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -3901,31 +3902,31 @@ function _defineProperty$27(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$27(t) {
-	var i = _toPrimitive$27(t, "string");
-	return "symbol" == _typeof$27(i) ? i : i + "";
+function _toPropertyKey$31(t) {
+	var i = _toPrimitive$31(t, "string");
+	return "symbol" == _typeof$31(i) ? i : i + "";
 }
-function _toPrimitive$27(t, r) {
-	if ("object" != _typeof$27(t) || !t) return t;
+function _toPrimitive$31(t, r) {
+	if ("object" != _typeof$31(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$27(i)) return i;
+		if ("object" != _typeof$31(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
 var ErrorBar = /*#__PURE__*/ function(_React$Component) {
 	function ErrorBar() {
-		_classCallCheck$12(this, ErrorBar);
-		return _callSuper$10(this, ErrorBar, arguments);
+		_classCallCheck$15(this, ErrorBar);
+		return _callSuper$13(this, ErrorBar, arguments);
 	}
-	_inherits$10(ErrorBar, _React$Component);
-	return _createClass$12(ErrorBar, [{
+	_inherits$13(ErrorBar, _React$Component);
+	return _createClass$15(ErrorBar, [{
 		key: "render",
 		value: function render() {
 			var _this$props = this.props, offset = _this$props.offset, layout = _this$props.layout, width = _this$props.width, dataKey = _this$props.dataKey, data = _this$props.data, dataPointFormatter = _this$props.dataPointFormatter, xAxis = _this$props.xAxis, yAxis = _this$props.yAxis;
-			var svgProps = filterProps(_objectWithoutProperties$9(_this$props, _excluded$9), false);
+			var svgProps = filterProps(_objectWithoutProperties$12(_this$props, _excluded$12), false);
 			this.props.direction === "x" && xAxis.type !== "number" && invariant(false);
 			var errorBars = data.map(function(entry) {
 				var _dataPointFormatter = dataPointFormatter(entry, dataKey), x = _dataPointFormatter.x, y = _dataPointFormatter.y, value = _dataPointFormatter.value, errorVal = _dataPointFormatter.errorVal;
@@ -3933,7 +3934,7 @@ var ErrorBar = /*#__PURE__*/ function(_React$Component) {
 				var lineCoordinates = [];
 				var lowBound, highBound;
 				if (Array.isArray(errorVal)) {
-					var _errorVal = _slicedToArray$4(errorVal, 2);
+					var _errorVal = _slicedToArray$5(errorVal, 2);
 					lowBound = _errorVal[0];
 					highBound = _errorVal[1];
 				} else lowBound = highBound = errorVal;
@@ -3988,38 +3989,38 @@ var ErrorBar = /*#__PURE__*/ function(_React$Component) {
 						y2: _yMin
 					});
 				}
-				return /*#__PURE__*/ import_react.createElement(Layer, _extends$19({
+				return /*#__PURE__*/ import_react.createElement(Layer, _extends$24({
 					className: "recharts-errorBar",
 					key: "bar-".concat(lineCoordinates.map(function(c) {
 						return "".concat(c.x1, "-").concat(c.x2, "-").concat(c.y1, "-").concat(c.y2);
 					}))
 				}, svgProps), lineCoordinates.map(function(coordinates) {
-					return /*#__PURE__*/ import_react.createElement("line", _extends$19({}, coordinates, { key: "line-".concat(coordinates.x1, "-").concat(coordinates.x2, "-").concat(coordinates.y1, "-").concat(coordinates.y2) }));
+					return /*#__PURE__*/ import_react.createElement("line", _extends$24({}, coordinates, { key: "line-".concat(coordinates.x1, "-").concat(coordinates.x2, "-").concat(coordinates.y1, "-").concat(coordinates.y2) }));
 				}));
 			});
 			return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-errorBars" }, errorBars);
 		}
 	}]);
 }(import_react.Component);
-_defineProperty$27(ErrorBar, "defaultProps", {
+_defineProperty$31(ErrorBar, "defaultProps", {
 	stroke: "black",
 	strokeWidth: 1.5,
 	width: 5,
 	offset: 0,
 	layout: "horizontal"
 });
-_defineProperty$27(ErrorBar, "displayName", "ErrorBar");
+_defineProperty$31(ErrorBar, "displayName", "ErrorBar");
 //#endregion
 //#region node_modules/recharts/es6/util/getLegendProps.js
-function _typeof$26(o) {
+function _typeof$30(o) {
 	"@babel/helpers - typeof";
-	return _typeof$26 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$30 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$26(o);
+	}, _typeof$30(o);
 }
-function ownKeys$23(e, r) {
+function ownKeys$27(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -4029,19 +4030,19 @@ function ownKeys$23(e, r) {
 	}
 	return t;
 }
-function _objectSpread$23(e) {
+function _objectSpread$27(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$23(Object(t), !0).forEach(function(r) {
-			_defineProperty$26(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$23(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$27(Object(t), !0).forEach(function(r) {
+			_defineProperty$30(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$27(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$26(obj, key, value) {
-	key = _toPropertyKey$26(key);
+function _defineProperty$30(obj, key, value) {
+	key = _toPropertyKey$30(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -4051,16 +4052,16 @@ function _defineProperty$26(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$26(t) {
-	var i = _toPrimitive$26(t, "string");
-	return "symbol" == _typeof$26(i) ? i : i + "";
+function _toPropertyKey$30(t) {
+	var i = _toPrimitive$30(t, "string");
+	return "symbol" == _typeof$30(i) ? i : i + "";
 }
-function _toPrimitive$26(t, r) {
-	if ("object" != _typeof$26(t) || !t) return t;
+function _toPrimitive$30(t, r) {
+	if ("object" != _typeof$30(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$26(i)) return i;
+		if ("object" != _typeof$30(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -4070,7 +4071,7 @@ var getLegendProps = function getLegendProps(_ref) {
 	var legendItem = findChildByType(children, Legend);
 	if (!legendItem) return null;
 	var legendDefaultProps = Legend.defaultProps;
-	var legendProps = legendDefaultProps !== void 0 ? _objectSpread$23(_objectSpread$23({}, legendDefaultProps), legendItem.props) : {};
+	var legendProps = legendDefaultProps !== void 0 ? _objectSpread$27(_objectSpread$27({}, legendDefaultProps), legendItem.props) : {};
 	var legendData;
 	if (legendItem.props && legendItem.props.payload) legendData = legendItem.props && legendItem.props.payload;
 	else if (legendContent === "children") legendData = (formattedGraphicalItems || []).reduce(function(result, _ref2) {
@@ -4088,7 +4089,7 @@ var getLegendProps = function getLegendProps(_ref) {
 	else legendData = (formattedGraphicalItems || []).map(function(_ref3) {
 		var item = _ref3.item;
 		var itemDefaultProps = item.type.defaultProps;
-		var itemProps = itemDefaultProps !== void 0 ? _objectSpread$23(_objectSpread$23({}, itemDefaultProps), item.props) : {};
+		var itemProps = itemDefaultProps !== void 0 ? _objectSpread$27(_objectSpread$27({}, itemDefaultProps), item.props) : {};
 		var dataKey = itemProps.dataKey, name = itemProps.name, legendType = itemProps.legendType;
 		return {
 			inactive: itemProps.hide,
@@ -4099,47 +4100,47 @@ var getLegendProps = function getLegendProps(_ref) {
 			payload: itemProps
 		};
 	});
-	return _objectSpread$23(_objectSpread$23(_objectSpread$23({}, legendProps), Legend.getWithHeight(legendItem, legendWidth)), {}, {
+	return _objectSpread$27(_objectSpread$27(_objectSpread$27({}, legendProps), Legend.getWithHeight(legendItem, legendWidth)), {}, {
 		payload: legendData,
 		item: legendItem
 	});
 };
 //#endregion
 //#region node_modules/recharts/es6/util/ChartUtils.js
-function _typeof$25(o) {
+function _typeof$29(o) {
 	"@babel/helpers - typeof";
-	return _typeof$25 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$29 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$25(o);
+	}, _typeof$29(o);
 }
-function _toConsumableArray$4(arr) {
-	return _arrayWithoutHoles$4(arr) || _iterableToArray$4(arr) || _unsupportedIterableToArray$7(arr) || _nonIterableSpread$4();
+function _toConsumableArray$5(arr) {
+	return _arrayWithoutHoles$5(arr) || _iterableToArray$5(arr) || _unsupportedIterableToArray$9(arr) || _nonIterableSpread$5();
 }
-function _nonIterableSpread$4() {
+function _nonIterableSpread$5() {
 	throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$7(o, minLen) {
+function _unsupportedIterableToArray$9(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$7(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$9(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$7(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$9(o, minLen);
 }
-function _iterableToArray$4(iter) {
+function _iterableToArray$5(iter) {
 	if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
-function _arrayWithoutHoles$4(arr) {
-	if (Array.isArray(arr)) return _arrayLikeToArray$7(arr);
+function _arrayWithoutHoles$5(arr) {
+	if (Array.isArray(arr)) return _arrayLikeToArray$9(arr);
 }
-function _arrayLikeToArray$7(arr, len) {
+function _arrayLikeToArray$9(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function ownKeys$22(e, r) {
+function ownKeys$26(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -4149,19 +4150,19 @@ function ownKeys$22(e, r) {
 	}
 	return t;
 }
-function _objectSpread$22(e) {
+function _objectSpread$26(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$22(Object(t), !0).forEach(function(r) {
-			_defineProperty$25(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$22(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$26(Object(t), !0).forEach(function(r) {
+			_defineProperty$29(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$26(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$25(obj, key, value) {
-	key = _toPropertyKey$25(key);
+function _defineProperty$29(obj, key, value) {
+	key = _toPropertyKey$29(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -4171,16 +4172,16 @@ function _defineProperty$25(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$25(t) {
-	var i = _toPrimitive$25(t, "string");
-	return "symbol" == _typeof$25(i) ? i : i + "";
+function _toPropertyKey$29(t) {
+	var i = _toPrimitive$29(t, "string");
+	return "symbol" == _typeof$29(i) ? i : i + "";
 }
-function _toPrimitive$25(t, r) {
-	if ("object" != _typeof$25(t) || !t) return t;
+function _toPrimitive$29(t, r) {
+	if ("object" != _typeof$29(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$25(i)) return i;
+		if ("object" != _typeof$29(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -4271,7 +4272,7 @@ var calculateActiveTickIndex = function calculateActiveTickIndex(coordinate) {
 var getMainColorOfGraphicItem = function getMainColorOfGraphicItem(item) {
 	var _item$type;
 	var displayName = item.type.displayName;
-	var defaultedProps = (_item$type = item.type) !== null && _item$type !== void 0 && _item$type.defaultProps ? _objectSpread$22(_objectSpread$22({}, item.type.defaultProps), item.props) : item.props;
+	var defaultedProps = (_item$type = item.type) !== null && _item$type !== void 0 && _item$type.defaultProps ? _objectSpread$26(_objectSpread$26({}, item.type.defaultProps), item.props) : item.props;
 	var stroke = defaultedProps.stroke, fill = defaultedProps.fill;
 	var result;
 	switch (displayName) {
@@ -4306,7 +4307,7 @@ var getBarSizeList = function getBarSizeList(_ref2) {
 			});
 			if (barItems && barItems.length) {
 				var barItemDefaultProps = barItems[0].type.defaultProps;
-				var barItemProps = barItemDefaultProps !== void 0 ? _objectSpread$22(_objectSpread$22({}, barItemDefaultProps), barItems[0].props) : barItems[0].props;
+				var barItemProps = barItemDefaultProps !== void 0 ? _objectSpread$26(_objectSpread$26({}, barItemDefaultProps), barItems[0].props) : barItems[0].props;
 				var selfSize = barItemProps.barSize;
 				var cateId = barItemProps[cateAxisId];
 				if (!result[cateId]) result[cateId] = [];
@@ -4368,7 +4369,7 @@ var getBarPosition = function getBarPosition(_ref3) {
 					size: useFull ? fullBarSize : entry.barSize
 				}
 			};
-			var newRes = [].concat(_toConsumableArray$4(res), [newPosition]);
+			var newRes = [].concat(_toConsumableArray$5(res), [newPosition]);
 			prev = newRes[newRes.length - 1].position;
 			if (entry.stackList && entry.stackList.length) entry.stackList.forEach(function(item) {
 				newRes.push({
@@ -4385,7 +4386,7 @@ var getBarPosition = function getBarPosition(_ref3) {
 		if (originalSize > 1) originalSize >>= 0;
 		var size = maxBarSize === +maxBarSize ? Math.min(originalSize, maxBarSize) : originalSize;
 		result = sizeList.reduce(function(res, entry, i) {
-			var newRes = [].concat(_toConsumableArray$4(res), [{
+			var newRes = [].concat(_toConsumableArray$5(res), [{
 				item: entry.item,
 				position: {
 					offset: _offset + (originalSize + realBarGap) * i + (originalSize - size) / 2,
@@ -4412,8 +4413,8 @@ var appendOffsetOfLegend = function appendOffsetOfLegend(offset, _unused, props,
 	if (legendProps) {
 		var _ref4 = legendBox || {}, boxWidth = _ref4.width, boxHeight = _ref4.height;
 		var align = legendProps.align, verticalAlign = legendProps.verticalAlign, layout = legendProps.layout;
-		if ((layout === "vertical" || layout === "horizontal" && verticalAlign === "middle") && align !== "center" && isNumber(offset[align])) return _objectSpread$22(_objectSpread$22({}, offset), {}, _defineProperty$25({}, align, offset[align] + (boxWidth || 0)));
-		if ((layout === "horizontal" || layout === "vertical" && align === "center") && verticalAlign !== "middle" && isNumber(offset[verticalAlign])) return _objectSpread$22(_objectSpread$22({}, offset), {}, _defineProperty$25({}, verticalAlign, offset[verticalAlign] + (boxHeight || 0)));
+		if ((layout === "vertical" || layout === "horizontal" && verticalAlign === "middle") && align !== "center" && isNumber(offset[align])) return _objectSpread$26(_objectSpread$26({}, offset), {}, _defineProperty$29({}, align, offset[align] + (boxWidth || 0)));
+		if ((layout === "horizontal" || layout === "vertical" && align === "center") && verticalAlign !== "middle" && isNumber(offset[verticalAlign])) return _objectSpread$26(_objectSpread$26({}, offset), {}, _defineProperty$29({}, verticalAlign, offset[verticalAlign] + (boxHeight || 0)));
 	}
 	return offset;
 };
@@ -4489,6 +4490,28 @@ var getDomainOfItemsWithSameAxis = function getDomainOfItemsWithSameAxis(data, i
 };
 var isCategoricalAxis = function isCategoricalAxis(layout, axisType) {
 	return layout === "horizontal" && axisType === "xAxis" || layout === "vertical" && axisType === "yAxis" || layout === "centric" && axisType === "angleAxis" || layout === "radial" && axisType === "radiusAxis";
+};
+/**
+* Calculate the Coordinates of grid
+* @param  {Array} ticks           The ticks in axis
+* @param {Number} minValue        The minimun value of axis
+* @param {Number} maxValue        The maximun value of axis
+* @param {boolean} syncWithTicks  Synchronize grid lines with ticks or not
+* @return {Array}                 Coordinates
+*/
+var getCoordinatesOfGrid = function getCoordinatesOfGrid(ticks, minValue, maxValue, syncWithTicks) {
+	if (syncWithTicks) return ticks.map(function(entry) {
+		return entry.coordinate;
+	});
+	var hasMin, hasMax;
+	var values = ticks.map(function(entry) {
+		if (entry.coordinate === minValue) hasMin = true;
+		if (entry.coordinate === maxValue) hasMax = true;
+		return entry.coordinate;
+	});
+	if (!hasMin) values.push(minValue);
+	if (!hasMax) values.push(maxValue);
+	return values;
 };
 /**
 * Get the ticks of an axis
@@ -4705,7 +4728,7 @@ var getStackGroupsByAxisId = function getStackGroupsByAxisId(data, _items, numer
 	if (!data) return null;
 	var stackGroups = (reverseStackOrder ? _items.reverse() : _items).reduce(function(result, item) {
 		var _item$type2;
-		var defaultedProps = (_item$type2 = item.type) !== null && _item$type2 !== void 0 && _item$type2.defaultProps ? _objectSpread$22(_objectSpread$22({}, item.type.defaultProps), item.props) : item.props;
+		var defaultedProps = (_item$type2 = item.type) !== null && _item$type2 !== void 0 && _item$type2.defaultProps ? _objectSpread$26(_objectSpread$26({}, item.type.defaultProps), item.props) : item.props;
 		var stackId = defaultedProps.stackId;
 		if (defaultedProps.hide) return result;
 		var axisId = defaultedProps[numericAxisId];
@@ -4727,20 +4750,20 @@ var getStackGroupsByAxisId = function getStackGroupsByAxisId(data, _items, numer
 			cateAxisId,
 			items: [item]
 		};
-		return _objectSpread$22(_objectSpread$22({}, result), {}, _defineProperty$25({}, axisId, parentGroup));
+		return _objectSpread$26(_objectSpread$26({}, result), {}, _defineProperty$29({}, axisId, parentGroup));
 	}, {});
 	return Object.keys(stackGroups).reduce(function(result, axisId) {
 		var group = stackGroups[axisId];
 		if (group.hasStack) group.stackGroups = Object.keys(group.stackGroups).reduce(function(res, stackId) {
 			var g = group.stackGroups[stackId];
-			return _objectSpread$22(_objectSpread$22({}, res), {}, _defineProperty$25({}, stackId, {
+			return _objectSpread$26(_objectSpread$26({}, res), {}, _defineProperty$29({}, stackId, {
 				numericAxisId,
 				cateAxisId,
 				items: g.items,
 				stackedData: getStackedData(data, g.items, offsetType)
 			}));
 		}, {});
-		return _objectSpread$22(_objectSpread$22({}, result), {}, _defineProperty$25({}, axisId, group));
+		return _objectSpread$26(_objectSpread$26({}, result), {}, _defineProperty$29({}, axisId, group));
 	}, {});
 };
 /**
@@ -4795,7 +4818,7 @@ var getBaseValueOfBar = function getBaseValueOfBar(_ref7) {
 };
 var getStackedDataOfItem = function getStackedDataOfItem(item, stackGroups) {
 	var _item$type3;
-	var stackId = ((_item$type3 = item.type) !== null && _item$type3 !== void 0 && _item$type3.defaultProps ? _objectSpread$22(_objectSpread$22({}, item.type.defaultProps), item.props) : item.props).stackId;
+	var stackId = ((_item$type3 = item.type) !== null && _item$type3 !== void 0 && _item$type3.defaultProps ? _objectSpread$26(_objectSpread$26({}, item.type.defaultProps), item.props) : item.props).stackId;
 	if (isNumOrStr(stackId)) {
 		var group = stackGroups[stackId];
 		if (group) {
@@ -4880,9 +4903,9 @@ var parseDomainOfCategoryAxis = function parseDomainOfCategoryAxis(specifiedDoma
 	return specifiedDomain;
 };
 var getTooltipItem = function getTooltipItem(graphicalItem, payload) {
-	var defaultedProps = graphicalItem.type.defaultProps ? _objectSpread$22(_objectSpread$22({}, graphicalItem.type.defaultProps), graphicalItem.props) : graphicalItem.props;
+	var defaultedProps = graphicalItem.type.defaultProps ? _objectSpread$26(_objectSpread$26({}, graphicalItem.type.defaultProps), graphicalItem.props) : graphicalItem.props;
 	var dataKey = defaultedProps.dataKey, name = defaultedProps.name, unit = defaultedProps.unit, formatter = defaultedProps.formatter, tooltipType = defaultedProps.tooltipType, chartType = defaultedProps.chartType, hide = defaultedProps.hide;
-	return _objectSpread$22(_objectSpread$22({}, filterProps(graphicalItem, false)), {}, {
+	return _objectSpread$26(_objectSpread$26({}, filterProps(graphicalItem, false)), {}, {
 		dataKey,
 		unit,
 		formatter,
@@ -4897,15 +4920,15 @@ var getTooltipItem = function getTooltipItem(graphicalItem, payload) {
 };
 //#endregion
 //#region node_modules/recharts/es6/util/PolarUtils.js
-function _typeof$24(o) {
+function _typeof$28(o) {
 	"@babel/helpers - typeof";
-	return _typeof$24 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$28 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$24(o);
+	}, _typeof$28(o);
 }
-function ownKeys$21(e, r) {
+function ownKeys$25(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -4915,19 +4938,19 @@ function ownKeys$21(e, r) {
 	}
 	return t;
 }
-function _objectSpread$21(e) {
+function _objectSpread$25(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$21(Object(t), !0).forEach(function(r) {
-			_defineProperty$24(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$21(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$25(Object(t), !0).forEach(function(r) {
+			_defineProperty$28(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$25(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$24(obj, key, value) {
-	key = _toPropertyKey$24(key);
+function _defineProperty$28(obj, key, value) {
+	key = _toPropertyKey$28(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -4937,29 +4960,131 @@ function _defineProperty$24(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$24(t) {
-	var i = _toPrimitive$24(t, "string");
-	return "symbol" == _typeof$24(i) ? i : i + "";
+function _toPropertyKey$28(t) {
+	var i = _toPrimitive$28(t, "string");
+	return "symbol" == _typeof$28(i) ? i : i + "";
 }
-function _toPrimitive$24(t, r) {
-	if ("object" != _typeof$24(t) || !t) return t;
+function _toPrimitive$28(t, r) {
+	if ("object" != _typeof$28(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$24(i)) return i;
+		if ("object" != _typeof$28(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
-var RADIAN = Math.PI / 180;
+function _slicedToArray$4(arr, i) {
+	return _arrayWithHoles$4(arr) || _iterableToArrayLimit$4(arr, i) || _unsupportedIterableToArray$8(arr, i) || _nonIterableRest$4();
+}
+function _nonIterableRest$4() {
+	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray$8(o, minLen) {
+	if (!o) return;
+	if (typeof o === "string") return _arrayLikeToArray$8(o, minLen);
+	var n = Object.prototype.toString.call(o).slice(8, -1);
+	if (n === "Object" && o.constructor) n = o.constructor.name;
+	if (n === "Map" || n === "Set") return Array.from(o);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$8(o, minLen);
+}
+function _arrayLikeToArray$8(arr, len) {
+	if (len == null || len > arr.length) len = arr.length;
+	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+	return arr2;
+}
+function _iterableToArrayLimit$4(r, l) {
+	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+	if (null != t) {
+		var e, n, i, u, a = [], f = !0, o = !1;
+		try {
+			if (i = (t = t.call(r)).next, 0 === l) {
+				if (Object(t) !== t) return;
+				f = !1;
+			} else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+		} catch (r) {
+			o = !0, n = r;
+		} finally {
+			try {
+				if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
+			} finally {
+				if (o) throw n;
+			}
+		}
+		return a;
+	}
+}
+function _arrayWithHoles$4(arr) {
+	if (Array.isArray(arr)) return arr;
+}
+var RADIAN$1 = Math.PI / 180;
 var radianToDegree = function radianToDegree(angleInRadian) {
 	return angleInRadian * 180 / Math.PI;
 };
 var polarToCartesian = function polarToCartesian(cx, cy, radius, angle) {
 	return {
-		x: cx + Math.cos(-RADIAN * angle) * radius,
-		y: cy + Math.sin(-RADIAN * angle) * radius
+		x: cx + Math.cos(-RADIAN$1 * angle) * radius,
+		y: cy + Math.sin(-RADIAN$1 * angle) * radius
 	};
+};
+var getMaxRadius = function getMaxRadius(width, height) {
+	var offset = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {
+		top: 0,
+		right: 0,
+		bottom: 0,
+		left: 0
+	};
+	return Math.min(Math.abs(width - (offset.left || 0) - (offset.right || 0)), Math.abs(height - (offset.top || 0) - (offset.bottom || 0))) / 2;
+};
+/**
+* Calculate the scale function, position, width, height of axes
+* @param  {Object} props     Latest props
+* @param  {Object} axisMap   The configuration of axes
+* @param  {Object} offset    The offset of main part in the svg element
+* @param  {Object} axisType  The type of axes, radius-axis or angle-axis
+* @param  {String} chartName The name of chart
+* @return {Object} Configuration
+*/
+var formatAxisMap$1 = function formatAxisMap(props, axisMap, offset, axisType, chartName) {
+	var width = props.width, height = props.height;
+	var startAngle = props.startAngle, endAngle = props.endAngle;
+	var cx = getPercentValue(props.cx, width, width / 2);
+	var cy = getPercentValue(props.cy, height, height / 2);
+	var maxRadius = getMaxRadius(width, height, offset);
+	var innerRadius = getPercentValue(props.innerRadius, maxRadius, 0);
+	var outerRadius = getPercentValue(props.outerRadius, maxRadius, maxRadius * .8);
+	return Object.keys(axisMap).reduce(function(result, id) {
+		var axis = axisMap[id];
+		var domain = axis.domain, reversed = axis.reversed;
+		var range;
+		if ((0, import_isNil.default)(axis.range)) {
+			if (axisType === "angleAxis") range = [startAngle, endAngle];
+			else if (axisType === "radiusAxis") range = [innerRadius, outerRadius];
+			if (reversed) range = [range[1], range[0]];
+		} else {
+			range = axis.range;
+			var _range2 = _slicedToArray$4(range, 2);
+			startAngle = _range2[0];
+			endAngle = _range2[1];
+		}
+		var _parseScale = parseScale(axis, chartName), realScaleType = _parseScale.realScaleType, scale = _parseScale.scale;
+		scale.domain(domain).range(range);
+		checkDomainOfScale(scale);
+		var ticks = getTicksOfScale(scale, _objectSpread$25(_objectSpread$25({}, axis), {}, { realScaleType }));
+		var finalAxis = _objectSpread$25(_objectSpread$25(_objectSpread$25({}, axis), ticks), {}, {
+			range,
+			radius: outerRadius,
+			realScaleType,
+			scale,
+			cx,
+			cy,
+			innerRadius,
+			outerRadius,
+			startAngle,
+			endAngle
+		});
+		return _objectSpread$25(_objectSpread$25({}, result), {}, _defineProperty$28({}, id, finalAxis));
+	}, {});
 };
 var distanceBetweenPoints = function distanceBetweenPoints(point, anotherPoint) {
 	var x1 = point.x, y1 = point.y;
@@ -5023,51 +5148,54 @@ var inRangeOfSector = function inRangeOfSector(_ref5, sector) {
 		while (formatAngle < endAngle) formatAngle += 360;
 		inRange = formatAngle >= endAngle && formatAngle <= startAngle;
 	}
-	if (inRange) return _objectSpread$21(_objectSpread$21({}, sector), {}, {
+	if (inRange) return _objectSpread$25(_objectSpread$25({}, sector), {}, {
 		radius,
 		angle: reverseFormatAngleOfSetor(formatAngle, sector)
 	});
 	return null;
 };
+var getTickClassName = function getTickClassName(tick) {
+	return !/*#__PURE__*/ (0, import_react.isValidElement)(tick) && !(0, import_isFunction.default)(tick) && typeof tick !== "boolean" ? tick.className : "";
+};
 //#endregion
 //#region node_modules/recharts/es6/component/Label.js
-function _typeof$23(o) {
+function _typeof$27(o) {
 	"@babel/helpers - typeof";
-	return _typeof$23 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$27 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$23(o);
+	}, _typeof$27(o);
 }
-var _excluded$8 = ["offset"];
-function _toConsumableArray$3(arr) {
-	return _arrayWithoutHoles$3(arr) || _iterableToArray$3(arr) || _unsupportedIterableToArray$6(arr) || _nonIterableSpread$3();
+var _excluded$11 = ["offset"];
+function _toConsumableArray$4(arr) {
+	return _arrayWithoutHoles$4(arr) || _iterableToArray$4(arr) || _unsupportedIterableToArray$7(arr) || _nonIterableSpread$4();
 }
-function _nonIterableSpread$3() {
+function _nonIterableSpread$4() {
 	throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$6(o, minLen) {
+function _unsupportedIterableToArray$7(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$6(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$7(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$6(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$7(o, minLen);
 }
-function _iterableToArray$3(iter) {
+function _iterableToArray$4(iter) {
 	if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
-function _arrayWithoutHoles$3(arr) {
-	if (Array.isArray(arr)) return _arrayLikeToArray$6(arr);
+function _arrayWithoutHoles$4(arr) {
+	if (Array.isArray(arr)) return _arrayLikeToArray$7(arr);
 }
-function _arrayLikeToArray$6(arr, len) {
+function _arrayLikeToArray$7(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _objectWithoutProperties$8(source, excluded) {
+function _objectWithoutProperties$11(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$8(source, excluded);
+	var target = _objectWithoutPropertiesLoose$11(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -5080,7 +5208,7 @@ function _objectWithoutProperties$8(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$8(source, excluded) {
+function _objectWithoutPropertiesLoose$11(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -5089,7 +5217,7 @@ function _objectWithoutPropertiesLoose$8(source, excluded) {
 	}
 	return target;
 }
-function ownKeys$20(e, r) {
+function ownKeys$24(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -5099,19 +5227,19 @@ function ownKeys$20(e, r) {
 	}
 	return t;
 }
-function _objectSpread$20(e) {
+function _objectSpread$24(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$20(Object(t), !0).forEach(function(r) {
-			_defineProperty$23(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$20(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$24(Object(t), !0).forEach(function(r) {
+			_defineProperty$27(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$24(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$23(obj, key, value) {
-	key = _toPropertyKey$23(key);
+function _defineProperty$27(obj, key, value) {
+	key = _toPropertyKey$27(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -5121,29 +5249,29 @@ function _defineProperty$23(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$23(t) {
-	var i = _toPrimitive$23(t, "string");
-	return "symbol" == _typeof$23(i) ? i : i + "";
+function _toPropertyKey$27(t) {
+	var i = _toPrimitive$27(t, "string");
+	return "symbol" == _typeof$27(i) ? i : i + "";
 }
-function _toPrimitive$23(t, r) {
-	if ("object" != _typeof$23(t) || !t) return t;
+function _toPrimitive$27(t, r) {
+	if ("object" != _typeof$27(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$23(i)) return i;
+		if ("object" != _typeof$27(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
-function _extends$18() {
-	_extends$18 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$23() {
+	_extends$23 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$18.apply(this, arguments);
+	return _extends$23.apply(this, arguments);
 }
 var getLabel = function getLabel(props) {
 	var value = props.value, formatter = props.formatter;
@@ -5176,7 +5304,7 @@ var renderRadialLabel = function renderRadialLabel(labelProps, label, attrs) {
 	var endPoint = polarToCartesian(cx, cy, radius, labelAngle + (direction ? 1 : -1) * 359);
 	var path = "M".concat(startPoint.x, ",").concat(startPoint.y, "\n    A").concat(radius, ",").concat(radius, ",0,1,").concat(direction ? 0 : 1, ",\n    ").concat(endPoint.x, ",").concat(endPoint.y);
 	var id = (0, import_isNil.default)(labelProps.id) ? uniqueId("recharts-radial-line-") : labelProps.id;
-	return /*#__PURE__*/ import_react.createElement("text", _extends$18({}, attrs, {
+	return /*#__PURE__*/ import_react.createElement("text", _extends$23({}, attrs, {
 		dominantBaseline: "central",
 		className: clsx("recharts-radial-bar-label", className)
 	}), /*#__PURE__*/ import_react.createElement("defs", null, /*#__PURE__*/ import_react.createElement("path", {
@@ -5234,7 +5362,7 @@ var getAttrsOfCartesianLabel = function getAttrsOfCartesianLabel(props) {
 	var horizontalOffset = horizontalSign * offset;
 	var horizontalEnd = horizontalSign > 0 ? "end" : "start";
 	var horizontalStart = horizontalSign > 0 ? "start" : "end";
-	if (position === "top") return _objectSpread$20(_objectSpread$20({}, {
+	if (position === "top") return _objectSpread$24(_objectSpread$24({}, {
 		x: x + width / 2,
 		y: y - verticalSign * offset,
 		textAnchor: "middle",
@@ -5243,7 +5371,7 @@ var getAttrsOfCartesianLabel = function getAttrsOfCartesianLabel(props) {
 		height: Math.max(y - parentViewBox.y, 0),
 		width
 	} : {});
-	if (position === "bottom") return _objectSpread$20(_objectSpread$20({}, {
+	if (position === "bottom") return _objectSpread$24(_objectSpread$24({}, {
 		x: x + width / 2,
 		y: y + height + verticalOffset,
 		textAnchor: "middle",
@@ -5259,7 +5387,7 @@ var getAttrsOfCartesianLabel = function getAttrsOfCartesianLabel(props) {
 			textAnchor: horizontalEnd,
 			verticalAnchor: "middle"
 		};
-		return _objectSpread$20(_objectSpread$20({}, _attrs2), parentViewBox ? {
+		return _objectSpread$24(_objectSpread$24({}, _attrs2), parentViewBox ? {
 			width: Math.max(_attrs2.x - parentViewBox.x, 0),
 			height
 		} : {});
@@ -5271,7 +5399,7 @@ var getAttrsOfCartesianLabel = function getAttrsOfCartesianLabel(props) {
 			textAnchor: horizontalStart,
 			verticalAnchor: "middle"
 		};
-		return _objectSpread$20(_objectSpread$20({}, _attrs3), parentViewBox ? {
+		return _objectSpread$24(_objectSpread$24({}, _attrs3), parentViewBox ? {
 			width: Math.max(parentViewBox.x + parentViewBox.width - _attrs3.x, 0),
 			height
 		} : {});
@@ -5280,61 +5408,61 @@ var getAttrsOfCartesianLabel = function getAttrsOfCartesianLabel(props) {
 		width,
 		height
 	} : {};
-	if (position === "insideLeft") return _objectSpread$20({
+	if (position === "insideLeft") return _objectSpread$24({
 		x: x + horizontalOffset,
 		y: y + height / 2,
 		textAnchor: horizontalStart,
 		verticalAnchor: "middle"
 	}, sizeAttrs);
-	if (position === "insideRight") return _objectSpread$20({
+	if (position === "insideRight") return _objectSpread$24({
 		x: x + width - horizontalOffset,
 		y: y + height / 2,
 		textAnchor: horizontalEnd,
 		verticalAnchor: "middle"
 	}, sizeAttrs);
-	if (position === "insideTop") return _objectSpread$20({
+	if (position === "insideTop") return _objectSpread$24({
 		x: x + width / 2,
 		y: y + verticalOffset,
 		textAnchor: "middle",
 		verticalAnchor: verticalStart
 	}, sizeAttrs);
-	if (position === "insideBottom") return _objectSpread$20({
+	if (position === "insideBottom") return _objectSpread$24({
 		x: x + width / 2,
 		y: y + height - verticalOffset,
 		textAnchor: "middle",
 		verticalAnchor: verticalEnd
 	}, sizeAttrs);
-	if (position === "insideTopLeft") return _objectSpread$20({
+	if (position === "insideTopLeft") return _objectSpread$24({
 		x: x + horizontalOffset,
 		y: y + verticalOffset,
 		textAnchor: horizontalStart,
 		verticalAnchor: verticalStart
 	}, sizeAttrs);
-	if (position === "insideTopRight") return _objectSpread$20({
+	if (position === "insideTopRight") return _objectSpread$24({
 		x: x + width - horizontalOffset,
 		y: y + verticalOffset,
 		textAnchor: horizontalEnd,
 		verticalAnchor: verticalStart
 	}, sizeAttrs);
-	if (position === "insideBottomLeft") return _objectSpread$20({
+	if (position === "insideBottomLeft") return _objectSpread$24({
 		x: x + horizontalOffset,
 		y: y + height - verticalOffset,
 		textAnchor: horizontalStart,
 		verticalAnchor: verticalEnd
 	}, sizeAttrs);
-	if (position === "insideBottomRight") return _objectSpread$20({
+	if (position === "insideBottomRight") return _objectSpread$24({
 		x: x + width - horizontalOffset,
 		y: y + height - verticalOffset,
 		textAnchor: horizontalEnd,
 		verticalAnchor: verticalEnd
 	}, sizeAttrs);
-	if ((0, import_isObject.default)(position) && (isNumber(position.x) || isPercent(position.x)) && (isNumber(position.y) || isPercent(position.y))) return _objectSpread$20({
+	if ((0, import_isObject.default)(position) && (isNumber(position.x) || isPercent(position.x)) && (isNumber(position.y) || isPercent(position.y))) return _objectSpread$24({
 		x: x + getPercentValue(position.x, width),
 		y: y + getPercentValue(position.y, height),
 		textAnchor: "end",
 		verticalAnchor: "end"
 	}, sizeAttrs);
-	return _objectSpread$20({
+	return _objectSpread$24({
 		x: x + width / 2,
 		y: y + height / 2,
 		textAnchor: "middle",
@@ -5345,8 +5473,8 @@ var isPolar = function isPolar(viewBox) {
 	return "cx" in viewBox && isNumber(viewBox.cx);
 };
 function Label(_ref4) {
-	var _ref4$offset = _ref4.offset, offset = _ref4$offset === void 0 ? 5 : _ref4$offset, restProps = _objectWithoutProperties$8(_ref4, _excluded$8);
-	var props = _objectSpread$20({ offset }, restProps);
+	var _ref4$offset = _ref4.offset, offset = _ref4$offset === void 0 ? 5 : _ref4$offset, restProps = _objectWithoutProperties$11(_ref4, _excluded$11);
+	var props = _objectSpread$24({ offset }, restProps);
 	var viewBox = props.viewBox, position = props.position, value = props.value, children = props.children, content = props.content, _props$className = props.className, className = _props$className === void 0 ? "" : _props$className, textBreakAll = props.textBreakAll;
 	if (!viewBox || (0, import_isNil.default)(value) && (0, import_isNil.default)(children) && !/*#__PURE__*/ (0, import_react.isValidElement)(content) && !(0, import_isFunction.default)(content)) return null;
 	if (/*#__PURE__*/ (0, import_react.isValidElement)(content)) return /*#__PURE__*/ (0, import_react.cloneElement)(content, props);
@@ -5359,7 +5487,7 @@ function Label(_ref4) {
 	var attrs = filterProps(props, true);
 	if (isPolarLabel && (position === "insideStart" || position === "insideEnd" || position === "end")) return renderRadialLabel(props, label, attrs);
 	var positionAttrs = isPolarLabel ? getAttrsOfPolarLabel(props) : getAttrsOfCartesianLabel(props);
-	return /*#__PURE__*/ import_react.createElement(Text, _extends$18({ className: clsx("recharts-label", className) }, attrs, positionAttrs, { breakAll: textBreakAll }), label);
+	return /*#__PURE__*/ import_react.createElement(Text, _extends$23({ className: clsx("recharts-label", className) }, attrs, positionAttrs, { breakAll: textBreakAll }), label);
 }
 Label.displayName = "Label";
 var parseViewBox = function parseViewBox(props) {
@@ -5424,7 +5552,7 @@ var parseLabel = function parseLabel(label, viewBox) {
 		content: label,
 		viewBox
 	});
-	if ((0, import_isObject.default)(label)) return /*#__PURE__*/ import_react.createElement(Label, _extends$18({ viewBox }, label, { key: "label-implicit" }));
+	if ((0, import_isObject.default)(label)) return /*#__PURE__*/ import_react.createElement(Label, _extends$23({ viewBox }, label, { key: "label-implicit" }));
 	return null;
 };
 var renderCallByParent$1 = function renderCallByParent(parentProps, viewBox) {
@@ -5439,65 +5567,65 @@ var renderCallByParent$1 = function renderCallByParent(parentProps, viewBox) {
 		});
 	});
 	if (!checkPropsLabel) return explicitChildren;
-	return [parseLabel(parentProps.label, viewBox || parentViewBox)].concat(_toConsumableArray$3(explicitChildren));
+	return [parseLabel(parentProps.label, viewBox || parentViewBox)].concat(_toConsumableArray$4(explicitChildren));
 };
 Label.parseViewBox = parseViewBox;
 Label.renderCallByParent = renderCallByParent$1;
 //#endregion
 //#region node_modules/recharts/es6/component/LabelList.js
 var import_last = /* @__PURE__ */ __toESM(require_last());
-function _typeof$22(o) {
+function _typeof$26(o) {
 	"@babel/helpers - typeof";
-	return _typeof$22 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$26 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$22(o);
+	}, _typeof$26(o);
 }
-var _excluded$7 = ["valueAccessor"];
-var _excluded2$3 = [
+var _excluded$10 = ["valueAccessor"];
+var _excluded2$5 = [
 	"data",
 	"dataKey",
 	"clockWise",
 	"id",
 	"textBreakAll"
 ];
-function _toConsumableArray$2(arr) {
-	return _arrayWithoutHoles$2(arr) || _iterableToArray$2(arr) || _unsupportedIterableToArray$5(arr) || _nonIterableSpread$2();
+function _toConsumableArray$3(arr) {
+	return _arrayWithoutHoles$3(arr) || _iterableToArray$3(arr) || _unsupportedIterableToArray$6(arr) || _nonIterableSpread$3();
 }
-function _nonIterableSpread$2() {
+function _nonIterableSpread$3() {
 	throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$5(o, minLen) {
+function _unsupportedIterableToArray$6(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$5(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$6(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$5(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$6(o, minLen);
 }
-function _iterableToArray$2(iter) {
+function _iterableToArray$3(iter) {
 	if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
-function _arrayWithoutHoles$2(arr) {
-	if (Array.isArray(arr)) return _arrayLikeToArray$5(arr);
+function _arrayWithoutHoles$3(arr) {
+	if (Array.isArray(arr)) return _arrayLikeToArray$6(arr);
 }
-function _arrayLikeToArray$5(arr, len) {
+function _arrayLikeToArray$6(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
 }
-function _extends$17() {
-	_extends$17 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$22() {
+	_extends$22 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$17.apply(this, arguments);
+	return _extends$22.apply(this, arguments);
 }
-function ownKeys$19(e, r) {
+function ownKeys$23(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -5507,19 +5635,19 @@ function ownKeys$19(e, r) {
 	}
 	return t;
 }
-function _objectSpread$19(e) {
+function _objectSpread$23(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$19(Object(t), !0).forEach(function(r) {
-			_defineProperty$22(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$19(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$23(Object(t), !0).forEach(function(r) {
+			_defineProperty$26(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$23(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$22(obj, key, value) {
-	key = _toPropertyKey$22(key);
+function _defineProperty$26(obj, key, value) {
+	key = _toPropertyKey$26(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -5529,23 +5657,23 @@ function _defineProperty$22(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$22(t) {
-	var i = _toPrimitive$22(t, "string");
-	return "symbol" == _typeof$22(i) ? i : i + "";
+function _toPropertyKey$26(t) {
+	var i = _toPrimitive$26(t, "string");
+	return "symbol" == _typeof$26(i) ? i : i + "";
 }
-function _toPrimitive$22(t, r) {
-	if ("object" != _typeof$22(t) || !t) return t;
+function _toPrimitive$26(t, r) {
+	if ("object" != _typeof$26(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$22(i)) return i;
+		if ("object" != _typeof$26(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
 }
-function _objectWithoutProperties$7(source, excluded) {
+function _objectWithoutProperties$10(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$7(source, excluded);
+	var target = _objectWithoutPropertiesLoose$10(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -5558,7 +5686,7 @@ function _objectWithoutProperties$7(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$7(source, excluded) {
+function _objectWithoutPropertiesLoose$10(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -5571,17 +5699,17 @@ var defaultAccessor = function defaultAccessor(entry) {
 	return Array.isArray(entry.value) ? (0, import_last.default)(entry.value) : entry.value;
 };
 function LabelList(_ref) {
-	var _ref$valueAccessor = _ref.valueAccessor, valueAccessor = _ref$valueAccessor === void 0 ? defaultAccessor : _ref$valueAccessor, restProps = _objectWithoutProperties$7(_ref, _excluded$7);
-	var data = restProps.data, dataKey = restProps.dataKey, clockWise = restProps.clockWise, id = restProps.id, textBreakAll = restProps.textBreakAll, others = _objectWithoutProperties$7(restProps, _excluded2$3);
+	var _ref$valueAccessor = _ref.valueAccessor, valueAccessor = _ref$valueAccessor === void 0 ? defaultAccessor : _ref$valueAccessor, restProps = _objectWithoutProperties$10(_ref, _excluded$10);
+	var data = restProps.data, dataKey = restProps.dataKey, clockWise = restProps.clockWise, id = restProps.id, textBreakAll = restProps.textBreakAll, others = _objectWithoutProperties$10(restProps, _excluded2$5);
 	if (!data || !data.length) return null;
 	return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-label-list" }, data.map(function(entry, index) {
 		var value = (0, import_isNil.default)(dataKey) ? valueAccessor(entry, index) : getValueByDataKey(entry && entry.payload, dataKey);
 		var idProps = (0, import_isNil.default)(id) ? {} : { id: "".concat(id, "-").concat(index) };
-		return /*#__PURE__*/ import_react.createElement(Label, _extends$17({}, filterProps(entry, true), others, idProps, {
+		return /*#__PURE__*/ import_react.createElement(Label, _extends$22({}, filterProps(entry, true), others, idProps, {
 			parentViewBox: entry.parentViewBox,
 			value,
 			textBreakAll,
-			viewBox: Label.parseViewBox((0, import_isNil.default)(clockWise) ? entry : _objectSpread$19(_objectSpread$19({}, entry), {}, { clockWise })),
+			viewBox: Label.parseViewBox((0, import_isNil.default)(clockWise) ? entry : _objectSpread$23(_objectSpread$23({}, entry), {}, { clockWise })),
 			key: "label-".concat(index),
 			index
 		}));
@@ -5599,7 +5727,7 @@ function parseLabelList(label, data) {
 		data,
 		content: label
 	});
-	if ((0, import_isObject.default)(label)) return /*#__PURE__*/ import_react.createElement(LabelList, _extends$17({ data }, label, { key: "labelList-implicit" }));
+	if ((0, import_isObject.default)(label)) return /*#__PURE__*/ import_react.createElement(LabelList, _extends$22({ data }, label, { key: "labelList-implicit" }));
 	return null;
 }
 function renderCallByParent(parentProps, data) {
@@ -5613,7 +5741,7 @@ function renderCallByParent(parentProps, data) {
 		});
 	});
 	if (!checkPropsLabel) return explicitChildren;
-	return [parseLabelList(parentProps.label, data)].concat(_toConsumableArray$2(explicitChildren));
+	return [parseLabelList(parentProps.label, data)].concat(_toConsumableArray$3(explicitChildren));
 }
 LabelList.renderCallByParent = renderCallByParent;
 //#endregion
@@ -5621,25 +5749,25 @@ LabelList.renderCallByParent = renderCallByParent;
 /**
 * @fileOverview Sector
 */
-function _typeof$21(o) {
+function _typeof$25(o) {
 	"@babel/helpers - typeof";
-	return _typeof$21 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$25 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$21(o);
+	}, _typeof$25(o);
 }
-function _extends$16() {
-	_extends$16 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$21() {
+	_extends$21 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$16.apply(this, arguments);
+	return _extends$21.apply(this, arguments);
 }
-function ownKeys$18(e, r) {
+function ownKeys$22(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -5649,19 +5777,19 @@ function ownKeys$18(e, r) {
 	}
 	return t;
 }
-function _objectSpread$18(e) {
+function _objectSpread$22(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$18(Object(t), !0).forEach(function(r) {
-			_defineProperty$21(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$18(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$22(Object(t), !0).forEach(function(r) {
+			_defineProperty$25(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$22(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$21(obj, key, value) {
-	key = _toPropertyKey$21(key);
+function _defineProperty$25(obj, key, value) {
+	key = _toPropertyKey$25(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -5671,16 +5799,16 @@ function _defineProperty$21(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$21(t) {
-	var i = _toPrimitive$21(t, "string");
-	return "symbol" == _typeof$21(i) ? i : i + "";
+function _toPropertyKey$25(t) {
+	var i = _toPrimitive$25(t, "string");
+	return "symbol" == _typeof$25(i) ? i : i + "";
 }
-function _toPrimitive$21(t, r) {
-	if ("object" != _typeof$21(t) || !t) return t;
+function _toPrimitive$25(t, r) {
+	if ("object" != _typeof$25(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$21(i)) return i;
+		if ("object" != _typeof$25(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -5691,7 +5819,7 @@ var getDeltaAngle = function getDeltaAngle(startAngle, endAngle) {
 var getTangentCircle = function getTangentCircle(_ref) {
 	var cx = _ref.cx, cy = _ref.cy, radius = _ref.radius, angle = _ref.angle, sign = _ref.sign, isExternal = _ref.isExternal, cornerRadius = _ref.cornerRadius, cornerIsExternal = _ref.cornerIsExternal;
 	var centerRadius = cornerRadius * (isExternal ? 1 : -1) + radius;
-	var theta = Math.asin(cornerRadius / centerRadius) / RADIAN;
+	var theta = Math.asin(cornerRadius / centerRadius) / RADIAN$1;
 	var centerAngle = cornerIsExternal ? angle : angle + sign * theta;
 	var center = polarToCartesian(cx, cy, centerRadius, centerAngle);
 	var circleTangency = polarToCartesian(cx, cy, radius, centerAngle);
@@ -5699,7 +5827,7 @@ var getTangentCircle = function getTangentCircle(_ref) {
 	return {
 		center,
 		circleTangency,
-		lineTangency: polarToCartesian(cx, cy, centerRadius * Math.cos(theta * RADIAN), lineTangencyAngle),
+		lineTangency: polarToCartesian(cx, cy, centerRadius * Math.cos(theta * RADIAN$1), lineTangencyAngle),
 		theta
 	};
 };
@@ -5778,7 +5906,7 @@ var getSectorWithCorner = function getSectorWithCorner(_ref3) {
 	} else path += "L".concat(cx, ",").concat(cy, "Z");
 	return path;
 };
-var defaultProps$2 = {
+var defaultProps$3 = {
 	cx: 0,
 	cy: 0,
 	innerRadius: 0,
@@ -5790,7 +5918,7 @@ var defaultProps$2 = {
 	cornerIsExternal: false
 };
 var Sector = function Sector(sectorProps) {
-	var props = _objectSpread$18(_objectSpread$18({}, defaultProps$2), sectorProps);
+	var props = _objectSpread$22(_objectSpread$22({}, defaultProps$3), sectorProps);
 	var cx = props.cx, cy = props.cy, innerRadius = props.innerRadius, outerRadius = props.outerRadius, cornerRadius = props.cornerRadius, forceCornerRadius = props.forceCornerRadius, cornerIsExternal = props.cornerIsExternal, startAngle = props.startAngle, endAngle = props.endAngle, className = props.className;
 	if (outerRadius < innerRadius || startAngle === endAngle) return null;
 	var layerClass = clsx("recharts-sector", className);
@@ -5816,7 +5944,7 @@ var Sector = function Sector(sectorProps) {
 		startAngle,
 		endAngle
 	});
-	return /*#__PURE__*/ import_react.createElement("path", _extends$16({}, filterProps(props, true), {
+	return /*#__PURE__*/ import_react.createElement("path", _extends$21({}, filterProps(props, true), {
 		className: layerClass,
 		d: path,
 		role: "img"
@@ -5824,29 +5952,28 @@ var Sector = function Sector(sectorProps) {
 };
 //#endregion
 //#region node_modules/recharts/es6/shape/Curve.js
-var import_memoize = /* @__PURE__ */ __toESM(require_memoize());
 /**
 * @fileOverview Curve
 */
-function _typeof$20(o) {
+function _typeof$24(o) {
 	"@babel/helpers - typeof";
-	return _typeof$20 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$24 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$20(o);
+	}, _typeof$24(o);
 }
-function _extends$15() {
-	_extends$15 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$20() {
+	_extends$20 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$15.apply(this, arguments);
+	return _extends$20.apply(this, arguments);
 }
-function ownKeys$17(e, r) {
+function ownKeys$21(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -5856,19 +5983,19 @@ function ownKeys$17(e, r) {
 	}
 	return t;
 }
-function _objectSpread$17(e) {
+function _objectSpread$21(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$17(Object(t), !0).forEach(function(r) {
-			_defineProperty$20(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$17(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$21(Object(t), !0).forEach(function(r) {
+			_defineProperty$24(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$21(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$20(obj, key, value) {
-	key = _toPropertyKey$20(key);
+function _defineProperty$24(obj, key, value) {
+	key = _toPropertyKey$24(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -5878,16 +6005,16 @@ function _defineProperty$20(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$20(t) {
-	var i = _toPrimitive$20(t, "string");
-	return "symbol" == _typeof$20(i) ? i : i + "";
+function _toPropertyKey$24(t) {
+	var i = _toPrimitive$24(t, "string");
+	return "symbol" == _typeof$24(i) ? i : i + "";
 }
-function _toPrimitive$20(t, r) {
-	if ("object" != _typeof$20(t) || !t) return t;
+function _toPrimitive$24(t, r) {
+	if ("object" != _typeof$24(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$20(i)) return i;
+		if ("object" != _typeof$24(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -5938,7 +6065,7 @@ var getPath$1 = function getPath(_ref) {
 			return defined(base);
 		}) : baseLine;
 		var areaPoints = formatPoints.map(function(entry, index) {
-			return _objectSpread$17(_objectSpread$17({}, entry), {}, { base: formatBaseLine[index] });
+			return _objectSpread$21(_objectSpread$21({}, entry), {}, { base: formatBaseLine[index] });
 		});
 		if (layout === "vertical") lineFunction = area_default().y(getY).x1(getX).x0(function(d) {
 			return d.base.x;
@@ -5959,7 +6086,7 @@ var Curve = function Curve(props) {
 	var className = props.className, points = props.points, path = props.path, pathRef = props.pathRef;
 	if ((!points || !points.length) && !path) return null;
 	var realPath = points && points.length ? getPath$1(props) : path;
-	return /*#__PURE__*/ import_react.createElement("path", _extends$15({}, filterProps(props, false), adaptEventHandlers(props), {
+	return /*#__PURE__*/ import_react.createElement("path", _extends$20({}, filterProps(props, false), adaptEventHandlers(props), {
 		className: clsx("recharts-curve", className),
 		d: realPath,
 		ref: pathRef
@@ -5970,39 +6097,39 @@ var Curve = function Curve(props) {
 /**
 * @fileOverview Rectangle
 */
-function _typeof$19(o) {
+function _typeof$23(o) {
 	"@babel/helpers - typeof";
-	return _typeof$19 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$23 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$19(o);
+	}, _typeof$23(o);
 }
-function _extends$14() {
-	_extends$14 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$19() {
+	_extends$19 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$14.apply(this, arguments);
+	return _extends$19.apply(this, arguments);
 }
 function _slicedToArray$3(arr, i) {
-	return _arrayWithHoles$3(arr) || _iterableToArrayLimit$3(arr, i) || _unsupportedIterableToArray$4(arr, i) || _nonIterableRest$3();
+	return _arrayWithHoles$3(arr) || _iterableToArrayLimit$3(arr, i) || _unsupportedIterableToArray$5(arr, i) || _nonIterableRest$3();
 }
 function _nonIterableRest$3() {
 	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-function _unsupportedIterableToArray$4(o, minLen) {
+function _unsupportedIterableToArray$5(o, minLen) {
 	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$4(o, minLen);
+	if (typeof o === "string") return _arrayLikeToArray$5(o, minLen);
 	var n = Object.prototype.toString.call(o).slice(8, -1);
 	if (n === "Object" && o.constructor) n = o.constructor.name;
 	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$5(o, minLen);
 }
-function _arrayLikeToArray$4(arr, len) {
+function _arrayLikeToArray$5(arr, len) {
 	if (len == null || len > arr.length) len = arr.length;
 	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 	return arr2;
@@ -6029,6 +6156,1058 @@ function _iterableToArrayLimit$3(r, l) {
 	}
 }
 function _arrayWithHoles$3(arr) {
+	if (Array.isArray(arr)) return arr;
+}
+function ownKeys$20(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$20(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$20(Object(t), !0).forEach(function(r) {
+			_defineProperty$23(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$20(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _defineProperty$23(obj, key, value) {
+	key = _toPropertyKey$23(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$23(t) {
+	var i = _toPrimitive$23(t, "string");
+	return "symbol" == _typeof$23(i) ? i : i + "";
+}
+function _toPrimitive$23(t, r) {
+	if ("object" != _typeof$23(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$23(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+var getRectanglePath = function getRectanglePath(x, y, width, height, radius) {
+	var maxRadius = Math.min(Math.abs(width) / 2, Math.abs(height) / 2);
+	var ySign = height >= 0 ? 1 : -1;
+	var xSign = width >= 0 ? 1 : -1;
+	var clockWise = height >= 0 && width >= 0 || height < 0 && width < 0 ? 1 : 0;
+	var path;
+	if (maxRadius > 0 && radius instanceof Array) {
+		var newRadius = [
+			0,
+			0,
+			0,
+			0
+		];
+		for (var i = 0, len = 4; i < len; i++) newRadius[i] = radius[i] > maxRadius ? maxRadius : radius[i];
+		path = "M".concat(x, ",").concat(y + ySign * newRadius[0]);
+		if (newRadius[0] > 0) path += "A ".concat(newRadius[0], ",").concat(newRadius[0], ",0,0,").concat(clockWise, ",").concat(x + xSign * newRadius[0], ",").concat(y);
+		path += "L ".concat(x + width - xSign * newRadius[1], ",").concat(y);
+		if (newRadius[1] > 0) path += "A ".concat(newRadius[1], ",").concat(newRadius[1], ",0,0,").concat(clockWise, ",\n        ").concat(x + width, ",").concat(y + ySign * newRadius[1]);
+		path += "L ".concat(x + width, ",").concat(y + height - ySign * newRadius[2]);
+		if (newRadius[2] > 0) path += "A ".concat(newRadius[2], ",").concat(newRadius[2], ",0,0,").concat(clockWise, ",\n        ").concat(x + width - xSign * newRadius[2], ",").concat(y + height);
+		path += "L ".concat(x + xSign * newRadius[3], ",").concat(y + height);
+		if (newRadius[3] > 0) path += "A ".concat(newRadius[3], ",").concat(newRadius[3], ",0,0,").concat(clockWise, ",\n        ").concat(x, ",").concat(y + height - ySign * newRadius[3]);
+		path += "Z";
+	} else if (maxRadius > 0 && radius === +radius && radius > 0) {
+		var _newRadius = Math.min(maxRadius, radius);
+		path = "M ".concat(x, ",").concat(y + ySign * _newRadius, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x + xSign * _newRadius, ",").concat(y, "\n            L ").concat(x + width - xSign * _newRadius, ",").concat(y, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x + width, ",").concat(y + ySign * _newRadius, "\n            L ").concat(x + width, ",").concat(y + height - ySign * _newRadius, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x + width - xSign * _newRadius, ",").concat(y + height, "\n            L ").concat(x + xSign * _newRadius, ",").concat(y + height, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x, ",").concat(y + height - ySign * _newRadius, " Z");
+	} else path = "M ".concat(x, ",").concat(y, " h ").concat(width, " v ").concat(height, " h ").concat(-width, " Z");
+	return path;
+};
+var isInRectangle = function isInRectangle(point, rect) {
+	if (!point || !rect) return false;
+	var px = point.x, py = point.y;
+	var x = rect.x, y = rect.y, width = rect.width, height = rect.height;
+	if (Math.abs(width) > 0 && Math.abs(height) > 0) {
+		var minX = Math.min(x, x + width);
+		var maxX = Math.max(x, x + width);
+		var minY = Math.min(y, y + height);
+		var maxY = Math.max(y, y + height);
+		return px >= minX && px <= maxX && py >= minY && py <= maxY;
+	}
+	return false;
+};
+var defaultProps$2 = {
+	x: 0,
+	y: 0,
+	width: 0,
+	height: 0,
+	radius: 0,
+	isAnimationActive: false,
+	isUpdateAnimationActive: false,
+	animationBegin: 0,
+	animationDuration: 1500,
+	animationEasing: "ease"
+};
+var Rectangle = function Rectangle(rectangleProps) {
+	var props = _objectSpread$20(_objectSpread$20({}, defaultProps$2), rectangleProps);
+	var pathRef = (0, import_react.useRef)();
+	var _useState2 = _slicedToArray$3((0, import_react.useState)(-1), 2), totalLength = _useState2[0], setTotalLength = _useState2[1];
+	(0, import_react.useEffect)(function() {
+		if (pathRef.current && pathRef.current.getTotalLength) try {
+			var pathTotalLength = pathRef.current.getTotalLength();
+			if (pathTotalLength) setTotalLength(pathTotalLength);
+		} catch (err) {}
+	}, []);
+	var x = props.x, y = props.y, width = props.width, height = props.height, radius = props.radius, className = props.className;
+	var animationEasing = props.animationEasing, animationDuration = props.animationDuration, animationBegin = props.animationBegin, isAnimationActive = props.isAnimationActive, isUpdateAnimationActive = props.isUpdateAnimationActive;
+	if (x !== +x || y !== +y || width !== +width || height !== +height || width === 0 || height === 0) return null;
+	var layerClass = clsx("recharts-rectangle", className);
+	if (!isUpdateAnimationActive) return /*#__PURE__*/ import_react.createElement("path", _extends$19({}, filterProps(props, true), {
+		className: layerClass,
+		d: getRectanglePath(x, y, width, height, radius)
+	}));
+	return /*#__PURE__*/ import_react.createElement(es6_default, {
+		canBegin: totalLength > 0,
+		from: {
+			width,
+			height,
+			x,
+			y
+		},
+		to: {
+			width,
+			height,
+			x,
+			y
+		},
+		duration: animationDuration,
+		animationEasing,
+		isActive: isUpdateAnimationActive
+	}, function(_ref) {
+		var currWidth = _ref.width, currHeight = _ref.height, currX = _ref.x, currY = _ref.y;
+		return /*#__PURE__*/ import_react.createElement(es6_default, {
+			canBegin: totalLength > 0,
+			from: "0px ".concat(totalLength === -1 ? 1 : totalLength, "px"),
+			to: "".concat(totalLength, "px 0px"),
+			attributeName: "strokeDasharray",
+			begin: animationBegin,
+			duration: animationDuration,
+			isActive: isAnimationActive,
+			easing: animationEasing
+		}, /*#__PURE__*/ import_react.createElement("path", _extends$19({}, filterProps(props, true), {
+			className: layerClass,
+			d: getRectanglePath(currX, currY, currWidth, currHeight, radius),
+			ref: pathRef
+		})));
+	});
+};
+//#endregion
+//#region node_modules/recharts/es6/shape/Polygon.js
+/**
+* @fileOverview Polygon
+*/
+var _excluded$9 = [
+	"points",
+	"className",
+	"baseLinePoints",
+	"connectNulls"
+];
+function _extends$18() {
+	_extends$18 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$18.apply(this, arguments);
+}
+function _objectWithoutProperties$9(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$9(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
+		}
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$9(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
+}
+function _toConsumableArray$2(arr) {
+	return _arrayWithoutHoles$2(arr) || _iterableToArray$2(arr) || _unsupportedIterableToArray$4(arr) || _nonIterableSpread$2();
+}
+function _nonIterableSpread$2() {
+	throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray$4(o, minLen) {
+	if (!o) return;
+	if (typeof o === "string") return _arrayLikeToArray$4(o, minLen);
+	var n = Object.prototype.toString.call(o).slice(8, -1);
+	if (n === "Object" && o.constructor) n = o.constructor.name;
+	if (n === "Map" || n === "Set") return Array.from(o);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$4(o, minLen);
+}
+function _iterableToArray$2(iter) {
+	if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+function _arrayWithoutHoles$2(arr) {
+	if (Array.isArray(arr)) return _arrayLikeToArray$4(arr);
+}
+function _arrayLikeToArray$4(arr, len) {
+	if (len == null || len > arr.length) len = arr.length;
+	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+	return arr2;
+}
+var isValidatePoint = function isValidatePoint(point) {
+	return point && point.x === +point.x && point.y === +point.y;
+};
+var getParsedPoints = function getParsedPoints() {
+	var points = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
+	var segmentPoints = [[]];
+	points.forEach(function(entry) {
+		if (isValidatePoint(entry)) segmentPoints[segmentPoints.length - 1].push(entry);
+		else if (segmentPoints[segmentPoints.length - 1].length > 0) segmentPoints.push([]);
+	});
+	if (isValidatePoint(points[0])) segmentPoints[segmentPoints.length - 1].push(points[0]);
+	if (segmentPoints[segmentPoints.length - 1].length <= 0) segmentPoints = segmentPoints.slice(0, -1);
+	return segmentPoints;
+};
+var getSinglePolygonPath = function getSinglePolygonPath(points, connectNulls) {
+	var segmentPoints = getParsedPoints(points);
+	if (connectNulls) segmentPoints = [segmentPoints.reduce(function(res, segPoints) {
+		return [].concat(_toConsumableArray$2(res), _toConsumableArray$2(segPoints));
+	}, [])];
+	var polygonPath = segmentPoints.map(function(segPoints) {
+		return segPoints.reduce(function(path, point, index) {
+			return "".concat(path).concat(index === 0 ? "M" : "L").concat(point.x, ",").concat(point.y);
+		}, "");
+	}).join("");
+	return segmentPoints.length === 1 ? "".concat(polygonPath, "Z") : polygonPath;
+};
+var getRanglePath = function getRanglePath(points, baseLinePoints, connectNulls) {
+	var outerPath = getSinglePolygonPath(points, connectNulls);
+	return "".concat(outerPath.slice(-1) === "Z" ? outerPath.slice(0, -1) : outerPath, "L").concat(getSinglePolygonPath(baseLinePoints.reverse(), connectNulls).slice(1));
+};
+var Polygon = function Polygon(props) {
+	var points = props.points, className = props.className, baseLinePoints = props.baseLinePoints, connectNulls = props.connectNulls, others = _objectWithoutProperties$9(props, _excluded$9);
+	if (!points || !points.length) return null;
+	var layerClass = clsx("recharts-polygon", className);
+	if (baseLinePoints && baseLinePoints.length) {
+		var hasStroke = others.stroke && others.stroke !== "none";
+		var rangePath = getRanglePath(points, baseLinePoints, connectNulls);
+		return /*#__PURE__*/ import_react.createElement("g", { className: layerClass }, /*#__PURE__*/ import_react.createElement("path", _extends$18({}, filterProps(others, true), {
+			fill: rangePath.slice(-1) === "Z" ? others.fill : "none",
+			stroke: "none",
+			d: rangePath
+		})), hasStroke ? /*#__PURE__*/ import_react.createElement("path", _extends$18({}, filterProps(others, true), {
+			fill: "none",
+			d: getSinglePolygonPath(points, connectNulls)
+		})) : null, hasStroke ? /*#__PURE__*/ import_react.createElement("path", _extends$18({}, filterProps(others, true), {
+			fill: "none",
+			d: getSinglePolygonPath(baseLinePoints, connectNulls)
+		})) : null);
+	}
+	var singlePath = getSinglePolygonPath(points, connectNulls);
+	return /*#__PURE__*/ import_react.createElement("path", _extends$18({}, filterProps(others, true), {
+		fill: singlePath.slice(-1) === "Z" ? others.fill : "none",
+		className: layerClass,
+		d: singlePath
+	}));
+};
+//#endregion
+//#region node_modules/recharts/es6/shape/Dot.js
+/**
+* @fileOverview Dot
+*/
+function _extends$17() {
+	_extends$17 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$17.apply(this, arguments);
+}
+var Dot = function Dot(props) {
+	var cx = props.cx, cy = props.cy, r = props.r, className = props.className;
+	var layerClass = clsx("recharts-dot", className);
+	if (cx === +cx && cy === +cy && r === +r) return /*#__PURE__*/ import_react.createElement("circle", _extends$17({}, filterProps(props, false), adaptEventHandlers(props), {
+		className: layerClass,
+		cx,
+		cy,
+		r
+	}));
+	return null;
+};
+//#endregion
+//#region node_modules/recharts/es6/shape/Cross.js
+/**
+* @fileOverview Cross
+*/
+function _typeof$22(o) {
+	"@babel/helpers - typeof";
+	return _typeof$22 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$22(o);
+}
+var _excluded$8 = [
+	"x",
+	"y",
+	"top",
+	"left",
+	"width",
+	"height",
+	"className"
+];
+function _extends$16() {
+	_extends$16 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$16.apply(this, arguments);
+}
+function ownKeys$19(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$19(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$19(Object(t), !0).forEach(function(r) {
+			_defineProperty$22(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$19(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _defineProperty$22(obj, key, value) {
+	key = _toPropertyKey$22(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$22(t) {
+	var i = _toPrimitive$22(t, "string");
+	return "symbol" == _typeof$22(i) ? i : i + "";
+}
+function _toPrimitive$22(t, r) {
+	if ("object" != _typeof$22(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$22(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+function _objectWithoutProperties$8(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$8(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
+		}
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$8(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
+}
+var getPath = function getPath(x, y, width, height, top, left) {
+	return "M".concat(x, ",").concat(top, "v").concat(height, "M").concat(left, ",").concat(y, "h").concat(width);
+};
+var Cross = function Cross(_ref) {
+	var _ref$x = _ref.x, x = _ref$x === void 0 ? 0 : _ref$x, _ref$y = _ref.y, y = _ref$y === void 0 ? 0 : _ref$y, _ref$top = _ref.top, top = _ref$top === void 0 ? 0 : _ref$top, _ref$left = _ref.left, left = _ref$left === void 0 ? 0 : _ref$left, _ref$width = _ref.width, width = _ref$width === void 0 ? 0 : _ref$width, _ref$height = _ref.height, height = _ref$height === void 0 ? 0 : _ref$height, className = _ref.className, rest = _objectWithoutProperties$8(_ref, _excluded$8);
+	var props = _objectSpread$19({
+		x,
+		y,
+		top,
+		left,
+		width,
+		height
+	}, rest);
+	if (!isNumber(x) || !isNumber(y) || !isNumber(width) || !isNumber(height) || !isNumber(top) || !isNumber(left)) return null;
+	return /*#__PURE__*/ import_react.createElement("path", _extends$16({}, filterProps(props, true), {
+		className: clsx("recharts-cross", className),
+		d: getPath(x, y, width, height, top, left)
+	}));
+};
+//#endregion
+//#region node_modules/recharts/es6/polar/PolarRadiusAxis.js
+/**
+* @fileOverview The axis of polar coordinate system
+*/
+var import_maxBy = /* @__PURE__ */ __toESM(require_maxBy());
+var import_minBy = /* @__PURE__ */ __toESM(require_minBy());
+var _excluded$7 = [
+	"cx",
+	"cy",
+	"angle",
+	"ticks",
+	"axisLine"
+];
+var _excluded2$4 = [
+	"ticks",
+	"tick",
+	"angle",
+	"tickFormatter",
+	"stroke"
+];
+function _typeof$21(o) {
+	"@babel/helpers - typeof";
+	return _typeof$21 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$21(o);
+}
+function _extends$15() {
+	_extends$15 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$15.apply(this, arguments);
+}
+function ownKeys$18(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$18(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$18(Object(t), !0).forEach(function(r) {
+			_defineProperty$21(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$18(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _objectWithoutProperties$7(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$7(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
+		}
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$7(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
+}
+function _classCallCheck$14(instance, Constructor) {
+	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties$14(target, props) {
+	for (var i = 0; i < props.length; i++) {
+		var descriptor = props[i];
+		descriptor.enumerable = descriptor.enumerable || false;
+		descriptor.configurable = true;
+		if ("value" in descriptor) descriptor.writable = true;
+		Object.defineProperty(target, _toPropertyKey$21(descriptor.key), descriptor);
+	}
+}
+function _createClass$14(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$14(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$14(Constructor, staticProps);
+	Object.defineProperty(Constructor, "prototype", { writable: false });
+	return Constructor;
+}
+function _callSuper$12(t, o, e) {
+	return o = _getPrototypeOf$12(o), _possibleConstructorReturn$12(t, _isNativeReflectConstruct$12() ? Reflect.construct(o, e || [], _getPrototypeOf$12(t).constructor) : o.apply(t, e));
+}
+function _possibleConstructorReturn$12(self, call) {
+	if (call && (_typeof$21(call) === "object" || typeof call === "function")) return call;
+	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
+	return _assertThisInitialized$12(self);
+}
+function _assertThisInitialized$12(self) {
+	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	return self;
+}
+function _isNativeReflectConstruct$12() {
+	try {
+		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+	} catch (t) {}
+	return (_isNativeReflectConstruct$12 = function _isNativeReflectConstruct() {
+		return !!t;
+	})();
+}
+function _getPrototypeOf$12(o) {
+	_getPrototypeOf$12 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+		return o.__proto__ || Object.getPrototypeOf(o);
+	};
+	return _getPrototypeOf$12(o);
+}
+function _inherits$12(subClass, superClass) {
+	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
+	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
+		value: subClass,
+		writable: true,
+		configurable: true
+	} });
+	Object.defineProperty(subClass, "prototype", { writable: false });
+	if (superClass) _setPrototypeOf$12(subClass, superClass);
+}
+function _setPrototypeOf$12(o, p) {
+	_setPrototypeOf$12 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+		o.__proto__ = p;
+		return o;
+	};
+	return _setPrototypeOf$12(o, p);
+}
+function _defineProperty$21(obj, key, value) {
+	key = _toPropertyKey$21(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$21(t) {
+	var i = _toPrimitive$21(t, "string");
+	return "symbol" == _typeof$21(i) ? i : i + "";
+}
+function _toPrimitive$21(t, r) {
+	if ("object" != _typeof$21(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$21(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+var PolarRadiusAxis = /*#__PURE__*/ function(_PureComponent) {
+	function PolarRadiusAxis() {
+		_classCallCheck$14(this, PolarRadiusAxis);
+		return _callSuper$12(this, PolarRadiusAxis, arguments);
+	}
+	_inherits$12(PolarRadiusAxis, _PureComponent);
+	return _createClass$14(PolarRadiusAxis, [
+		{
+			key: "getTickValueCoord",
+			value: 
+			/**
+			* Calculate the coordinate of tick
+			* @param  {Number} coordinate The radius of tick
+			* @return {Object} (x, y)
+			*/
+			function getTickValueCoord(_ref) {
+				var coordinate = _ref.coordinate;
+				var _this$props = this.props, angle = _this$props.angle, cx = _this$props.cx, cy = _this$props.cy;
+				return polarToCartesian(cx, cy, coordinate, angle);
+			}
+		},
+		{
+			key: "getTickTextAnchor",
+			value: function getTickTextAnchor() {
+				var orientation = this.props.orientation;
+				var textAnchor;
+				switch (orientation) {
+					case "left":
+						textAnchor = "end";
+						break;
+					case "right":
+						textAnchor = "start";
+						break;
+					default: textAnchor = "middle";
+				}
+				return textAnchor;
+			}
+		},
+		{
+			key: "getViewBox",
+			value: function getViewBox() {
+				var _this$props2 = this.props, cx = _this$props2.cx, cy = _this$props2.cy, angle = _this$props2.angle, ticks = _this$props2.ticks;
+				var maxRadiusTick = (0, import_maxBy.default)(ticks, function(entry) {
+					return entry.coordinate || 0;
+				});
+				return {
+					cx,
+					cy,
+					startAngle: angle,
+					endAngle: angle,
+					innerRadius: (0, import_minBy.default)(ticks, function(entry) {
+						return entry.coordinate || 0;
+					}).coordinate || 0,
+					outerRadius: maxRadiusTick.coordinate || 0
+				};
+			}
+		},
+		{
+			key: "renderAxisLine",
+			value: function renderAxisLine() {
+				var _this$props3 = this.props, cx = _this$props3.cx, cy = _this$props3.cy, angle = _this$props3.angle, ticks = _this$props3.ticks, axisLine = _this$props3.axisLine, others = _objectWithoutProperties$7(_this$props3, _excluded$7);
+				var extent = ticks.reduce(function(result, entry) {
+					return [Math.min(result[0], entry.coordinate), Math.max(result[1], entry.coordinate)];
+				}, [Infinity, -Infinity]);
+				var point0 = polarToCartesian(cx, cy, extent[0], angle);
+				var point1 = polarToCartesian(cx, cy, extent[1], angle);
+				var props = _objectSpread$18(_objectSpread$18(_objectSpread$18({}, filterProps(others, false)), {}, { fill: "none" }, filterProps(axisLine, false)), {}, {
+					x1: point0.x,
+					y1: point0.y,
+					x2: point1.x,
+					y2: point1.y
+				});
+				return /*#__PURE__*/ import_react.createElement("line", _extends$15({ className: "recharts-polar-radius-axis-line" }, props));
+			}
+		},
+		{
+			key: "renderTicks",
+			value: function renderTicks() {
+				var _this = this;
+				var _this$props4 = this.props, ticks = _this$props4.ticks, tick = _this$props4.tick, angle = _this$props4.angle, tickFormatter = _this$props4.tickFormatter, stroke = _this$props4.stroke, others = _objectWithoutProperties$7(_this$props4, _excluded2$4);
+				var textAnchor = this.getTickTextAnchor();
+				var axisProps = filterProps(others, false);
+				var customTickProps = filterProps(tick, false);
+				var items = ticks.map(function(entry, i) {
+					var coord = _this.getTickValueCoord(entry);
+					var tickProps = _objectSpread$18(_objectSpread$18(_objectSpread$18(_objectSpread$18({
+						textAnchor,
+						transform: "rotate(".concat(90 - angle, ", ").concat(coord.x, ", ").concat(coord.y, ")")
+					}, axisProps), {}, {
+						stroke: "none",
+						fill: stroke
+					}, customTickProps), {}, { index: i }, coord), {}, { payload: entry });
+					return /*#__PURE__*/ import_react.createElement(Layer, _extends$15({
+						className: clsx("recharts-polar-radius-axis-tick", getTickClassName(tick)),
+						key: "tick-".concat(entry.coordinate)
+					}, adaptEventsOfChild(_this.props, entry, i)), PolarRadiusAxis.renderTickItem(tick, tickProps, tickFormatter ? tickFormatter(entry.value, i) : entry.value));
+				});
+				return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-polar-radius-axis-ticks" }, items);
+			}
+		},
+		{
+			key: "render",
+			value: function render() {
+				var _this$props5 = this.props, ticks = _this$props5.ticks, axisLine = _this$props5.axisLine, tick = _this$props5.tick;
+				if (!ticks || !ticks.length) return null;
+				return /*#__PURE__*/ import_react.createElement(Layer, { className: clsx("recharts-polar-radius-axis", this.props.className) }, axisLine && this.renderAxisLine(), tick && this.renderTicks(), Label.renderCallByParent(this.props, this.getViewBox()));
+			}
+		}
+	], [{
+		key: "renderTickItem",
+		value: function renderTickItem(option, props, value) {
+			var tickItem;
+			if (/*#__PURE__*/ import_react.isValidElement(option)) tickItem = /*#__PURE__*/ import_react.cloneElement(option, props);
+			else if ((0, import_isFunction.default)(option)) tickItem = option(props);
+			else tickItem = /*#__PURE__*/ import_react.createElement(Text, _extends$15({}, props, { className: "recharts-polar-radius-axis-tick-value" }), value);
+			return tickItem;
+		}
+	}]);
+}(import_react.PureComponent);
+_defineProperty$21(PolarRadiusAxis, "displayName", "PolarRadiusAxis");
+_defineProperty$21(PolarRadiusAxis, "axisType", "radiusAxis");
+_defineProperty$21(PolarRadiusAxis, "defaultProps", {
+	type: "number",
+	radiusAxisId: 0,
+	cx: 0,
+	cy: 0,
+	angle: 0,
+	orientation: "right",
+	stroke: "#ccc",
+	axisLine: true,
+	tick: true,
+	tickCount: 5,
+	allowDataOverflow: false,
+	scale: "auto",
+	allowDuplicatedCategory: true
+});
+//#endregion
+//#region node_modules/recharts/es6/polar/PolarAngleAxis.js
+/**
+* @fileOverview Axis of radial direction
+*/
+function _typeof$20(o) {
+	"@babel/helpers - typeof";
+	return _typeof$20 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$20(o);
+}
+function _extends$14() {
+	_extends$14 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$14.apply(this, arguments);
+}
+function ownKeys$17(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$17(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$17(Object(t), !0).forEach(function(r) {
+			_defineProperty$20(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$17(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _classCallCheck$13(instance, Constructor) {
+	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties$13(target, props) {
+	for (var i = 0; i < props.length; i++) {
+		var descriptor = props[i];
+		descriptor.enumerable = descriptor.enumerable || false;
+		descriptor.configurable = true;
+		if ("value" in descriptor) descriptor.writable = true;
+		Object.defineProperty(target, _toPropertyKey$20(descriptor.key), descriptor);
+	}
+}
+function _createClass$13(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$13(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$13(Constructor, staticProps);
+	Object.defineProperty(Constructor, "prototype", { writable: false });
+	return Constructor;
+}
+function _callSuper$11(t, o, e) {
+	return o = _getPrototypeOf$11(o), _possibleConstructorReturn$11(t, _isNativeReflectConstruct$11() ? Reflect.construct(o, e || [], _getPrototypeOf$11(t).constructor) : o.apply(t, e));
+}
+function _possibleConstructorReturn$11(self, call) {
+	if (call && (_typeof$20(call) === "object" || typeof call === "function")) return call;
+	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
+	return _assertThisInitialized$11(self);
+}
+function _assertThisInitialized$11(self) {
+	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	return self;
+}
+function _isNativeReflectConstruct$11() {
+	try {
+		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+	} catch (t) {}
+	return (_isNativeReflectConstruct$11 = function _isNativeReflectConstruct() {
+		return !!t;
+	})();
+}
+function _getPrototypeOf$11(o) {
+	_getPrototypeOf$11 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+		return o.__proto__ || Object.getPrototypeOf(o);
+	};
+	return _getPrototypeOf$11(o);
+}
+function _inherits$11(subClass, superClass) {
+	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
+	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
+		value: subClass,
+		writable: true,
+		configurable: true
+	} });
+	Object.defineProperty(subClass, "prototype", { writable: false });
+	if (superClass) _setPrototypeOf$11(subClass, superClass);
+}
+function _setPrototypeOf$11(o, p) {
+	_setPrototypeOf$11 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+		o.__proto__ = p;
+		return o;
+	};
+	return _setPrototypeOf$11(o, p);
+}
+function _defineProperty$20(obj, key, value) {
+	key = _toPropertyKey$20(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$20(t) {
+	var i = _toPrimitive$20(t, "string");
+	return "symbol" == _typeof$20(i) ? i : i + "";
+}
+function _toPrimitive$20(t, r) {
+	if ("object" != _typeof$20(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$20(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+var RADIAN = Math.PI / 180;
+var eps = 1e-5;
+var PolarAngleAxis = /*#__PURE__*/ function(_PureComponent) {
+	function PolarAngleAxis() {
+		_classCallCheck$13(this, PolarAngleAxis);
+		return _callSuper$11(this, PolarAngleAxis, arguments);
+	}
+	_inherits$11(PolarAngleAxis, _PureComponent);
+	return _createClass$13(PolarAngleAxis, [
+		{
+			key: "getTickLineCoord",
+			value: 
+			/**
+			* Calculate the coordinate of line endpoint
+			* @param  {Object} data The Data if ticks
+			* @return {Object} (x0, y0): The start point of text,
+			*                  (x1, y1): The end point close to text,
+			*                  (x2, y2): The end point close to axis
+			*/
+			function getTickLineCoord(data) {
+				var _this$props = this.props, cx = _this$props.cx, cy = _this$props.cy, radius = _this$props.radius, orientation = _this$props.orientation;
+				var tickLineSize = _this$props.tickSize || 8;
+				var p1 = polarToCartesian(cx, cy, radius, data.coordinate);
+				var p2 = polarToCartesian(cx, cy, radius + (orientation === "inner" ? -1 : 1) * tickLineSize, data.coordinate);
+				return {
+					x1: p1.x,
+					y1: p1.y,
+					x2: p2.x,
+					y2: p2.y
+				};
+			}
+		},
+		{
+			key: "getTickTextAnchor",
+			value: function getTickTextAnchor(data) {
+				var orientation = this.props.orientation;
+				var cos = Math.cos(-data.coordinate * RADIAN);
+				var textAnchor;
+				if (cos > eps) textAnchor = orientation === "outer" ? "start" : "end";
+				else if (cos < -eps) textAnchor = orientation === "outer" ? "end" : "start";
+				else textAnchor = "middle";
+				return textAnchor;
+			}
+		},
+		{
+			key: "renderAxisLine",
+			value: function renderAxisLine() {
+				var _this$props2 = this.props, cx = _this$props2.cx, cy = _this$props2.cy, radius = _this$props2.radius, axisLine = _this$props2.axisLine, axisLineType = _this$props2.axisLineType;
+				var props = _objectSpread$17(_objectSpread$17({}, filterProps(this.props, false)), {}, { fill: "none" }, filterProps(axisLine, false));
+				if (axisLineType === "circle") return /*#__PURE__*/ import_react.createElement(Dot, _extends$14({ className: "recharts-polar-angle-axis-line" }, props, {
+					cx,
+					cy,
+					r: radius
+				}));
+				var points = this.props.ticks.map(function(entry) {
+					return polarToCartesian(cx, cy, radius, entry.coordinate);
+				});
+				return /*#__PURE__*/ import_react.createElement(Polygon, _extends$14({ className: "recharts-polar-angle-axis-line" }, props, { points }));
+			}
+		},
+		{
+			key: "renderTicks",
+			value: function renderTicks() {
+				var _this = this;
+				var _this$props3 = this.props, ticks = _this$props3.ticks, tick = _this$props3.tick, tickLine = _this$props3.tickLine, tickFormatter = _this$props3.tickFormatter, stroke = _this$props3.stroke;
+				var axisProps = filterProps(this.props, false);
+				var customTickProps = filterProps(tick, false);
+				var tickLineProps = _objectSpread$17(_objectSpread$17({}, axisProps), {}, { fill: "none" }, filterProps(tickLine, false));
+				var items = ticks.map(function(entry, i) {
+					var lineCoord = _this.getTickLineCoord(entry);
+					var tickProps = _objectSpread$17(_objectSpread$17(_objectSpread$17({ textAnchor: _this.getTickTextAnchor(entry) }, axisProps), {}, {
+						stroke: "none",
+						fill: stroke
+					}, customTickProps), {}, {
+						index: i,
+						payload: entry,
+						x: lineCoord.x2,
+						y: lineCoord.y2
+					});
+					return /*#__PURE__*/ import_react.createElement(Layer, _extends$14({
+						className: clsx("recharts-polar-angle-axis-tick", getTickClassName(tick)),
+						key: "tick-".concat(entry.coordinate)
+					}, adaptEventsOfChild(_this.props, entry, i)), tickLine && /*#__PURE__*/ import_react.createElement("line", _extends$14({ className: "recharts-polar-angle-axis-tick-line" }, tickLineProps, lineCoord)), tick && PolarAngleAxis.renderTickItem(tick, tickProps, tickFormatter ? tickFormatter(entry.value, i) : entry.value));
+				});
+				return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-polar-angle-axis-ticks" }, items);
+			}
+		},
+		{
+			key: "render",
+			value: function render() {
+				var _this$props4 = this.props, ticks = _this$props4.ticks, radius = _this$props4.radius, axisLine = _this$props4.axisLine;
+				if (radius <= 0 || !ticks || !ticks.length) return null;
+				return /*#__PURE__*/ import_react.createElement(Layer, { className: clsx("recharts-polar-angle-axis", this.props.className) }, axisLine && this.renderAxisLine(), this.renderTicks());
+			}
+		}
+	], [{
+		key: "renderTickItem",
+		value: function renderTickItem(option, props, value) {
+			var tickItem;
+			if (/*#__PURE__*/ import_react.isValidElement(option)) tickItem = /*#__PURE__*/ import_react.cloneElement(option, props);
+			else if ((0, import_isFunction.default)(option)) tickItem = option(props);
+			else tickItem = /*#__PURE__*/ import_react.createElement(Text, _extends$14({}, props, { className: "recharts-polar-angle-axis-tick-value" }), value);
+			return tickItem;
+		}
+	}]);
+}(import_react.PureComponent);
+_defineProperty$20(PolarAngleAxis, "displayName", "PolarAngleAxis");
+_defineProperty$20(PolarAngleAxis, "axisType", "angleAxis");
+_defineProperty$20(PolarAngleAxis, "defaultProps", {
+	type: "category",
+	angleAxisId: 0,
+	scale: "auto",
+	cx: 0,
+	cy: 0,
+	orientation: "outer",
+	axisLine: true,
+	tickLine: true,
+	tickSize: 8,
+	tick: true,
+	hide: false,
+	allowDuplicatedCategory: true
+});
+//#endregion
+//#region node_modules/recharts/es6/shape/Trapezoid.js
+var import_isPlainObject = /* @__PURE__ */ __toESM(require_isPlainObject());
+var import_isBoolean = /* @__PURE__ */ __toESM(require_isBoolean());
+/**
+* @fileOverview Rectangle
+*/
+function _typeof$19(o) {
+	"@babel/helpers - typeof";
+	return _typeof$19 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$19(o);
+}
+function _extends$13() {
+	_extends$13 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$13.apply(this, arguments);
+}
+function _slicedToArray$2(arr, i) {
+	return _arrayWithHoles$2(arr) || _iterableToArrayLimit$2(arr, i) || _unsupportedIterableToArray$3(arr, i) || _nonIterableRest$2();
+}
+function _nonIterableRest$2() {
+	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _unsupportedIterableToArray$3(o, minLen) {
+	if (!o) return;
+	if (typeof o === "string") return _arrayLikeToArray$3(o, minLen);
+	var n = Object.prototype.toString.call(o).slice(8, -1);
+	if (n === "Object" && o.constructor) n = o.constructor.name;
+	if (n === "Map" || n === "Set") return Array.from(o);
+	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen);
+}
+function _arrayLikeToArray$3(arr, len) {
+	if (len == null || len > arr.length) len = arr.length;
+	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+	return arr2;
+}
+function _iterableToArrayLimit$2(r, l) {
+	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
+	if (null != t) {
+		var e, n, i, u, a = [], f = !0, o = !1;
+		try {
+			if (i = (t = t.call(r)).next, 0 === l) {
+				if (Object(t) !== t) return;
+				f = !1;
+			} else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
+		} catch (r) {
+			o = !0, n = r;
+		} finally {
+			try {
+				if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
+			} finally {
+				if (o) throw n;
+			}
+		}
+		return a;
+	}
+}
+function _arrayWithHoles$2(arr) {
 	if (Array.isArray(arr)) return arr;
 }
 function ownKeys$16(e, r) {
@@ -6077,88 +7256,56 @@ function _toPrimitive$19(t, r) {
 	}
 	return ("string" === r ? String : Number)(t);
 }
-var getRectanglePath = function getRectanglePath(x, y, width, height, radius) {
-	var maxRadius = Math.min(Math.abs(width) / 2, Math.abs(height) / 2);
-	var ySign = height >= 0 ? 1 : -1;
-	var xSign = width >= 0 ? 1 : -1;
-	var clockWise = height >= 0 && width >= 0 || height < 0 && width < 0 ? 1 : 0;
-	var path;
-	if (maxRadius > 0 && radius instanceof Array) {
-		var newRadius = [
-			0,
-			0,
-			0,
-			0
-		];
-		for (var i = 0, len = 4; i < len; i++) newRadius[i] = radius[i] > maxRadius ? maxRadius : radius[i];
-		path = "M".concat(x, ",").concat(y + ySign * newRadius[0]);
-		if (newRadius[0] > 0) path += "A ".concat(newRadius[0], ",").concat(newRadius[0], ",0,0,").concat(clockWise, ",").concat(x + xSign * newRadius[0], ",").concat(y);
-		path += "L ".concat(x + width - xSign * newRadius[1], ",").concat(y);
-		if (newRadius[1] > 0) path += "A ".concat(newRadius[1], ",").concat(newRadius[1], ",0,0,").concat(clockWise, ",\n        ").concat(x + width, ",").concat(y + ySign * newRadius[1]);
-		path += "L ".concat(x + width, ",").concat(y + height - ySign * newRadius[2]);
-		if (newRadius[2] > 0) path += "A ".concat(newRadius[2], ",").concat(newRadius[2], ",0,0,").concat(clockWise, ",\n        ").concat(x + width - xSign * newRadius[2], ",").concat(y + height);
-		path += "L ".concat(x + xSign * newRadius[3], ",").concat(y + height);
-		if (newRadius[3] > 0) path += "A ".concat(newRadius[3], ",").concat(newRadius[3], ",0,0,").concat(clockWise, ",\n        ").concat(x, ",").concat(y + height - ySign * newRadius[3]);
-		path += "Z";
-	} else if (maxRadius > 0 && radius === +radius && radius > 0) {
-		var _newRadius = Math.min(maxRadius, radius);
-		path = "M ".concat(x, ",").concat(y + ySign * _newRadius, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x + xSign * _newRadius, ",").concat(y, "\n            L ").concat(x + width - xSign * _newRadius, ",").concat(y, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x + width, ",").concat(y + ySign * _newRadius, "\n            L ").concat(x + width, ",").concat(y + height - ySign * _newRadius, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x + width - xSign * _newRadius, ",").concat(y + height, "\n            L ").concat(x + xSign * _newRadius, ",").concat(y + height, "\n            A ").concat(_newRadius, ",").concat(_newRadius, ",0,0,").concat(clockWise, ",").concat(x, ",").concat(y + height - ySign * _newRadius, " Z");
-	} else path = "M ".concat(x, ",").concat(y, " h ").concat(width, " v ").concat(height, " h ").concat(-width, " Z");
+var getTrapezoidPath = function getTrapezoidPath(x, y, upperWidth, lowerWidth, height) {
+	var widthGap = upperWidth - lowerWidth;
+	var path = "M ".concat(x, ",").concat(y);
+	path += "L ".concat(x + upperWidth, ",").concat(y);
+	path += "L ".concat(x + upperWidth - widthGap / 2, ",").concat(y + height);
+	path += "L ".concat(x + upperWidth - widthGap / 2 - lowerWidth, ",").concat(y + height);
+	path += "L ".concat(x, ",").concat(y, " Z");
 	return path;
-};
-var isInRectangle = function isInRectangle(point, rect) {
-	if (!point || !rect) return false;
-	var px = point.x, py = point.y;
-	var x = rect.x, y = rect.y, width = rect.width, height = rect.height;
-	if (Math.abs(width) > 0 && Math.abs(height) > 0) {
-		var minX = Math.min(x, x + width);
-		var maxX = Math.max(x, x + width);
-		var minY = Math.min(y, y + height);
-		var maxY = Math.max(y, y + height);
-		return px >= minX && px <= maxX && py >= minY && py <= maxY;
-	}
-	return false;
 };
 var defaultProps$1 = {
 	x: 0,
 	y: 0,
-	width: 0,
+	upperWidth: 0,
+	lowerWidth: 0,
 	height: 0,
-	radius: 0,
-	isAnimationActive: false,
 	isUpdateAnimationActive: false,
 	animationBegin: 0,
 	animationDuration: 1500,
 	animationEasing: "ease"
 };
-var Rectangle = function Rectangle(rectangleProps) {
-	var props = _objectSpread$16(_objectSpread$16({}, defaultProps$1), rectangleProps);
+var Trapezoid = function Trapezoid(props) {
+	var trapezoidProps = _objectSpread$16(_objectSpread$16({}, defaultProps$1), props);
 	var pathRef = (0, import_react.useRef)();
-	var _useState2 = _slicedToArray$3((0, import_react.useState)(-1), 2), totalLength = _useState2[0], setTotalLength = _useState2[1];
+	var _useState2 = _slicedToArray$2((0, import_react.useState)(-1), 2), totalLength = _useState2[0], setTotalLength = _useState2[1];
 	(0, import_react.useEffect)(function() {
 		if (pathRef.current && pathRef.current.getTotalLength) try {
 			var pathTotalLength = pathRef.current.getTotalLength();
 			if (pathTotalLength) setTotalLength(pathTotalLength);
 		} catch (err) {}
 	}, []);
-	var x = props.x, y = props.y, width = props.width, height = props.height, radius = props.radius, className = props.className;
-	var animationEasing = props.animationEasing, animationDuration = props.animationDuration, animationBegin = props.animationBegin, isAnimationActive = props.isAnimationActive, isUpdateAnimationActive = props.isUpdateAnimationActive;
-	if (x !== +x || y !== +y || width !== +width || height !== +height || width === 0 || height === 0) return null;
-	var layerClass = clsx("recharts-rectangle", className);
-	if (!isUpdateAnimationActive) return /*#__PURE__*/ import_react.createElement("path", _extends$14({}, filterProps(props, true), {
+	var x = trapezoidProps.x, y = trapezoidProps.y, upperWidth = trapezoidProps.upperWidth, lowerWidth = trapezoidProps.lowerWidth, height = trapezoidProps.height, className = trapezoidProps.className;
+	var animationEasing = trapezoidProps.animationEasing, animationDuration = trapezoidProps.animationDuration, animationBegin = trapezoidProps.animationBegin, isUpdateAnimationActive = trapezoidProps.isUpdateAnimationActive;
+	if (x !== +x || y !== +y || upperWidth !== +upperWidth || lowerWidth !== +lowerWidth || height !== +height || upperWidth === 0 && lowerWidth === 0 || height === 0) return null;
+	var layerClass = clsx("recharts-trapezoid", className);
+	if (!isUpdateAnimationActive) return /*#__PURE__*/ import_react.createElement("g", null, /*#__PURE__*/ import_react.createElement("path", _extends$13({}, filterProps(trapezoidProps, true), {
 		className: layerClass,
-		d: getRectanglePath(x, y, width, height, radius)
-	}));
+		d: getTrapezoidPath(x, y, upperWidth, lowerWidth, height)
+	})));
 	return /*#__PURE__*/ import_react.createElement(es6_default, {
 		canBegin: totalLength > 0,
 		from: {
-			width,
+			upperWidth: 0,
+			lowerWidth: 0,
 			height,
 			x,
 			y
 		},
 		to: {
-			width,
+			upperWidth,
+			lowerWidth,
 			height,
 			x,
 			y
@@ -6167,7 +7314,7 @@ var Rectangle = function Rectangle(rectangleProps) {
 		animationEasing,
 		isActive: isUpdateAnimationActive
 	}, function(_ref) {
-		var currWidth = _ref.width, currHeight = _ref.height, currX = _ref.x, currY = _ref.y;
+		var currUpperWidth = _ref.upperWidth, currLowerWidth = _ref.lowerWidth, currHeight = _ref.height, currX = _ref.x, currY = _ref.y;
 		return /*#__PURE__*/ import_react.createElement(es6_default, {
 			canBegin: totalLength > 0,
 			from: "0px ".concat(totalLength === -1 ? 1 : totalLength, "px"),
@@ -6175,46 +7322,23 @@ var Rectangle = function Rectangle(rectangleProps) {
 			attributeName: "strokeDasharray",
 			begin: animationBegin,
 			duration: animationDuration,
-			isActive: isAnimationActive,
 			easing: animationEasing
-		}, /*#__PURE__*/ import_react.createElement("path", _extends$14({}, filterProps(props, true), {
+		}, /*#__PURE__*/ import_react.createElement("path", _extends$13({}, filterProps(trapezoidProps, true), {
 			className: layerClass,
-			d: getRectanglePath(currX, currY, currWidth, currHeight, radius),
+			d: getTrapezoidPath(currX, currY, currUpperWidth, currLowerWidth, currHeight),
 			ref: pathRef
 		})));
 	});
 };
 //#endregion
-//#region node_modules/recharts/es6/shape/Dot.js
-/**
-* @fileOverview Dot
-*/
-function _extends$13() {
-	_extends$13 = Object.assign ? Object.assign.bind() : function(target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
-		}
-		return target;
-	};
-	return _extends$13.apply(this, arguments);
-}
-var Dot = function Dot(props) {
-	var cx = props.cx, cy = props.cy, r = props.r, className = props.className;
-	var layerClass = clsx("recharts-dot", className);
-	if (cx === +cx && cy === +cy && r === +r) return /*#__PURE__*/ import_react.createElement("circle", _extends$13({}, filterProps(props, false), adaptEventHandlers(props), {
-		className: layerClass,
-		cx,
-		cy,
-		r
-	}));
-	return null;
-};
-//#endregion
-//#region node_modules/recharts/es6/shape/Cross.js
-/**
-* @fileOverview Cross
-*/
+//#region node_modules/recharts/es6/util/ActiveShapeUtils.js
+var _excluded$6 = [
+	"option",
+	"shapeType",
+	"propTransformer",
+	"activeClassName",
+	"isActive"
+];
 function _typeof$18(o) {
 	"@babel/helpers - typeof";
 	return _typeof$18 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
@@ -6223,24 +7347,29 @@ function _typeof$18(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
 	}, _typeof$18(o);
 }
-var _excluded$6 = [
-	"x",
-	"y",
-	"top",
-	"left",
-	"width",
-	"height",
-	"className"
-];
-function _extends$12() {
-	_extends$12 = Object.assign ? Object.assign.bind() : function(target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+function _objectWithoutProperties$6(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$6(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
 		}
-		return target;
-	};
-	return _extends$12.apply(this, arguments);
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$6(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
 }
 function ownKeys$15(e, r) {
 	var t = Object.keys(e);
@@ -6288,324 +7417,6 @@ function _toPrimitive$18(t, r) {
 	}
 	return ("string" === r ? String : Number)(t);
 }
-function _objectWithoutProperties$6(source, excluded) {
-	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$6(source, excluded);
-	var key, i;
-	if (Object.getOwnPropertySymbols) {
-		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-		for (i = 0; i < sourceSymbolKeys.length; i++) {
-			key = sourceSymbolKeys[i];
-			if (excluded.indexOf(key) >= 0) continue;
-			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-			target[key] = source[key];
-		}
-	}
-	return target;
-}
-function _objectWithoutPropertiesLoose$6(source, excluded) {
-	if (source == null) return {};
-	var target = {};
-	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
-		if (excluded.indexOf(key) >= 0) continue;
-		target[key] = source[key];
-	}
-	return target;
-}
-var getPath = function getPath(x, y, width, height, top, left) {
-	return "M".concat(x, ",").concat(top, "v").concat(height, "M").concat(left, ",").concat(y, "h").concat(width);
-};
-var Cross = function Cross(_ref) {
-	var _ref$x = _ref.x, x = _ref$x === void 0 ? 0 : _ref$x, _ref$y = _ref.y, y = _ref$y === void 0 ? 0 : _ref$y, _ref$top = _ref.top, top = _ref$top === void 0 ? 0 : _ref$top, _ref$left = _ref.left, left = _ref$left === void 0 ? 0 : _ref$left, _ref$width = _ref.width, width = _ref$width === void 0 ? 0 : _ref$width, _ref$height = _ref.height, height = _ref$height === void 0 ? 0 : _ref$height, className = _ref.className, rest = _objectWithoutProperties$6(_ref, _excluded$6);
-	var props = _objectSpread$15({
-		x,
-		y,
-		top,
-		left,
-		width,
-		height
-	}, rest);
-	if (!isNumber(x) || !isNumber(y) || !isNumber(width) || !isNumber(height) || !isNumber(top) || !isNumber(left)) return null;
-	return /*#__PURE__*/ import_react.createElement("path", _extends$12({}, filterProps(props, true), {
-		className: clsx("recharts-cross", className),
-		d: getPath(x, y, width, height, top, left)
-	}));
-};
-//#endregion
-//#region node_modules/recharts/es6/shape/Trapezoid.js
-var import_isPlainObject = /* @__PURE__ */ __toESM(require_isPlainObject());
-var import_isBoolean = /* @__PURE__ */ __toESM(require_isBoolean());
-/**
-* @fileOverview Rectangle
-*/
-function _typeof$17(o) {
-	"@babel/helpers - typeof";
-	return _typeof$17 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-		return typeof o;
-	} : function(o) {
-		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$17(o);
-}
-function _extends$11() {
-	_extends$11 = Object.assign ? Object.assign.bind() : function(target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
-		}
-		return target;
-	};
-	return _extends$11.apply(this, arguments);
-}
-function _slicedToArray$2(arr, i) {
-	return _arrayWithHoles$2(arr) || _iterableToArrayLimit$2(arr, i) || _unsupportedIterableToArray$3(arr, i) || _nonIterableRest$2();
-}
-function _nonIterableRest$2() {
-	throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _unsupportedIterableToArray$3(o, minLen) {
-	if (!o) return;
-	if (typeof o === "string") return _arrayLikeToArray$3(o, minLen);
-	var n = Object.prototype.toString.call(o).slice(8, -1);
-	if (n === "Object" && o.constructor) n = o.constructor.name;
-	if (n === "Map" || n === "Set") return Array.from(o);
-	if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$3(o, minLen);
-}
-function _arrayLikeToArray$3(arr, len) {
-	if (len == null || len > arr.length) len = arr.length;
-	for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-	return arr2;
-}
-function _iterableToArrayLimit$2(r, l) {
-	var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-	if (null != t) {
-		var e, n, i, u, a = [], f = !0, o = !1;
-		try {
-			if (i = (t = t.call(r)).next, 0 === l) {
-				if (Object(t) !== t) return;
-				f = !1;
-			} else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
-		} catch (r) {
-			o = !0, n = r;
-		} finally {
-			try {
-				if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return;
-			} finally {
-				if (o) throw n;
-			}
-		}
-		return a;
-	}
-}
-function _arrayWithHoles$2(arr) {
-	if (Array.isArray(arr)) return arr;
-}
-function ownKeys$14(e, r) {
-	var t = Object.keys(e);
-	if (Object.getOwnPropertySymbols) {
-		var o = Object.getOwnPropertySymbols(e);
-		r && (o = o.filter(function(r) {
-			return Object.getOwnPropertyDescriptor(e, r).enumerable;
-		})), t.push.apply(t, o);
-	}
-	return t;
-}
-function _objectSpread$14(e) {
-	for (var r = 1; r < arguments.length; r++) {
-		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$14(Object(t), !0).forEach(function(r) {
-			_defineProperty$17(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$14(Object(t)).forEach(function(r) {
-			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-		});
-	}
-	return e;
-}
-function _defineProperty$17(obj, key, value) {
-	key = _toPropertyKey$17(key);
-	if (key in obj) Object.defineProperty(obj, key, {
-		value,
-		enumerable: true,
-		configurable: true,
-		writable: true
-	});
-	else obj[key] = value;
-	return obj;
-}
-function _toPropertyKey$17(t) {
-	var i = _toPrimitive$17(t, "string");
-	return "symbol" == _typeof$17(i) ? i : i + "";
-}
-function _toPrimitive$17(t, r) {
-	if ("object" != _typeof$17(t) || !t) return t;
-	var e = t[Symbol.toPrimitive];
-	if (void 0 !== e) {
-		var i = e.call(t, r || "default");
-		if ("object" != _typeof$17(i)) return i;
-		throw new TypeError("@@toPrimitive must return a primitive value.");
-	}
-	return ("string" === r ? String : Number)(t);
-}
-var getTrapezoidPath = function getTrapezoidPath(x, y, upperWidth, lowerWidth, height) {
-	var widthGap = upperWidth - lowerWidth;
-	var path = "M ".concat(x, ",").concat(y);
-	path += "L ".concat(x + upperWidth, ",").concat(y);
-	path += "L ".concat(x + upperWidth - widthGap / 2, ",").concat(y + height);
-	path += "L ".concat(x + upperWidth - widthGap / 2 - lowerWidth, ",").concat(y + height);
-	path += "L ".concat(x, ",").concat(y, " Z");
-	return path;
-};
-var defaultProps = {
-	x: 0,
-	y: 0,
-	upperWidth: 0,
-	lowerWidth: 0,
-	height: 0,
-	isUpdateAnimationActive: false,
-	animationBegin: 0,
-	animationDuration: 1500,
-	animationEasing: "ease"
-};
-var Trapezoid = function Trapezoid(props) {
-	var trapezoidProps = _objectSpread$14(_objectSpread$14({}, defaultProps), props);
-	var pathRef = (0, import_react.useRef)();
-	var _useState2 = _slicedToArray$2((0, import_react.useState)(-1), 2), totalLength = _useState2[0], setTotalLength = _useState2[1];
-	(0, import_react.useEffect)(function() {
-		if (pathRef.current && pathRef.current.getTotalLength) try {
-			var pathTotalLength = pathRef.current.getTotalLength();
-			if (pathTotalLength) setTotalLength(pathTotalLength);
-		} catch (err) {}
-	}, []);
-	var x = trapezoidProps.x, y = trapezoidProps.y, upperWidth = trapezoidProps.upperWidth, lowerWidth = trapezoidProps.lowerWidth, height = trapezoidProps.height, className = trapezoidProps.className;
-	var animationEasing = trapezoidProps.animationEasing, animationDuration = trapezoidProps.animationDuration, animationBegin = trapezoidProps.animationBegin, isUpdateAnimationActive = trapezoidProps.isUpdateAnimationActive;
-	if (x !== +x || y !== +y || upperWidth !== +upperWidth || lowerWidth !== +lowerWidth || height !== +height || upperWidth === 0 && lowerWidth === 0 || height === 0) return null;
-	var layerClass = clsx("recharts-trapezoid", className);
-	if (!isUpdateAnimationActive) return /*#__PURE__*/ import_react.createElement("g", null, /*#__PURE__*/ import_react.createElement("path", _extends$11({}, filterProps(trapezoidProps, true), {
-		className: layerClass,
-		d: getTrapezoidPath(x, y, upperWidth, lowerWidth, height)
-	})));
-	return /*#__PURE__*/ import_react.createElement(es6_default, {
-		canBegin: totalLength > 0,
-		from: {
-			upperWidth: 0,
-			lowerWidth: 0,
-			height,
-			x,
-			y
-		},
-		to: {
-			upperWidth,
-			lowerWidth,
-			height,
-			x,
-			y
-		},
-		duration: animationDuration,
-		animationEasing,
-		isActive: isUpdateAnimationActive
-	}, function(_ref) {
-		var currUpperWidth = _ref.upperWidth, currLowerWidth = _ref.lowerWidth, currHeight = _ref.height, currX = _ref.x, currY = _ref.y;
-		return /*#__PURE__*/ import_react.createElement(es6_default, {
-			canBegin: totalLength > 0,
-			from: "0px ".concat(totalLength === -1 ? 1 : totalLength, "px"),
-			to: "".concat(totalLength, "px 0px"),
-			attributeName: "strokeDasharray",
-			begin: animationBegin,
-			duration: animationDuration,
-			easing: animationEasing
-		}, /*#__PURE__*/ import_react.createElement("path", _extends$11({}, filterProps(trapezoidProps, true), {
-			className: layerClass,
-			d: getTrapezoidPath(currX, currY, currUpperWidth, currLowerWidth, currHeight),
-			ref: pathRef
-		})));
-	});
-};
-//#endregion
-//#region node_modules/recharts/es6/util/ActiveShapeUtils.js
-var _excluded$5 = [
-	"option",
-	"shapeType",
-	"propTransformer",
-	"activeClassName",
-	"isActive"
-];
-function _typeof$16(o) {
-	"@babel/helpers - typeof";
-	return _typeof$16 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-		return typeof o;
-	} : function(o) {
-		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$16(o);
-}
-function _objectWithoutProperties$5(source, excluded) {
-	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$5(source, excluded);
-	var key, i;
-	if (Object.getOwnPropertySymbols) {
-		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-		for (i = 0; i < sourceSymbolKeys.length; i++) {
-			key = sourceSymbolKeys[i];
-			if (excluded.indexOf(key) >= 0) continue;
-			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-			target[key] = source[key];
-		}
-	}
-	return target;
-}
-function _objectWithoutPropertiesLoose$5(source, excluded) {
-	if (source == null) return {};
-	var target = {};
-	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
-		if (excluded.indexOf(key) >= 0) continue;
-		target[key] = source[key];
-	}
-	return target;
-}
-function ownKeys$13(e, r) {
-	var t = Object.keys(e);
-	if (Object.getOwnPropertySymbols) {
-		var o = Object.getOwnPropertySymbols(e);
-		r && (o = o.filter(function(r) {
-			return Object.getOwnPropertyDescriptor(e, r).enumerable;
-		})), t.push.apply(t, o);
-	}
-	return t;
-}
-function _objectSpread$13(e) {
-	for (var r = 1; r < arguments.length; r++) {
-		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$13(Object(t), !0).forEach(function(r) {
-			_defineProperty$16(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$13(Object(t)).forEach(function(r) {
-			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-		});
-	}
-	return e;
-}
-function _defineProperty$16(obj, key, value) {
-	key = _toPropertyKey$16(key);
-	if (key in obj) Object.defineProperty(obj, key, {
-		value,
-		enumerable: true,
-		configurable: true,
-		writable: true
-	});
-	else obj[key] = value;
-	return obj;
-}
-function _toPropertyKey$16(t) {
-	var i = _toPrimitive$16(t, "string");
-	return "symbol" == _typeof$16(i) ? i : i + "";
-}
-function _toPrimitive$16(t, r) {
-	if ("object" != _typeof$16(t) || !t) return t;
-	var e = t[Symbol.toPrimitive];
-	if (void 0 !== e) {
-		var i = e.call(t, r || "default");
-		if ("object" != _typeof$16(i)) return i;
-		throw new TypeError("@@toPrimitive must return a primitive value.");
-	}
-	return ("string" === r ? String : Number)(t);
-}
 /**
 * This is an abstraction for rendering a user defined prop for a customized shape in several forms.
 *
@@ -6620,7 +7431,7 @@ function _toPrimitive$16(t, r) {
 *
 */
 function defaultPropTransformer(option, props) {
-	return _objectSpread$13(_objectSpread$13({}, props), option);
+	return _objectSpread$15(_objectSpread$15({}, props), option);
 }
 function isSymbolsProps(shapeType, _elementProps) {
 	return shapeType === "symbols";
@@ -6642,9 +7453,9 @@ function getPropsFromShapeOption(option) {
 	return option;
 }
 function Shape(_ref2) {
-	var option = _ref2.option, shapeType = _ref2.shapeType, _ref2$propTransformer = _ref2.propTransformer, propTransformer = _ref2$propTransformer === void 0 ? defaultPropTransformer : _ref2$propTransformer, _ref2$activeClassName = _ref2.activeClassName, activeClassName = _ref2$activeClassName === void 0 ? "recharts-active-shape" : _ref2$activeClassName, isActive = _ref2.isActive, props = _objectWithoutProperties$5(_ref2, _excluded$5);
+	var option = _ref2.option, shapeType = _ref2.shapeType, _ref2$propTransformer = _ref2.propTransformer, propTransformer = _ref2$propTransformer === void 0 ? defaultPropTransformer : _ref2$propTransformer, _ref2$activeClassName = _ref2.activeClassName, activeClassName = _ref2$activeClassName === void 0 ? "recharts-active-shape" : _ref2$activeClassName, isActive = _ref2.isActive, props = _objectWithoutProperties$6(_ref2, _excluded$6);
 	var shape;
-	if (/*#__PURE__*/ (0, import_react.isValidElement)(option)) shape = /*#__PURE__*/ (0, import_react.cloneElement)(option, _objectSpread$13(_objectSpread$13({}, props), getPropsFromShapeOption(option)));
+	if (/*#__PURE__*/ (0, import_react.isValidElement)(option)) shape = /*#__PURE__*/ (0, import_react.cloneElement)(option, _objectSpread$15(_objectSpread$15({}, props), getPropsFromShapeOption(option)));
 	else if ((0, import_isFunction.default)(option)) shape = option(props);
 	else if ((0, import_isPlainObject.default)(option) && !(0, import_isBoolean.default)(option)) {
 		var nextProps = propTransformer(option, props);
@@ -6742,8 +7553,600 @@ function getActiveShapeIndexForTooltip(_ref3) {
 	return itemData.indexOf(activeItemMatches[activeItemMatches.length - 1]);
 }
 //#endregion
+//#region node_modules/recharts/es6/polar/Pie.js
+/**
+* @fileOverview Render sectors of a pie
+*/
+var _Pie;
+function _typeof$17(o) {
+	"@babel/helpers - typeof";
+	return _typeof$17 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$17(o);
+}
+function _extends$12() {
+	_extends$12 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$12.apply(this, arguments);
+}
+function ownKeys$14(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$14(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$14(Object(t), !0).forEach(function(r) {
+			_defineProperty$17(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$14(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _classCallCheck$12(instance, Constructor) {
+	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties$12(target, props) {
+	for (var i = 0; i < props.length; i++) {
+		var descriptor = props[i];
+		descriptor.enumerable = descriptor.enumerable || false;
+		descriptor.configurable = true;
+		if ("value" in descriptor) descriptor.writable = true;
+		Object.defineProperty(target, _toPropertyKey$17(descriptor.key), descriptor);
+	}
+}
+function _createClass$12(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$12(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$12(Constructor, staticProps);
+	Object.defineProperty(Constructor, "prototype", { writable: false });
+	return Constructor;
+}
+function _callSuper$10(t, o, e) {
+	return o = _getPrototypeOf$10(o), _possibleConstructorReturn$10(t, _isNativeReflectConstruct$10() ? Reflect.construct(o, e || [], _getPrototypeOf$10(t).constructor) : o.apply(t, e));
+}
+function _possibleConstructorReturn$10(self, call) {
+	if (call && (_typeof$17(call) === "object" || typeof call === "function")) return call;
+	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
+	return _assertThisInitialized$10(self);
+}
+function _assertThisInitialized$10(self) {
+	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	return self;
+}
+function _isNativeReflectConstruct$10() {
+	try {
+		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+	} catch (t) {}
+	return (_isNativeReflectConstruct$10 = function _isNativeReflectConstruct() {
+		return !!t;
+	})();
+}
+function _getPrototypeOf$10(o) {
+	_getPrototypeOf$10 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+		return o.__proto__ || Object.getPrototypeOf(o);
+	};
+	return _getPrototypeOf$10(o);
+}
+function _inherits$10(subClass, superClass) {
+	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
+	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
+		value: subClass,
+		writable: true,
+		configurable: true
+	} });
+	Object.defineProperty(subClass, "prototype", { writable: false });
+	if (superClass) _setPrototypeOf$10(subClass, superClass);
+}
+function _setPrototypeOf$10(o, p) {
+	_setPrototypeOf$10 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+		o.__proto__ = p;
+		return o;
+	};
+	return _setPrototypeOf$10(o, p);
+}
+function _defineProperty$17(obj, key, value) {
+	key = _toPropertyKey$17(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$17(t) {
+	var i = _toPrimitive$17(t, "string");
+	return "symbol" == _typeof$17(i) ? i : i + "";
+}
+function _toPrimitive$17(t, r) {
+	if ("object" != _typeof$17(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$17(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+var Pie = /*#__PURE__*/ function(_PureComponent) {
+	function Pie(props) {
+		var _this;
+		_classCallCheck$12(this, Pie);
+		_this = _callSuper$10(this, Pie, [props]);
+		_defineProperty$17(_this, "pieRef", null);
+		_defineProperty$17(_this, "sectorRefs", []);
+		_defineProperty$17(_this, "id", uniqueId("recharts-pie-"));
+		_defineProperty$17(_this, "handleAnimationEnd", function() {
+			var onAnimationEnd = _this.props.onAnimationEnd;
+			_this.setState({ isAnimationFinished: true });
+			if ((0, import_isFunction.default)(onAnimationEnd)) onAnimationEnd();
+		});
+		_defineProperty$17(_this, "handleAnimationStart", function() {
+			var onAnimationStart = _this.props.onAnimationStart;
+			_this.setState({ isAnimationFinished: false });
+			if ((0, import_isFunction.default)(onAnimationStart)) onAnimationStart();
+		});
+		_this.state = {
+			isAnimationFinished: !props.isAnimationActive,
+			prevIsAnimationActive: props.isAnimationActive,
+			prevAnimationId: props.animationId,
+			sectorToFocus: 0
+		};
+		return _this;
+	}
+	_inherits$10(Pie, _PureComponent);
+	return _createClass$12(Pie, [
+		{
+			key: "isActiveIndex",
+			value: function isActiveIndex(i) {
+				var activeIndex = this.props.activeIndex;
+				if (Array.isArray(activeIndex)) return activeIndex.indexOf(i) !== -1;
+				return i === activeIndex;
+			}
+		},
+		{
+			key: "hasActiveIndex",
+			value: function hasActiveIndex() {
+				var activeIndex = this.props.activeIndex;
+				return Array.isArray(activeIndex) ? activeIndex.length !== 0 : activeIndex || activeIndex === 0;
+			}
+		},
+		{
+			key: "renderLabels",
+			value: function renderLabels(sectors) {
+				if (this.props.isAnimationActive && !this.state.isAnimationFinished) return null;
+				var _this$props = this.props, label = _this$props.label, labelLine = _this$props.labelLine, dataKey = _this$props.dataKey, valueKey = _this$props.valueKey;
+				var pieProps = filterProps(this.props, false);
+				var customLabelProps = filterProps(label, false);
+				var customLabelLineProps = filterProps(labelLine, false);
+				var offsetRadius = label && label.offsetRadius || 20;
+				var labels = sectors.map(function(entry, i) {
+					var midAngle = (entry.startAngle + entry.endAngle) / 2;
+					var endPoint = polarToCartesian(entry.cx, entry.cy, entry.outerRadius + offsetRadius, midAngle);
+					var labelProps = _objectSpread$14(_objectSpread$14(_objectSpread$14(_objectSpread$14({}, pieProps), entry), {}, { stroke: "none" }, customLabelProps), {}, {
+						index: i,
+						textAnchor: Pie.getTextAnchor(endPoint.x, entry.cx)
+					}, endPoint);
+					var lineProps = _objectSpread$14(_objectSpread$14(_objectSpread$14(_objectSpread$14({}, pieProps), entry), {}, {
+						fill: "none",
+						stroke: entry.fill
+					}, customLabelLineProps), {}, {
+						index: i,
+						points: [polarToCartesian(entry.cx, entry.cy, entry.outerRadius, midAngle), endPoint]
+					});
+					var realDataKey = dataKey;
+					if ((0, import_isNil.default)(dataKey) && (0, import_isNil.default)(valueKey)) realDataKey = "value";
+					else if ((0, import_isNil.default)(dataKey)) realDataKey = valueKey;
+					return /*#__PURE__*/ import_react.createElement(Layer, { key: "label-".concat(entry.startAngle, "-").concat(entry.endAngle, "-").concat(entry.midAngle, "-").concat(i) }, labelLine && Pie.renderLabelLineItem(labelLine, lineProps, "line"), Pie.renderLabelItem(label, labelProps, getValueByDataKey(entry, realDataKey)));
+				});
+				return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-pie-labels" }, labels);
+			}
+		},
+		{
+			key: "renderSectorsStatically",
+			value: function renderSectorsStatically(sectors) {
+				var _this2 = this;
+				var _this$props2 = this.props, activeShape = _this$props2.activeShape, blendStroke = _this$props2.blendStroke, inactiveShapeProp = _this$props2.inactiveShape;
+				return sectors.map(function(entry, i) {
+					if ((entry === null || entry === void 0 ? void 0 : entry.startAngle) === 0 && (entry === null || entry === void 0 ? void 0 : entry.endAngle) === 0 && sectors.length !== 1) return null;
+					var isActive = _this2.isActiveIndex(i);
+					var inactiveShape = inactiveShapeProp && _this2.hasActiveIndex() ? inactiveShapeProp : null;
+					var sectorOptions = isActive ? activeShape : inactiveShape;
+					var sectorProps = _objectSpread$14(_objectSpread$14({}, entry), {}, {
+						stroke: blendStroke ? entry.fill : entry.stroke,
+						tabIndex: -1
+					});
+					return /*#__PURE__*/ import_react.createElement(Layer, _extends$12({
+						ref: function ref(_ref) {
+							if (_ref && !_this2.sectorRefs.includes(_ref)) _this2.sectorRefs.push(_ref);
+						},
+						tabIndex: -1,
+						className: "recharts-pie-sector"
+					}, adaptEventsOfChild(_this2.props, entry, i), { key: "sector-".concat(entry === null || entry === void 0 ? void 0 : entry.startAngle, "-").concat(entry === null || entry === void 0 ? void 0 : entry.endAngle, "-").concat(entry.midAngle, "-").concat(i) }), /*#__PURE__*/ import_react.createElement(Shape, _extends$12({
+						option: sectorOptions,
+						isActive,
+						shapeType: "sector"
+					}, sectorProps)));
+				});
+			}
+		},
+		{
+			key: "renderSectorsWithAnimation",
+			value: function renderSectorsWithAnimation() {
+				var _this3 = this;
+				var _this$props3 = this.props, sectors = _this$props3.sectors, isAnimationActive = _this$props3.isAnimationActive, animationBegin = _this$props3.animationBegin, animationDuration = _this$props3.animationDuration, animationEasing = _this$props3.animationEasing, animationId = _this$props3.animationId;
+				var _this$state = this.state, prevSectors = _this$state.prevSectors, prevIsAnimationActive = _this$state.prevIsAnimationActive;
+				return /*#__PURE__*/ import_react.createElement(es6_default, {
+					begin: animationBegin,
+					duration: animationDuration,
+					isActive: isAnimationActive,
+					easing: animationEasing,
+					from: { t: 0 },
+					to: { t: 1 },
+					key: "pie-".concat(animationId, "-").concat(prevIsAnimationActive),
+					onAnimationStart: this.handleAnimationStart,
+					onAnimationEnd: this.handleAnimationEnd
+				}, function(_ref2) {
+					var t = _ref2.t;
+					var stepData = [];
+					var curAngle = (sectors && sectors[0]).startAngle;
+					sectors.forEach(function(entry, index) {
+						var prev = prevSectors && prevSectors[index];
+						var paddingAngle = index > 0 ? (0, import_get.default)(entry, "paddingAngle", 0) : 0;
+						if (prev) {
+							var angleIp = interpolateNumber$1(prev.endAngle - prev.startAngle, entry.endAngle - entry.startAngle);
+							var latest = _objectSpread$14(_objectSpread$14({}, entry), {}, {
+								startAngle: curAngle + paddingAngle,
+								endAngle: curAngle + angleIp(t) + paddingAngle
+							});
+							stepData.push(latest);
+							curAngle = latest.endAngle;
+						} else {
+							var endAngle = entry.endAngle, startAngle = entry.startAngle;
+							var deltaAngle = interpolateNumber$1(0, endAngle - startAngle)(t);
+							var _latest = _objectSpread$14(_objectSpread$14({}, entry), {}, {
+								startAngle: curAngle + paddingAngle,
+								endAngle: curAngle + deltaAngle + paddingAngle
+							});
+							stepData.push(_latest);
+							curAngle = _latest.endAngle;
+						}
+					});
+					return /*#__PURE__*/ import_react.createElement(Layer, null, _this3.renderSectorsStatically(stepData));
+				});
+			}
+		},
+		{
+			key: "attachKeyboardHandlers",
+			value: function attachKeyboardHandlers(pieRef) {
+				var _this4 = this;
+				pieRef.onkeydown = function(e) {
+					if (!e.altKey) switch (e.key) {
+						case "ArrowLeft":
+							var next = ++_this4.state.sectorToFocus % _this4.sectorRefs.length;
+							_this4.sectorRefs[next].focus();
+							_this4.setState({ sectorToFocus: next });
+							break;
+						case "ArrowRight":
+							var _next = --_this4.state.sectorToFocus < 0 ? _this4.sectorRefs.length - 1 : _this4.state.sectorToFocus % _this4.sectorRefs.length;
+							_this4.sectorRefs[_next].focus();
+							_this4.setState({ sectorToFocus: _next });
+							break;
+						case "Escape":
+							_this4.sectorRefs[_this4.state.sectorToFocus].blur();
+							_this4.setState({ sectorToFocus: 0 });
+					}
+				};
+			}
+		},
+		{
+			key: "renderSectors",
+			value: function renderSectors() {
+				var _this$props4 = this.props, sectors = _this$props4.sectors, isAnimationActive = _this$props4.isAnimationActive;
+				var prevSectors = this.state.prevSectors;
+				if (isAnimationActive && sectors && sectors.length && (!prevSectors || !(0, import_isEqual.default)(prevSectors, sectors))) return this.renderSectorsWithAnimation();
+				return this.renderSectorsStatically(sectors);
+			}
+		},
+		{
+			key: "componentDidMount",
+			value: function componentDidMount() {
+				if (this.pieRef) this.attachKeyboardHandlers(this.pieRef);
+			}
+		},
+		{
+			key: "render",
+			value: function render() {
+				var _this5 = this;
+				var _this$props5 = this.props, hide = _this$props5.hide, sectors = _this$props5.sectors, className = _this$props5.className, label = _this$props5.label, cx = _this$props5.cx, cy = _this$props5.cy, innerRadius = _this$props5.innerRadius, outerRadius = _this$props5.outerRadius, isAnimationActive = _this$props5.isAnimationActive;
+				var isAnimationFinished = this.state.isAnimationFinished;
+				if (hide || !sectors || !sectors.length || !isNumber(cx) || !isNumber(cy) || !isNumber(innerRadius) || !isNumber(outerRadius)) return null;
+				var layerClass = clsx("recharts-pie", className);
+				return /*#__PURE__*/ import_react.createElement(Layer, {
+					tabIndex: this.props.rootTabIndex,
+					className: layerClass,
+					ref: function ref(_ref3) {
+						_this5.pieRef = _ref3;
+					}
+				}, this.renderSectors(), label && this.renderLabels(sectors), Label.renderCallByParent(this.props, null, false), (!isAnimationActive || isAnimationFinished) && LabelList.renderCallByParent(this.props, sectors, false));
+			}
+		}
+	], [
+		{
+			key: "getDerivedStateFromProps",
+			value: function getDerivedStateFromProps(nextProps, prevState) {
+				if (prevState.prevIsAnimationActive !== nextProps.isAnimationActive) return {
+					prevIsAnimationActive: nextProps.isAnimationActive,
+					prevAnimationId: nextProps.animationId,
+					curSectors: nextProps.sectors,
+					prevSectors: [],
+					isAnimationFinished: true
+				};
+				if (nextProps.isAnimationActive && nextProps.animationId !== prevState.prevAnimationId) return {
+					prevAnimationId: nextProps.animationId,
+					curSectors: nextProps.sectors,
+					prevSectors: prevState.curSectors,
+					isAnimationFinished: true
+				};
+				if (nextProps.sectors !== prevState.curSectors) return {
+					curSectors: nextProps.sectors,
+					isAnimationFinished: true
+				};
+				return null;
+			}
+		},
+		{
+			key: "getTextAnchor",
+			value: function getTextAnchor(x, cx) {
+				if (x > cx) return "start";
+				if (x < cx) return "end";
+				return "middle";
+			}
+		},
+		{
+			key: "renderLabelLineItem",
+			value: function renderLabelLineItem(option, props, key) {
+				if (/*#__PURE__*/ import_react.isValidElement(option)) return /*#__PURE__*/ import_react.cloneElement(option, props);
+				if ((0, import_isFunction.default)(option)) return option(props);
+				var className = clsx("recharts-pie-label-line", typeof option !== "boolean" ? option.className : "");
+				return /*#__PURE__*/ import_react.createElement(Curve, _extends$12({}, props, {
+					key,
+					type: "linear",
+					className
+				}));
+			}
+		},
+		{
+			key: "renderLabelItem",
+			value: function renderLabelItem(option, props, value) {
+				if (/*#__PURE__*/ import_react.isValidElement(option)) return /*#__PURE__*/ import_react.cloneElement(option, props);
+				var label = value;
+				if ((0, import_isFunction.default)(option)) {
+					label = option(props);
+					if (/*#__PURE__*/ import_react.isValidElement(label)) return label;
+				}
+				var className = clsx("recharts-pie-label-text", typeof option !== "boolean" && !(0, import_isFunction.default)(option) ? option.className : "");
+				return /*#__PURE__*/ import_react.createElement(Text, _extends$12({}, props, {
+					alignmentBaseline: "middle",
+					className
+				}), label);
+			}
+		}
+	]);
+}(import_react.PureComponent);
+_Pie = Pie;
+_defineProperty$17(Pie, "displayName", "Pie");
+_defineProperty$17(Pie, "defaultProps", {
+	stroke: "#fff",
+	fill: "#808080",
+	legendType: "rect",
+	cx: "50%",
+	cy: "50%",
+	startAngle: 0,
+	endAngle: 360,
+	innerRadius: 0,
+	outerRadius: "80%",
+	paddingAngle: 0,
+	labelLine: true,
+	hide: false,
+	minAngle: 0,
+	isAnimationActive: !Global.isSsr,
+	animationBegin: 400,
+	animationDuration: 1500,
+	animationEasing: "ease",
+	nameKey: "name",
+	blendStroke: false,
+	rootTabIndex: 0
+});
+_defineProperty$17(Pie, "parseDeltaAngle", function(startAngle, endAngle) {
+	return mathSign(endAngle - startAngle) * Math.min(Math.abs(endAngle - startAngle), 360);
+});
+_defineProperty$17(Pie, "getRealPieData", function(itemProps) {
+	var data = itemProps.data, children = itemProps.children;
+	var presentationProps = filterProps(itemProps, false);
+	var cells = findAllByType(children, Cell);
+	if (data && data.length) return data.map(function(entry, index) {
+		return _objectSpread$14(_objectSpread$14(_objectSpread$14({ payload: entry }, presentationProps), entry), cells && cells[index] && cells[index].props);
+	});
+	if (cells && cells.length) return cells.map(function(cell) {
+		return _objectSpread$14(_objectSpread$14({}, presentationProps), cell.props);
+	});
+	return [];
+});
+_defineProperty$17(Pie, "parseCoordinateOfPie", function(itemProps, offset) {
+	var top = offset.top, left = offset.left, width = offset.width, height = offset.height;
+	var maxPieRadius = getMaxRadius(width, height);
+	return {
+		cx: left + getPercentValue(itemProps.cx, width, width / 2),
+		cy: top + getPercentValue(itemProps.cy, height, height / 2),
+		innerRadius: getPercentValue(itemProps.innerRadius, maxPieRadius, 0),
+		outerRadius: getPercentValue(itemProps.outerRadius, maxPieRadius, maxPieRadius * .8),
+		maxRadius: itemProps.maxRadius || Math.sqrt(width * width + height * height) / 2
+	};
+});
+_defineProperty$17(Pie, "getComposedData", function(_ref4) {
+	var item = _ref4.item, offset = _ref4.offset;
+	var itemProps = item.type.defaultProps !== void 0 ? _objectSpread$14(_objectSpread$14({}, item.type.defaultProps), item.props) : item.props;
+	var pieData = _Pie.getRealPieData(itemProps);
+	if (!pieData || !pieData.length) return null;
+	var cornerRadius = itemProps.cornerRadius, startAngle = itemProps.startAngle, endAngle = itemProps.endAngle, paddingAngle = itemProps.paddingAngle, dataKey = itemProps.dataKey, nameKey = itemProps.nameKey, valueKey = itemProps.valueKey, tooltipType = itemProps.tooltipType;
+	var minAngle = Math.abs(itemProps.minAngle);
+	var coordinate = _Pie.parseCoordinateOfPie(itemProps, offset);
+	var deltaAngle = _Pie.parseDeltaAngle(startAngle, endAngle);
+	var absDeltaAngle = Math.abs(deltaAngle);
+	var realDataKey = dataKey;
+	if ((0, import_isNil.default)(dataKey) && (0, import_isNil.default)(valueKey)) {
+		warn(false, "Use \"dataKey\" to specify the value of pie,\n      the props \"valueKey\" will be deprecated in 1.1.0");
+		realDataKey = "value";
+	} else if ((0, import_isNil.default)(dataKey)) {
+		warn(false, "Use \"dataKey\" to specify the value of pie,\n      the props \"valueKey\" will be deprecated in 1.1.0");
+		realDataKey = valueKey;
+	}
+	var notZeroItemCount = pieData.filter(function(entry) {
+		return getValueByDataKey(entry, realDataKey, 0) !== 0;
+	}).length;
+	var totalPadingAngle = (absDeltaAngle >= 360 ? notZeroItemCount : notZeroItemCount - 1) * paddingAngle;
+	var realTotalAngle = absDeltaAngle - notZeroItemCount * minAngle - totalPadingAngle;
+	var sum = pieData.reduce(function(result, entry) {
+		var val = getValueByDataKey(entry, realDataKey, 0);
+		return result + (isNumber(val) ? val : 0);
+	}, 0);
+	var sectors;
+	if (sum > 0) {
+		var prev;
+		sectors = pieData.map(function(entry, i) {
+			var val = getValueByDataKey(entry, realDataKey, 0);
+			var name = getValueByDataKey(entry, nameKey, i);
+			var percent = (isNumber(val) ? val : 0) / sum;
+			var tempStartAngle;
+			if (i) tempStartAngle = prev.endAngle + mathSign(deltaAngle) * paddingAngle * (val !== 0 ? 1 : 0);
+			else tempStartAngle = startAngle;
+			var tempEndAngle = tempStartAngle + mathSign(deltaAngle) * ((val !== 0 ? minAngle : 0) + percent * realTotalAngle);
+			var midAngle = (tempStartAngle + tempEndAngle) / 2;
+			var middleRadius = (coordinate.innerRadius + coordinate.outerRadius) / 2;
+			prev = _objectSpread$14(_objectSpread$14(_objectSpread$14({
+				percent,
+				cornerRadius,
+				name,
+				tooltipPayload: [{
+					name,
+					value: val,
+					payload: entry,
+					dataKey: realDataKey,
+					type: tooltipType
+				}],
+				midAngle,
+				middleRadius,
+				tooltipPosition: polarToCartesian(coordinate.cx, coordinate.cy, middleRadius, midAngle)
+			}, entry), coordinate), {}, {
+				value: getValueByDataKey(entry, realDataKey),
+				startAngle: tempStartAngle,
+				endAngle: tempEndAngle,
+				payload: entry,
+				paddingAngle: mathSign(deltaAngle) * paddingAngle
+			});
+			return prev;
+		});
+	}
+	return _objectSpread$14(_objectSpread$14({}, coordinate), {}, {
+		sectors,
+		data: pieData
+	});
+});
+//#endregion
 //#region node_modules/recharts/es6/util/CssPrefixUtils.js
 var import_range = /* @__PURE__ */ __toESM(require_range());
+function _typeof$16(o) {
+	"@babel/helpers - typeof";
+	return _typeof$16 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$16(o);
+}
+function ownKeys$13(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$13(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$13(Object(t), !0).forEach(function(r) {
+			_defineProperty$16(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$13(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _defineProperty$16(obj, key, value) {
+	key = _toPropertyKey$16(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$16(t) {
+	var i = _toPrimitive$16(t, "string");
+	return "symbol" == _typeof$16(i) ? i : i + "";
+}
+function _toPrimitive$16(t, r) {
+	if ("object" != _typeof$16(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$16(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+var PREFIX_LIST = [
+	"Webkit",
+	"Moz",
+	"O",
+	"ms"
+];
+var generatePrefixStyle = function generatePrefixStyle(name, value) {
+	if (!name) return null;
+	var camelName = name.replace(/(\w)/, function(v) {
+		return v.toUpperCase();
+	});
+	var result = PREFIX_LIST.reduce(function(res, entry) {
+		return _objectSpread$13(_objectSpread$13({}, res), {}, _defineProperty$16({}, entry + camelName, value));
+	}, {});
+	result[name] = value;
+	return result;
+};
+//#endregion
+//#region node_modules/recharts/es6/cartesian/Brush.js
+/**
+* @fileOverview Brush
+*/
 function _typeof$15(o) {
 	"@babel/helpers - typeof";
 	return _typeof$15 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
@@ -6751,6 +8154,16 @@ function _typeof$15(o) {
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
 	}, _typeof$15(o);
+}
+function _extends$11() {
+	_extends$11 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$11.apply(this, arguments);
 }
 function ownKeys$12(e, r) {
 	var t = Object.keys(e);
@@ -6773,92 +8186,6 @@ function _objectSpread$12(e) {
 	}
 	return e;
 }
-function _defineProperty$15(obj, key, value) {
-	key = _toPropertyKey$15(key);
-	if (key in obj) Object.defineProperty(obj, key, {
-		value,
-		enumerable: true,
-		configurable: true,
-		writable: true
-	});
-	else obj[key] = value;
-	return obj;
-}
-function _toPropertyKey$15(t) {
-	var i = _toPrimitive$15(t, "string");
-	return "symbol" == _typeof$15(i) ? i : i + "";
-}
-function _toPrimitive$15(t, r) {
-	if ("object" != _typeof$15(t) || !t) return t;
-	var e = t[Symbol.toPrimitive];
-	if (void 0 !== e) {
-		var i = e.call(t, r || "default");
-		if ("object" != _typeof$15(i)) return i;
-		throw new TypeError("@@toPrimitive must return a primitive value.");
-	}
-	return ("string" === r ? String : Number)(t);
-}
-var PREFIX_LIST = [
-	"Webkit",
-	"Moz",
-	"O",
-	"ms"
-];
-var generatePrefixStyle = function generatePrefixStyle(name, value) {
-	if (!name) return null;
-	var camelName = name.replace(/(\w)/, function(v) {
-		return v.toUpperCase();
-	});
-	var result = PREFIX_LIST.reduce(function(res, entry) {
-		return _objectSpread$12(_objectSpread$12({}, res), {}, _defineProperty$15({}, entry + camelName, value));
-	}, {});
-	result[name] = value;
-	return result;
-};
-//#endregion
-//#region node_modules/recharts/es6/cartesian/Brush.js
-/**
-* @fileOverview Brush
-*/
-function _typeof$14(o) {
-	"@babel/helpers - typeof";
-	return _typeof$14 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-		return typeof o;
-	} : function(o) {
-		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$14(o);
-}
-function _extends$10() {
-	_extends$10 = Object.assign ? Object.assign.bind() : function(target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
-		}
-		return target;
-	};
-	return _extends$10.apply(this, arguments);
-}
-function ownKeys$11(e, r) {
-	var t = Object.keys(e);
-	if (Object.getOwnPropertySymbols) {
-		var o = Object.getOwnPropertySymbols(e);
-		r && (o = o.filter(function(r) {
-			return Object.getOwnPropertyDescriptor(e, r).enumerable;
-		})), t.push.apply(t, o);
-	}
-	return t;
-}
-function _objectSpread$11(e) {
-	for (var r = 1; r < arguments.length; r++) {
-		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$11(Object(t), !0).forEach(function(r) {
-			_defineProperty$14(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$11(Object(t)).forEach(function(r) {
-			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-		});
-	}
-	return e;
-}
 function _classCallCheck$11(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -6868,7 +8195,7 @@ function _defineProperties$11(target, props) {
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$14(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$15(descriptor.key), descriptor);
 	}
 }
 function _createClass$11(Constructor, protoProps, staticProps) {
@@ -6881,7 +8208,7 @@ function _callSuper$9(t, o, e) {
 	return o = _getPrototypeOf$9(o), _possibleConstructorReturn$9(t, _isNativeReflectConstruct$9() ? Reflect.construct(o, e || [], _getPrototypeOf$9(t).constructor) : o.apply(t, e));
 }
 function _possibleConstructorReturn$9(self, call) {
-	if (call && (_typeof$14(call) === "object" || typeof call === "function")) return call;
+	if (call && (_typeof$15(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
 	return _assertThisInitialized$9(self);
 }
@@ -6920,8 +8247,8 @@ function _setPrototypeOf$9(o, p) {
 	};
 	return _setPrototypeOf$9(o, p);
 }
-function _defineProperty$14(obj, key, value) {
-	key = _toPropertyKey$14(key);
+function _defineProperty$15(obj, key, value) {
+	key = _toPropertyKey$15(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -6931,16 +8258,16 @@ function _defineProperty$14(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$14(t) {
-	var i = _toPrimitive$14(t, "string");
-	return "symbol" == _typeof$14(i) ? i : i + "";
+function _toPropertyKey$15(t) {
+	var i = _toPrimitive$15(t, "string");
+	return "symbol" == _typeof$15(i) ? i : i + "";
 }
-function _toPrimitive$14(t, r) {
-	if ("object" != _typeof$14(t) || !t) return t;
+function _toPrimitive$15(t, r) {
+	if ("object" != _typeof$15(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$14(i)) return i;
+		if ("object" != _typeof$15(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -6972,7 +8299,7 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 		var _this;
 		_classCallCheck$11(this, Brush);
 		_this = _callSuper$9(this, Brush, [props]);
-		_defineProperty$14(_this, "handleDrag", function(e) {
+		_defineProperty$15(_this, "handleDrag", function(e) {
 			if (_this.leaveTimer) {
 				clearTimeout(_this.leaveTimer);
 				_this.leaveTimer = null;
@@ -6980,10 +8307,10 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 			if (_this.state.isTravellerMoving) _this.handleTravellerMove(e);
 			else if (_this.state.isSlideMoving) _this.handleSlideDrag(e);
 		});
-		_defineProperty$14(_this, "handleTouchMove", function(e) {
+		_defineProperty$15(_this, "handleTouchMove", function(e) {
 			if (e.changedTouches != null && e.changedTouches.length > 0) _this.handleDrag(e.changedTouches[0]);
 		});
-		_defineProperty$14(_this, "handleDragEnd", function() {
+		_defineProperty$15(_this, "handleDragEnd", function() {
 			_this.setState({
 				isTravellerMoving: false,
 				isSlideMoving: false
@@ -6996,16 +8323,16 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 			});
 			_this.detachDragEndListener();
 		});
-		_defineProperty$14(_this, "handleLeaveWrapper", function() {
+		_defineProperty$15(_this, "handleLeaveWrapper", function() {
 			if (_this.state.isTravellerMoving || _this.state.isSlideMoving) _this.leaveTimer = window.setTimeout(_this.handleDragEnd, _this.props.leaveTimeOut);
 		});
-		_defineProperty$14(_this, "handleEnterSlideOrTraveller", function() {
+		_defineProperty$15(_this, "handleEnterSlideOrTraveller", function() {
 			_this.setState({ isTextActive: true });
 		});
-		_defineProperty$14(_this, "handleLeaveSlideOrTraveller", function() {
+		_defineProperty$15(_this, "handleLeaveSlideOrTraveller", function() {
 			_this.setState({ isTextActive: false });
 		});
-		_defineProperty$14(_this, "handleSlideDragStart", function(e) {
+		_defineProperty$15(_this, "handleSlideDragStart", function(e) {
 			var event = isTouch(e) ? e.changedTouches[0] : e;
 			_this.setState({
 				isTravellerMoving: false,
@@ -7128,7 +8455,7 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 					if (movingTravellerId === "startX" && (endX > startX ? startIndex % gap === 0 : endIndex % gap === 0) || endX < startX && endIndex === lastIndex || movingTravellerId === "endX" && (endX > startX ? endIndex % gap === 0 : startIndex % gap === 0) || endX > startX && endIndex === lastIndex) return true;
 					return false;
 				};
-				this.setState(_defineProperty$14(_defineProperty$14({}, movingTravellerId, prevValue + delta), "brushMoveStartX", e.pageX), function() {
+				this.setState(_defineProperty$15(_defineProperty$15({}, movingTravellerId, prevValue + delta), "brushMoveStartX", e.pageX), function() {
 					if (onChange) {
 						if (isFullGap()) onChange(newIndex);
 					}
@@ -7147,7 +8474,7 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 				if (newIndex === -1 || newIndex >= scaleValues.length) return;
 				var newScaleValue = scaleValues[newIndex];
 				if (id === "startX" && newScaleValue >= endX || id === "endX" && newScaleValue <= startX) return;
-				this.setState(_defineProperty$14({}, id, newScaleValue), function() {
+				this.setState(_defineProperty$15({}, id, newScaleValue), function() {
 					_this2.props.onChange(_this2.getIndex({
 						startX: _this2.state.startX,
 						endX: _this2.state.endX
@@ -7192,7 +8519,7 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 				var _data$startIndex, _data$endIndex, _this3 = this;
 				var _this$props8 = this.props, y = _this$props8.y, travellerWidth = _this$props8.travellerWidth, height = _this$props8.height, traveller = _this$props8.traveller, ariaLabel = _this$props8.ariaLabel, data = _this$props8.data, startIndex = _this$props8.startIndex, endIndex = _this$props8.endIndex;
 				var x = Math.max(travellerX, this.props.x);
-				var travellerProps = _objectSpread$11(_objectSpread$11({}, filterProps(this.props, false)), {}, {
+				var travellerProps = _objectSpread$12(_objectSpread$12({}, filterProps(this.props, false)), {}, {
 					x,
 					y,
 					width: travellerWidth,
@@ -7258,12 +8585,12 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 					pointerEvents: "none",
 					fill: stroke
 				};
-				return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-brush-texts" }, /*#__PURE__*/ import_react.createElement(Text, _extends$10({
+				return /*#__PURE__*/ import_react.createElement(Layer, { className: "recharts-brush-texts" }, /*#__PURE__*/ import_react.createElement(Text, _extends$11({
 					textAnchor: "end",
 					verticalAnchor: "middle",
 					x: Math.min(startX, endX) - offset,
 					y: y + height / 2
-				}, attrs), this.getTextOfTick(startIndex)), /*#__PURE__*/ import_react.createElement(Text, _extends$10({
+				}, attrs), this.getTextOfTick(startIndex)), /*#__PURE__*/ import_react.createElement(Text, _extends$11({
 					textAnchor: "start",
 					verticalAnchor: "middle",
 					x: Math.max(startX, endX) + travellerWidth + offset,
@@ -7332,7 +8659,7 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 			key: "getDerivedStateFromProps",
 			value: function getDerivedStateFromProps(nextProps, prevState) {
 				var data = nextProps.data, width = nextProps.width, x = nextProps.x, travellerWidth = nextProps.travellerWidth, updateId = nextProps.updateId, startIndex = nextProps.startIndex, endIndex = nextProps.endIndex;
-				if (data !== prevState.prevData || updateId !== prevState.prevUpdateId) return _objectSpread$11({
+				if (data !== prevState.prevData || updateId !== prevState.prevUpdateId) return _objectSpread$12({
 					prevData: data,
 					prevTravellerWidth: travellerWidth,
 					prevUpdateId: updateId,
@@ -7384,8 +8711,8 @@ var Brush = /*#__PURE__*/ function(_PureComponent) {
 		}
 	]);
 }(import_react.PureComponent);
-_defineProperty$14(Brush, "displayName", "Brush");
-_defineProperty$14(Brush, "defaultProps", {
+_defineProperty$15(Brush, "displayName", "Brush");
+_defineProperty$15(Brush, "defaultProps", {
 	height: 40,
 	travellerWidth: 5,
 	gap: 1,
@@ -7412,7 +8739,142 @@ var ifOverflowMatches = function ifOverflowMatches(props, value) {
 //#region node_modules/recharts/es6/util/BarUtils.js
 var import_mapValues = /* @__PURE__ */ __toESM(require_mapValues());
 var import_every = /* @__PURE__ */ __toESM(require_every());
-var _excluded$4 = ["x", "y"];
+var _excluded$5 = ["x", "y"];
+function _typeof$14(o) {
+	"@babel/helpers - typeof";
+	return _typeof$14 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$14(o);
+}
+function _extends$10() {
+	_extends$10 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$10.apply(this, arguments);
+}
+function ownKeys$11(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$11(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$11(Object(t), !0).forEach(function(r) {
+			_defineProperty$14(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$11(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _defineProperty$14(obj, key, value) {
+	key = _toPropertyKey$14(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$14(t) {
+	var i = _toPrimitive$14(t, "string");
+	return "symbol" == _typeof$14(i) ? i : i + "";
+}
+function _toPrimitive$14(t, r) {
+	if ("object" != _typeof$14(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$14(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+function _objectWithoutProperties$5(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$5(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
+		}
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$5(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
+}
+function typeguardBarRectangleProps(_ref, props) {
+	var xProp = _ref.x, yProp = _ref.y, option = _objectWithoutProperties$5(_ref, _excluded$5);
+	var xValue = "".concat(xProp);
+	var x = parseInt(xValue, 10);
+	var yValue = "".concat(yProp);
+	var y = parseInt(yValue, 10);
+	var heightValue = "".concat(props.height || option.height);
+	var height = parseInt(heightValue, 10);
+	var widthValue = "".concat(props.width || option.width);
+	var width = parseInt(widthValue, 10);
+	return _objectSpread$11(_objectSpread$11(_objectSpread$11(_objectSpread$11(_objectSpread$11({}, props), option), x ? { x } : {}), y ? { y } : {}), {}, {
+		height,
+		width,
+		name: props.name,
+		radius: props.radius
+	});
+}
+function BarRectangle(props) {
+	return /*#__PURE__*/ import_react.createElement(Shape, _extends$10({
+		shapeType: "rectangle",
+		propTransformer: typeguardBarRectangleProps,
+		activeClassName: "recharts-active-bar"
+	}, props));
+}
+/**
+* Safely gets minPointSize from from the minPointSize prop if it is a function
+* @param minPointSize minPointSize as passed to the Bar component
+* @param defaultValue default minPointSize
+* @returns minPointSize
+*/
+var minPointSizeCallback = function minPointSizeCallback(minPointSize) {
+	var defaultValue = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
+	return function(value, index) {
+		if (typeof minPointSize === "number") return minPointSize;
+		var isValueNumberOrNil = isNumber(value) || isNullish(value);
+		if (isValueNumberOrNil) return minPointSize(value, index);
+		!isValueNumberOrNil && invariant(false);
+		return defaultValue;
+	};
+};
+//#endregion
+//#region node_modules/recharts/es6/cartesian/Bar.js
+/**
+* @fileOverview Render a group of bar
+*/
+var _excluded$4 = ["value", "background"];
+var _Bar;
 function _typeof$13(o) {
 	"@babel/helpers - typeof";
 	return _typeof$13 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
@@ -7420,6 +8882,30 @@ function _typeof$13(o) {
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
 	}, _typeof$13(o);
+}
+function _objectWithoutProperties$4(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$4(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
+		}
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$4(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
 }
 function _extends$9() {
 	_extends$9 = Object.assign ? Object.assign.bind() : function(target) {
@@ -7452,165 +8938,6 @@ function _objectSpread$10(e) {
 	}
 	return e;
 }
-function _defineProperty$13(obj, key, value) {
-	key = _toPropertyKey$13(key);
-	if (key in obj) Object.defineProperty(obj, key, {
-		value,
-		enumerable: true,
-		configurable: true,
-		writable: true
-	});
-	else obj[key] = value;
-	return obj;
-}
-function _toPropertyKey$13(t) {
-	var i = _toPrimitive$13(t, "string");
-	return "symbol" == _typeof$13(i) ? i : i + "";
-}
-function _toPrimitive$13(t, r) {
-	if ("object" != _typeof$13(t) || !t) return t;
-	var e = t[Symbol.toPrimitive];
-	if (void 0 !== e) {
-		var i = e.call(t, r || "default");
-		if ("object" != _typeof$13(i)) return i;
-		throw new TypeError("@@toPrimitive must return a primitive value.");
-	}
-	return ("string" === r ? String : Number)(t);
-}
-function _objectWithoutProperties$4(source, excluded) {
-	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$4(source, excluded);
-	var key, i;
-	if (Object.getOwnPropertySymbols) {
-		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-		for (i = 0; i < sourceSymbolKeys.length; i++) {
-			key = sourceSymbolKeys[i];
-			if (excluded.indexOf(key) >= 0) continue;
-			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-			target[key] = source[key];
-		}
-	}
-	return target;
-}
-function _objectWithoutPropertiesLoose$4(source, excluded) {
-	if (source == null) return {};
-	var target = {};
-	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
-		if (excluded.indexOf(key) >= 0) continue;
-		target[key] = source[key];
-	}
-	return target;
-}
-function typeguardBarRectangleProps(_ref, props) {
-	var xProp = _ref.x, yProp = _ref.y, option = _objectWithoutProperties$4(_ref, _excluded$4);
-	var xValue = "".concat(xProp);
-	var x = parseInt(xValue, 10);
-	var yValue = "".concat(yProp);
-	var y = parseInt(yValue, 10);
-	var heightValue = "".concat(props.height || option.height);
-	var height = parseInt(heightValue, 10);
-	var widthValue = "".concat(props.width || option.width);
-	var width = parseInt(widthValue, 10);
-	return _objectSpread$10(_objectSpread$10(_objectSpread$10(_objectSpread$10(_objectSpread$10({}, props), option), x ? { x } : {}), y ? { y } : {}), {}, {
-		height,
-		width,
-		name: props.name,
-		radius: props.radius
-	});
-}
-function BarRectangle(props) {
-	return /*#__PURE__*/ import_react.createElement(Shape, _extends$9({
-		shapeType: "rectangle",
-		propTransformer: typeguardBarRectangleProps,
-		activeClassName: "recharts-active-bar"
-	}, props));
-}
-/**
-* Safely gets minPointSize from from the minPointSize prop if it is a function
-* @param minPointSize minPointSize as passed to the Bar component
-* @param defaultValue default minPointSize
-* @returns minPointSize
-*/
-var minPointSizeCallback = function minPointSizeCallback(minPointSize) {
-	var defaultValue = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
-	return function(value, index) {
-		if (typeof minPointSize === "number") return minPointSize;
-		var isValueNumberOrNil = isNumber(value) || isNullish(value);
-		if (isValueNumberOrNil) return minPointSize(value, index);
-		!isValueNumberOrNil && invariant(false);
-		return defaultValue;
-	};
-};
-//#endregion
-//#region node_modules/recharts/es6/cartesian/Bar.js
-/**
-* @fileOverview Render a group of bar
-*/
-var _excluded$3 = ["value", "background"];
-var _Bar;
-function _typeof$12(o) {
-	"@babel/helpers - typeof";
-	return _typeof$12 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-		return typeof o;
-	} : function(o) {
-		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$12(o);
-}
-function _objectWithoutProperties$3(source, excluded) {
-	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$3(source, excluded);
-	var key, i;
-	if (Object.getOwnPropertySymbols) {
-		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-		for (i = 0; i < sourceSymbolKeys.length; i++) {
-			key = sourceSymbolKeys[i];
-			if (excluded.indexOf(key) >= 0) continue;
-			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-			target[key] = source[key];
-		}
-	}
-	return target;
-}
-function _objectWithoutPropertiesLoose$3(source, excluded) {
-	if (source == null) return {};
-	var target = {};
-	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
-		if (excluded.indexOf(key) >= 0) continue;
-		target[key] = source[key];
-	}
-	return target;
-}
-function _extends$8() {
-	_extends$8 = Object.assign ? Object.assign.bind() : function(target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
-		}
-		return target;
-	};
-	return _extends$8.apply(this, arguments);
-}
-function ownKeys$9(e, r) {
-	var t = Object.keys(e);
-	if (Object.getOwnPropertySymbols) {
-		var o = Object.getOwnPropertySymbols(e);
-		r && (o = o.filter(function(r) {
-			return Object.getOwnPropertyDescriptor(e, r).enumerable;
-		})), t.push.apply(t, o);
-	}
-	return t;
-}
-function _objectSpread$9(e) {
-	for (var r = 1; r < arguments.length; r++) {
-		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$9(Object(t), !0).forEach(function(r) {
-			_defineProperty$12(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$9(Object(t)).forEach(function(r) {
-			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-		});
-	}
-	return e;
-}
 function _classCallCheck$10(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -7620,7 +8947,7 @@ function _defineProperties$10(target, props) {
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$12(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$13(descriptor.key), descriptor);
 	}
 }
 function _createClass$10(Constructor, protoProps, staticProps) {
@@ -7633,7 +8960,7 @@ function _callSuper$8(t, o, e) {
 	return o = _getPrototypeOf$8(o), _possibleConstructorReturn$8(t, _isNativeReflectConstruct$8() ? Reflect.construct(o, e || [], _getPrototypeOf$8(t).constructor) : o.apply(t, e));
 }
 function _possibleConstructorReturn$8(self, call) {
-	if (call && (_typeof$12(call) === "object" || typeof call === "function")) return call;
+	if (call && (_typeof$13(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
 	return _assertThisInitialized$8(self);
 }
@@ -7672,8 +8999,8 @@ function _setPrototypeOf$8(o, p) {
 	};
 	return _setPrototypeOf$8(o, p);
 }
-function _defineProperty$12(obj, key, value) {
-	key = _toPropertyKey$12(key);
+function _defineProperty$13(obj, key, value) {
+	key = _toPropertyKey$13(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -7683,16 +9010,16 @@ function _defineProperty$12(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$12(t) {
-	var i = _toPrimitive$12(t, "string");
-	return "symbol" == _typeof$12(i) ? i : i + "";
+function _toPropertyKey$13(t) {
+	var i = _toPrimitive$13(t, "string");
+	return "symbol" == _typeof$13(i) ? i : i + "";
 }
-function _toPrimitive$12(t, r) {
-	if ("object" != _typeof$12(t) || !t) return t;
+function _toPrimitive$13(t, r) {
+	if ("object" != _typeof$13(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$12(i)) return i;
+		if ("object" != _typeof$13(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -7703,14 +9030,14 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 		_classCallCheck$10(this, Bar);
 		for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) args[_key] = arguments[_key];
 		_this = _callSuper$8(this, Bar, [].concat(args));
-		_defineProperty$12(_this, "state", { isAnimationFinished: false });
-		_defineProperty$12(_this, "id", uniqueId("recharts-bar-"));
-		_defineProperty$12(_this, "handleAnimationEnd", function() {
+		_defineProperty$13(_this, "state", { isAnimationFinished: false });
+		_defineProperty$13(_this, "id", uniqueId("recharts-bar-"));
+		_defineProperty$13(_this, "handleAnimationEnd", function() {
 			var onAnimationEnd = _this.props.onAnimationEnd;
 			_this.setState({ isAnimationFinished: true });
 			if (onAnimationEnd) onAnimationEnd();
 		});
-		_defineProperty$12(_this, "handleAnimationStart", function() {
+		_defineProperty$13(_this, "handleAnimationStart", function() {
 			var onAnimationStart = _this.props.onAnimationStart;
 			_this.setState({ isAnimationFinished: false });
 			if (onAnimationStart) onAnimationStart();
@@ -7728,7 +9055,7 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 				return data && data.map(function(entry, i) {
 					var isActive = i === activeIndex;
 					var option = isActive ? activeBar : shape;
-					var props = _objectSpread$9(_objectSpread$9(_objectSpread$9({}, baseProps), entry), {}, {
+					var props = _objectSpread$10(_objectSpread$10(_objectSpread$10({}, baseProps), entry), {}, {
 						isActive,
 						option,
 						index: i,
@@ -7736,7 +9063,7 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 						onAnimationStart: _this2.handleAnimationStart,
 						onAnimationEnd: _this2.handleAnimationEnd
 					});
-					return /*#__PURE__*/ import_react.createElement(Layer, _extends$8({ className: "recharts-bar-rectangle" }, adaptEventsOfChild(_this2.props, entry, i), { key: "rectangle-".concat(entry === null || entry === void 0 ? void 0 : entry.x, "-").concat(entry === null || entry === void 0 ? void 0 : entry.y, "-").concat(entry === null || entry === void 0 ? void 0 : entry.value, "-").concat(i) }), /*#__PURE__*/ import_react.createElement(BarRectangle, props));
+					return /*#__PURE__*/ import_react.createElement(Layer, _extends$9({ className: "recharts-bar-rectangle" }, adaptEventsOfChild(_this2.props, entry, i), { key: "rectangle-".concat(entry === null || entry === void 0 ? void 0 : entry.x, "-").concat(entry === null || entry === void 0 ? void 0 : entry.y, "-").concat(entry === null || entry === void 0 ? void 0 : entry.value, "-").concat(i) }), /*#__PURE__*/ import_react.createElement(BarRectangle, props));
 				});
 			}
 		},
@@ -7765,7 +9092,7 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 							var interpolatorY = interpolateNumber$1(prev.y, entry.y);
 							var interpolatorWidth = interpolateNumber$1(prev.width, entry.width);
 							var interpolatorHeight = interpolateNumber$1(prev.height, entry.height);
-							return _objectSpread$9(_objectSpread$9({}, entry), {}, {
+							return _objectSpread$10(_objectSpread$10({}, entry), {}, {
 								x: interpolatorX(t),
 								y: interpolatorY(t),
 								width: interpolatorWidth(t),
@@ -7774,13 +9101,13 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 						}
 						if (layout === "horizontal") {
 							var h = interpolateNumber$1(0, entry.height)(t);
-							return _objectSpread$9(_objectSpread$9({}, entry), {}, {
+							return _objectSpread$10(_objectSpread$10({}, entry), {}, {
 								y: entry.y + entry.height - h,
 								height: h
 							});
 						}
 						var w = interpolateNumber$1(0, entry.width)(t);
-						return _objectSpread$9(_objectSpread$9({}, entry), {}, { width: w });
+						return _objectSpread$10(_objectSpread$10({}, entry), {}, { width: w });
 					});
 					return /*#__PURE__*/ import_react.createElement(Layer, null, _this3.renderRectanglesStatically(stepData));
 				});
@@ -7803,16 +9130,16 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 				var backgroundProps = filterProps(this.props.background, false);
 				return data.map(function(entry, i) {
 					entry.value;
-					var background = entry.background, rest = _objectWithoutProperties$3(entry, _excluded$3);
+					var background = entry.background, rest = _objectWithoutProperties$4(entry, _excluded$4);
 					if (!background) return null;
-					var props = _objectSpread$9(_objectSpread$9(_objectSpread$9(_objectSpread$9(_objectSpread$9({}, rest), {}, { fill: "#eee" }, background), backgroundProps), adaptEventsOfChild(_this4.props, entry, i)), {}, {
+					var props = _objectSpread$10(_objectSpread$10(_objectSpread$10(_objectSpread$10(_objectSpread$10({}, rest), {}, { fill: "#eee" }, background), backgroundProps), adaptEventsOfChild(_this4.props, entry, i)), {}, {
 						onAnimationStart: _this4.handleAnimationStart,
 						onAnimationEnd: _this4.handleAnimationEnd,
 						dataKey,
 						index: i,
 						className: "recharts-bar-background-rectangle"
 					});
-					return /*#__PURE__*/ import_react.createElement(BarRectangle, _extends$8({
+					return /*#__PURE__*/ import_react.createElement(BarRectangle, _extends$9({
 						key: "background-bar-".concat(i),
 						option: _this4.props.background,
 						isActive: i === activeIndex
@@ -7891,8 +9218,8 @@ var Bar = /*#__PURE__*/ function(_PureComponent) {
 	}]);
 }(import_react.PureComponent);
 _Bar = Bar;
-_defineProperty$12(Bar, "displayName", "Bar");
-_defineProperty$12(Bar, "defaultProps", {
+_defineProperty$13(Bar, "displayName", "Bar");
+_defineProperty$13(Bar, "defaultProps", {
 	xAxisId: 0,
 	yAxisId: 0,
 	legendType: "rect",
@@ -7916,19 +9243,19 @@ _defineProperty$12(Bar, "defaultProps", {
 * @param {Array} stackedData  The stacked data of a bar item
 * @return{Array} Composed data
 */
-_defineProperty$12(Bar, "getComposedData", function(_ref2) {
+_defineProperty$13(Bar, "getComposedData", function(_ref2) {
 	var props = _ref2.props, item = _ref2.item, barPosition = _ref2.barPosition, bandSize = _ref2.bandSize, xAxis = _ref2.xAxis, yAxis = _ref2.yAxis, xAxisTicks = _ref2.xAxisTicks, yAxisTicks = _ref2.yAxisTicks, stackedData = _ref2.stackedData, dataStartIndex = _ref2.dataStartIndex, displayedData = _ref2.displayedData, offset = _ref2.offset;
 	var pos = findPositionOfBar(barPosition, item);
 	if (!pos) return null;
 	var layout = props.layout;
 	var itemDefaultProps = item.type.defaultProps;
-	var itemProps = itemDefaultProps !== void 0 ? _objectSpread$9(_objectSpread$9({}, itemDefaultProps), item.props) : item.props;
+	var itemProps = itemDefaultProps !== void 0 ? _objectSpread$10(_objectSpread$10({}, itemDefaultProps), item.props) : item.props;
 	var dataKey = itemProps.dataKey, children = itemProps.children, minPointSizeProp = itemProps.minPointSize;
 	var numericAxis = layout === "horizontal" ? yAxis : xAxis;
 	var stackedDomain = stackedData ? numericAxis.scale.domain() : null;
 	var baseValue = getBaseValueOfBar({ numericAxis });
 	var cells = findAllByType(children, Cell);
-	return _objectSpread$9({
+	return _objectSpread$10({
 		data: displayedData.map(function(entry, index) {
 			var value, x, y, width, height, background;
 			if (stackedData) value = truncateByDomain(stackedData[dataStartIndex + index], stackedDomain);
@@ -7987,7 +9314,7 @@ _defineProperty$12(Bar, "getComposedData", function(_ref2) {
 					width += _delta;
 				}
 			}
-			return _objectSpread$9(_objectSpread$9(_objectSpread$9({}, entry), {}, {
+			return _objectSpread$10(_objectSpread$10(_objectSpread$10({}, entry), {}, {
 				x,
 				y,
 				width,
@@ -8008,13 +9335,13 @@ _defineProperty$12(Bar, "getComposedData", function(_ref2) {
 });
 //#endregion
 //#region node_modules/recharts/es6/util/CartesianUtils.js
-function _typeof$11(o) {
+function _typeof$12(o) {
 	"@babel/helpers - typeof";
-	return _typeof$11 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$12 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$11(o);
+	}, _typeof$12(o);
 }
 function _classCallCheck$9(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
@@ -8025,7 +9352,7 @@ function _defineProperties$9(target, props) {
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$11(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$12(descriptor.key), descriptor);
 	}
 }
 function _createClass$9(Constructor, protoProps, staticProps) {
@@ -8034,7 +9361,7 @@ function _createClass$9(Constructor, protoProps, staticProps) {
 	Object.defineProperty(Constructor, "prototype", { writable: false });
 	return Constructor;
 }
-function ownKeys$8(e, r) {
+function ownKeys$9(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -8044,19 +9371,19 @@ function ownKeys$8(e, r) {
 	}
 	return t;
 }
-function _objectSpread$8(e) {
+function _objectSpread$9(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$8(Object(t), !0).forEach(function(r) {
-			_defineProperty$11(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$8(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$9(Object(t), !0).forEach(function(r) {
+			_defineProperty$12(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$9(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$11(obj, key, value) {
-	key = _toPropertyKey$11(key);
+function _defineProperty$12(obj, key, value) {
+	key = _toPropertyKey$12(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -8066,16 +9393,16 @@ function _defineProperty$11(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$11(t) {
-	var i = _toPrimitive$11(t, "string");
-	return "symbol" == _typeof$11(i) ? i : i + "";
+function _toPropertyKey$12(t) {
+	var i = _toPrimitive$12(t, "string");
+	return "symbol" == _typeof$12(i) ? i : i + "";
 }
-function _toPrimitive$11(t, r) {
-	if ("object" != _typeof$11(t) || !t) return t;
+function _toPrimitive$12(t, r) {
+	if ("object" != _typeof$12(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$11(i)) return i;
+		if ("object" != _typeof$12(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -8133,7 +9460,7 @@ var formatAxisMap = function formatAxisMap(props, axisMap, offset, axisType, cha
 		var _parseScale = parseScale(axis, chartName, hasBar), scale = _parseScale.scale, realScaleType = _parseScale.realScaleType;
 		scale.domain(domain).range(range);
 		checkDomainOfScale(scale);
-		var ticks = getTicksOfScale(scale, _objectSpread$8(_objectSpread$8({}, axis), {}, { realScaleType }));
+		var ticks = getTicksOfScale(scale, _objectSpread$9(_objectSpread$9({}, axis), {}, { realScaleType }));
 		if (axisType === "xAxis") {
 			needSpace = orientation === "top" && !mirror || orientation === "bottom" && mirror;
 			x = offset.left;
@@ -8143,7 +9470,7 @@ var formatAxisMap = function formatAxisMap(props, axisMap, offset, axisType, cha
 			x = steps[offsetKey] - needSpace * axis.width;
 			y = offset.top;
 		}
-		var finalAxis = _objectSpread$8(_objectSpread$8(_objectSpread$8({}, axis), ticks), {}, {
+		var finalAxis = _objectSpread$9(_objectSpread$9(_objectSpread$9({}, axis), ticks), {}, {
 			realScaleType,
 			x,
 			y,
@@ -8154,7 +9481,7 @@ var formatAxisMap = function formatAxisMap(props, axisMap, offset, axisType, cha
 		finalAxis.bandSize = getBandSizeOfAxis(finalAxis, ticks);
 		if (!axis.hide && axisType === "xAxis") steps[offsetKey] += (needSpace ? -1 : 1) * finalAxis.height;
 		else if (!axis.hide) steps[offsetKey] += (needSpace ? -1 : 1) * finalAxis.width;
-		return _objectSpread$8(_objectSpread$8({}, result), {}, _defineProperty$11({}, id, finalAxis));
+		return _objectSpread$9(_objectSpread$9({}, result), {}, _defineProperty$12({}, id, finalAxis));
 	}, {});
 };
 var rectWithPoints = function rectWithPoints(_ref, _ref2) {
@@ -8256,12 +9583,12 @@ var ScaleHelper = /*#__PURE__*/ function() {
 		}
 	}]);
 }();
-_defineProperty$11(ScaleHelper, "EPS", 1e-4);
+_defineProperty$12(ScaleHelper, "EPS", 1e-4);
 var createLabeledScales = function createLabeledScales(options) {
 	var scales = Object.keys(options).reduce(function(res, key) {
-		return _objectSpread$8(_objectSpread$8({}, res), {}, _defineProperty$11({}, key, ScaleHelper.create(options[key])));
+		return _objectSpread$9(_objectSpread$9({}, res), {}, _defineProperty$12({}, key, ScaleHelper.create(options[key])));
 	}, {});
-	return _objectSpread$8(_objectSpread$8({}, scales), {}, {
+	return _objectSpread$9(_objectSpread$9({}, scales), {}, {
 		apply: function apply(coord) {
 			var _ref5 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, bandAware = _ref5.bandAware, position = _ref5.position;
 			return (0, import_mapValues.default)(coord, function(value, label) {
@@ -8298,8 +9625,7 @@ var getAngledRectangleWidth = function getAngledRectangleWidth(_ref6) {
 };
 //#endregion
 //#region node_modules/recharts/es6/util/calculateViewBox.js
-var import_some = /* @__PURE__ */ __toESM(require_some());
-require_find();
+var import_find = /* @__PURE__ */ __toESM(require_find());
 /**
 * This is memoized because the viewBox is unlikely to change often
 * - but because it is computed from offset, any change to it would re-render all children.
@@ -8369,6 +9695,31 @@ var useXAxisOrThrow = function useXAxisOrThrow(xAxisId) {
 	return xAxis;
 };
 /**
+* This will find an arbitrary first XAxis. If there's exactly one it always returns that one
+* - but if there are multiple then it can return any of those.
+*
+* If you want specific XAxis out of multiple then prefer using useXAxisOrThrow
+*
+* @returns X axisOptions, or undefined - if there are no X axes
+*/
+var useArbitraryXAxis = function useArbitraryXAxis() {
+	return getAnyElementOfObject((0, import_react.useContext)(XAxisContext));
+};
+/**
+* This hooks will:
+* 1st attempt to find an YAxis that has all elements in its domain finite
+* If no such axis exists, it will return an arbitrary YAxis
+* if there are no Y axes then it returns undefined
+*
+* @returns Either Y axisOptions, or undefined if there are no Y axes
+*/
+var useYAxisWithFiniteDomainOrRandom = function useYAxisWithFiniteDomainOrRandom() {
+	var yAxisMap = (0, import_react.useContext)(YAxisContext);
+	return (0, import_find.default)(yAxisMap, function(axis) {
+		return (0, import_every.default)(axis.domain, Number.isFinite);
+	}) || getAnyElementOfObject(yAxisMap);
+};
+/**
 * This either finds and returns Axis by the specified ID, or throws an exception if an axis with this ID does not exist.
 *
 * @param yAxisId identifier of the axis - it's either autogenerated ('0'), or passed via `id` prop as <YAxis id='foo' />
@@ -8385,6 +9736,9 @@ var useYAxisOrThrow = function useYAxisOrThrow(yAxisId) {
 var useViewBox = function useViewBox() {
 	return (0, import_react.useContext)(ViewBoxContext);
 };
+var useOffset = function useOffset() {
+	return (0, import_react.useContext)(OffsetContext);
+};
 var useChartWidth = function useChartWidth() {
 	return (0, import_react.useContext)(ChartWidthContext);
 };
@@ -8396,13 +9750,14 @@ var useChartHeight = function useChartHeight() {
 /**
 * @fileOverview Reference Line
 */
-function _typeof$10(o) {
+var import_some = /* @__PURE__ */ __toESM(require_some());
+function _typeof$11(o) {
 	"@babel/helpers - typeof";
-	return _typeof$10 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$11 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$10(o);
+	}, _typeof$11(o);
 }
 function _classCallCheck$8(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
@@ -8413,7 +9768,7 @@ function _defineProperties$8(target, props) {
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$10(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$11(descriptor.key), descriptor);
 	}
 }
 function _createClass$8(Constructor, protoProps, staticProps) {
@@ -8426,7 +9781,7 @@ function _callSuper$7(t, o, e) {
 	return o = _getPrototypeOf$7(o), _possibleConstructorReturn$7(t, _isNativeReflectConstruct$7() ? Reflect.construct(o, e || [], _getPrototypeOf$7(t).constructor) : o.apply(t, e));
 }
 function _possibleConstructorReturn$7(self, call) {
-	if (call && (_typeof$10(call) === "object" || typeof call === "function")) return call;
+	if (call && (_typeof$11(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
 	return _assertThisInitialized$7(self);
 }
@@ -8465,7 +9820,7 @@ function _setPrototypeOf$7(o, p) {
 	};
 	return _setPrototypeOf$7(o, p);
 }
-function ownKeys$7(e, r) {
+function ownKeys$8(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -8475,19 +9830,19 @@ function ownKeys$7(e, r) {
 	}
 	return t;
 }
-function _objectSpread$7(e) {
+function _objectSpread$8(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$7(Object(t), !0).forEach(function(r) {
-			_defineProperty$10(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$7(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$8(Object(t), !0).forEach(function(r) {
+			_defineProperty$11(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$8(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$10(obj, key, value) {
-	key = _toPropertyKey$10(key);
+function _defineProperty$11(obj, key, value) {
+	key = _toPropertyKey$11(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -8497,16 +9852,16 @@ function _defineProperty$10(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$10(t) {
-	var i = _toPrimitive$10(t, "string");
-	return "symbol" == _typeof$10(i) ? i : i + "";
+function _toPropertyKey$11(t) {
+	var i = _toPrimitive$11(t, "string");
+	return "symbol" == _typeof$11(i) ? i : i + "";
 }
-function _toPrimitive$10(t, r) {
-	if ("object" != _typeof$10(t) || !t) return t;
+function _toPrimitive$11(t, r) {
+	if ("object" != _typeof$11(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$10(i)) return i;
+		if ("object" != _typeof$11(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -8554,15 +9909,15 @@ function _iterableToArrayLimit$1(r, l) {
 function _arrayWithHoles$1(arr) {
 	if (Array.isArray(arr)) return arr;
 }
-function _extends$7() {
-	_extends$7 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$8() {
+	_extends$8 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$7.apply(this, arguments);
+	return _extends$8.apply(this, arguments);
 }
 /**
 * This excludes `viewBox` prop from svg for two reasons:
@@ -8574,7 +9929,7 @@ var renderLine = function renderLine(option, props) {
 	var line;
 	if (/*#__PURE__*/ import_react.isValidElement(option)) line = /*#__PURE__*/ import_react.cloneElement(option, props);
 	else if ((0, import_isFunction.default)(option)) line = option(props);
-	else line = /*#__PURE__*/ import_react.createElement("line", _extends$7({}, props, { className: "recharts-reference-line-line" }));
+	else line = /*#__PURE__*/ import_react.createElement("line", _extends$8({}, props, { className: "recharts-reference-line-line" }));
 	return line;
 };
 var getEndPoints = function getEndPoints(scales, isFixedX, isFixedY, isSegment, viewBox, position, xAxisOrientation, yAxisOrientation, props) {
@@ -8630,7 +9985,7 @@ function ReferenceLineImpl(props) {
 	}), isNumOrStr(fixedX), isNumOrStr(fixedY), segment && segment.length === 2, viewBox, props.position, xAxis.orientation, yAxis.orientation, props);
 	if (!endPoints) return null;
 	var _endPoints = _slicedToArray$1(endPoints, 2), _endPoints$ = _endPoints[0], x1 = _endPoints$.x, y1 = _endPoints$.y, _endPoints$2 = _endPoints[1], x2 = _endPoints$2.x, y2 = _endPoints$2.y;
-	var lineProps = _objectSpread$7(_objectSpread$7({ clipPath: ifOverflowMatches(props, "hidden") ? "url(#".concat(clipPathId, ")") : void 0 }, filterProps(props, true)), {}, {
+	var lineProps = _objectSpread$8(_objectSpread$8({ clipPath: ifOverflowMatches(props, "hidden") ? "url(#".concat(clipPathId, ")") : void 0 }, filterProps(props, true)), {}, {
 		x1,
 		y1,
 		x2,
@@ -8656,8 +10011,8 @@ var ReferenceLine = /*#__PURE__*/ function(_React$Component) {
 		}
 	}]);
 }(import_react.Component);
-_defineProperty$10(ReferenceLine, "displayName", "ReferenceLine");
-_defineProperty$10(ReferenceLine, "defaultProps", {
+_defineProperty$11(ReferenceLine, "displayName", "ReferenceLine");
+_defineProperty$11(ReferenceLine, "defaultProps", {
 	isFront: false,
 	ifOverflow: "discard",
 	xAxisId: 0,
@@ -8672,6 +10027,203 @@ _defineProperty$10(ReferenceLine, "defaultProps", {
 //#region node_modules/recharts/es6/cartesian/ReferenceDot.js
 /**
 * @fileOverview Reference Dot
+*/
+function _extends$7() {
+	_extends$7 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$7.apply(this, arguments);
+}
+function _typeof$10(o) {
+	"@babel/helpers - typeof";
+	return _typeof$10 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$10(o);
+}
+function ownKeys$7(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$7(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$7(Object(t), !0).forEach(function(r) {
+			_defineProperty$10(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$7(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _classCallCheck$7(instance, Constructor) {
+	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
+}
+function _defineProperties$7(target, props) {
+	for (var i = 0; i < props.length; i++) {
+		var descriptor = props[i];
+		descriptor.enumerable = descriptor.enumerable || false;
+		descriptor.configurable = true;
+		if ("value" in descriptor) descriptor.writable = true;
+		Object.defineProperty(target, _toPropertyKey$10(descriptor.key), descriptor);
+	}
+}
+function _createClass$7(Constructor, protoProps, staticProps) {
+	if (protoProps) _defineProperties$7(Constructor.prototype, protoProps);
+	if (staticProps) _defineProperties$7(Constructor, staticProps);
+	Object.defineProperty(Constructor, "prototype", { writable: false });
+	return Constructor;
+}
+function _callSuper$6(t, o, e) {
+	return o = _getPrototypeOf$6(o), _possibleConstructorReturn$6(t, _isNativeReflectConstruct$6() ? Reflect.construct(o, e || [], _getPrototypeOf$6(t).constructor) : o.apply(t, e));
+}
+function _possibleConstructorReturn$6(self, call) {
+	if (call && (_typeof$10(call) === "object" || typeof call === "function")) return call;
+	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
+	return _assertThisInitialized$6(self);
+}
+function _assertThisInitialized$6(self) {
+	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	return self;
+}
+function _isNativeReflectConstruct$6() {
+	try {
+		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+	} catch (t) {}
+	return (_isNativeReflectConstruct$6 = function _isNativeReflectConstruct() {
+		return !!t;
+	})();
+}
+function _getPrototypeOf$6(o) {
+	_getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+		return o.__proto__ || Object.getPrototypeOf(o);
+	};
+	return _getPrototypeOf$6(o);
+}
+function _inherits$6(subClass, superClass) {
+	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
+	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
+		value: subClass,
+		writable: true,
+		configurable: true
+	} });
+	Object.defineProperty(subClass, "prototype", { writable: false });
+	if (superClass) _setPrototypeOf$6(subClass, superClass);
+}
+function _setPrototypeOf$6(o, p) {
+	_setPrototypeOf$6 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+		o.__proto__ = p;
+		return o;
+	};
+	return _setPrototypeOf$6(o, p);
+}
+function _defineProperty$10(obj, key, value) {
+	key = _toPropertyKey$10(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$10(t) {
+	var i = _toPrimitive$10(t, "string");
+	return "symbol" == _typeof$10(i) ? i : i + "";
+}
+function _toPrimitive$10(t, r) {
+	if ("object" != _typeof$10(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$10(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+var getCoordinate = function getCoordinate(props) {
+	var x = props.x, y = props.y, xAxis = props.xAxis, yAxis = props.yAxis;
+	var scales = createLabeledScales({
+		x: xAxis.scale,
+		y: yAxis.scale
+	});
+	var result = scales.apply({
+		x,
+		y
+	}, { bandAware: true });
+	if (ifOverflowMatches(props, "discard") && !scales.isInRange(result)) return null;
+	return result;
+};
+var ReferenceDot = /*#__PURE__*/ function(_React$Component) {
+	function ReferenceDot() {
+		_classCallCheck$7(this, ReferenceDot);
+		return _callSuper$6(this, ReferenceDot, arguments);
+	}
+	_inherits$6(ReferenceDot, _React$Component);
+	return _createClass$7(ReferenceDot, [{
+		key: "render",
+		value: function render() {
+			var _this$props = this.props, x = _this$props.x, y = _this$props.y, r = _this$props.r, alwaysShow = _this$props.alwaysShow, clipPathId = _this$props.clipPathId;
+			var isX = isNumOrStr(x);
+			var isY = isNumOrStr(y);
+			warn(alwaysShow === void 0, "The alwaysShow prop is deprecated. Please use ifOverflow=\"extendDomain\" instead.");
+			if (!isX || !isY) return null;
+			var coordinate = getCoordinate(this.props);
+			if (!coordinate) return null;
+			var cx = coordinate.x, cy = coordinate.y;
+			var _this$props2 = this.props, shape = _this$props2.shape, className = _this$props2.className;
+			var dotProps = _objectSpread$7(_objectSpread$7({ clipPath: ifOverflowMatches(this.props, "hidden") ? "url(#".concat(clipPathId, ")") : void 0 }, filterProps(this.props, true)), {}, {
+				cx,
+				cy
+			});
+			return /*#__PURE__*/ import_react.createElement(Layer, { className: clsx("recharts-reference-dot", className) }, ReferenceDot.renderDot(shape, dotProps), Label.renderCallByParent(this.props, {
+				x: cx - r,
+				y: cy - r,
+				width: 2 * r,
+				height: 2 * r
+			}));
+		}
+	}]);
+}(import_react.Component);
+_defineProperty$10(ReferenceDot, "displayName", "ReferenceDot");
+_defineProperty$10(ReferenceDot, "defaultProps", {
+	isFront: false,
+	ifOverflow: "discard",
+	xAxisId: 0,
+	yAxisId: 0,
+	r: 10,
+	fill: "#fff",
+	stroke: "#ccc",
+	fillOpacity: 1,
+	strokeWidth: 1
+});
+_defineProperty$10(ReferenceDot, "renderDot", function(option, props) {
+	var dot;
+	if (/*#__PURE__*/ import_react.isValidElement(option)) dot = /*#__PURE__*/ import_react.cloneElement(option, props);
+	else if ((0, import_isFunction.default)(option)) dot = option(props);
+	else dot = /*#__PURE__*/ import_react.createElement(Dot, _extends$7({}, props, {
+		cx: props.cx,
+		cy: props.cy,
+		className: "recharts-reference-dot-dot"
+	}));
+	return dot;
+});
+//#endregion
+//#region node_modules/recharts/es6/cartesian/ReferenceArea.js
+/**
+* @fileOverview Reference Line
 */
 function _extends$6() {
 	_extends$6 = Object.assign ? Object.assign.bind() : function(target) {
@@ -8712,203 +10264,6 @@ function _objectSpread$6(e) {
 	}
 	return e;
 }
-function _classCallCheck$7(instance, Constructor) {
-	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties$7(target, props) {
-	for (var i = 0; i < props.length; i++) {
-		var descriptor = props[i];
-		descriptor.enumerable = descriptor.enumerable || false;
-		descriptor.configurable = true;
-		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$9(descriptor.key), descriptor);
-	}
-}
-function _createClass$7(Constructor, protoProps, staticProps) {
-	if (protoProps) _defineProperties$7(Constructor.prototype, protoProps);
-	if (staticProps) _defineProperties$7(Constructor, staticProps);
-	Object.defineProperty(Constructor, "prototype", { writable: false });
-	return Constructor;
-}
-function _callSuper$6(t, o, e) {
-	return o = _getPrototypeOf$6(o), _possibleConstructorReturn$6(t, _isNativeReflectConstruct$6() ? Reflect.construct(o, e || [], _getPrototypeOf$6(t).constructor) : o.apply(t, e));
-}
-function _possibleConstructorReturn$6(self, call) {
-	if (call && (_typeof$9(call) === "object" || typeof call === "function")) return call;
-	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
-	return _assertThisInitialized$6(self);
-}
-function _assertThisInitialized$6(self) {
-	if (self === void 0) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	return self;
-}
-function _isNativeReflectConstruct$6() {
-	try {
-		var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
-	} catch (t) {}
-	return (_isNativeReflectConstruct$6 = function _isNativeReflectConstruct() {
-		return !!t;
-	})();
-}
-function _getPrototypeOf$6(o) {
-	_getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-		return o.__proto__ || Object.getPrototypeOf(o);
-	};
-	return _getPrototypeOf$6(o);
-}
-function _inherits$6(subClass, superClass) {
-	if (typeof superClass !== "function" && superClass !== null) throw new TypeError("Super expression must either be null or a function");
-	subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: {
-		value: subClass,
-		writable: true,
-		configurable: true
-	} });
-	Object.defineProperty(subClass, "prototype", { writable: false });
-	if (superClass) _setPrototypeOf$6(subClass, superClass);
-}
-function _setPrototypeOf$6(o, p) {
-	_setPrototypeOf$6 = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-		o.__proto__ = p;
-		return o;
-	};
-	return _setPrototypeOf$6(o, p);
-}
-function _defineProperty$9(obj, key, value) {
-	key = _toPropertyKey$9(key);
-	if (key in obj) Object.defineProperty(obj, key, {
-		value,
-		enumerable: true,
-		configurable: true,
-		writable: true
-	});
-	else obj[key] = value;
-	return obj;
-}
-function _toPropertyKey$9(t) {
-	var i = _toPrimitive$9(t, "string");
-	return "symbol" == _typeof$9(i) ? i : i + "";
-}
-function _toPrimitive$9(t, r) {
-	if ("object" != _typeof$9(t) || !t) return t;
-	var e = t[Symbol.toPrimitive];
-	if (void 0 !== e) {
-		var i = e.call(t, r || "default");
-		if ("object" != _typeof$9(i)) return i;
-		throw new TypeError("@@toPrimitive must return a primitive value.");
-	}
-	return ("string" === r ? String : Number)(t);
-}
-var getCoordinate = function getCoordinate(props) {
-	var x = props.x, y = props.y, xAxis = props.xAxis, yAxis = props.yAxis;
-	var scales = createLabeledScales({
-		x: xAxis.scale,
-		y: yAxis.scale
-	});
-	var result = scales.apply({
-		x,
-		y
-	}, { bandAware: true });
-	if (ifOverflowMatches(props, "discard") && !scales.isInRange(result)) return null;
-	return result;
-};
-var ReferenceDot = /*#__PURE__*/ function(_React$Component) {
-	function ReferenceDot() {
-		_classCallCheck$7(this, ReferenceDot);
-		return _callSuper$6(this, ReferenceDot, arguments);
-	}
-	_inherits$6(ReferenceDot, _React$Component);
-	return _createClass$7(ReferenceDot, [{
-		key: "render",
-		value: function render() {
-			var _this$props = this.props, x = _this$props.x, y = _this$props.y, r = _this$props.r, alwaysShow = _this$props.alwaysShow, clipPathId = _this$props.clipPathId;
-			var isX = isNumOrStr(x);
-			var isY = isNumOrStr(y);
-			warn(alwaysShow === void 0, "The alwaysShow prop is deprecated. Please use ifOverflow=\"extendDomain\" instead.");
-			if (!isX || !isY) return null;
-			var coordinate = getCoordinate(this.props);
-			if (!coordinate) return null;
-			var cx = coordinate.x, cy = coordinate.y;
-			var _this$props2 = this.props, shape = _this$props2.shape, className = _this$props2.className;
-			var dotProps = _objectSpread$6(_objectSpread$6({ clipPath: ifOverflowMatches(this.props, "hidden") ? "url(#".concat(clipPathId, ")") : void 0 }, filterProps(this.props, true)), {}, {
-				cx,
-				cy
-			});
-			return /*#__PURE__*/ import_react.createElement(Layer, { className: clsx("recharts-reference-dot", className) }, ReferenceDot.renderDot(shape, dotProps), Label.renderCallByParent(this.props, {
-				x: cx - r,
-				y: cy - r,
-				width: 2 * r,
-				height: 2 * r
-			}));
-		}
-	}]);
-}(import_react.Component);
-_defineProperty$9(ReferenceDot, "displayName", "ReferenceDot");
-_defineProperty$9(ReferenceDot, "defaultProps", {
-	isFront: false,
-	ifOverflow: "discard",
-	xAxisId: 0,
-	yAxisId: 0,
-	r: 10,
-	fill: "#fff",
-	stroke: "#ccc",
-	fillOpacity: 1,
-	strokeWidth: 1
-});
-_defineProperty$9(ReferenceDot, "renderDot", function(option, props) {
-	var dot;
-	if (/*#__PURE__*/ import_react.isValidElement(option)) dot = /*#__PURE__*/ import_react.cloneElement(option, props);
-	else if ((0, import_isFunction.default)(option)) dot = option(props);
-	else dot = /*#__PURE__*/ import_react.createElement(Dot, _extends$6({}, props, {
-		cx: props.cx,
-		cy: props.cy,
-		className: "recharts-reference-dot-dot"
-	}));
-	return dot;
-});
-//#endregion
-//#region node_modules/recharts/es6/cartesian/ReferenceArea.js
-/**
-* @fileOverview Reference Line
-*/
-function _extends$5() {
-	_extends$5 = Object.assign ? Object.assign.bind() : function(target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
-		}
-		return target;
-	};
-	return _extends$5.apply(this, arguments);
-}
-function _typeof$8(o) {
-	"@babel/helpers - typeof";
-	return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-		return typeof o;
-	} : function(o) {
-		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$8(o);
-}
-function ownKeys$5(e, r) {
-	var t = Object.keys(e);
-	if (Object.getOwnPropertySymbols) {
-		var o = Object.getOwnPropertySymbols(e);
-		r && (o = o.filter(function(r) {
-			return Object.getOwnPropertyDescriptor(e, r).enumerable;
-		})), t.push.apply(t, o);
-	}
-	return t;
-}
-function _objectSpread$5(e) {
-	for (var r = 1; r < arguments.length; r++) {
-		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$5(Object(t), !0).forEach(function(r) {
-			_defineProperty$8(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$5(Object(t)).forEach(function(r) {
-			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-		});
-	}
-	return e;
-}
 function _classCallCheck$6(instance, Constructor) {
 	if (!(instance instanceof Constructor)) throw new TypeError("Cannot call a class as a function");
 }
@@ -8918,7 +10273,7 @@ function _defineProperties$6(target, props) {
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$8(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$9(descriptor.key), descriptor);
 	}
 }
 function _createClass$6(Constructor, protoProps, staticProps) {
@@ -8931,7 +10286,7 @@ function _callSuper$5(t, o, e) {
 	return o = _getPrototypeOf$5(o), _possibleConstructorReturn$5(t, _isNativeReflectConstruct$5() ? Reflect.construct(o, e || [], _getPrototypeOf$5(t).constructor) : o.apply(t, e));
 }
 function _possibleConstructorReturn$5(self, call) {
-	if (call && (_typeof$8(call) === "object" || typeof call === "function")) return call;
+	if (call && (_typeof$9(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
 	return _assertThisInitialized$5(self);
 }
@@ -8970,8 +10325,8 @@ function _setPrototypeOf$5(o, p) {
 	};
 	return _setPrototypeOf$5(o, p);
 }
-function _defineProperty$8(obj, key, value) {
-	key = _toPropertyKey$8(key);
+function _defineProperty$9(obj, key, value) {
+	key = _toPropertyKey$9(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -8981,16 +10336,16 @@ function _defineProperty$8(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$8(t) {
-	var i = _toPrimitive$8(t, "string");
-	return "symbol" == _typeof$8(i) ? i : i + "";
+function _toPropertyKey$9(t) {
+	var i = _toPrimitive$9(t, "string");
+	return "symbol" == _typeof$9(i) ? i : i + "";
 }
-function _toPrimitive$8(t, r) {
-	if ("object" != _typeof$8(t) || !t) return t;
+function _toPrimitive$9(t, r) {
+	if ("object" != _typeof$9(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$8(i)) return i;
+		if ("object" != _typeof$9(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -9033,12 +10388,12 @@ var ReferenceArea = /*#__PURE__*/ function(_React$Component) {
 			var rect = getRect(hasX1, hasX2, hasY1, hasY2, this.props);
 			if (!rect && !shape) return null;
 			var clipPath = ifOverflowMatches(this.props, "hidden") ? "url(#".concat(clipPathId, ")") : void 0;
-			return /*#__PURE__*/ import_react.createElement(Layer, { className: clsx("recharts-reference-area", className) }, ReferenceArea.renderRect(shape, _objectSpread$5(_objectSpread$5({ clipPath }, filterProps(this.props, true)), rect)), Label.renderCallByParent(this.props, rect));
+			return /*#__PURE__*/ import_react.createElement(Layer, { className: clsx("recharts-reference-area", className) }, ReferenceArea.renderRect(shape, _objectSpread$6(_objectSpread$6({ clipPath }, filterProps(this.props, true)), rect)), Label.renderCallByParent(this.props, rect));
 		}
 	}]);
 }(import_react.Component);
-_defineProperty$8(ReferenceArea, "displayName", "ReferenceArea");
-_defineProperty$8(ReferenceArea, "defaultProps", {
+_defineProperty$9(ReferenceArea, "displayName", "ReferenceArea");
+_defineProperty$9(ReferenceArea, "defaultProps", {
 	isFront: false,
 	ifOverflow: "discard",
 	xAxisId: 0,
@@ -9049,11 +10404,11 @@ _defineProperty$8(ReferenceArea, "defaultProps", {
 	stroke: "none",
 	strokeWidth: 1
 });
-_defineProperty$8(ReferenceArea, "renderRect", function(option, props) {
+_defineProperty$9(ReferenceArea, "renderRect", function(option, props) {
 	var rect;
 	if (/*#__PURE__*/ import_react.isValidElement(option)) rect = /*#__PURE__*/ import_react.cloneElement(option, props);
 	else if ((0, import_isFunction.default)(option)) rect = option(props);
-	else rect = /*#__PURE__*/ import_react.createElement(Rectangle, _extends$5({}, props, { className: "recharts-reference-area-rect" }));
+	else rect = /*#__PURE__*/ import_react.createElement(Rectangle, _extends$6({}, props, { className: "recharts-reference-area-rect" }));
 	return rect;
 });
 //#endregion
@@ -9140,15 +10495,15 @@ function getEquidistantTicks(sign, boundaries, getTickSize, ticks, minTickGap) {
 }
 //#endregion
 //#region node_modules/recharts/es6/cartesian/getTicks.js
-function _typeof$7(o) {
+function _typeof$8(o) {
 	"@babel/helpers - typeof";
-	return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$8 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$7(o);
+	}, _typeof$8(o);
 }
-function ownKeys$4(e, r) {
+function ownKeys$5(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -9158,19 +10513,19 @@ function ownKeys$4(e, r) {
 	}
 	return t;
 }
-function _objectSpread$4(e) {
+function _objectSpread$5(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$4(Object(t), !0).forEach(function(r) {
-			_defineProperty$7(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$4(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$5(Object(t), !0).forEach(function(r) {
+			_defineProperty$8(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$5(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _defineProperty$7(obj, key, value) {
-	key = _toPropertyKey$7(key);
+function _defineProperty$8(obj, key, value) {
+	key = _toPropertyKey$8(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -9180,16 +10535,16 @@ function _defineProperty$7(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$7(t) {
-	var i = _toPrimitive$7(t, "string");
-	return "symbol" == _typeof$7(i) ? i : i + "";
+function _toPropertyKey$8(t) {
+	var i = _toPrimitive$8(t, "string");
+	return "symbol" == _typeof$8(i) ? i : i + "";
 }
-function _toPrimitive$7(t, r) {
-	if ("object" != _typeof$7(t) || !t) return t;
+function _toPrimitive$8(t, r) {
+	if ("object" != _typeof$8(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$7(i)) return i;
+		if ("object" != _typeof$8(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -9208,11 +10563,11 @@ function getTicksEnd(sign, boundaries, getTickSize, ticks, minTickGap) {
 		};
 		if (i === len - 1) {
 			var gap = sign * (entry.coordinate + sign * getSize() / 2 - end);
-			result[i] = entry = _objectSpread$4(_objectSpread$4({}, entry), {}, { tickCoord: gap > 0 ? entry.coordinate - gap * sign : entry.coordinate });
-		} else result[i] = entry = _objectSpread$4(_objectSpread$4({}, entry), {}, { tickCoord: entry.coordinate });
+			result[i] = entry = _objectSpread$5(_objectSpread$5({}, entry), {}, { tickCoord: gap > 0 ? entry.coordinate - gap * sign : entry.coordinate });
+		} else result[i] = entry = _objectSpread$5(_objectSpread$5({}, entry), {}, { tickCoord: entry.coordinate });
 		if (isVisible(sign, entry.tickCoord, getSize, start, end)) {
 			end = entry.tickCoord - sign * (getSize() / 2 + minTickGap);
-			result[i] = _objectSpread$4(_objectSpread$4({}, entry), {}, { isShow: true });
+			result[i] = _objectSpread$5(_objectSpread$5({}, entry), {}, { isShow: true });
 		}
 	};
 	for (var i = len - 1; i >= 0; i--) _loop(i);
@@ -9226,12 +10581,12 @@ function getTicksStart(sign, boundaries, getTickSize, ticks, minTickGap, preserv
 		var tail = ticks[len - 1];
 		var tailSize = getTickSize(tail, len - 1);
 		var tailGap = sign * (tail.coordinate + sign * tailSize / 2 - end);
-		result[len - 1] = tail = _objectSpread$4(_objectSpread$4({}, tail), {}, { tickCoord: tailGap > 0 ? tail.coordinate - tailGap * sign : tail.coordinate });
+		result[len - 1] = tail = _objectSpread$5(_objectSpread$5({}, tail), {}, { tickCoord: tailGap > 0 ? tail.coordinate - tailGap * sign : tail.coordinate });
 		if (isVisible(sign, tail.tickCoord, function() {
 			return tailSize;
 		}, start, end)) {
 			end = tail.tickCoord - sign * (tailSize / 2 + minTickGap);
-			result[len - 1] = _objectSpread$4(_objectSpread$4({}, tail), {}, { isShow: true });
+			result[len - 1] = _objectSpread$5(_objectSpread$5({}, tail), {}, { isShow: true });
 		}
 	}
 	var count = preserveEnd ? len - 1 : len;
@@ -9244,11 +10599,11 @@ function getTicksStart(sign, boundaries, getTickSize, ticks, minTickGap, preserv
 		};
 		if (i === 0) {
 			var gap = sign * (entry.coordinate - sign * getSize() / 2 - start);
-			result[i] = entry = _objectSpread$4(_objectSpread$4({}, entry), {}, { tickCoord: gap < 0 ? entry.coordinate - gap * sign : entry.coordinate });
-		} else result[i] = entry = _objectSpread$4(_objectSpread$4({}, entry), {}, { tickCoord: entry.coordinate });
+			result[i] = entry = _objectSpread$5(_objectSpread$5({}, entry), {}, { tickCoord: gap < 0 ? entry.coordinate - gap * sign : entry.coordinate });
+		} else result[i] = entry = _objectSpread$5(_objectSpread$5({}, entry), {}, { tickCoord: entry.coordinate });
 		if (isVisible(sign, entry.tickCoord, getSize, start, end)) {
 			start = entry.tickCoord + sign * (getSize() / 2 + minTickGap);
-			result[i] = _objectSpread$4(_objectSpread$4({}, entry), {}, { isShow: true });
+			result[i] = _objectSpread$5(_objectSpread$5({}, entry), {}, { isShow: true });
 		}
 	};
 	for (var i = 0; i < count; i++) _loop2(i);
@@ -9291,28 +10646,28 @@ function getTicks(props, fontSize, letterSpacing) {
 /**
 * @fileOverview Cartesian Axis
 */
-var _excluded$2 = ["viewBox"];
-var _excluded2$2 = ["viewBox"];
+var _excluded$3 = ["viewBox"];
+var _excluded2$3 = ["viewBox"];
 var _excluded3 = ["ticks"];
-function _typeof$6(o) {
+function _typeof$7(o) {
 	"@babel/helpers - typeof";
-	return _typeof$6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+	return _typeof$7 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
 		return typeof o;
 	} : function(o) {
 		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-	}, _typeof$6(o);
+	}, _typeof$7(o);
 }
-function _extends$4() {
-	_extends$4 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$5() {
+	_extends$5 = Object.assign ? Object.assign.bind() : function(target) {
 		for (var i = 1; i < arguments.length; i++) {
 			var source = arguments[i];
 			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
 		}
 		return target;
 	};
-	return _extends$4.apply(this, arguments);
+	return _extends$5.apply(this, arguments);
 }
-function ownKeys$3(e, r) {
+function ownKeys$4(e, r) {
 	var t = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
 		var o = Object.getOwnPropertySymbols(e);
@@ -9322,20 +10677,20 @@ function ownKeys$3(e, r) {
 	}
 	return t;
 }
-function _objectSpread$3(e) {
+function _objectSpread$4(e) {
 	for (var r = 1; r < arguments.length; r++) {
 		var t = null != arguments[r] ? arguments[r] : {};
-		r % 2 ? ownKeys$3(Object(t), !0).forEach(function(r) {
-			_defineProperty$6(e, r, t[r]);
-		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$3(Object(t)).forEach(function(r) {
+		r % 2 ? ownKeys$4(Object(t), !0).forEach(function(r) {
+			_defineProperty$7(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$4(Object(t)).forEach(function(r) {
 			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
 		});
 	}
 	return e;
 }
-function _objectWithoutProperties$2(source, excluded) {
+function _objectWithoutProperties$3(source, excluded) {
 	if (source == null) return {};
-	var target = _objectWithoutPropertiesLoose$2(source, excluded);
+	var target = _objectWithoutPropertiesLoose$3(source, excluded);
 	var key, i;
 	if (Object.getOwnPropertySymbols) {
 		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
@@ -9348,7 +10703,7 @@ function _objectWithoutProperties$2(source, excluded) {
 	}
 	return target;
 }
-function _objectWithoutPropertiesLoose$2(source, excluded) {
+function _objectWithoutPropertiesLoose$3(source, excluded) {
 	if (source == null) return {};
 	var target = {};
 	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -9366,7 +10721,7 @@ function _defineProperties$5(target, props) {
 		descriptor.enumerable = descriptor.enumerable || false;
 		descriptor.configurable = true;
 		if ("value" in descriptor) descriptor.writable = true;
-		Object.defineProperty(target, _toPropertyKey$6(descriptor.key), descriptor);
+		Object.defineProperty(target, _toPropertyKey$7(descriptor.key), descriptor);
 	}
 }
 function _createClass$5(Constructor, protoProps, staticProps) {
@@ -9379,7 +10734,7 @@ function _callSuper$4(t, o, e) {
 	return o = _getPrototypeOf$4(o), _possibleConstructorReturn$4(t, _isNativeReflectConstruct$4() ? Reflect.construct(o, e || [], _getPrototypeOf$4(t).constructor) : o.apply(t, e));
 }
 function _possibleConstructorReturn$4(self, call) {
-	if (call && (_typeof$6(call) === "object" || typeof call === "function")) return call;
+	if (call && (_typeof$7(call) === "object" || typeof call === "function")) return call;
 	else if (call !== void 0) throw new TypeError("Derived constructors may only return object or undefined");
 	return _assertThisInitialized$4(self);
 }
@@ -9418,8 +10773,8 @@ function _setPrototypeOf$4(o, p) {
 	};
 	return _setPrototypeOf$4(o, p);
 }
-function _defineProperty$6(obj, key, value) {
-	key = _toPropertyKey$6(key);
+function _defineProperty$7(obj, key, value) {
+	key = _toPropertyKey$7(key);
 	if (key in obj) Object.defineProperty(obj, key, {
 		value,
 		enumerable: true,
@@ -9429,16 +10784,16 @@ function _defineProperty$6(obj, key, value) {
 	else obj[key] = value;
 	return obj;
 }
-function _toPropertyKey$6(t) {
-	var i = _toPrimitive$6(t, "string");
-	return "symbol" == _typeof$6(i) ? i : i + "";
+function _toPropertyKey$7(t) {
+	var i = _toPrimitive$7(t, "string");
+	return "symbol" == _typeof$7(i) ? i : i + "";
 }
-function _toPrimitive$6(t, r) {
-	if ("object" != _typeof$6(t) || !t) return t;
+function _toPrimitive$7(t, r) {
+	if ("object" != _typeof$7(t) || !t) return t;
 	var e = t[Symbol.toPrimitive];
 	if (void 0 !== e) {
 		var i = e.call(t, r || "default");
-		if ("object" != _typeof$6(i)) return i;
+		if ("object" != _typeof$7(i)) return i;
 		throw new TypeError("@@toPrimitive must return a primitive value.");
 	}
 	return ("string" === r ? String : Number)(t);
@@ -9462,8 +10817,8 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 		{
 			key: "shouldComponentUpdate",
 			value: function shouldComponentUpdate(_ref, nextState) {
-				var viewBox = _ref.viewBox, restProps = _objectWithoutProperties$2(_ref, _excluded$2);
-				var _this$props = this.props, viewBoxOld = _this$props.viewBox, restPropsOld = _objectWithoutProperties$2(_this$props, _excluded2$2);
+				var viewBox = _ref.viewBox, restProps = _objectWithoutProperties$3(_ref, _excluded$3);
+				var _this$props = this.props, viewBoxOld = _this$props.viewBox, restPropsOld = _objectWithoutProperties$3(_this$props, _excluded2$3);
 				return !shallowEqual(viewBox, viewBoxOld) || !shallowEqual(restProps, restPropsOld) || !shallowEqual(nextState, this.state);
 			}
 		},
@@ -9569,10 +10924,10 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 			key: "renderAxisLine",
 			value: function renderAxisLine() {
 				var _this$props5 = this.props, x = _this$props5.x, y = _this$props5.y, width = _this$props5.width, height = _this$props5.height, orientation = _this$props5.orientation, mirror = _this$props5.mirror, axisLine = _this$props5.axisLine;
-				var props = _objectSpread$3(_objectSpread$3(_objectSpread$3({}, filterProps(this.props, false)), filterProps(axisLine, false)), {}, { fill: "none" });
+				var props = _objectSpread$4(_objectSpread$4(_objectSpread$4({}, filterProps(this.props, false)), filterProps(axisLine, false)), {}, { fill: "none" });
 				if (orientation === "top" || orientation === "bottom") {
 					var needHeight = +(orientation === "top" && !mirror || orientation === "bottom" && mirror);
-					props = _objectSpread$3(_objectSpread$3({}, props), {}, {
+					props = _objectSpread$4(_objectSpread$4({}, props), {}, {
 						x1: x,
 						y1: y + needHeight * height,
 						x2: x + width,
@@ -9580,14 +10935,14 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 					});
 				} else {
 					var needWidth = +(orientation === "left" && !mirror || orientation === "right" && mirror);
-					props = _objectSpread$3(_objectSpread$3({}, props), {}, {
+					props = _objectSpread$4(_objectSpread$4({}, props), {}, {
 						x1: x + needWidth * width,
 						y1: y,
 						x2: x + needWidth * width,
 						y2: y + height
 					});
 				}
-				return /*#__PURE__*/ import_react.createElement("line", _extends$4({}, props, { className: clsx("recharts-cartesian-axis-line", (0, import_get.default)(axisLine, "className")) }));
+				return /*#__PURE__*/ import_react.createElement("line", _extends$5({}, props, { className: clsx("recharts-cartesian-axis-line", (0, import_get.default)(axisLine, "className")) }));
 			}
 		},
 		{
@@ -9603,15 +10958,15 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 			function renderTicks(ticks, fontSize, letterSpacing) {
 				var _this2 = this;
 				var _this$props6 = this.props, tickLine = _this$props6.tickLine, stroke = _this$props6.stroke, tick = _this$props6.tick, tickFormatter = _this$props6.tickFormatter, unit = _this$props6.unit;
-				var finalTicks = getTicks(_objectSpread$3(_objectSpread$3({}, this.props), {}, { ticks }), fontSize, letterSpacing);
+				var finalTicks = getTicks(_objectSpread$4(_objectSpread$4({}, this.props), {}, { ticks }), fontSize, letterSpacing);
 				var textAnchor = this.getTickTextAnchor();
 				var verticalAnchor = this.getTickVerticalAnchor();
 				var axisProps = filterProps(this.props, false);
 				var customTickProps = filterProps(tick, false);
-				var tickLineProps = _objectSpread$3(_objectSpread$3({}, axisProps), {}, { fill: "none" }, filterProps(tickLine, false));
+				var tickLineProps = _objectSpread$4(_objectSpread$4({}, axisProps), {}, { fill: "none" }, filterProps(tickLine, false));
 				var items = finalTicks.map(function(entry, i) {
 					var _this2$getTickLineCoo = _this2.getTickLineCoord(entry), lineCoord = _this2$getTickLineCoo.line, tickCoord = _this2$getTickLineCoo.tick;
-					var tickProps = _objectSpread$3(_objectSpread$3(_objectSpread$3(_objectSpread$3({
+					var tickProps = _objectSpread$4(_objectSpread$4(_objectSpread$4(_objectSpread$4({
 						textAnchor,
 						verticalAnchor
 					}, axisProps), {}, {
@@ -9623,10 +10978,10 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 						visibleTicksCount: finalTicks.length,
 						tickFormatter
 					});
-					return /*#__PURE__*/ import_react.createElement(Layer, _extends$4({
+					return /*#__PURE__*/ import_react.createElement(Layer, _extends$5({
 						className: "recharts-cartesian-axis-tick",
 						key: "tick-".concat(entry.value, "-").concat(entry.coordinate, "-").concat(entry.tickCoord)
-					}, adaptEventsOfChild(_this2.props, entry, i)), tickLine && /*#__PURE__*/ import_react.createElement("line", _extends$4({}, tickLineProps, lineCoord, { className: clsx("recharts-cartesian-axis-tick-line", (0, import_get.default)(tickLine, "className")) })), tick && CartesianAxis.renderTickItem(tick, tickProps, "".concat((0, import_isFunction.default)(tickFormatter) ? tickFormatter(entry.value, i) : entry.value).concat(unit || "")));
+					}, adaptEventsOfChild(_this2.props, entry, i)), tickLine && /*#__PURE__*/ import_react.createElement("line", _extends$5({}, tickLineProps, lineCoord, { className: clsx("recharts-cartesian-axis-tick-line", (0, import_get.default)(tickLine, "className")) })), tick && CartesianAxis.renderTickItem(tick, tickProps, "".concat((0, import_isFunction.default)(tickFormatter) ? tickFormatter(entry.value, i) : entry.value).concat(unit || "")));
 				});
 				return /*#__PURE__*/ import_react.createElement("g", { className: "recharts-cartesian-axis-ticks" }, items);
 			}
@@ -9637,7 +10992,7 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 				var _this3 = this;
 				var _this$props7 = this.props, axisLine = _this$props7.axisLine, width = _this$props7.width, height = _this$props7.height, ticksGenerator = _this$props7.ticksGenerator, className = _this$props7.className;
 				if (_this$props7.hide) return null;
-				var _this$props8 = this.props, ticks = _this$props8.ticks, noTicksProps = _objectWithoutProperties$2(_this$props8, _excluded3);
+				var _this$props8 = this.props, ticks = _this$props8.ticks, noTicksProps = _objectWithoutProperties$3(_this$props8, _excluded3);
 				var finalTicks = ticks;
 				if ((0, import_isFunction.default)(ticksGenerator)) finalTicks = ticks && ticks.length > 0 ? ticksGenerator(this.props) : ticksGenerator(noTicksProps);
 				if (width <= 0 || height <= 0 || !finalTicks || !finalTicks.length) return null;
@@ -9654,15 +11009,15 @@ var CartesianAxis = /*#__PURE__*/ function(_Component) {
 		value: function renderTickItem(option, props, value) {
 			var tickItem;
 			var combinedClassName = clsx(props.className, "recharts-cartesian-axis-tick-value");
-			if (/*#__PURE__*/ import_react.isValidElement(option)) tickItem = /*#__PURE__*/ import_react.cloneElement(option, _objectSpread$3(_objectSpread$3({}, props), {}, { className: combinedClassName }));
-			else if ((0, import_isFunction.default)(option)) tickItem = option(_objectSpread$3(_objectSpread$3({}, props), {}, { className: combinedClassName }));
-			else tickItem = /*#__PURE__*/ import_react.createElement(Text, _extends$4({}, props, { className: "recharts-cartesian-axis-tick-value" }), value);
+			if (/*#__PURE__*/ import_react.isValidElement(option)) tickItem = /*#__PURE__*/ import_react.cloneElement(option, _objectSpread$4(_objectSpread$4({}, props), {}, { className: combinedClassName }));
+			else if ((0, import_isFunction.default)(option)) tickItem = option(_objectSpread$4(_objectSpread$4({}, props), {}, { className: combinedClassName }));
+			else tickItem = /*#__PURE__*/ import_react.createElement(Text, _extends$5({}, props, { className: "recharts-cartesian-axis-tick-value" }), value);
 			return tickItem;
 		}
 	}]);
 }(import_react.Component);
-_defineProperty$6(CartesianAxis, "displayName", "CartesianAxis");
-_defineProperty$6(CartesianAxis, "defaultProps", {
+_defineProperty$7(CartesianAxis, "displayName", "CartesianAxis");
+_defineProperty$7(CartesianAxis, "defaultProps", {
 	x: 0,
 	y: 0,
 	width: 0,
@@ -9685,6 +11040,330 @@ _defineProperty$6(CartesianAxis, "defaultProps", {
 	tickMargin: 2,
 	interval: "preserveEnd"
 });
+//#endregion
+//#region node_modules/recharts/es6/cartesian/CartesianGrid.js
+/**
+* @fileOverview Cartesian Grid
+*/
+var _excluded$2 = [
+	"x1",
+	"y1",
+	"x2",
+	"y2",
+	"key"
+];
+var _excluded2$2 = ["offset"];
+function _typeof$6(o) {
+	"@babel/helpers - typeof";
+	return _typeof$6 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+		return typeof o;
+	} : function(o) {
+		return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+	}, _typeof$6(o);
+}
+function ownKeys$3(e, r) {
+	var t = Object.keys(e);
+	if (Object.getOwnPropertySymbols) {
+		var o = Object.getOwnPropertySymbols(e);
+		r && (o = o.filter(function(r) {
+			return Object.getOwnPropertyDescriptor(e, r).enumerable;
+		})), t.push.apply(t, o);
+	}
+	return t;
+}
+function _objectSpread$3(e) {
+	for (var r = 1; r < arguments.length; r++) {
+		var t = null != arguments[r] ? arguments[r] : {};
+		r % 2 ? ownKeys$3(Object(t), !0).forEach(function(r) {
+			_defineProperty$6(e, r, t[r]);
+		}) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys$3(Object(t)).forEach(function(r) {
+			Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
+		});
+	}
+	return e;
+}
+function _defineProperty$6(obj, key, value) {
+	key = _toPropertyKey$6(key);
+	if (key in obj) Object.defineProperty(obj, key, {
+		value,
+		enumerable: true,
+		configurable: true,
+		writable: true
+	});
+	else obj[key] = value;
+	return obj;
+}
+function _toPropertyKey$6(t) {
+	var i = _toPrimitive$6(t, "string");
+	return "symbol" == _typeof$6(i) ? i : i + "";
+}
+function _toPrimitive$6(t, r) {
+	if ("object" != _typeof$6(t) || !t) return t;
+	var e = t[Symbol.toPrimitive];
+	if (void 0 !== e) {
+		var i = e.call(t, r || "default");
+		if ("object" != _typeof$6(i)) return i;
+		throw new TypeError("@@toPrimitive must return a primitive value.");
+	}
+	return ("string" === r ? String : Number)(t);
+}
+function _extends$4() {
+	_extends$4 = Object.assign ? Object.assign.bind() : function(target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+			for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
+		}
+		return target;
+	};
+	return _extends$4.apply(this, arguments);
+}
+function _objectWithoutProperties$2(source, excluded) {
+	if (source == null) return {};
+	var target = _objectWithoutPropertiesLoose$2(source, excluded);
+	var key, i;
+	if (Object.getOwnPropertySymbols) {
+		var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+		for (i = 0; i < sourceSymbolKeys.length; i++) {
+			key = sourceSymbolKeys[i];
+			if (excluded.indexOf(key) >= 0) continue;
+			if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+			target[key] = source[key];
+		}
+	}
+	return target;
+}
+function _objectWithoutPropertiesLoose$2(source, excluded) {
+	if (source == null) return {};
+	var target = {};
+	for (var key in source) if (Object.prototype.hasOwnProperty.call(source, key)) {
+		if (excluded.indexOf(key) >= 0) continue;
+		target[key] = source[key];
+	}
+	return target;
+}
+/**
+* The <CartesianGrid horizontal
+*/
+var Background = function Background(props) {
+	var fill = props.fill;
+	if (!fill || fill === "none") return null;
+	var fillOpacity = props.fillOpacity, x = props.x, y = props.y, width = props.width, height = props.height, ry = props.ry;
+	return /*#__PURE__*/ import_react.createElement("rect", {
+		x,
+		y,
+		ry,
+		width,
+		height,
+		stroke: "none",
+		fill,
+		fillOpacity,
+		className: "recharts-cartesian-grid-bg"
+	});
+};
+function renderLineItem(option, props) {
+	var lineItem;
+	if (/*#__PURE__*/ import_react.isValidElement(option)) lineItem = /*#__PURE__*/ import_react.cloneElement(option, props);
+	else if ((0, import_isFunction.default)(option)) lineItem = option(props);
+	else {
+		var x1 = props.x1, y1 = props.y1, x2 = props.x2, y2 = props.y2, key = props.key, _filterProps = filterProps(_objectWithoutProperties$2(props, _excluded$2), false);
+		_filterProps.offset;
+		var restOfFilteredProps = _objectWithoutProperties$2(_filterProps, _excluded2$2);
+		lineItem = /*#__PURE__*/ import_react.createElement("line", _extends$4({}, restOfFilteredProps, {
+			x1,
+			y1,
+			x2,
+			y2,
+			fill: "none",
+			key
+		}));
+	}
+	return lineItem;
+}
+function HorizontalGridLines(props) {
+	var x = props.x, width = props.width, _props$horizontal = props.horizontal, horizontal = _props$horizontal === void 0 ? true : _props$horizontal, horizontalPoints = props.horizontalPoints;
+	if (!horizontal || !horizontalPoints || !horizontalPoints.length) return null;
+	var items = horizontalPoints.map(function(entry, i) {
+		return renderLineItem(horizontal, _objectSpread$3(_objectSpread$3({}, props), {}, {
+			x1: x,
+			y1: entry,
+			x2: x + width,
+			y2: entry,
+			key: "line-".concat(i),
+			index: i
+		}));
+	});
+	return /*#__PURE__*/ import_react.createElement("g", { className: "recharts-cartesian-grid-horizontal" }, items);
+}
+function VerticalGridLines(props) {
+	var y = props.y, height = props.height, _props$vertical = props.vertical, vertical = _props$vertical === void 0 ? true : _props$vertical, verticalPoints = props.verticalPoints;
+	if (!vertical || !verticalPoints || !verticalPoints.length) return null;
+	var items = verticalPoints.map(function(entry, i) {
+		return renderLineItem(vertical, _objectSpread$3(_objectSpread$3({}, props), {}, {
+			x1: entry,
+			y1: y,
+			x2: entry,
+			y2: y + height,
+			key: "line-".concat(i),
+			index: i
+		}));
+	});
+	return /*#__PURE__*/ import_react.createElement("g", { className: "recharts-cartesian-grid-vertical" }, items);
+}
+function HorizontalStripes(props) {
+	var horizontalFill = props.horizontalFill, fillOpacity = props.fillOpacity, x = props.x, y = props.y, width = props.width, height = props.height, horizontalPoints = props.horizontalPoints, _props$horizontal2 = props.horizontal;
+	if (!(_props$horizontal2 === void 0 ? true : _props$horizontal2) || !horizontalFill || !horizontalFill.length) return null;
+	var roundedSortedHorizontalPoints = horizontalPoints.map(function(e) {
+		return Math.round(e + y - y);
+	}).sort(function(a, b) {
+		return a - b;
+	});
+	if (y !== roundedSortedHorizontalPoints[0]) roundedSortedHorizontalPoints.unshift(0);
+	var items = roundedSortedHorizontalPoints.map(function(entry, i) {
+		var lineHeight = !roundedSortedHorizontalPoints[i + 1] ? y + height - entry : roundedSortedHorizontalPoints[i + 1] - entry;
+		if (lineHeight <= 0) return null;
+		var colorIndex = i % horizontalFill.length;
+		return /*#__PURE__*/ import_react.createElement("rect", {
+			key: "react-".concat(i),
+			y: entry,
+			x,
+			height: lineHeight,
+			width,
+			stroke: "none",
+			fill: horizontalFill[colorIndex],
+			fillOpacity,
+			className: "recharts-cartesian-grid-bg"
+		});
+	});
+	return /*#__PURE__*/ import_react.createElement("g", { className: "recharts-cartesian-gridstripes-horizontal" }, items);
+}
+function VerticalStripes(props) {
+	var _props$vertical2 = props.vertical, vertical = _props$vertical2 === void 0 ? true : _props$vertical2, verticalFill = props.verticalFill, fillOpacity = props.fillOpacity, x = props.x, y = props.y, width = props.width, height = props.height, verticalPoints = props.verticalPoints;
+	if (!vertical || !verticalFill || !verticalFill.length) return null;
+	var roundedSortedVerticalPoints = verticalPoints.map(function(e) {
+		return Math.round(e + x - x);
+	}).sort(function(a, b) {
+		return a - b;
+	});
+	if (x !== roundedSortedVerticalPoints[0]) roundedSortedVerticalPoints.unshift(0);
+	var items = roundedSortedVerticalPoints.map(function(entry, i) {
+		var lineWidth = !roundedSortedVerticalPoints[i + 1] ? x + width - entry : roundedSortedVerticalPoints[i + 1] - entry;
+		if (lineWidth <= 0) return null;
+		var colorIndex = i % verticalFill.length;
+		return /*#__PURE__*/ import_react.createElement("rect", {
+			key: "react-".concat(i),
+			x: entry,
+			y,
+			width: lineWidth,
+			height,
+			stroke: "none",
+			fill: verticalFill[colorIndex],
+			fillOpacity,
+			className: "recharts-cartesian-grid-bg"
+		});
+	});
+	return /*#__PURE__*/ import_react.createElement("g", { className: "recharts-cartesian-gridstripes-vertical" }, items);
+}
+var defaultVerticalCoordinatesGenerator = function defaultVerticalCoordinatesGenerator(_ref, syncWithTicks) {
+	var xAxis = _ref.xAxis, width = _ref.width, height = _ref.height, offset = _ref.offset;
+	return getCoordinatesOfGrid(getTicks(_objectSpread$3(_objectSpread$3(_objectSpread$3({}, CartesianAxis.defaultProps), xAxis), {}, {
+		ticks: getTicksOfAxis(xAxis, true),
+		viewBox: {
+			x: 0,
+			y: 0,
+			width,
+			height
+		}
+	})), offset.left, offset.left + offset.width, syncWithTicks);
+};
+var defaultHorizontalCoordinatesGenerator = function defaultHorizontalCoordinatesGenerator(_ref2, syncWithTicks) {
+	var yAxis = _ref2.yAxis, width = _ref2.width, height = _ref2.height, offset = _ref2.offset;
+	return getCoordinatesOfGrid(getTicks(_objectSpread$3(_objectSpread$3(_objectSpread$3({}, CartesianAxis.defaultProps), yAxis), {}, {
+		ticks: getTicksOfAxis(yAxis, true),
+		viewBox: {
+			x: 0,
+			y: 0,
+			width,
+			height
+		}
+	})), offset.top, offset.top + offset.height, syncWithTicks);
+};
+var defaultProps = {
+	horizontal: true,
+	vertical: true,
+	horizontalPoints: [],
+	verticalPoints: [],
+	stroke: "#ccc",
+	fill: "none",
+	verticalFill: [],
+	horizontalFill: []
+};
+function CartesianGrid(props) {
+	var _props$stroke, _props$fill, _props$horizontal3, _props$horizontalFill, _props$vertical3, _props$verticalFill;
+	var chartWidth = useChartWidth();
+	var chartHeight = useChartHeight();
+	var offset = useOffset();
+	var propsIncludingDefaults = _objectSpread$3(_objectSpread$3({}, props), {}, {
+		stroke: (_props$stroke = props.stroke) !== null && _props$stroke !== void 0 ? _props$stroke : defaultProps.stroke,
+		fill: (_props$fill = props.fill) !== null && _props$fill !== void 0 ? _props$fill : defaultProps.fill,
+		horizontal: (_props$horizontal3 = props.horizontal) !== null && _props$horizontal3 !== void 0 ? _props$horizontal3 : defaultProps.horizontal,
+		horizontalFill: (_props$horizontalFill = props.horizontalFill) !== null && _props$horizontalFill !== void 0 ? _props$horizontalFill : defaultProps.horizontalFill,
+		vertical: (_props$vertical3 = props.vertical) !== null && _props$vertical3 !== void 0 ? _props$vertical3 : defaultProps.vertical,
+		verticalFill: (_props$verticalFill = props.verticalFill) !== null && _props$verticalFill !== void 0 ? _props$verticalFill : defaultProps.verticalFill,
+		x: isNumber(props.x) ? props.x : offset.left,
+		y: isNumber(props.y) ? props.y : offset.top,
+		width: isNumber(props.width) ? props.width : offset.width,
+		height: isNumber(props.height) ? props.height : offset.height
+	});
+	var x = propsIncludingDefaults.x, y = propsIncludingDefaults.y, width = propsIncludingDefaults.width, height = propsIncludingDefaults.height, syncWithTicks = propsIncludingDefaults.syncWithTicks, horizontalValues = propsIncludingDefaults.horizontalValues, verticalValues = propsIncludingDefaults.verticalValues;
+	var xAxis = useArbitraryXAxis();
+	var yAxis = useYAxisWithFiniteDomainOrRandom();
+	if (!isNumber(width) || width <= 0 || !isNumber(height) || height <= 0 || !isNumber(x) || x !== +x || !isNumber(y) || y !== +y) return null;
+	var verticalCoordinatesGenerator = propsIncludingDefaults.verticalCoordinatesGenerator || defaultVerticalCoordinatesGenerator;
+	var horizontalCoordinatesGenerator = propsIncludingDefaults.horizontalCoordinatesGenerator || defaultHorizontalCoordinatesGenerator;
+	var horizontalPoints = propsIncludingDefaults.horizontalPoints, verticalPoints = propsIncludingDefaults.verticalPoints;
+	if ((!horizontalPoints || !horizontalPoints.length) && (0, import_isFunction.default)(horizontalCoordinatesGenerator)) {
+		var isHorizontalValues = horizontalValues && horizontalValues.length;
+		var generatorResult = horizontalCoordinatesGenerator({
+			yAxis: yAxis ? _objectSpread$3(_objectSpread$3({}, yAxis), {}, { ticks: isHorizontalValues ? horizontalValues : yAxis.ticks }) : void 0,
+			width: chartWidth,
+			height: chartHeight,
+			offset
+		}, isHorizontalValues ? true : syncWithTicks);
+		warn(Array.isArray(generatorResult), "horizontalCoordinatesGenerator should return Array but instead it returned [".concat(_typeof$6(generatorResult), "]"));
+		if (Array.isArray(generatorResult)) horizontalPoints = generatorResult;
+	}
+	if ((!verticalPoints || !verticalPoints.length) && (0, import_isFunction.default)(verticalCoordinatesGenerator)) {
+		var isVerticalValues = verticalValues && verticalValues.length;
+		var _generatorResult = verticalCoordinatesGenerator({
+			xAxis: xAxis ? _objectSpread$3(_objectSpread$3({}, xAxis), {}, { ticks: isVerticalValues ? verticalValues : xAxis.ticks }) : void 0,
+			width: chartWidth,
+			height: chartHeight,
+			offset
+		}, isVerticalValues ? true : syncWithTicks);
+		warn(Array.isArray(_generatorResult), "verticalCoordinatesGenerator should return Array but instead it returned [".concat(_typeof$6(_generatorResult), "]"));
+		if (Array.isArray(_generatorResult)) verticalPoints = _generatorResult;
+	}
+	return /*#__PURE__*/ import_react.createElement("g", { className: "recharts-cartesian-grid" }, /*#__PURE__*/ import_react.createElement(Background, {
+		fill: propsIncludingDefaults.fill,
+		fillOpacity: propsIncludingDefaults.fillOpacity,
+		x: propsIncludingDefaults.x,
+		y: propsIncludingDefaults.y,
+		width: propsIncludingDefaults.width,
+		height: propsIncludingDefaults.height,
+		ry: propsIncludingDefaults.ry
+	}), /*#__PURE__*/ import_react.createElement(HorizontalGridLines, _extends$4({}, propsIncludingDefaults, {
+		offset,
+		horizontalPoints,
+		xAxis,
+		yAxis
+	})), /*#__PURE__*/ import_react.createElement(VerticalGridLines, _extends$4({}, propsIncludingDefaults, {
+		offset,
+		verticalPoints,
+		xAxis,
+		yAxis
+	})), /*#__PURE__*/ import_react.createElement(HorizontalStripes, _extends$4({}, propsIncludingDefaults, { horizontalPoints })), /*#__PURE__*/ import_react.createElement(VerticalStripes, _extends$4({}, propsIncludingDefaults, { verticalPoints })));
+}
+CartesianGrid.displayName = "CartesianGrid";
 //#endregion
 //#region node_modules/recharts/es6/cartesian/Area.js
 /**
@@ -11536,12 +13215,7 @@ var getCartesianAxisSize = function getCartesianAxisSize(axisObj, axisName) {
 	if (axisName === "xAxis") return axisObj[axisName].width;
 	if (axisName === "yAxis") return axisObj[axisName].height;
 };
-//#endregion
-//#region node_modules/recharts/es6/chart/AreaChart.js
-/**
-* @fileOverview Area Chart
-*/
-var AreaChart = function generateCategoricalChart(_ref6) {
+var generateCategoricalChart = function generateCategoricalChart(_ref6) {
 	var chartName = _ref6.chartName, GraphicalChild = _ref6.GraphicalChild, _ref6$defaultTooltipE = _ref6.defaultTooltipEventType, defaultTooltipEventType = _ref6$defaultTooltipE === void 0 ? "axis" : _ref6$defaultTooltipE, _ref6$validateTooltip = _ref6.validateTooltipEventTypes, validateTooltipEventTypes = _ref6$validateTooltip === void 0 ? ["axis"] : _ref6$validateTooltip, axisComponents = _ref6.axisComponents, legendContent = _ref6.legendContent, formatAxisMap = _ref6.formatAxisMap, defaultProps = _ref6.defaultProps;
 	var getFormatItems = function getFormatItems(props, currentState) {
 		var graphicalItems = currentState.graphicalItems, stackGroups = currentState.stackGroups, offset = currentState.offset, updateId = currentState.updateId, dataStartIndex = currentState.dataStartIndex, dataEndIndex = currentState.dataEndIndex;
@@ -12586,7 +14260,61 @@ var AreaChart = function generateCategoricalChart(_ref6) {
 	});
 	CategoricalChart.displayName = CategoricalChartWrapper.displayName;
 	return CategoricalChart;
-}({
+};
+//#endregion
+//#region node_modules/recharts/es6/chart/BarChart.js
+/**
+* @fileOverview Bar Chart
+*/
+var BarChart = generateCategoricalChart({
+	chartName: "BarChart",
+	GraphicalChild: Bar,
+	defaultTooltipEventType: "axis",
+	validateTooltipEventTypes: ["axis", "item"],
+	axisComponents: [{
+		axisType: "xAxis",
+		AxisComp: XAxis
+	}, {
+		axisType: "yAxis",
+		AxisComp: YAxis
+	}],
+	formatAxisMap
+});
+//#endregion
+//#region node_modules/recharts/es6/chart/PieChart.js
+/**
+* @fileOverview Pie Chart
+*/
+var PieChart = generateCategoricalChart({
+	chartName: "PieChart",
+	GraphicalChild: Pie,
+	validateTooltipEventTypes: ["item"],
+	defaultTooltipEventType: "item",
+	legendContent: "children",
+	axisComponents: [{
+		axisType: "angleAxis",
+		AxisComp: PolarAngleAxis
+	}, {
+		axisType: "radiusAxis",
+		AxisComp: PolarRadiusAxis
+	}],
+	formatAxisMap: formatAxisMap$1,
+	defaultProps: {
+		layout: "centric",
+		startAngle: 0,
+		endAngle: 360,
+		cx: "50%",
+		cy: "50%",
+		innerRadius: 0,
+		outerRadius: "80%"
+	}
+});
+//#endregion
+//#region node_modules/recharts/es6/chart/AreaChart.js
+/**
+* @fileOverview Area Chart
+*/
+var AreaChart = generateCategoricalChart({
 	chartName: "AreaChart",
 	GraphicalChild: Area,
 	axisComponents: [{
@@ -12599,4 +14327,4 @@ var AreaChart = function generateCategoricalChart(_ref6) {
 	formatAxisMap
 });
 //#endregion
-export { ResponsiveContainer as a, Area as i, YAxis as n, Tooltip as o, XAxis as r, AreaChart as t };
+export { XAxis as a, Bar as c, ResponsiveContainer as d, Tooltip as f, YAxis as i, Pie as l, PieChart as n, Area as o, Legend as p, BarChart as r, CartesianGrid as s, AreaChart as t, Cell as u };

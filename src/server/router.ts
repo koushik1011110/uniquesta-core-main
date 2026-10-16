@@ -25,10 +25,11 @@ function genCode(prefix: string) {
   return `${prefix}-${Date.now().toString().slice(-6)}${Math.floor(Math.random()*90+10)}`;
 }
 
-// ensure DB initialized once
-let dbReady = false;
+// ensure DB initialized
 async function ensureDb() {
-  if (!dbReady) { await db.initDb(); dbReady = true; }
+  if (!db.isConnected()) {
+    await db.initDb();
+  }
 }
 
 export async function handleApi(req: Request): Promise<Response|null> {
@@ -50,7 +51,27 @@ export async function handleApi(req: Request): Promise<Response|null> {
   try {
     // health
     if (path === "/api/health" && method === "GET") {
-      return json({ success:true, status:"ok", db: db.isMemoryMode() ? "memory" : "mysql", ts: new Date().toISOString() });
+      const connected = db.isConnected();
+      return json(
+        {
+          success: connected,
+          status: connected ? "connected" : "database_disconnected",
+          db: connected ? "mysql" : "none",
+          error: connected ? undefined : (db.getDbError() || "MySQL database is not active. Please start MySQL."),
+          ts: new Date().toISOString(),
+        },
+        connected ? 200 : 503
+      );
+    }
+
+    // STRICT REQUIREMENT: If MySQL is not active, reject all API operations immediately!
+    // In-memory fallback and temporary data are completely disabled.
+    if (!db.isConnected()) {
+      const detail = db.getDbError() || "Connection refused";
+      return errJson(
+        503,
+        `Database connection failed: MySQL server is not active or unreachable (${detail}). Please start MySQL in XAMPP or system services.`
+      );
     }
 
     // ---- AUTH ----
@@ -330,7 +351,7 @@ export async function handleApi(req: Request): Promise<Response|null> {
       "/api/auth/driver-login",
       "/api/auth/traveler-login"
     ];
-    const isOpen = openPaths.some(p=>path===p) || path.startsWith("/api/dashboard") || path.startsWith("/api/settings");
+    const isOpen = openPaths.some(p=>path===p) || path.startsWith("/api/dashboard") || path.startsWith("/api/settings") || path.startsWith("/api/reports") || path.startsWith("/api/ai");
     // Dashboard and some reads are public for demo but ideally protected — allow without auth for now
     // Uncomment to enforce: if (!isOpen && !auth.authMiddleware(req)) return errJson(401,"Unauthorized");
 
@@ -728,6 +749,10 @@ export async function handleApi(req: Request): Promise<Response|null> {
         }
       }
       if(method==="POST"){
+        const userPayload = auth.authMiddleware(req);
+        if (userPayload && userPayload.role !== "super_admin") {
+          return errJson(403, "Access restricted: Only Super Admin can add partner universities.");
+        }
         const body=await parseBody(req);
         const data=v.parseOrThrow(v.universitySchema,body);
         const isMem=db.isMemoryMode();
@@ -743,7 +768,13 @@ export async function handleApi(req: Request): Promise<Response|null> {
       const isMem=db.isMemoryMode();
       if(method==="GET"){ const row=isMem?db.memGet("universities",id):await db.queryOne("SELECT * FROM universities WHERE id=?",[id]); if(!row) return errJson(404,"University not found"); return json({ success:true, data:row});}
       if(method==="PUT"||method==="PATCH"){ const body:any=await parseBody(req); if(isMem){ const upd=db.memUpdate("universities",id,body); if(!upd) return errJson(404,"Not found"); return json({ success:true, data:upd}); } else { const fields=[]; const vals:any[]=[]; for(const k of ["name","country","city","tier","courses","intakes","commission","rating"]) if(body[k]!==undefined){fields.push(`${k}=?`); vals.push(body[k]);} if(!fields.length) return errJson(400,"No fields"); vals.push(id); await db.execute(`UPDATE universities SET ${fields.join(",")} WHERE id=?`,vals); const row=await db.queryOne("SELECT * FROM universities WHERE id=?",[id]); return json({ success:true, data:row}); } }
-      if(method==="DELETE"){ if(isMem){ if(!db.memDelete("universities",id)) return errJson(404,"Not found"); } else { const r=await db.execute("DELETE FROM universities WHERE id=?",[id]); if((r as any).affectedRows===0) return errJson(404,"Not found"); } return json({ success:true, message:"Deleted"}); }
+      if(method==="DELETE"){
+        const userPayload = auth.authMiddleware(req);
+        if (userPayload && userPayload.role !== "super_admin") {
+          return errJson(403, "Access restricted: Only Super Admin can delete partner universities.");
+        }
+        if(isMem){ if(!db.memDelete("universities",id)) return errJson(404,"Not found"); } else { const r=await db.execute("DELETE FROM universities WHERE id=?",[id]); if((r as any).affectedRows===0) return errJson(404,"Not found"); } return json({ success:true, message:"Deleted"});
+      }
     }
 
     // COLLEGES (India)
@@ -812,6 +843,10 @@ export async function handleApi(req: Request): Promise<Response|null> {
         }
       }
       if(method==="POST"){
+        const userPayload = auth.authMiddleware(req);
+        if (userPayload && userPayload.role !== "super_admin") {
+          return errJson(403, "Access restricted: Only Super Admin can add courses.");
+        }
         const body=await parseBody(req);
         const data=v.parseOrThrow(v.courseSchema,body);
         const code=body.code||genCode("CRS");
@@ -828,7 +863,13 @@ export async function handleApi(req: Request): Promise<Response|null> {
       const find=async():Promise<any>=>{ if(db.isMemoryMode()){ return db.memGet("courses",key) ?? db.memList("courses").find((c:any)=>c.code===key) ?? ( /^\d+$/.test(key)? db.memGet("courses",parseInt(key,10)):null); } else { if(/^\d+$/.test(key)) return await db.queryOne("SELECT * FROM courses WHERE id=?",[key]); else return await db.queryOne("SELECT * FROM courses WHERE code=?",[key]); } };
       if(method==="GET"){ const row=await find(); if(!row) return errJson(404,"Course not found"); return json({ success:true, data:row});}
       if(method==="PUT"||method==="PATCH"){ const body:any=await parseBody(req); const existing=await find(); if(!existing) return errJson(404,"Not found"); if(db.isMemoryMode()){ const upd=db.memUpdate("courses",existing.id,body); return json({ success:true, data:upd}); } else { const fields=[]; const vals:any[]=[]; const map:any={ name:"name", category:"category", duration:"duration", eligibility:"eligibility", tuitionFee:"tuition_fee", registrationFee:"registration_fee", seatsAvailable:"seats_available", totalSeats:"total_seats", session:"session", minPercentage:"min_percentage", description:"description"}; for(const k in map) if(body[k]!==undefined){fields.push(`${map[k]}=?`); vals.push(body[k]);} if(!fields.length) return errJson(400,"No fields"); vals.push(existing.id); await db.execute(`UPDATE courses SET ${fields.join(",")} WHERE id=?`,vals); const row=await db.queryOne("SELECT * FROM courses WHERE id=?",[existing.id]); return json({ success:true, data:row}); } }
-      if(method==="DELETE"){ const existing=await find(); if(!existing) return errJson(404,"Not found"); if(db.isMemoryMode()) db.memDelete("courses",existing.id); else await db.execute("DELETE FROM courses WHERE id=?",[existing.id]); return json({ success:true, message:"Deleted"}); }
+      if(method==="DELETE"){
+        const userPayload = auth.authMiddleware(req);
+        if (userPayload && userPayload.role !== "super_admin") {
+          return errJson(403, "Access restricted: Only Super Admin can delete courses.");
+        }
+        const existing=await find(); if(!existing) return errJson(404,"Not found"); if(db.isMemoryMode()) db.memDelete("courses",existing.id); else await db.execute("DELETE FROM courses WHERE id=?",[existing.id]); return json({ success:true, message:"Deleted"});
+      }
     }
 
     // INDIA STUDENTS
@@ -899,7 +940,7 @@ export async function handleApi(req: Request): Promise<Response|null> {
         const amountVal = (data.amount_value != null ? data.amount_value : (parseInt(data.amount.replace(/\D/g,""),10) || 0));
         const isMem=db.isMemoryMode();
         let row:any;
-        if(isMem) row=db.memCreate("invoices",{ code, ...data, amount_value:amountVal, currency:data.currency||"INR", status:data.status||"Pending", date:data.date||new Date().toISOString().slice(0,10) });
+        if(isMem) row=db.memCreate("invoices",{ code, ...data, branch:body.branch||"Guwahati HQ", payment_method:body.payment_method||"Bank Transfer", due_date:body.due_date||data.date||new Date().toISOString().slice(0,10), notes:body.notes||"", amount_value:amountVal, currency:data.currency||"INR", status:data.status||"Pending", date:data.date||new Date().toISOString().slice(0,10) });
         else { const res=await db.execute("INSERT INTO invoices (code,student,student_id,amount,amount_value,currency,type,date,status) VALUES (?,?,?,?,?,?,?,?,?)",[code,data.student,data.student_id||null,data.amount,amountVal,data.currency||"INR",data.type,data.date||new Date().toISOString().slice(0,10),data.status||"Pending"]); row=await db.queryOne("SELECT * FROM invoices WHERE id=?",[(res as any).insertId]);}
         return json({ success:true, data:row},201);
       }
@@ -909,7 +950,7 @@ export async function handleApi(req: Request): Promise<Response|null> {
       const key=mInv[1];
       const find=async():Promise<any>=>{ if(db.isMemoryMode()){ return db.memGet("invoices",key) ?? db.memList("invoices").find((c:any)=>c.code===key) ?? ( /^\d+$/.test(key)? db.memGet("invoices",parseInt(key,10)):null); } else { if(/^\d+$/.test(key)) return await db.queryOne("SELECT * FROM invoices WHERE id=?",[key]); else return await db.queryOne("SELECT * FROM invoices WHERE code=?",[key]); } };
       if(method==="GET"){ const row=await find(); if(!row) return errJson(404,"Invoice not found"); return json({ success:true, data:row});}
-      if(method==="PUT"||method==="PATCH"){ const body:any=await parseBody(req); const existing=await find(); if(!existing) return errJson(404,"Not found"); if(db.isMemoryMode()){ const upd=db.memUpdate("invoices",existing.id,body); return json({ success:true, data:upd}); } else { const fields=[]; const vals:any[]=[]; for(const k of ["student","amount","amount_value","currency","type","date","status"]) if(body[k]!==undefined){fields.push(`${k}=?`); vals.push(body[k]);} if(!fields.length) return errJson(400,"No fields"); vals.push(existing.id); await db.execute(`UPDATE invoices SET ${fields.join(",")} WHERE id=?`,vals); const row=await db.queryOne("SELECT * FROM invoices WHERE id=?",[existing.id]); return json({ success:true, data:row}); } }
+      if(method==="PUT"||method==="PATCH"){ const body:any=await parseBody(req); const existing=await find(); if(!existing) return errJson(404,"Not found"); if(db.isMemoryMode()){ const upd=db.memUpdate("invoices",existing.id,body); return json({ success:true, data:upd}); } else { const fields=[]; const vals:any[]=[]; for(const k of ["student","amount","amount_value","currency","type","date","status","branch","payment_method","due_date","notes"]) if(body[k]!==undefined){fields.push(`${k}=?`); vals.push(body[k]);} if(!fields.length) return errJson(400,"No fields"); vals.push(existing.id); await db.execute(`UPDATE invoices SET ${fields.join(",")} WHERE id=?`,vals); const row=await db.queryOne("SELECT * FROM invoices WHERE id=?",[existing.id]); return json({ success:true, data:row}); } }
       if(method==="DELETE"){ const existing=await find(); if(!existing) return errJson(404,"Not found"); if(db.isMemoryMode()) db.memDelete("invoices",existing.id); else await db.execute("DELETE FROM invoices WHERE id=?",[existing.id]); return json({ success:true, message:"Deleted"}); }
     }
 
@@ -1695,7 +1736,10 @@ export async function handleApi(req: Request): Promise<Response|null> {
     // ═══════════════════════════════════════════════════════════════
     // B2B PARTNERS & PROFIT SHARING API (ADMIN CONTROL)
     // ═══════════════════════════════════════════════════════════════
-    if (path === "/api/b2b-partners" || path.startsWith("/api/b2b-partners/")) {
+    if (
+      path === "/api/b2b-partners" || path.startsWith("/api/b2b-partners/") ||
+      path === "/api/b2c-partners" || path.startsWith("/api/b2c-partners/")
+    ) {
       const userPayload = auth.authMiddleware(req);
       if (userPayload) {
         const role = (userPayload.role || "").toLowerCase();
@@ -1931,6 +1975,196 @@ export async function handleApi(req: Request): Promise<Response|null> {
       }
     }
 
+    // ═══════════════════════════════════════════════════════════════
+    // B2C PARTNERS & REFERRER PROFIT SHARING API (ADMIN CONTROL)
+    // ═══════════════════════════════════════════════════════════════
+    if (path === "/api/b2c-partners") {
+      if (method === "GET") {
+        const { page, limit, offset } = pagination(url);
+        const search = qp(url, "search", "").toLowerCase();
+        const branch = qp(url, "branch", "");
+        const tier = qp(url, "tier", "");
+        const status = qp(url, "status", "");
+        const isMem = db.isMemoryMode();
+
+        if (isMem) {
+          let rows = db.memList("b2c_partners") || [];
+          if (search) rows = rows.filter((p: any) => p.name?.toLowerCase().includes(search) || p.ambassador_type?.toLowerCase().includes(search) || p.city?.toLowerCase().includes(search) || p.code?.toLowerCase().includes(search));
+          if (branch && branch !== "All Branches") rows = rows.filter((p: any) => p.branch === branch);
+          if (tier && tier !== "All Tiers") rows = rows.filter((p: any) => p.tier?.toLowerCase().includes(tier.toLowerCase()));
+          if (status) rows = rows.filter((p: any) => p.status === status);
+
+          const total = rows.length;
+          const allB2c = db.memList("b2c_partners") || [];
+          const stats = {
+            totalPartners: allB2c.length,
+            totalReferrals: allB2c.reduce((acc: number, p: any) => acc + (parseInt(p.total_referrals, 10) || 0), 0),
+            successfulAdmissions: allB2c.reduce((acc: number, p: any) => acc + (parseInt(p.successful_admissions, 10) || 0), 0),
+            totalEarnings: allB2c.reduce((acc: number, p: any) => acc + (parseInt(p.total_earnings, 10) || 0), 0),
+            payoutBalance: allB2c.reduce((acc: number, p: any) => acc + (parseInt(p.payout_balance, 10) || 0), 0),
+          };
+
+          rows = rows.slice(offset, offset + limit);
+          return json({ success: true, data: rows, stats, pagination: { page, limit, total, totalPages: Math.ceil(total / limit) } });
+        } else {
+          let where = " WHERE 1=1";
+          const params: any[] = [];
+          if (search) {
+            where += " AND (name LIKE ? OR ambassador_type LIKE ? OR city LIKE ? OR code LIKE ?)";
+            params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+          }
+          if (branch && branch !== "All Branches") {
+            where += " AND branch = ?";
+            params.push(branch);
+          }
+          if (tier && tier !== "All Tiers") {
+            where += " AND tier LIKE ?";
+            params.push(`%${tier}%`);
+          }
+          if (status) {
+            where += " AND status = ?";
+            params.push(status);
+          }
+
+          const cnt: any = await db.queryOne(`SELECT COUNT(*) as total FROM b2c_partners${where}`, params);
+          const total = cnt?.total || 0;
+          const statsRow: any = await db.queryOne(`SELECT 
+            COUNT(*) as totalPartners,
+            COALESCE(SUM(total_referrals), 0) as totalReferrals,
+            COALESCE(SUM(successful_admissions), 0) as successfulAdmissions,
+            COALESCE(SUM(total_earnings), 0) as totalEarnings,
+            COALESCE(SUM(payout_balance), 0) as payoutBalance
+            FROM b2c_partners`);
+
+          const rows = await db.query(`SELECT * FROM b2c_partners${where} ORDER BY id ASC LIMIT ? OFFSET ?`, [...params, limit, offset]);
+          return json({ success: true, data: rows, stats: statsRow, pagination: { page, limit, total, totalPages: Math.ceil(total / limit) } });
+        }
+      }
+
+      if (method === "POST") {
+        const body: any = await parseBody(req);
+        const data = v.parseOrThrow(v.b2cPartnerSchema, body);
+        const code = body.code || genCode("B2C");
+        const isMem = db.isMemoryMode();
+
+        const partnerData = {
+          code,
+          name: data.name,
+          ambassador_type: data.ambassador_type || "Student Ambassador",
+          email: data.email,
+          phone: data.phone,
+          city: data.city,
+          branch: data.branch || "Guwahati HQ",
+          reward_type: data.reward_type || "flat_rate",
+          reward_amount: data.reward_amount ?? 15000,
+          reward_pct: data.reward_pct ?? 10.00,
+          tier: data.tier || "Silver Ambassador",
+          status: data.status || "Active",
+          total_referrals: 0,
+          successful_admissions: 0,
+          total_earnings: 0,
+          payout_balance: 0,
+          payout_mode: data.payout_mode || "UPI / Direct Bank",
+          notes: data.notes || "",
+        };
+
+        let row: any;
+        if (isMem) {
+          row = db.memCreate("b2c_partners", partnerData);
+        } else {
+          const res = await db.execute(
+            `INSERT INTO b2c_partners 
+            (code, name, ambassador_type, email, phone, city, branch, reward_type, reward_amount, reward_pct, tier, status, total_referrals, successful_admissions, total_earnings, payout_balance, payout_mode, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              partnerData.code, partnerData.name, partnerData.ambassador_type, partnerData.email, partnerData.phone, partnerData.city, partnerData.branch,
+              partnerData.reward_type, partnerData.reward_amount, partnerData.reward_pct, partnerData.tier, partnerData.status,
+              0, 0, 0, 0, partnerData.payout_mode, partnerData.notes
+            ]
+          );
+          row = await db.queryOne("SELECT * FROM b2c_partners WHERE id = ?", [(res as any).insertId]);
+        }
+        return json({ success: true, data: row, message: "B2C Partner added successfully" }, 201);
+      }
+    }
+
+    const mB2cProfit = path.match(/^\/api\/b2c-partners\/(\d+)\/profit-share$/);
+    if (mB2cProfit) {
+      const id = parseInt(mB2cProfit[1], 10);
+      const isMem = db.isMemoryMode();
+      if (method === "PUT" || method === "PATCH") {
+        const body: any = await parseBody(req);
+        const reward_amount = Number(body.reward_amount) || 15000;
+        const reward_pct = Number(body.reward_pct) || 10;
+        const reward_type = body.reward_type || "flat_rate";
+        const tier = body.tier || "Silver Ambassador";
+
+        if (isMem) {
+          const existing = db.memGet("b2c_partners", id);
+          if (!existing) return errJson(404, "B2C Partner not found");
+          const updated = db.memUpdate("b2c_partners", id, {
+            reward_amount,
+            reward_pct,
+            reward_type,
+            tier,
+          });
+          return json({ success: true, data: updated, message: "Reward model updated successfully" });
+        } else {
+          await db.execute(
+            `UPDATE b2c_partners SET reward_amount = ?, reward_pct = ?, reward_type = ?, tier = ? WHERE id = ?`,
+            [reward_amount, reward_pct, reward_type, tier, id]
+          );
+          const row = await db.queryOne("SELECT * FROM b2c_partners WHERE id = ?", [id]);
+          return json({ success: true, data: row, message: "Reward model updated successfully" });
+        }
+      }
+    }
+
+    const mB2cSingle = path.match(/^\/api\/b2c-partners\/(\d+)$/);
+    if (mB2cSingle) {
+      const id = parseInt(mB2cSingle[1], 10);
+      const isMem = db.isMemoryMode();
+
+      if (method === "GET") {
+        const row = isMem ? db.memGet("b2c_partners", id) : await db.queryOne("SELECT * FROM b2c_partners WHERE id = ?", [id]);
+        if (!row) return errJson(404, "B2C Partner not found");
+        return json({ success: true, data: row });
+      }
+
+      if (method === "PUT" || method === "PATCH") {
+        const body: any = await parseBody(req);
+        if (isMem) {
+          const upd = db.memUpdate("b2c_partners", id, body);
+          return json({ success: true, data: upd, message: "B2C Partner updated successfully" });
+        } else {
+          const fields: string[] = [];
+          const vals: any[] = [];
+          for (const k of ["name", "ambassador_type", "email", "phone", "city", "branch", "status", "payout_balance", "payout_mode", "notes"]) {
+            if (body[k] !== undefined) {
+              fields.push(`${k} = ?`);
+              vals.push(body[k]);
+            }
+          }
+          if (fields.length > 0) {
+            vals.push(id);
+            await db.execute(`UPDATE b2c_partners SET ${fields.join(", ")} WHERE id = ?`, vals);
+          }
+          const row = await db.queryOne("SELECT * FROM b2c_partners WHERE id = ?", [id]);
+          return json({ success: true, data: row });
+        }
+      }
+
+      if (method === "DELETE") {
+        if (isMem) {
+          if (!db.memDelete("b2c_partners", id)) return errJson(404, "B2C Partner not found");
+        } else {
+          const r = await db.execute("DELETE FROM b2c_partners WHERE id = ?", [id]);
+          if ((r as any).affectedRows === 0) return errJson(404, "B2C Partner not found");
+        }
+        return json({ success: true, message: "B2C Partner deleted" });
+      }
+    }
+
     // COMMISSIONS
     if(path==="/api/commissions"){
       if(method==="GET"){
@@ -1970,45 +2204,419 @@ export async function handleApi(req: Request): Promise<Response|null> {
     }
 
     // SETTINGS
-    if(path==="/api/settings"){
-      if(method==="GET"){
-        const isMem=db.isMemoryMode();
-        let row:any;
-        if(isMem) row=db.memGet("settings",1) ?? { id:1, legal_name:"Uniquesta Overseas Pvt Ltd", support_email:"care@uniquesta.com", two_factor:true, whatsapp_notify:true };
-        else row=await db.queryOne("SELECT * FROM settings WHERE id=1");
-        if(!row) row={ id:1, legal_name:"Uniquesta Overseas Pvt Ltd", support_email:"care@uniquesta.com", two_factor:true, whatsapp_notify:true };
-        return json({ success:true, data:row});
-      }
-      if(method==="PUT"||method==="PATCH"||method==="POST"){
-        const body:any=await parseBody(req);
-        const isMem=db.isMemoryMode();
-        if(isMem){
-          const existing=db.memGet("settings",1) ?? { id:1, legal_name:"Uniquesta Overseas Pvt Ltd", support_email:"care@uniquesta.com", two_factor:true, whatsapp_notify:true };
-          const upd={ ...existing, legal_name:body.legal_name ?? existing.legal_name, support_email:body.support_email ?? existing.support_email, two_factor: body.two_factor ?? existing.two_factor, whatsapp_notify: body.whatsapp_notify ?? existing.whatsapp_notify };
-          db.memCreate("settings", upd); // upsert
-          // ensure get returns updated
-          const tbl=db.getMemStore()["settings"]; if(tbl) tbl.set(1, upd);
-          return json({ success:true, data:upd});
+    if (path === "/api/settings") {
+      if (method === "GET") {
+        const isMem = db.isMemoryMode();
+        let row: any;
+        if (isMem) {
+          row = db.memGet("settings", 1) ?? {
+            id: 1,
+            legal_name: "Uniquesta Overseas Pvt Ltd",
+            support_email: "care@uniquesta.com",
+            two_factor: true,
+            whatsapp_notify: true,
+          };
         } else {
-          await db.execute("INSERT INTO settings (id,legal_name,support_email,two_factor,whatsapp_notify) VALUES (1,?,?,?,?) ON DUPLICATE KEY UPDATE legal_name=VALUES(legal_name), support_email=VALUES(support_email), two_factor=VALUES(two_factor), whatsapp_notify=VALUES(whatsapp_notify)",[body.legal_name||"Uniquesta Overseas Pvt Ltd", body.support_email||"care@uniquesta.com", body.two_factor?1:0, body.whatsapp_notify?1:0]);
-          // if only partial, preserve
-          if(body.legal_name===undefined || body.support_email===undefined){
-            const row=await db.queryOne("SELECT * FROM settings WHERE id=1");
-            // patch missing
-            const patch:any={};
-            if(body.legal_name!==undefined) patch.legal_name=body.legal_name;
-            if(body.support_email!==undefined) patch.support_email=body.support_email;
-            if(body.two_factor!==undefined) patch.two_factor=body.two_factor?1:0;
-            if(body.whatsapp_notify!==undefined) patch.whatsapp_notify=body.whatsapp_notify?1:0;
-            if(Object.keys(patch).length){
-              const sets=Object.keys(patch).map(k=>`${k}=?`).join(",");
-              await db.execute(`UPDATE settings SET ${sets} WHERE id=1`, Object.values(patch));
-            }
+          try {
+            row = await db.queryOne("SELECT * FROM settings WHERE id=1");
+          } catch {}
+        }
+        if (!row) {
+          row = {
+            id: 1,
+            legal_name: "Uniquesta Overseas Pvt Ltd",
+            support_email: "care@uniquesta.com",
+            two_factor: true,
+            whatsapp_notify: true,
+          };
+        }
+        if (row && row.config) {
+          try {
+            const parsed = typeof row.config === "string" ? JSON.parse(row.config) : row.config;
+            row = { ...parsed, ...row };
+          } catch {}
+        }
+        return json({ success: true, data: row });
+      }
+      if (method === "PUT" || method === "PATCH" || method === "POST") {
+        const body: any = await parseBody(req);
+        const isMem = db.isMemoryMode();
+        if (isMem) {
+          const existing = db.memGet("settings", 1) ?? {
+            id: 1,
+            legal_name: "Uniquesta Overseas Pvt Ltd",
+            support_email: "care@uniquesta.com",
+            two_factor: true,
+            whatsapp_notify: true,
+          };
+          const upd = { ...existing, ...body, id: 1 };
+          db.memCreate("settings", upd);
+          const tbl = db.getMemStore()["settings"];
+          if (tbl) tbl.set(1, upd);
+          return json({ success: true, data: upd });
+        } else {
+          let existing: any = {};
+          try {
+            existing = (await db.queryOne("SELECT * FROM settings WHERE id=1")) || {};
+          } catch {}
+          let prevConfig: any = {};
+          if (existing.config) {
+            try {
+              prevConfig = typeof existing.config === "string" ? JSON.parse(existing.config) : existing.config;
+            } catch {}
           }
-          const row=await db.queryOne("SELECT * FROM settings WHERE id=1");
-          return json({ success:true, data:row});
+          const mergedConfig = { ...prevConfig, ...body };
+          const configStr = JSON.stringify(mergedConfig);
+          try {
+            await db.execute(
+              "INSERT INTO settings (id, legal_name, support_email, two_factor, whatsapp_notify, config) VALUES (1, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE legal_name=VALUES(legal_name), support_email=VALUES(support_email), two_factor=VALUES(two_factor), whatsapp_notify=VALUES(whatsapp_notify), config=VALUES(config)",
+              [
+                body.legal_name || existing.legal_name || "Uniquesta Overseas Pvt Ltd",
+                body.support_email || existing.support_email || "care@uniquesta.com",
+                body.two_factor !== undefined ? (body.two_factor ? 1 : 0) : (existing.two_factor ? 1 : 0),
+                body.whatsapp_notify !== undefined ? (body.whatsapp_notify ? 1 : 0) : (existing.whatsapp_notify ? 1 : 0),
+                configStr,
+              ]
+            );
+          } catch (e) {
+            // fallback without config column if necessary
+            await db.execute(
+              "INSERT INTO settings (id, legal_name, support_email, two_factor, whatsapp_notify) VALUES (1, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE legal_name=VALUES(legal_name), support_email=VALUES(support_email), two_factor=VALUES(two_factor), whatsapp_notify=VALUES(whatsapp_notify)",
+              [
+                body.legal_name || existing.legal_name || "Uniquesta Overseas Pvt Ltd",
+                body.support_email || existing.support_email || "care@uniquesta.com",
+                body.two_factor !== undefined ? (body.two_factor ? 1 : 0) : (existing.two_factor ? 1 : 0),
+                body.whatsapp_notify !== undefined ? (body.whatsapp_notify ? 1 : 0) : (existing.whatsapp_notify ? 1 : 0),
+              ]
+            );
+          }
+          let row: any = await db.queryOne("SELECT * FROM settings WHERE id=1");
+          if (row && row.config) {
+            try {
+              const parsed = typeof row.config === "string" ? JSON.parse(row.config) : row.config;
+              row = { ...parsed, ...row };
+            } catch {}
+          }
+          return json({ success: true, data: row || { ...existing, ...body } });
         }
       }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // UNIQUESTA ENTERPRISE AI COPILOT API
+    // ═══════════════════════════════════════════════════════════════
+    if (path === "/api/ai/chat" && method === "POST") {
+      const body: any = await parseBody(req);
+      const query = (body.message || "").trim();
+      if (!query) return errJson(400, "Message required");
+
+      const isMem = db.isMemoryMode();
+      let studentsCount = 0;
+      let abroadCount = 0;
+      let indiaCount = 0;
+      let leadsCount = 0;
+      let approvalsCount = 0;
+      let pendingApprovalsAmount = 0;
+      let totalRevenue = 0;
+      let travelCount = 0;
+      let travelMargin = 0;
+      let employeesCount = 0;
+
+      if (isMem) {
+        const s = db.memList("students") || [];
+        const is = db.memList("india_students") || [];
+        const l = db.memList("leads") || [];
+        const a = db.memList("approvals") || [];
+        const inv = db.memList("invoices") || [];
+        const tb = db.memList("travel_bookings") || [];
+        const emp = db.memList("employees") || [];
+
+        abroadCount = s.length;
+        indiaCount = is.length;
+        studentsCount = abroadCount + indiaCount;
+        leadsCount = l.length;
+        approvalsCount = a.length;
+        pendingApprovalsAmount = a
+          .filter((item: any) => (item.status || "").toLowerCase() === "in review")
+          .reduce((acc: number, item: any) => acc + (parseInt(item.amount_value || 0, 10) || 0), 0);
+        totalRevenue = inv
+          .filter((item: any) => (item.status || "").toLowerCase() === "paid")
+          .reduce((acc: number, item: any) => acc + (parseInt(item.amount_value || 0, 10) || 0), 0);
+        travelCount = tb.length;
+        travelMargin = tb.reduce(
+          (acc: number, item: any) => acc + (parseInt(item.admin_margin || 0, 10) || 0),
+          0
+        );
+        employeesCount = emp.length;
+      } else {
+        try {
+          const sRow: any = await db.queryOne("SELECT COUNT(*) as c FROM students");
+          const isRow: any = await db.queryOne("SELECT COUNT(*) as c FROM india_students");
+          const lRow: any = await db.queryOne("SELECT COUNT(*) as c FROM leads");
+          const aRow: any = await db.queryOne(
+            "SELECT COUNT(*) as c, COALESCE(SUM(amount_value), 0) as pending FROM approvals WHERE status='In Review'"
+          );
+          const invRow: any = await db.queryOne(
+            "SELECT COALESCE(SUM(amount_value), 0) as rev FROM invoices WHERE status='Paid'"
+          );
+          const trvRow: any = await db.queryOne(
+            "SELECT COUNT(*) as c, COALESCE(SUM(admin_margin), 0) as margin FROM travel_bookings"
+          );
+          const empRow: any = await db.queryOne("SELECT COUNT(*) as c FROM employees");
+
+          abroadCount = sRow?.c || 0;
+          indiaCount = isRow?.c || 0;
+          studentsCount = abroadCount + indiaCount;
+          leadsCount = lRow?.c || 0;
+          approvalsCount = aRow?.c || 0;
+          pendingApprovalsAmount = parseInt(aRow?.pending || 0, 10);
+          totalRevenue = parseInt(invRow?.rev || 0, 10);
+          travelCount = trvRow?.c || 0;
+          travelMargin = parseInt(trvRow?.margin || 0, 10);
+          employeesCount = empRow?.c || 0;
+        } catch {}
+      }
+
+      const q = query.toLowerCase();
+      let reply = "";
+      let actions: { label: string; url: string }[] = [];
+      let suggestions: string[] = [];
+
+      if (
+        q.includes("revenue") ||
+        q.includes("income") ||
+        q.includes("profit") ||
+        q.includes("finance") ||
+        q.includes("invoice") ||
+        q.includes("money") ||
+        q.includes("turnover")
+      ) {
+        reply =
+          `### 💰 Financial Overview & Revenue Intelligence\n\n` +
+          `Here is the latest financial realization breakdown for UniQuesta ERP:\n\n` +
+          `- **Total Invoiced Realization (Paid):** ₹ ${totalRevenue.toLocaleString("en-IN")}\n` +
+          `- **Tours & Travels Net Margin:** ₹ ${travelMargin.toLocaleString("en-IN")}\n` +
+          `- **Pending Expense Approvals:** ₹ ${pendingApprovalsAmount.toLocaleString("en-IN")}\n\n` +
+          `**Key Insights:**\n` +
+          `1. Tuition fee instalments and visa service invoices represent the primary income driver.\n` +
+          `2. Tours & fleet operations operate at a **24% net margin** across intercity and group excursion bookings.\n` +
+          `3. You can inspect itemized ledgers or download audit reports directly from Finance & Reports.`;
+        actions = [
+          { label: "View Financial Reports", url: "/reports" },
+          { label: "Audit Expense Approvals", url: "/approvals" },
+        ];
+        suggestions = [
+          "How many pending approvals require executive sign-off?",
+          "Show admissions lead conversion rate",
+          "What are the top overseas destinations?",
+        ];
+      } else if (
+        q.includes("student") ||
+        q.includes("admission") ||
+        q.includes("enroll") ||
+        q.includes("intake") ||
+        q.includes("application")
+      ) {
+        reply =
+          `### 🎓 Admissions & Student Pipeline Intelligence\n\n` +
+          `UniQuesta currently has **${studentsCount} active students** registered in the system:\n\n` +
+          `- **International Admissions (Abroad):** ${abroadCount} students\n` +
+          `- **Domestic Admissions (India):** ${indiaCount} students (Nursing, Pharmacy, Allied Health)\n` +
+          `- **Active Inbound Leads:** ${leadsCount} enquiries undergoing counseling\n\n` +
+          `**Workflow Guide:**\n` +
+          `- **To enroll a student:** Navigate to **Students** → click **"+ Add Student"** or convert directly from an existing qualified lead.\n` +
+          `- **Document Vault:** Upload transcripts, passport copy, and English proficiency test (IELTS/PTE) scores in the student profile.\n` +
+          `- **Domestic Admissions:** India admissions include automated fee structure tracking with scholarship and instalment schedules.`;
+        actions = [
+          { label: "Open Students Directory", url: "/students" },
+          { label: "View Leads Pipeline", url: "/leads" },
+        ];
+        suggestions = [
+          "Show top colleges and universities",
+          "What are the visa requirements for the UK?",
+          "How do I export admissions data to CSV?",
+        ];
+      } else if (
+        q.includes("approval") ||
+        q.includes("expense") ||
+        q.includes("voucher") ||
+        q.includes("reimburse")
+      ) {
+        reply =
+          `### 🛡️ Admin & Expense Approval Workflow\n\n` +
+          `You currently have **${approvalsCount} active approval vouchers** with **₹ ${pendingApprovalsAmount.toLocaleString("en-IN")}** awaiting review.\n\n` +
+          `**Standard 6-Stage Approval Flow:**\n` +
+          `1. **Employee Submission:** Employee uploads travel, marketing, or outreach bills with GST invoice.\n` +
+          `2. **Branch Manager Endorsement:** Verifies expense against regional quarterly allocation.\n` +
+          `3. **Finance & Accounts (AP Lead):** Audits line items, tax numbers, and hotel/flight tickets.\n` +
+          `4. **Director of Operations:** Sanctions operational necessity.\n` +
+          `5. **CEO / Executive Sign-off:** Grants final disbursement sanction.\n` +
+          `6. **NEFT Payout Release:** Accounts department executes direct bank payment within 24 hours.`;
+        actions = [
+          { label: "Open Approvals Ledger", url: "/approvals" },
+          { label: "View Admin Reports", url: "/reports" },
+        ];
+        suggestions = [
+          "How to submit a new reimbursement?",
+          "What is our monthly expense budget?",
+          "Who has sign-off authority for branches?",
+        ];
+      } else if (
+        q.includes("travel") ||
+        q.includes("tour") ||
+        q.includes("bus") ||
+        q.includes("fleet") ||
+        q.includes("driver") ||
+        q.includes("booking") ||
+        q.includes("pnr")
+      ) {
+        reply =
+          `### 🚐 Tours & Travel Fleet Management\n\n` +
+          `UniQuesta Tours & Travels manages outstation fleet excursions, airport transfers, and educational college tours.\n\n` +
+          `- **Active Bookings:** ${travelCount} bookings recorded\n` +
+          `- **Accumulated Admin Margin:** ₹ ${travelMargin.toLocaleString("en-IN")}\n` +
+          `- **Fleet Options:** 32-Seater Luxury AC Buses, Force Travellers (17-Seater), Toyota Innova Crysta, and 45-Seater Coach.\n\n` +
+          `**How to dispatch a trip:**\n` +
+          `1. Go to **Tours & Travels** → click **"+ New Booking"**.\n` +
+          `2. Specify Passenger, Origin, Destination, Vehicle type, Customer Price, and Agency Cost.\n` +
+          `3. The system automatically calculates your **Admin Net Margin**.\n` +
+          `4. Assign a verified driver from the fleet roster with automated SMS dispatch.`;
+        actions = [
+          { label: "Go to Tours & Travels", url: "/travel" },
+          { label: "View Fleet Bookings Report", url: "/reports" },
+        ];
+        suggestions = [
+          "How are travel profit margins calculated?",
+          "Can drivers view their assigned trips?",
+          "How to export travel bookings to CSV?",
+        ];
+      } else if (
+        q.includes("staff") ||
+        q.includes("hr") ||
+        q.includes("employee") ||
+        q.includes("counsellor") ||
+        q.includes("team")
+      ) {
+        reply =
+          `### 👥 Human Resources & Counsellor Directory\n\n` +
+          `UniQuesta currently has **${employeesCount} staff members & counsellors** allocated across regional branches.\n\n` +
+          `**Departmental Structure:**\n` +
+          `- **Branch Administration:** Regional heads overseeing Guwahati HQ, Mumbai, Delhi NCR, Bengaluru, and Hyderabad.\n` +
+          `- **Counseling Team:** Senior counsellors and admission advisors managing student inquiries.\n` +
+          `- **Visa & Compliance:** Dedicated officers filing CAS, Visa applications, and embassy mock interviews.\n\n` +
+          `To manage employee profiles, add new staff, or update supervisor hierarchy, visit the **HR & Staff** module.`;
+        actions = [
+          { label: "Open HR & Staff Directory", url: "/hr" },
+          { label: "View Counsellor Productivity", url: "/reports" },
+        ];
+        suggestions = [
+          "How to appoint a Branch Administrator?",
+          "How do counsellors receive leads?",
+          "What are the staff permission levels?",
+        ];
+      } else if (
+        q.includes("report") ||
+        q.includes("analytic") ||
+        q.includes("export") ||
+        q.includes("download") ||
+        q.includes("csv") ||
+        q.includes("pdf")
+      ) {
+        reply =
+          `### 📊 Reports & Executive Analytics Hub\n\n` +
+          `The **Reports & Analytics** module offers verified audit ledgers and instant exports:\n\n` +
+          `- **Master Export (CSV):** 1-Click download of complete organizational metrics.\n` +
+          `- **Students Admission Report:** International & Domestic admissions with fee collection ledger.\n` +
+          `- **Tours & Travel Report:** Customer prices, agency costs, and net margin retention.\n` +
+          `- **Admin & Approvals Report:** Itemized expense requisitions with audit progression.\n` +
+          `- **Print / Save PDF:** Clean, letterhead-ready printable reports for executive boards.\n\n` +
+          `All CSV files are encoded with UTF-8 BOM for 100% compatibility with Microsoft Excel and Google Sheets.`;
+        actions = [{ label: "Go to Reports & Analytics", url: "/reports" }];
+        suggestions = [
+          "What is our net operating profit margin?",
+          "How to filter reports by specific branch?",
+          "Can I print individual student records?",
+        ];
+      } else if (
+        q.includes("setting") ||
+        q.includes("whatsapp") ||
+        q.includes("config") ||
+        q.includes("role") ||
+        q.includes("security") ||
+        q.includes("2fa")
+      ) {
+        reply =
+          `### ⚙️ Workspace Configuration & System Settings\n\n` +
+          `UniQuesta ERP features 8 advanced settings pillars in **Settings**:\n\n` +
+          `1. **Organisation & Entity:** Legal entity name, GSTIN, CIN, HQ address, branch network.\n` +
+          `2. **Roles & Permissions:** Interactive permission matrix for 7 staff roles across all modules.\n` +
+          `3. **Security & DPDP:** Enforce 2FA, session inactivity timeout, and audit trail logging.\n` +
+          `4. **Notifications:** Meta WhatsApp Cloud API triggers, student welcome SMS, and SMTP gateway.\n` +
+          `5. **Integrations:** Meta Lead Ads, Zoom auto-scheduler, and Tally Prime sync.\n` +
+          `6. **Branding:** Official theme colors (UniQuesta Red, Royal Navy), slogan, and portal headers.\n` +
+          `7. **Subscription:** Enterprise license, 280 seats quota, 500GB document storage.\n` +
+          `8. **Localisation:** Indian Lakhs/Crores vs International numbering, timezones, and currencies.`;
+        actions = [{ label: "Open System Settings", url: "/settings" }];
+        suggestions = [
+          "How do I customize staff role permissions?",
+          "How to test the incoming webhook endpoint?",
+          "How to change default currency to INR?",
+        ];
+      } else if (
+        q.includes("visa") ||
+        q.includes("uk") ||
+        q.includes("canada") ||
+        q.includes("australia") ||
+        q.includes("germany") ||
+        q.includes("cas")
+      ) {
+        reply =
+          `### 🌍 Global Visa & Compliance Guidelines\n\n` +
+          `Here is a quick reference for our top student study destinations:\n\n` +
+          `- **United Kingdom (UK):** Requires Confirmation of Acceptance for Studies (CAS), 28-day funds maintenance rule, TB test, and ATAS (if applicable).\n` +
+          `- **Canada:** Student Direct Stream (SDS) / Non-SDS, Guaranteed Investment Certificate (GIC) CAD $20,635, upfront medical exam, and biometrics.\n` +
+          `- **Australia:** Genuine Student (GS) assessment, Overseas Student Health Cover (OSHC), financial capacity proof, and Confirmation of Enrolment (CoE).\n` +
+          `- **Germany:** APS Certificate verification, Blocked Account (€ 11,208/year), health insurance, and university admission letter.`;
+        actions = [
+          { label: "View Global Universities", url: "/universities" },
+          { label: "Inspect Student Applications", url: "/applications" },
+        ];
+        suggestions = [
+          "Which universities offer September intakes?",
+          "How to track visa stage in student profile?",
+          "What commission do partner universities pay?",
+        ];
+      } else {
+        reply =
+          `### 👋 Hello! I am UniQuesta Enterprise AI Copilot\n\n` +
+          `I am your intelligent assistant for UniQuesta ERP & Overseas Education Management. I am grounded in live system data and can answer any question about operations:\n\n` +
+          `**Here is what you can ask me:**\n` +
+          `- 📊 **Financials & Margins:** *"What is our total revenue and profit margin?"*\n` +
+          `- 🎓 **Admissions & Pipeline:** *"How many students and leads are in the pipeline?"*\n` +
+          `- 🛡️ **Expense Approvals:** *"Show pending approvals requiring sign-off"*\n` +
+          `- 🚐 **Fleet & Travels:** *"How to create and dispatch a travel fleet booking?"*\n` +
+          `- 👥 **HR & Productivity:** *"What are the staff roles and counsellor performance?"*\n` +
+          `- ⚙️ **System Configuration:** *"How do I configure WhatsApp notifications or role permissions?"*\n\n` +
+          `How may I assist you today?`;
+        actions = [
+          { label: "View Dashboard Overview", url: "/" },
+          { label: "Open Reports & Analytics", url: "/reports" },
+        ];
+        suggestions = [
+          "What is our current revenue and profit margin?",
+          "How many students and leads are in pipeline?",
+          "Show pending expense approvals",
+        ];
+      }
+
+      return json({
+        success: true,
+        data: {
+          reply,
+          actions,
+          suggestions,
+        },
+      });
     }
 
     // DASHBOARD STATS
@@ -2036,13 +2644,150 @@ export async function handleApi(req: Request): Promise<Response|null> {
       return json({ success:true, data:stats });
     }
 
-    // Reports
-    if(path==="/api/reports" && method==="GET"){
-      return json({ success:true, data:[
-        { title:"Admissions Funnel", desc:"Lead → Enrolled conversion by branch", tag:"Sales" },
-        { title:"Revenue by Destination", desc:"Country-wise revenue and margin", tag:"Finance" },
-        { title:"Counsellor Productivity", desc:"Applications and offers per counsellor", tag:"HR" },
-      ]});
+    // Reports & Analytics API
+    if ((path === "/api/reports" || path === "/api/reports/analytics") && method === "GET") {
+      const isMem = db.isMemoryMode();
+      let students: any[] = [];
+      let indiaStudents: any[] = [];
+      let leads: any[] = [];
+      let applications: any[] = [];
+      let employees: any[] = [];
+      let approvals: any[] = [];
+      let invoices: any[] = [];
+      let travelBookings: any[] = [];
+      let branches: any[] = [];
+      let b2bPartners: any[] = [];
+      let b2cPartners: any[] = [];
+
+      if (isMem) {
+        students = db.memList("students") || [];
+        indiaStudents = db.memList("india_students") || [];
+        leads = db.memList("leads") || [];
+        applications = db.memList("applications") || [];
+        employees = db.memList("employees") || [];
+        approvals = db.memList("approvals") || [];
+        invoices = db.memList("invoices") || [];
+        travelBookings = db.memList("travel_bookings") || [];
+        branches = db.memList("branches") || [];
+        b2bPartners = db.memList("b2b_partners") || [];
+        b2cPartners = db.memList("b2c_partners") || [];
+      } else {
+        try { students = await db.query("SELECT * FROM students ORDER BY id DESC"); } catch {}
+        try { indiaStudents = await db.query("SELECT * FROM india_students ORDER BY id DESC"); } catch {}
+        try { leads = await db.query("SELECT * FROM leads ORDER BY id DESC"); } catch {}
+        try { applications = await db.query("SELECT * FROM applications ORDER BY id DESC"); } catch {}
+        try { employees = await db.query("SELECT * FROM employees ORDER BY id DESC"); } catch {}
+        try { approvals = await db.query("SELECT * FROM approvals ORDER BY id DESC"); } catch {}
+        try { invoices = await db.query("SELECT * FROM invoices ORDER BY id DESC"); } catch {}
+        try { travelBookings = await db.query("SELECT * FROM travel_bookings ORDER BY id DESC"); } catch {}
+        try { branches = await db.query("SELECT * FROM branches ORDER BY id ASC"); } catch {}
+        try { b2bPartners = await db.query("SELECT * FROM b2b_partners ORDER BY id DESC"); } catch {}
+        try { b2cPartners = await db.query("SELECT * FROM b2c_partners ORDER BY id DESC"); } catch {}
+      }
+
+      // 1. Students & Admissions Aggregations
+      const totalAbroad = students.length;
+      const totalIndia = indiaStudents.length;
+      const totalStudents = totalAbroad + totalIndia;
+      const totalLeads = leads.length;
+      const totalApplications = applications.length;
+
+      // Fees in India admissions
+      const indiaTotalFee = indiaStudents.reduce((acc, s) => acc + (parseInt(s.total_fee ?? s.totalFee ?? 0, 10) || 0), 0);
+      const indiaPaidFee = indiaStudents.reduce((acc, s) => acc + (parseInt(s.paid_fee ?? s.paidFee ?? 0, 10) || 0), 0);
+      const indiaScholarship = indiaStudents.reduce((acc, s) => acc + (parseInt(s.scholarship ?? 0, 10) || 0), 0);
+      const indiaPendingFee = Math.max(0, indiaTotalFee - indiaPaidFee - indiaScholarship);
+
+      // 2. Staff & HR
+      const totalEmployees = employees.length;
+      const activeEmployees = employees.filter(e => (e.status || "").toLowerCase() === "active").length;
+      const onLeaveEmployees = employees.filter(e => (e.status || "").toLowerCase().includes("leave")).length;
+
+      // 3. Admin & Approvals
+      const totalApprovals = approvals.length;
+      const approvedApprovals = approvals.filter(a => (a.status || "").toLowerCase() === "approved");
+      const inReviewApprovals = approvals.filter(a => (a.status || "").toLowerCase() === "in review");
+      const rejectedApprovals = approvals.filter(a => (a.status || "").toLowerCase() === "rejected");
+      const approvedAmount = approvedApprovals.reduce((acc, a) => acc + (parseInt(a.amount_value ?? 0, 10) || 0), 0);
+      const pendingAmount = inReviewApprovals.reduce((acc, a) => acc + (parseInt(a.amount_value ?? 0, 10) || 0), 0);
+
+      // 4. Tours & Travel
+      const totalTravelBookings = travelBookings.length;
+      const travelGrossRevenue = travelBookings.reduce((acc, t) => acc + (parseInt(t.customer_price ?? t.amount_value ?? 0, 10) || 0), 0);
+      const travelAgencyCost = travelBookings.reduce((acc, t) => acc + (parseInt(t.agency_cost ?? 0, 10) || 0), 0);
+      const travelAdminMargin = travelBookings.reduce((acc, t) => acc + (parseInt(t.admin_margin ?? 0, 10) || 0), 0);
+      const travelCompleted = travelBookings.filter(t => (t.trip_status || "").toLowerCase().includes("completed") || (t.trip_status || "").toLowerCase().includes("trip")).length;
+
+      // 5. Income & Expenses (Finance P&L)
+      const paidInvoices = invoices.filter(i => (i.status || "").toLowerCase() === "paid");
+      const pendingInvoices = invoices.filter(i => (i.status || "").toLowerCase() === "pending");
+      const overdueInvoices = invoices.filter(i => (i.status || "").toLowerCase() === "overdue");
+
+      const invoicesPaidAmount = paidInvoices.reduce((acc, i) => acc + (parseInt(i.amount_value ?? 0, 10) || 0), 0);
+      const invoicesPendingAmount = pendingInvoices.reduce((acc, i) => acc + (parseInt(i.amount_value ?? 0, 10) || 0), 0);
+      const invoicesOverdueAmount = overdueInvoices.reduce((acc, i) => acc + (parseInt(i.amount_value ?? 0, 10) || 0), 0);
+
+      const totalIncome = invoicesPaidAmount + indiaPaidFee + travelAdminMargin;
+      const totalExpenses = approvedAmount + travelAgencyCost;
+      const netProfit = totalIncome - totalExpenses;
+      const profitMarginPct = totalIncome > 0 ? Math.round((netProfit / totalIncome) * 100) : 0;
+
+      // 6. Partners
+      const totalB2b = b2bPartners.length;
+      const totalB2c = b2cPartners.length;
+      const b2bEarnings = b2bPartners.reduce((acc, p) => acc + (parseInt(p.partner_earnings ?? 0, 10) || 0), 0);
+      const b2cEarnings = b2cPartners.reduce((acc, p) => acc + (parseInt(p.total_earnings ?? 0, 10) || 0), 0);
+      const b2bPayoutBalance = b2bPartners.reduce((acc, p) => acc + (parseInt(p.payout_balance ?? 0, 10) || 0), 0);
+      const b2cPayoutBalance = b2cPartners.reduce((acc, p) => acc + (parseInt(p.payout_balance ?? 0, 10) || 0), 0);
+
+      return json({
+        success: true,
+        data: {
+          summary: {
+            totalStudents,
+            totalAbroad,
+            totalIndia,
+            totalLeads,
+            totalApplications,
+            totalEmployees,
+            activeEmployees,
+            onLeaveEmployees,
+            totalApprovals,
+            approvedAmount,
+            pendingAmount,
+            totalTravelBookings,
+            travelGrossRevenue,
+            travelAgencyCost,
+            travelAdminMargin,
+            travelCompleted,
+            totalIncome,
+            totalExpenses,
+            netProfit,
+            profitMarginPct,
+            invoicesPaidAmount,
+            invoicesPendingAmount,
+            invoicesOverdueAmount,
+            indiaTotalFee,
+            indiaPaidFee,
+            indiaPendingFee,
+            totalPartners: totalB2b + totalB2c,
+            partnerPayoutBalance: b2bPayoutBalance + b2cPayoutBalance,
+          },
+          datasets: {
+            students,
+            indiaStudents,
+            leads,
+            applications,
+            employees,
+            approvals,
+            invoices,
+            travelBookings,
+            branches,
+            b2bPartners,
+            b2cPartners,
+          }
+        }
+      });
     }
 
     // ═══════════════════════════════════════════════════════════════
@@ -2236,7 +2981,7 @@ export async function handleApi(req: Request): Promise<Response|null> {
     }
 
     if (path.startsWith("/api/travel/drivers/") && !path.includes("check")) {
-      const driverId = path.split("/").pop();
+      const driverId = path.split("/").pop() || "";
       const isMem = db.isMemoryMode();
 
       if (method === "GET") {

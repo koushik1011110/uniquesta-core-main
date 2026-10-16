@@ -1,4 +1,4 @@
-// server-only DB layer — MySQL primary, in-memory fallback
+// server-only DB layer — MySQL strictly required (in-memory mode disabled)
 import mysql from "mysql2/promise";
 import fs from "node:fs";
 import path from "node:path";
@@ -6,100 +6,48 @@ import path from "node:path";
 export type DbPool = mysql.Pool;
 
 let pool: DbPool | null = null;
-let useMemory = false;
+let lastDbError: string | null = null;
 let initPromise: Promise<void> | null = null;
 
-// In-memory fallback store: tableName -> Map<id, row>
-const memStore: Record<string, Map<string | number, any>> = {};
-const memSeq: Record<string, number> = {};
-
-function getMemTable(name: string) {
-  if (!memStore[name]) {
-    memStore[name] = new Map();
-    memSeq[name] = 1;
-  }
-  return memStore[name];
-}
-function nextMemId(name: string) {
-  const id = memSeq[name] ?? 1;
-  memSeq[name] = id + 1;
-  return id;
+export function isConnected(): boolean {
+  return pool !== null;
 }
 
-export function isMemoryMode() {
-  return useMemory || !pool;
+export function getDbError(): string | null {
+  return lastDbError;
 }
-export function getPool() {
+
+export function isMemoryMode(): boolean {
+  // STRICT REQUIREMENT: In-memory mode is completely disabled.
+  return false;
+}
+
+export function getPool(): DbPool | null {
   return pool;
 }
-export function getMemStore() {
-  return memStore;
-}
 
-export function memList(table: string) {
-  const map = getMemTable(table);
-  // dedup by numeric id — Map contains both id and code keys pointing to same row
-  const byId = new Map<string | number, any>();
-  for (const row of map.values()) {
-    const key = row.id;
-    if (key != null && !byId.has(key)) byId.set(key, row);
-  }
-  // fallback: if table has no numeric id (should not happen), return unique by JSON
-  if (byId.size === 0) {
-    const seen = new Set<string>();
-    const out: any[] = [];
-    for (const row of map.values()) {
-      const k = JSON.stringify(row);
-      if (!seen.has(k)) {
-        seen.add(k);
-        out.push(row);
-      }
-    }
-    return out;
-  }
-  return Array.from(byId.values());
+// Memory store stubs — completely empty, no temporary storage allowed
+const emptyMemStore: Record<string, Map<string | number, any>> = {};
+
+export function getMemStore() {
+  return emptyMemStore;
 }
-export function memGet(table: string, id: string | number) {
-  return getMemTable(table).get(id) ?? null;
+export function memList(_table: string): any[] {
+  return [];
 }
-export function memCreate(table: string, data: any) {
-  const tbl = getMemTable(table);
-  const id = data.id ?? nextMemId(table);
-  const row = { ...data, id };
-  // auto id for string-code tables keep provided id
-  tbl.set(id, row);
-  // also set by code if code exists for lookup
-  if (row.code) tbl.set(row.code, row);
-  if (row.email && table === "users") tbl.set(row.email, row);
-  return row;
+export function memGet(_table: string, _id: string | number): any {
+  return null;
 }
-export function memUpdate(table: string, id: string | number, patch: any) {
-  const tbl = getMemTable(table);
-  const existing = tbl.get(id);
-  if (!existing) return null;
-  const updated = { ...existing, ...patch, id: existing.id };
-  tbl.set(id, updated);
-  if (updated.code) tbl.set(updated.code, updated);
-  if (updated.email && table === "users") tbl.set(updated.email, updated);
-  // also update numeric id entry if id was code
-  if (typeof id === "string" && existing.id !== id) {
-    tbl.set(existing.id, updated);
-  }
-  return updated;
+export function memCreate(_table: string, data: any): any {
+  return data;
 }
-export function memDelete(table: string, id: string | number) {
-  const tbl = getMemTable(table);
-  const existing = tbl.get(id);
-  if (!existing) return false;
-  tbl.delete(id);
-  tbl.delete(existing.id);
-  if (existing.code) tbl.delete(existing.code);
-  if (existing.email && table === "users") tbl.delete(existing.email);
-  return true;
+export function memUpdate(_table: string, _id: string | number, _patch: any): any {
+  return null;
 }
-export function memClear() {
-  for (const k of Object.keys(memStore)) memStore[k].clear();
+export function memDelete(_table: string, _id: string | number): boolean {
+  return false;
 }
+export function memClear(): void {}
 
 function loadDotEnv() {
   try {
@@ -130,6 +78,7 @@ function getEnv(name: string, fallback: string) {
 }
 
 export async function initDb(): Promise<void> {
+  if (pool) return;
   if (initPromise) return initPromise;
   initPromise = (async () => {
     loadDotEnv();
@@ -138,9 +87,8 @@ export async function initDb(): Promise<void> {
     const user = getEnv("DB_USER", "root");
     const password = getEnv("DB_PASSWORD", getEnv("DB_PASS", ""));
     const database = getEnv("DB_NAME", "uniquesta_abroad");
-    const waitForDb = getEnv("DB_WAIT", "false") === "true";
 
-    // Try to connect; if fails, fallback to memory
+    // Strictly connect to MySQL — in-memory fallback is disabled completely
     try {
       // First connect without database to create it
       const tmp = await mysql.createConnection({ host, port, user, password });
@@ -161,27 +109,30 @@ export async function initDb(): Promise<void> {
       await pool.query("SELECT 1");
       await createTables();
       await seedIfEmpty();
+      lastDbError = null;
       console.log(`[DB] Connected to MySQL ${host}:${port}/${database}`);
     } catch (e: any) {
-      console.warn("[DB] MySQL not available, using in-memory store:", e?.message ?? e);
-      useMemory = true;
+      lastDbError = e?.message ?? String(e);
+      console.error("[DB] MySQL connection failed (in-memory fallback disabled):", lastDbError);
       pool = null;
-      seedMemory();
-    }
-    if (waitForDb && useMemory) {
-      console.warn("[DB] DB_WAIT=true but still in memory mode");
+    } finally {
+      initPromise = null;
     }
   })();
   return initPromise;
 }
 
 export async function query<T = any>(sql: string, params?: any[]): Promise<T[]> {
-  if (!pool || useMemory) throw new Error("DB not available (memory mode)");
+  if (!pool) {
+    throw new Error(`Database connection failed: MySQL is not active (${lastDbError || "not connected"}). Please start MySQL service.`);
+  }
   const [rows] = await pool.query(sql, params);
   return rows as T[];
 }
 export async function execute(sql: string, params?: any[]) {
-  if (!pool || useMemory) throw new Error("DB not available (memory mode)");
+  if (!pool) {
+    throw new Error(`Database connection failed: MySQL is not active (${lastDbError || "not connected"}). Please start MySQL service.`);
+  }
   const [result] = await pool.execute(sql, params);
   return result as mysql.ResultSetHeader;
 }
@@ -500,6 +451,7 @@ async function createTables() {
     support_email VARCHAR(255) NOT NULL,
     two_factor BOOLEAN DEFAULT TRUE,
     whatsapp_notify BOOLEAN DEFAULT TRUE,
+    config JSON NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );
   CREATE TABLE IF NOT EXISTS travel_bookings (
@@ -580,6 +532,29 @@ async function createTables() {
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS b2c_partners (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    ambassador_type VARCHAR(100) DEFAULT 'Student Ambassador',
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    branch VARCHAR(100) DEFAULT 'Guwahati HQ',
+    reward_type VARCHAR(20) DEFAULT 'flat_rate',
+    reward_amount INT DEFAULT 15000,
+    reward_pct DECIMAL(5,2) DEFAULT 10.00,
+    tier VARCHAR(50) DEFAULT 'Silver Ambassador',
+    status VARCHAR(20) DEFAULT 'Active',
+    total_referrals INT DEFAULT 0,
+    successful_admissions INT DEFAULT 0,
+    total_earnings INT DEFAULT 0,
+    payout_balance INT DEFAULT 0,
+    payout_mode VARCHAR(50) DEFAULT 'UPI / Direct Bank',
+    notes TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  );
   CREATE TABLE IF NOT EXISTS notifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_email VARCHAR(255) NOT NULL,
@@ -597,6 +572,7 @@ async function createTables() {
   for (const stmt of statements) {
     await pool!.query(stmt);
   }
+  try { await pool!.query("ALTER TABLE settings ADD COLUMN config JSON NULL"); } catch {}
 }
 
 async function seedIfEmpty() {
@@ -710,11 +686,18 @@ export function buildSeedData() {
   ];
   const indiaStudents: any[] = [];
   const invoices = [
-    { code:"INV-4210", student:"Priya Nair", amount:"₹ 1,24,000", amount_value:124000, currency:"INR", type:"Tuition Instalment", date:"2026-07-23", status:"Paid" },
-    { code:"INV-4211", student:"Rohit Verma", amount:"₹ 45,000", amount_value:45000, currency:"INR", type:"Service Fee", date:"2026-07-22", status:"Paid" },
-    { code:"INV-4212", student:"Ananya Iyer", amount:"₹ 82,500", amount_value:82500, currency:"INR", type:"Application Fee", date:"2026-07-22", status:"Pending" },
-    { code:"INV-4213", student:"Vikram Singh", amount:"₹ 2,10,000", amount_value:210000, currency:"INR", type:"Visa & Travel", date:"2026-07-21", status:"Overdue" },
-    { code:"INV-4214", student:"Sneha Kulkarni", amount:"€ 6,200", amount_value:6200, currency:"EUR", type:"University Fee", date:"2026-07-20", status:"Paid" },
+    { code:"INV-4210", student:"Priya Nair", student_id:1, amount:"₹ 1,24,000", amount_value:124000, currency:"INR", type:"Tuition Instalment", date:"2026-07-23", due_date:"2026-07-20", status:"Paid", branch:"Mumbai", payment_method:"Bank Transfer", notes:"First semester tuition for Monash University." },
+    { code:"INV-4211", student:"Rohit Verma", student_id:2, amount:"₹ 45,000", amount_value:45000, currency:"INR", type:"Service Fee", date:"2026-07-22", due_date:"2026-07-25", status:"Paid", branch:"Delhi NCR", payment_method:"UPI (GPay)", notes:"Consultation & documentation processing fee." },
+    { code:"INV-4212", student:"Ananya Iyer", student_id:3, amount:"₹ 82,500", amount_value:82500, currency:"INR", type:"Application Fee", date:"2026-07-22", due_date:"2026-08-05", status:"Pending", branch:"Bengaluru", payment_method:"Net Banking", notes:"3 University direct applications filing charges." },
+    { code:"INV-4213", student:"Vikram Singh", student_id:4, amount:"₹ 2,10,000", amount_value:210000, currency:"INR", type:"Visa & Travel", date:"2026-07-21", due_date:"2026-07-15", status:"Overdue", branch:"Guwahati HQ", payment_method:"Bank Transfer", notes:"Priority UK visa express fee & accommodation deposit." },
+    { code:"INV-4214", student:"Sneha Kulkarni", student_id:5, amount:"€ 6,200", amount_value:558000, currency:"EUR", type:"University Fee", date:"2026-07-20", due_date:"2026-07-18", status:"Paid", branch:"Mumbai", payment_method:"International Wire", notes:"TU Munich semester 1 enrollment remittance." },
+    { code:"INV-4215", student:"Arjun Sengupta", student_id:6, amount:"₹ 1,50,000", amount_value:150000, currency:"INR", type:"Tuition Instalment", date:"2026-07-19", due_date:"2026-07-16", status:"Paid", branch:"Guwahati HQ", payment_method:"Bank Transfer", notes:"B.Sc Nursing Year 1 fee instalment." },
+    { code:"INV-4216", student:"Tanvi Deshmukh", student_id:7, amount:"₹ 35,000", amount_value:35000, currency:"INR", type:"Service Fee", date:"2026-07-18", due_date:"2026-08-02", status:"Pending", branch:"Mumbai", payment_method:"UPI (PhonePe)", notes:"Visa interview preparation & mock tests." },
+    { code:"INV-4217", student:"Manav Chawla", student_id:8, amount:"$ 3,500", amount_value:294000, currency:"USD", type:"University Fee", date:"2026-07-17", due_date:"2026-07-14", status:"Paid", branch:"Delhi NCR", payment_method:"Wire Transfer", notes:"NYU admission confirmation deposit." },
+    { code:"INV-4218", student:"Ishita Baruah", student_id:9, amount:"₹ 95,000", amount_value:95000, currency:"INR", type:"Tuition Instalment", date:"2026-07-16", due_date:"2026-08-10", status:"Pending", branch:"Guwahati HQ", payment_method:"Bank Transfer", notes:"GNM course semester fee instalment." },
+    { code:"INV-4219", student:"Pradeep Reddy", student_id:10, amount:"₹ 1,75,000", amount_value:175000, currency:"INR", type:"Tuition Instalment", date:"2026-07-15", due_date:"2026-07-12", status:"Paid", branch:"Hyderabad", payment_method:"Demand Draft", notes:"M.S. Ramaiah University Allied Health fee." },
+    { code:"INV-4220", student:"Nandini Saxena", student_id:11, amount:"₹ 48,000", amount_value:48000, currency:"INR", type:"Visa & Travel", date:"2026-07-14", due_date:"2026-07-08", status:"Overdue", branch:"Bengaluru", payment_method:"UPI", notes:"Australia biometrics & flight booking assistance." },
+    { code:"INV-4221", student:"Devansh Jain", student_id:12, amount:"₹ 85,000", amount_value:85000, currency:"INR", type:"Application Fee", date:"2026-07-12", due_date:"2026-07-10", status:"Paid", branch:"Mumbai", payment_method:"Credit Card", notes:"Canada SDS visa application and GIC account setup." },
   ];
   const employees = [
     { name:"Meera Shah", email:"meera@uniquesta.com", phone:"+91 98200 11111", role:"Senior Counsellor", branch:"Mumbai", status:"Active" },
@@ -728,12 +711,45 @@ export function buildSeedData() {
     {
       code:"REIMB-2026-0284", title:"Client visit — Bengaluru university fair", amount:"₹ 48,650", amount_value:48650, category:"Travel & Meals", submitted_by:"Meera Shah", submitted_date:"22 Jul 2026 · 10:14 AM", period:"18 Jul – 21 Jul 2026", branch:"Mumbai · Andheri West", attachments:6, status:"In Review", current_stage:2,
       steps:[
-        { name:"Meera Shah", role:"Employee · Senior Counsellor", initials:"MS", status:"approved", time:"22 Jul · 10:14 AM", comment:"Submitted with bills.", step_order:0 },
-        { name:"Rahul Deshmukh", role:"Branch Manager · Mumbai", initials:"RD", status:"approved", time:"22 Jul · 03:40 PM", comment:"Verified against plan.", step_order:1 },
-        { name:"Anjali Kapoor", role:"Finance · AP Lead", initials:"AK", status:"current", time:"In review · 6h", comment:"Awaiting cab receipt category.", step_order:2 },
+        { name:"Meera Shah", role:"Employee · Senior Counsellor", initials:"MS", status:"approved", time:"22 Jul · 10:14 AM", comment:"Submitted with flight, hotel and client meet taxi receipts.", step_order:0 },
+        { name:"Rahul Deshmukh", role:"Branch Manager · Mumbai", initials:"RD", status:"approved", time:"22 Jul · 03:40 PM", comment:"Verified against quarterly branch outreach budget. Fully endorsed.", step_order:1 },
+        { name:"Anjali Kapoor", role:"Finance · AP Lead", initials:"AK", status:"current", time:"In review · 6h", comment:"GST invoices verified. Passed for operational review.", step_order:2 },
         { name:"Vivek Ramanathan", role:"Director · Operations", initials:"VR", status:"upcoming", time:"Est. 24 Jul", comment:"", step_order:3 },
-        { name:"Neha Malhotra", role:"CEO", initials:"NM", status:"upcoming", time:"Est. 25 Jul", comment:"", step_order:4 },
-        { name:"Payment Released", role:"Finance · Payouts", initials:"₹", status:"released", time:"Est. 26 Jul", comment:"NEFT within 24h.", step_order:5 },
+        { name:"Mohammad Iqbal", role:"CEO · Executive Sign-off", initials:"MI", status:"upcoming", time:"Est. 25 Jul", comment:"", step_order:4 },
+        { name:"Payment Released", role:"Finance · Payouts", initials:"₹", status:"released", time:"Est. 26 Jul", comment:"Direct NEFT release within 24h.", step_order:5 },
+      ]
+    },
+    {
+      code:"REIMB-2026-0285", title:"North-East College Outreach & Seminars Tour", amount:"₹ 65,000", amount_value:65000, category:"Marketing & Events", submitted_by:"Pranab Barman", submitted_date:"23 Jul 2026 · 11:30 AM", period:"19 Jul – 22 Jul 2026", branch:"Guwahati HQ", attachments:5, status:"In Review", current_stage:3,
+      steps:[
+        { name:"Pranab Barman", role:"Regional Coordinator · North East", initials:"PB", status:"approved", time:"23 Jul · 11:30 AM", comment:"Conducting career guidance workshops in 4 nursing institutes.", step_order:0 },
+        { name:"Mohammad Iqbal", role:"Branch Head · Guwahati HQ", initials:"MI", status:"approved", time:"23 Jul · 02:15 PM", comment:"Pre-approved high-impact campaign. Endorsed.", step_order:1 },
+        { name:"Anjali Kapoor", role:"Finance · AP Lead", initials:"AK", status:"approved", time:"23 Jul · 05:45 PM", comment:"Venue hall hire & banner print receipts audited. Within budget.", step_order:2 },
+        { name:"Vivek Ramanathan", role:"Director · Operations", initials:"VR", status:"current", time:"In review · 2h", comment:"Reviewing ROI from 120 seminar attendees.", step_order:3 },
+        { name:"Mohammad Iqbal", role:"CEO · Executive Sign-off", initials:"MI", status:"upcoming", time:"Est. 25 Jul", comment:"", step_order:4 },
+        { name:"Payment Released", role:"Finance · Payouts", initials:"₹", status:"released", time:"Est. 26 Jul", comment:"NEFT release pending.", step_order:5 },
+      ]
+    },
+    {
+      code:"REIMB-2026-0286", title:"UK University Delegates Annual Dinner & Networking", amount:"₹ 38,200", amount_value:38200, category:"Client Fair Advance", submitted_by:"Karan Mehta", submitted_date:"24 Jul 2026 · 09:45 AM", period:"21 Jul 2026", branch:"Delhi NCR", attachments:4, status:"In Review", current_stage:4,
+      steps:[
+        { name:"Karan Mehta", role:"Branch Head · Delhi NCR", initials:"KM", status:"approved", time:"24 Jul · 09:45 AM", comment:"Hosted dinner for King's College London and Manchester university deans.", step_order:0 },
+        { name:"Karan Mehta", role:"Branch Manager · Delhi NCR", initials:"KM", status:"approved", time:"24 Jul · 10:15 AM", comment:"Self-sanctioned branch dinner allocation.", step_order:1 },
+        { name:"Anjali Kapoor", role:"Finance · AP Lead", initials:"AK", status:"approved", time:"24 Jul · 12:30 PM", comment:"Itemized hotel banquet bill verified against attendee list.", step_order:2 },
+        { name:"Vivek Ramanathan", role:"Director · Operations", initials:"VR", status:"approved", time:"24 Jul · 03:00 PM", comment:"High-value partner relationship meeting. Sanctioned.", step_order:3 },
+        { name:"Mohammad Iqbal", role:"CEO · Executive Sign-off", initials:"MI", status:"current", time:"In review · 1h", comment:"Final executive sign-off required for disbursement.", step_order:4 },
+        { name:"Payment Released", role:"Finance · Payouts", initials:"₹", status:"released", time:"Est. 26 Jul", comment:"Direct NEFT release.", step_order:5 },
+      ]
+    },
+    {
+      code:"REIMB-2026-0287", title:"Regional Office High-Speed Network & Router Setup", amount:"₹ 22,400", amount_value:22400, category:"Office Supplies", submitted_by:"Divya Rao", submitted_date:"24 Jul 2026 · 02:15 PM", period:"24 Jul 2026", branch:"Bengaluru", attachments:3, status:"In Review", current_stage:1,
+      steps:[
+        { name:"Divya Rao", role:"Branch Head · Bengaluru", initials:"DR", status:"approved", time:"24 Jul · 02:15 PM", comment:"Purchased Cisco dual-band gigabit routers for counseling cubicles.", step_order:0 },
+        { name:"Divya Rao", role:"Branch Manager · Bengaluru", initials:"DR", status:"current", time:"In review · 30m", comment:"Awaiting branch head endorsement.", step_order:1 },
+        { name:"Anjali Kapoor", role:"Finance · AP Lead", initials:"AK", status:"upcoming", time:"Est. 25 Jul", comment:"", step_order:2 },
+        { name:"Vivek Ramanathan", role:"Director · Operations", initials:"VR", status:"upcoming", time:"Est. 26 Jul", comment:"", step_order:3 },
+        { name:"Mohammad Iqbal", role:"CEO · Executive Sign-off", initials:"MI", status:"upcoming", time:"Est. 27 Jul", comment:"", step_order:4 },
+        { name:"Payment Released", role:"Finance · Payouts", initials:"₹", status:"released", time:"Est. 28 Jul", comment:"NEFT payout.", step_order:5 },
       ]
     }
   ];
@@ -902,57 +918,19 @@ export function buildSeedData() {
       status: "Active",
     },
   ];
-  return { students, leads, applications, universities, colleges, courses, indiaStudents, invoices, employees, approvals, referralStudents, commissions, paymentRequests, branches, travelDrivers, travelAgencies, travelBookings };
+  const b2bPartners = [
+    { code: "B2B-101", name: "Rahul Deshmukh", company_name: "Apex Global Overseas Consultancy", email: "rahul@apexglobal.edu", phone: "+91 98200 44551", city: "Mumbai", branch: "Mumbai", profit_share_type: "percentage", partner_share_pct: 30, admin_share_pct: 70, flat_rate_amount: 25000, tier: "Gold Partner (30%)", status: "Active", total_students: 8, total_revenue: 680000, partner_earnings: 204000, admin_earnings: 476000, payout_balance: 45000, notes: "Premier education partner in Western Maharashtra." },
+    { code: "B2B-102", name: "Vikram Singhania", company_name: "EduPathways International", email: "vikram@edupathways.in", phone: "+91 98111 88992", city: "Delhi", branch: "Delhi NCR", profit_share_type: "percentage", partner_share_pct: 35, admin_share_pct: 65, flat_rate_amount: 30000, tier: "Platinum Partner (35%)", status: "Active", total_students: 12, total_revenue: 1140000, partner_earnings: 399000, admin_earnings: 741000, payout_balance: 85000, notes: "Top volume recruiting partner for Canada & UK universities." },
+    { code: "B2B-103", name: "Meera Shah", company_name: "Southern Skies Study Abroad", email: "meera@southernskies.com", phone: "+91 98450 12344", city: "Bengaluru", branch: "Bengaluru", profit_share_type: "percentage", partner_share_pct: 25, admin_share_pct: 75, flat_rate_amount: 25000, tier: "Silver Partner (25%)", status: "Active", total_students: 5, total_revenue: 410000, partner_earnings: 102500, admin_earnings: 307500, payout_balance: 22500, notes: "Specialized in Australian nursing & engineering admissions." },
+    { code: "B2B-104", name: "Pranab Barman", company_name: "Brahmaputra Educational Affiliates", email: "pranab@brahmaputraedu.org", phone: "+91 94350 77112", city: "Guwahati", branch: "Guwahati HQ", profit_share_type: "flat_rate", partner_share_pct: 20, admin_share_pct: 80, flat_rate_amount: 20000, tier: "Associate Partner (20%)", status: "Active", total_students: 4, total_revenue: 320000, partner_earnings: 80000, admin_earnings: 240000, payout_balance: 10000, notes: "North-East regional affiliate focusing on UK foundation courses." },
+  ];
+  const b2cPartners = [
+    { code: "B2C-201", name: "Aarav Sharma", ambassador_type: "Student Ambassador", email: "aarav.sharma@gmail.com", phone: "+91 98640 11223", city: "Guwahati", branch: "Guwahati HQ", reward_type: "flat_rate", reward_amount: 15000, reward_pct: 10, tier: "Gold Ambassador", status: "Active", total_referrals: 6, successful_admissions: 4, total_earnings: 60000, payout_balance: 15000, payout_mode: "UPI (aarav@oksbi)", notes: "University of Toronto 3rd year student. Highly active on Instagram." },
+    { code: "B2C-202", name: "Pooja Das", ambassador_type: "Campus Influencer", email: "pooja.das@cotton.edu", phone: "+91 98540 99881", city: "Guwahati", branch: "Guwahati HQ", reward_type: "flat_rate", reward_amount: 15000, reward_pct: 10, tier: "Silver Ambassador", status: "Active", total_referrals: 5, successful_admissions: 3, total_earnings: 45000, payout_balance: 0, payout_mode: "Bank NEFT (HDFC 4921)", notes: "President of student council at Cotton University." },
+    { code: "B2C-203", name: "Rohan Varma", ambassador_type: "Freelance Counselor", email: "rohan.varma@counsel.me", phone: "+91 98200 33445", city: "Mumbai", branch: "Mumbai", reward_type: "percentage", reward_amount: 20000, reward_pct: 12, tier: "Platinum Ambassador", status: "Active", total_referrals: 9, successful_admissions: 6, total_earnings: 95000, payout_balance: 25000, payout_mode: "UPI (rohan@icici)", notes: "Independent career mentor recommending students for overseas master's." },
+    { code: "B2C-204", name: "Tanvi Deshmukh", ambassador_type: "Alumni Ambassador", email: "tanvi.deshmukh@alumni.monash.edu", phone: "+91 98111 66554", city: "Pune", branch: "Mumbai", reward_type: "flat_rate", reward_amount: 15000, reward_pct: 10, tier: "Silver Ambassador", status: "Active", total_referrals: 3, successful_admissions: 2, total_earnings: 30000, payout_balance: 15000, payout_mode: "Bank NEFT (SBI 8820)", notes: "Monash University graduate helping local candidates with visa & admission advice." },
+  ];
+  return { students, leads, applications, universities, colleges, courses, indiaStudents, invoices, employees, approvals, referralStudents, commissions, paymentRequests, branches, travelDrivers, travelAgencies, travelBookings, b2bPartners, b2cPartners };
 }
 
-function seedMemory() {
-  const data = buildSeedData();
-  // helper to push into memory tables
-  const pushMany = (tbl: string, rows: any[]) => {
-    const m = getMemTable(tbl);
-    for (const r of rows) {
-      const id = r.id ?? r.code ?? r.req_id ?? r.inv_id ?? nextMemId(tbl);
-      const row = { ...r, id };
-      m.set(id, row);
-      if (r.code) m.set(r.code, row);
-      if (r.req_id) m.set(r.req_id, row);
-      if (r.inv_id) m.set(r.inv_id, row);
-      if (r.email && tbl === "users") m.set(r.email, row);
-    }
-  };
-  // seed users — pre-hashed admin123 (bcrypt 10 rounds)
-  const hash = "$2b$10$RMi2Kk9fjzFc68wCSK6F6us0RnJB56Z.JV4lWDfDEQ2xm9qNr0DzO";
-  pushMany("users", [
-    { id: 1, name: "Mohammad Iqbal", email: "admin@uniquesta.com", password_hash: hash, role: "super_admin", branch: "Guwahati HQ" },
-  ]);
-  pushMany("branches", data.branches.map((b,i)=>({ id:i+1, ...b })));
-  pushMany("students", data.students.map((s,i)=>({ id:i+1, ...s })));
-  pushMany("leads", data.leads.map((l,i)=>({ id:i+1, ...l })));
-  pushMany("applications", data.applications.map((a,i)=>({ id:i+1, ...a })));
-  pushMany("universities", data.universities.map((u,i)=>({ id:i+1, ...u })));
-  pushMany("colleges", data.colleges.map((c,i)=>({ id:i+1, ...c, courses_offered: c.coursesOffered })));
-  pushMany("courses", data.courses.map((c,i)=>({ id:i+1, ...c })));
-  pushMany("india_students", data.indiaStudents.map((s,i)=>({ id:i+1, ...s })));
-  pushMany("invoices", data.invoices.map((inv,i)=>({ id:i+1, ...inv })));
-  pushMany("employees", data.employees.map((e,i)=>({ id:i+1, ...e })));
-  // approvals with steps stored separately
-  data.approvals.forEach((ap,i)=>{
-    const aid = i+1;
-    pushMany("approvals", [{ id: aid, ...ap }]);
-    ap.steps.forEach((st, idx)=>{
-      pushMany("approval_steps", [{ id: idx+1 + i*10, approval_id: aid, ...st }]);
-    });
-  });
-  pushMany("referral_students", data.referralStudents.map((r,i)=>({ id:i+1, ...r })));
-  pushMany("commissions", data.commissions.map((c,i)=>({ id:i+1, ...c })));
-  pushMany("payment_requests", data.paymentRequests.map((p,i)=>({ id:i+1, ...p })));
-  pushMany("travel_drivers", data.travelDrivers.map((d,i)=>({ id:i+1, ...d })));
-  pushMany("travel_agencies", data.travelAgencies.map((a,i)=>({ id:i+1, ...a })));
-  pushMany("travel_bookings", data.travelBookings.map((b,i)=>({ id:i+1, ...b })));
-  pushMany("settings", [{ id:1, legal_name:"Uniquesta Overseas Pvt Ltd", support_email:"care@uniquesta.com", two_factor:true, whatsapp_notify:true }]);
-  // ensure seq counters beyond inserted
-  for (const k of Object.keys(memSeq)) {
-    const tbl = memStore[k];
-    if (tbl) memSeq[k] = tbl.size + 10;
-  }
-}
+// seedMemory removed — in-memory fallback disabled

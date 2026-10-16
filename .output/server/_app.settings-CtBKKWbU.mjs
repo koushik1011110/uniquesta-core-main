@@ -1,0 +1,2965 @@
+import { o as __toESM } from "./_runtime.mjs";
+import { u as require_react } from "./_libs/@floating-ui/react-dom+[...].mjs";
+import { t as require_jsx_dev_runtime } from "./_libs/react.mjs";
+import { i as useQueryClient, n as useQuery, t as useMutation } from "./_libs/tanstack__react-query.mjs";
+import { A as Plug, Gt as Bell, H as MessageSquare, J as LoaderCircle, R as Palette, S as Send, T as RotateCcw, Vt as Building2, _ as ShieldCheck, g as Shield, it as Globe, r as Users, vt as CreditCard, w as Save, x as Server } from "./_libs/lucide-react.mjs";
+import { t as toast } from "./_libs/sonner.mjs";
+import { B as CardTitle, F as Badge, I as Card, L as CardContent, R as CardDescription, S as Input, U as Button, V as PageHeader, W as cn, d as SelectItem, f as SelectTrigger, k as api, l as Select, p as SelectValue, u as SelectContent, x as Label, z as CardHeader } from "./_ssr/router-CN9U7rpL.mjs";
+import { n as SwitchThumb, t as Switch$1 } from "./_libs/radix-ui__react-switch.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/_app.settings-CtBKKWbU.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_dev_runtime = require_jsx_dev_runtime();
+var _jsxFileName$1 = "D:/React APP/uniquesta-core-main/src/components/ui/switch.tsx";
+var Switch = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Switch$1, {
+	className: cn("peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input", className),
+	...props,
+	ref,
+	children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SwitchThumb, { className: cn("pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0") }, void 0, false, {
+		fileName: _jsxFileName$1,
+		lineNumber: 18,
+		columnNumber: 5
+	}, void 0)
+}, void 0, false, {
+	fileName: _jsxFileName$1,
+	lineNumber: 10,
+	columnNumber: 3
+}, void 0));
+Switch.displayName = Switch$1.displayName;
+var _jsxFileName = "D:/React APP/uniquesta-core-main/src/routes/_app.settings.tsx?tsr-split=component";
+var SETTING_GROUPS = [
+	{
+		id: "organisation",
+		title: "Organisation & Entity",
+		desc: "Legal entity, CIN, GST profiles, headquarters & branches",
+		icon: Building2,
+		badge: "Core"
+	},
+	{
+		id: "roles",
+		title: "Roles & Permissions",
+		desc: "12 system roles, granular department permission matrix",
+		icon: Users,
+		badge: "Access"
+	},
+	{
+		id: "security",
+		title: "Security & Compliance",
+		desc: "2FA enforcement, session timeout, IP restriction & DPDP",
+		icon: Shield,
+		badge: "Protected"
+	},
+	{
+		id: "notifications",
+		title: "Notifications Engine",
+		desc: "WhatsApp Cloud API, SMS gateway, automated event triggers",
+		icon: Bell,
+		badge: "Automated"
+	},
+	{
+		id: "integrations",
+		title: "Integrations & API",
+		desc: "Meta Lead Ads, WhatsApp WABA, Zoom, Tally Prime, Webhooks",
+		icon: Plug,
+		badge: "Connected"
+	},
+	{
+		id: "branding",
+		title: "Branding & Appearance",
+		desc: "Brand identity, official colors, logos, signatures & themes",
+		icon: Palette,
+		badge: "Theme"
+	},
+	{
+		id: "billing",
+		title: "Subscription & License",
+		desc: "Enterprise license, 280 seats quota, storage allocation",
+		icon: CreditCard,
+		badge: "Enterprise"
+	},
+	{
+		id: "localisation",
+		title: "Localisation & Region",
+		desc: "Currency, timezones, fiscal year & Indian number systems",
+		icon: Globe,
+		badge: "Regional"
+	}
+];
+var ROLE_PROFILES = [
+	{
+		id: "super_admin",
+		name: "Super Administrator",
+		desc: "Full unrestricted access across all branches, finance, and system settings.",
+		usersCount: 2,
+		permissions: [
+			"students_view",
+			"students_edit",
+			"students_export",
+			"finance_view",
+			"finance_issue",
+			"finance_audit",
+			"approvals_signoff",
+			"approvals_release",
+			"travel_manage",
+			"travel_margins",
+			"settings_manage"
+		]
+	},
+	{
+		id: "branch_admin",
+		name: "Branch Administrator",
+		desc: "Manages regional branch counsellors, student admissions, and branch budgets.",
+		usersCount: 8,
+		permissions: [
+			"students_view",
+			"students_edit",
+			"students_export",
+			"finance_view",
+			"approvals_signoff",
+			"travel_manage"
+		]
+	},
+	{
+		id: "senior_counsellor",
+		name: "Senior Counsellor",
+		desc: "Conducts lead counselling, files international applications, verifies documents.",
+		usersCount: 14,
+		permissions: [
+			"students_view",
+			"students_edit",
+			"students_export",
+			"approvals_submit"
+		]
+	},
+	{
+		id: "counsellor",
+		name: "Admission Counsellor",
+		desc: "Assigned inbound leads, schedules calls, and guides student enrollment.",
+		usersCount: 18,
+		permissions: ["students_view", "students_edit"]
+	},
+	{
+		id: "visa_officer",
+		name: "Visa & Compliance Officer",
+		desc: "Manages embassy filings, CAS/COE compliance, and student visa documents.",
+		usersCount: 4,
+		permissions: ["students_view", "students_edit"]
+	},
+	{
+		id: "accounts_finance",
+		name: "Finance & Accounts Officer",
+		desc: "Audits fee receipts, reconciles partner payouts, and executes NEFT transfers.",
+		usersCount: 3,
+		permissions: [
+			"students_view",
+			"finance_view",
+			"finance_issue",
+			"finance_audit",
+			"approvals_release"
+		]
+	},
+	{
+		id: "travel_manager",
+		name: "Travel Fleet Manager",
+		desc: "Coordinates bus fleets, airport shuttles, driver rosters, and agency margins.",
+		usersCount: 3,
+		permissions: ["travel_manage", "travel_margins"]
+	}
+];
+var PERMISSION_DEFINITIONS = [
+	{
+		key: "students_view",
+		label: "View Student Records",
+		module: "Admissions"
+	},
+	{
+		key: "students_edit",
+		label: "Create & Edit Applications",
+		module: "Admissions"
+	},
+	{
+		key: "students_export",
+		label: "Export Student Data (CSV/PDF)",
+		module: "Admissions"
+	},
+	{
+		key: "finance_view",
+		label: "View Invoices & Fee Ledger",
+		module: "Finance"
+	},
+	{
+		key: "finance_issue",
+		label: "Generate Invoices & Receipts",
+		module: "Finance"
+	},
+	{
+		key: "finance_audit",
+		label: "Audit Financial Statements & P&L",
+		module: "Finance"
+	},
+	{
+		key: "approvals_submit",
+		label: "Submit Expense Requisitions",
+		module: "Approvals"
+	},
+	{
+		key: "approvals_signoff",
+		label: "Branch Sign-off Authority",
+		module: "Approvals"
+	},
+	{
+		key: "approvals_release",
+		label: "Executive Disbursement & Payout",
+		module: "Approvals"
+	},
+	{
+		key: "travel_manage",
+		label: "Manage Bookings & Assign Drivers",
+		module: "Tours & Travels"
+	},
+	{
+		key: "travel_margins",
+		label: "View & Override Admin Profit Margins",
+		module: "Tours & Travels"
+	},
+	{
+		key: "settings_manage",
+		label: "System Configuration & Integration Keys",
+		module: "Admin Settings"
+	}
+];
+function AdvancedSettingsPage() {
+	const qc = useQueryClient();
+	const [activeCategory, setActiveCategory] = (0, import_react.useState)("organisation");
+	const [selectedRole, setSelectedRole] = (0, import_react.useState)("super_admin");
+	const [hasChanges, setHasChanges] = (0, import_react.useState)(false);
+	const [form, setForm] = (0, import_react.useState)({
+		legal_name: "Uniquesta Overseas Education & Travels Pvt. Ltd.",
+		brand_name: "UniQuesta International",
+		cin: "U74999AS2024PTC021980",
+		gstin: "18AAACU9821K1ZM",
+		support_email: "care@uniquesta.com",
+		helpline_phone: "+91 98200 11111",
+		website: "https://uniquesta.com",
+		hq_address: "UniQuesta Tower, G.S. Road, Guwahati, Assam - 781005",
+		total_branches_count: 14,
+		two_factor: true,
+		session_timeout: "30_mins",
+		password_rotation_days: 90,
+		enforce_admin_ip_whitelist: false,
+		audit_trail_logging: true,
+		dpdp_compliance: true,
+		allow_export_data: true,
+		whatsapp_notify: true,
+		whatsapp_api_status: "connected",
+		student_welcome_sms: true,
+		fee_reminder_days: 3,
+		approval_urgent_alerts: true,
+		email_smtp_host: "smtp.sendgrid.net",
+		email_smtp_port: 587,
+		email_from_address: "notifications@uniquesta.com",
+		meta_leads_webhook_enabled: true,
+		meta_pixel_id: "8992019482103",
+		zoom_auto_meeting: true,
+		tally_sync_enabled: true,
+		cloud_storage_provider: "aws_s3",
+		cloud_bucket_name: "uniquesta-student-vault-ap-south-1",
+		webhook_url: "https://api.uniquesta.com/v1/webhooks/admissions",
+		brand_color: "#E52E20",
+		brand_slogan: "Trusted Pathway to Global Success",
+		dark_mode_preference: "system",
+		counselor_signature_suffix: "UniQuesta Global Education Specialist",
+		plan_tier: "Enterprise Multi-Branch License",
+		licensed_seats: 280,
+		allocated_storage_gb: 500,
+		timezone: "Asia/Kolkata",
+		date_format: "DD/MM/YYYY",
+		number_format: "indian",
+		currency: "INR",
+		fiscal_year_start: "April 1"
+	});
+	const [rolePermissions, setRolePermissions] = (0, import_react.useState)(() => {
+		const initial = {};
+		ROLE_PROFILES.forEach((r) => {
+			initial[r.id] = [...r.permissions];
+		});
+		return initial;
+	});
+	const { data, isLoading } = useQuery({
+		queryKey: ["settings"],
+		queryFn: async () => {
+			try {
+				const res = await api.get("/settings");
+				return res.data ?? res ?? {};
+			} catch {
+				return {};
+			}
+		}
+	});
+	(0, import_react.useEffect)(() => {
+		if (data && typeof data === "object") setForm((prev) => ({
+			...prev,
+			legal_name: data.legal_name ?? prev.legal_name,
+			support_email: data.support_email ?? prev.support_email,
+			two_factor: data.two_factor !== void 0 ? !!data.two_factor : prev.two_factor,
+			whatsapp_notify: data.whatsapp_notify !== void 0 ? !!data.whatsapp_notify : prev.whatsapp_notify,
+			brand_name: data.brand_name ?? prev.brand_name,
+			cin: data.cin ?? prev.cin,
+			gstin: data.gstin ?? prev.gstin,
+			helpline_phone: data.helpline_phone ?? prev.helpline_phone,
+			website: data.website ?? prev.website,
+			hq_address: data.hq_address ?? prev.hq_address,
+			brand_color: data.brand_color ?? prev.brand_color,
+			timezone: data.timezone ?? prev.timezone,
+			currency: data.currency ?? prev.currency,
+			webhook_url: data.webhook_url ?? prev.webhook_url
+		}));
+	}, [data]);
+	const updateField = (key, val) => {
+		setForm((prev) => ({
+			...prev,
+			[key]: val
+		}));
+		setHasChanges(true);
+	};
+	const togglePermission = (roleId, permKey) => {
+		setRolePermissions((prev) => {
+			const current = prev[roleId] || [];
+			const updated = current.includes(permKey) ? current.filter((k) => k !== permKey) : [...current, permKey];
+			return {
+				...prev,
+				[roleId]: updated
+			};
+		});
+		setHasChanges(true);
+	};
+	const saveMutation = useMutation({
+		mutationFn: async () => {
+			return api.put("/settings", {
+				...form,
+				role_permissions: rolePermissions
+			});
+		},
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["settings"] });
+			setHasChanges(false);
+			toast.success("Settings saved successfully", { description: "All enterprise system configurations are now active." });
+		},
+		onError: (err) => {
+			toast.error("Failed to save settings: " + (err.message || "Unknown error"));
+		}
+	});
+	const handleTestPing = () => {
+		toast.promise(new Promise((resolve) => setTimeout(resolve, 1200)), {
+			loading: "Testing integration webhook endpoint...",
+			success: "HTTP 200 OK — Webhook received payload successfully!",
+			error: "Webhook test failed"
+		});
+	};
+	return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+		className: "space-y-6 pb-20",
+		children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(PageHeader, {
+			title: "Settings & Workspace Configuration",
+			description: "Enterprise settings, multi-branch hierarchy, granular role access, security policies, and integrations.",
+			actions: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "flex items-center gap-2",
+				children: [
+					hasChanges && /* @__PURE__ */ (void 0)(Badge, {
+						variant: "outline",
+						className: "text-xs bg-amber-500/10 text-amber-600 border-amber-300",
+						children: "Unsaved Changes"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 317,
+						columnNumber: 28
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => {
+							qc.invalidateQueries({ queryKey: ["settings"] });
+							setHasChanges(false);
+							toast.info("Settings reset to current server state");
+						},
+						className: "rounded-lg gap-1.5",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(RotateCcw, { className: "h-4 w-4" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 327,
+							columnNumber: 15
+						}, this), " Reset"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 320,
+						columnNumber: 13
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						onClick: () => saveMutation.mutate(),
+						disabled: saveMutation.isPending,
+						className: "rounded-lg bg-primary text-primary-foreground gap-1.5 shadow-sm",
+						children: [saveMutation.isPending ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LoaderCircle, { className: "h-4 w-4 animate-spin" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 330,
+							columnNumber: 41
+						}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Save, { className: "h-4 w-4" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 330,
+							columnNumber: 88
+						}, this), "Save All Changes"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 329,
+						columnNumber: 13
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 316,
+				columnNumber: 189
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 316,
+			columnNumber: 7
+		}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+			className: "grid gap-6 lg:grid-cols-12 items-start",
+			children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "lg:col-span-4 space-y-2",
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+					className: "rounded-2xl border shadow-sm p-2 bg-card/60 backdrop-blur",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider",
+						children: "Settings Directory"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 342,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "space-y-1",
+						children: SETTING_GROUPS.map((g) => {
+							const isActive = activeCategory === g.id;
+							return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+								onClick: () => setActiveCategory(g.id),
+								className: `w-full flex items-start gap-3 rounded-xl p-3 text-left transition cursor-pointer ${isActive ? "bg-primary text-primary-foreground shadow-sm" : "hover:bg-muted/60 text-foreground"}`,
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: `grid h-9 w-9 shrink-0 place-items-center rounded-lg ${isActive ? "bg-white/20 text-white" : "bg-primary-soft text-primary dark:bg-muted"}`,
+									children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(g.icon, { className: "h-4 w-4" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 350,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 349,
+									columnNumber: 21
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "min-w-0 flex-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex items-center justify-between",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+											className: "text-sm font-semibold truncate",
+											children: g.title
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 354,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+											className: `text-[10px] px-1.5 py-0.5 rounded font-medium ${isActive ? "bg-white/20 text-white" : "bg-muted text-muted-foreground"}`,
+											children: g.badge
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 355,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 353,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+										className: `text-xs mt-0.5 line-clamp-1 ${isActive ? "text-white/80" : "text-muted-foreground"}`,
+										children: g.desc
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 359,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 352,
+									columnNumber: 21
+								}, this)]
+							}, g.id, true, {
+								fileName: _jsxFileName,
+								lineNumber: 348,
+								columnNumber: 22
+							}, this);
+						})
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 345,
+						columnNumber: 13
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 341,
+					columnNumber: 11
+				}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+					className: "rounded-2xl border p-4 bg-muted/30",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "flex items-center gap-2 text-xs font-semibold text-foreground",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Server, { className: "h-4 w-4 text-emerald-500" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 371,
+							columnNumber: 15
+						}, this), " System Engine Status"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 370,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "mt-2 space-y-1.5 text-xs text-muted-foreground",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "flex justify-between",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Database Sync:" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 375,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "font-semibold text-emerald-600",
+									children: "Active (MySQL / Mem)"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 376,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 374,
+								columnNumber: 15
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "flex justify-between",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Active Branches:" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 379,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "font-semibold text-foreground",
+									children: [form.total_branches_count, " Hubs"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 380,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 378,
+								columnNumber: 15
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "flex justify-between",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "WhatsApp API:" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 383,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "font-semibold text-emerald-600",
+									children: "Connected"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 384,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 382,
+								columnNumber: 15
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "flex justify-between",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Cloud Storage:" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 387,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "font-semibold text-foreground",
+									children: "AWS S3 (Mumbai)"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 388,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 386,
+								columnNumber: 15
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 373,
+						columnNumber: 13
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 369,
+					columnNumber: 11
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 340,
+				columnNumber: 9
+			}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "lg:col-span-8",
+				children: isLoading ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+					className: "rounded-2xl border p-12 text-center",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LoaderCircle, { className: "h-8 w-8 animate-spin mx-auto text-primary" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 397,
+						columnNumber: 15
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+						className: "mt-3 text-sm text-muted-foreground",
+						children: "Loading workspace settings..."
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 398,
+						columnNumber: 15
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 396,
+					columnNumber: 24
+				}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [
+					activeCategory === "organisation" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-primary-soft text-primary",
+										children: /* @__PURE__ */ (void 0)(Building2, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 408,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 407,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Organisation & Entity Profile"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 411,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Legal entity credentials, corporate registration, and branch setup."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 412,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 410,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 406,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs",
+									children: "14 Branches Active"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 417,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 405,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 404,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "grid gap-4 sm:grid-cols-2",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold",
+												children: "Legal Company Name"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 425,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Input, {
+												value: form.legal_name,
+												onChange: (e) => updateField("legal_name", e.target.value),
+												className: "rounded-xl h-10"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 426,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 424,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold",
+												children: "Public Brand Name"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 429,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Input, {
+												value: form.brand_name,
+												onChange: (e) => updateField("brand_name", e.target.value),
+												className: "rounded-xl h-10"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 430,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 428,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold",
+												children: "Corporate CIN / Reg Number"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 433,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Input, {
+												value: form.cin,
+												onChange: (e) => updateField("cin", e.target.value),
+												className: "rounded-xl h-10 font-mono text-xs"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 434,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 432,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold",
+												children: "GSTIN Tax Registration"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 437,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Input, {
+												value: form.gstin,
+												onChange: (e) => updateField("gstin", e.target.value),
+												className: "rounded-xl h-10 font-mono text-xs"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 438,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 436,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold",
+												children: "Central Support Email"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 441,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Input, {
+												value: form.support_email,
+												onChange: (e) => updateField("support_email", e.target.value),
+												className: "rounded-xl h-10"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 442,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 440,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold",
+												children: "Official Helpline Phone"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 445,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Input, {
+												value: form.helpline_phone,
+												onChange: (e) => updateField("helpline_phone", e.target.value),
+												className: "rounded-xl h-10 font-mono text-xs"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 446,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 444,
+											columnNumber: 23
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 423,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "space-y-1.5",
+									children: [/* @__PURE__ */ (void 0)(Label, {
+										className: "text-xs font-semibold",
+										children: "Headquarters Address"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 451,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)(Input, {
+										value: form.hq_address,
+										onChange: (e) => updateField("hq_address", e.target.value),
+										className: "rounded-xl h-10"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 452,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 450,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "rounded-xl border p-4 bg-muted/20 space-y-3",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "flex items-center justify-between",
+										children: [/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center gap-2",
+											children: [/* @__PURE__ */ (void 0)(Building2, { className: "h-4 w-4 text-primary" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 458,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("span", {
+												className: "text-sm font-semibold",
+												children: "National Branch Network"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 459,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 457,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Badge, {
+											variant: "secondary",
+											className: "text-xs",
+											children: [form.total_branches_count, " Registered Offices"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 461,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 456,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)("p", {
+										className: "text-xs text-muted-foreground",
+										children: "Guwahati HQ, Mumbai (Andheri West), Delhi NCR, Bengaluru, Hyderabad, Kolkata, Kochi, Chandigarh, Ahmedabad, Pune, Jaipur, Chennai, Silchar, and Shillong."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 465,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 455,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 473,
+											columnNumber: 25
+										}, this), " Save Organisation Details"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 472,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 471,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 422,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 403,
+						columnNumber: 53
+					}, this),
+					activeCategory === "roles" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-300",
+										children: /* @__PURE__ */ (void 0)(Users, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 487,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 486,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Roles & Permission Matrix"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 490,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Select a system role to view and customize granular authority."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 491,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 489,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 485,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs",
+									children: "7 Standard Roles"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 496,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 484,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 483,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-6 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex flex-wrap gap-2",
+									children: ROLE_PROFILES.map((role) => /* @__PURE__ */ (void 0)("button", {
+										onClick: () => setSelectedRole(role.id),
+										className: `rounded-xl px-3 py-1.5 text-xs font-medium transition cursor-pointer border ${selectedRole === role.id ? "bg-primary text-primary-foreground border-primary shadow-sm" : "bg-background text-foreground hover:bg-muted border-border"}`,
+										children: [
+											role.name,
+											" (",
+											role.usersCount,
+											")"
+										]
+									}, role.id, true, {
+										fileName: _jsxFileName,
+										lineNumber: 504,
+										columnNumber: 50
+									}, this))
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 503,
+									columnNumber: 21
+								}, this),
+								(() => {
+									const currentRole = ROLE_PROFILES.find((r) => r.id === selectedRole) || ROLE_PROFILES[0];
+									const activePerms = rolePermissions[selectedRole] || [];
+									return /* @__PURE__ */ (void 0)("div", {
+										className: "space-y-4",
+										children: [/* @__PURE__ */ (void 0)("div", {
+											className: "rounded-xl border p-3.5 bg-muted/20 flex items-center justify-between",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "font-semibold text-sm text-foreground",
+												children: currentRole.name
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 516,
+												columnNumber: 31
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground mt-0.5",
+												children: currentRole.desc
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 519,
+												columnNumber: 31
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 515,
+												columnNumber: 29
+											}, this), /* @__PURE__ */ (void 0)(Badge, {
+												variant: "secondary",
+												className: "text-xs",
+												children: [
+													activePerms.length,
+													" of ",
+													PERMISSION_DEFINITIONS.length,
+													" Permissions"
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 523,
+												columnNumber: 29
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 514,
+											columnNumber: 27
+										}, this), /* @__PURE__ */ (void 0)("div", {
+											className: "space-y-2",
+											children: [/* @__PURE__ */ (void 0)(Label, {
+												className: "text-xs font-semibold uppercase tracking-wider text-muted-foreground",
+												children: "Permission Checklist (Click to Toggle)"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 529,
+												columnNumber: 29
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "grid gap-2.5 sm:grid-cols-2",
+												children: PERMISSION_DEFINITIONS.map((perm) => {
+													const hasPerm = activePerms.includes(perm.key);
+													return /* @__PURE__ */ (void 0)("div", {
+														onClick: () => togglePermission(selectedRole, perm.key),
+														className: `flex items-center justify-between p-3 rounded-xl border transition cursor-pointer ${hasPerm ? "border-primary/40 bg-primary-soft/30 dark:bg-primary-soft/10" : "border-border bg-card hover:bg-muted/30 opacity-70"}`,
+														children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+															className: "text-xs font-semibold text-foreground",
+															children: perm.label
+														}, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 537,
+															columnNumber: 39
+														}, this), /* @__PURE__ */ (void 0)("div", {
+															className: "text-[10px] text-muted-foreground",
+															children: ["Module: ", perm.module]
+														}, void 0, true, {
+															fileName: _jsxFileName,
+															lineNumber: 540,
+															columnNumber: 39
+														}, this)] }, void 0, true, {
+															fileName: _jsxFileName,
+															lineNumber: 536,
+															columnNumber: 37
+														}, this), /* @__PURE__ */ (void 0)(Switch, { checked: hasPerm }, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 544,
+															columnNumber: 37
+														}, this)]
+													}, perm.key, true, {
+														fileName: _jsxFileName,
+														lineNumber: 535,
+														columnNumber: 32
+													}, this);
+												})
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 532,
+												columnNumber: 29
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 528,
+											columnNumber: 27
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 513,
+										columnNumber: 24
+									}, this);
+								})(),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 554,
+											columnNumber: 25
+										}, this), " Save Role Permissions"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 553,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 552,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 501,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 482,
+						columnNumber: 46
+					}, this),
+					activeCategory === "security" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300",
+										children: /* @__PURE__ */ (void 0)(ShieldCheck, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 568,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 567,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Security, Access & DPDP Compliance"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 571,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Authentication guards, session management, and data protection policies."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 572,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 570,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 566,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs text-emerald-600 border-emerald-300",
+									children: "High Security"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 577,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 565,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 564,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "space-y-3",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Two-Factor Authentication (2FA)"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 586,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Mandatory OTP verification required for Super Admins, Branch Managers, and Finance roles."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 587,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 585,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.two_factor,
+												onCheckedChange: (v) => updateField("two_factor", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 591,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 584,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "DPDP 2023 Student Data Privacy"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 596,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Enforces academic consent verification and anonymization of expired lead records."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 597,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 595,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.dpdp_compliance,
+												onCheckedChange: (v) => updateField("dpdp_compliance", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 601,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 594,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Real-Time Audit Trail Logging"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 606,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Captures every student record edit, invoice alteration, and approval action with IP timestamp."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 607,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 605,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.audit_trail_logging,
+												onCheckedChange: (v) => updateField("audit_trail_logging", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 611,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 604,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Allow CSV & Report Exports"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 616,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Permits authorized staff to download CSV reports from Reports & Analytics."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 617,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 615,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.allow_export_data,
+												onCheckedChange: (v) => updateField("allow_export_data", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 621,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 614,
+											columnNumber: 23
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 583,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "grid gap-4 sm:grid-cols-2 pt-2",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Session Inactivity Timeout"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 627,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Select, {
+											value: form.session_timeout,
+											onValueChange: (v) => updateField("session_timeout", v),
+											children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+												className: "rounded-xl h-10",
+												children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Session Timeout" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 630,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 629,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "15_mins",
+													children: "15 Minutes"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 633,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "30_mins",
+													children: "30 Minutes (Recommended)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 634,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "1_hour",
+													children: "1 Hour"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 635,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "8_hours",
+													children: "8 Hours (Full Shift)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 636,
+													columnNumber: 29
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 632,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 628,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 626,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Password Rotation Interval"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 642,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Select, {
+											value: String(form.password_rotation_days),
+											onValueChange: (v) => updateField("password_rotation_days", parseInt(v, 10)),
+											children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+												className: "rounded-xl h-10",
+												children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Password Expiry" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 645,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 644,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "60",
+													children: "Every 60 Days"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 648,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "90",
+													children: "Every 90 Days"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 649,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "180",
+													children: "Every 180 Days"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 650,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "0",
+													children: "Never Expire"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 651,
+													columnNumber: 29
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 647,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 643,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 641,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 625,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 659,
+											columnNumber: 25
+										}, this), " Save Security Policies"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 658,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 657,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 582,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 563,
+						columnNumber: 49
+					}, this),
+					activeCategory === "notifications" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300",
+										children: /* @__PURE__ */ (void 0)(Bell, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 673,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 672,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Notifications & Communications Engine"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 676,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Meta WhatsApp Cloud API, automated student SMS, and staff notification triggers."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 677,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 675,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 671,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs text-blue-600 border-blue-300",
+									children: "Multi-Channel"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 682,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 670,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 669,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "space-y-3",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4 bg-emerald-50/20 dark:bg-emerald-950/10",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold flex items-center gap-2",
+												children: [/* @__PURE__ */ (void 0)(MessageSquare, { className: "h-4 w-4 text-emerald-600" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 692,
+													columnNumber: 29
+												}, this), " WhatsApp Cloud API Alerts"]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 691,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground mt-0.5",
+												children: "Automated delivery of application progress, offer letters, and fee receipts to students."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 694,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 690,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.whatsapp_notify,
+												onCheckedChange: (v) => updateField("whatsapp_notify", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 698,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 689,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Immediate Welcome Message on New Enquiry"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 703,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Dispatches counselor greeting & introductory brochures as soon as lead registers."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 704,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 702,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.student_welcome_sms,
+												onCheckedChange: (v) => updateField("student_welcome_sms", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 708,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 701,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Urgent Approval Telegram / Mobile Push"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 713,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Notifies Branch Managers & Executive Sign-off officers when expense vouchers are submitted."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 714,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 712,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.approval_urgent_alerts,
+												onCheckedChange: (v) => updateField("approval_urgent_alerts", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 718,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 711,
+											columnNumber: 23
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 688,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "grid gap-4 sm:grid-cols-2 pt-2",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Outgoing Email SMTP Host"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 724,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Input, {
+											value: form.email_smtp_host,
+											onChange: (e) => updateField("email_smtp_host", e.target.value),
+											className: "rounded-xl h-10 font-mono text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 725,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 723,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "From Email Address"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 728,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Input, {
+											value: form.email_from_address,
+											onChange: (e) => updateField("email_from_address", e.target.value),
+											className: "rounded-xl h-10 text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 729,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 727,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 722,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 735,
+											columnNumber: 25
+										}, this), " Save Notification Rules"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 734,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 733,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 687,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 668,
+						columnNumber: 54
+					}, this),
+					activeCategory === "integrations" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-300",
+										children: /* @__PURE__ */ (void 0)(Plug, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 749,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 748,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Integrations & API Webhooks"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 752,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Meta Lead Ads, Tally Prime accounting sync, Zoom counseling, and cloud webhooks."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 753,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 751,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 747,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs text-amber-600 border-amber-300",
+									children: "Live Sync"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 758,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 746,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 745,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "space-y-3",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Meta (Facebook & Instagram) Lead Ads"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 767,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Automatically ingest leads from education campaign forms straight into UniQuesta CRM."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 768,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 766,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.meta_leads_webhook_enabled,
+												onCheckedChange: (v) => updateField("meta_leads_webhook_enabled", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 772,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 765,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Zoom & Google Meet Auto-Scheduler"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 777,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Generates direct virtual counseling room links when student books an appointment."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 778,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 776,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.zoom_auto_meeting,
+												onCheckedChange: (v) => updateField("zoom_auto_meeting", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 782,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 775,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between rounded-xl border p-4",
+											children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-semibold",
+												children: "Tally Prime / Accounting XML Export"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 787,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-xs text-muted-foreground",
+												children: "Syncs paid tuition invoices and approved voucher vouchers with Tally Prime ledgers."
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 788,
+												columnNumber: 27
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 786,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (void 0)(Switch, {
+												checked: form.tally_sync_enabled,
+												onCheckedChange: (v) => updateField("tally_sync_enabled", v)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 792,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 785,
+											columnNumber: 23
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 764,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "space-y-2 pt-2",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "flex items-center justify-between",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Production Inbound Webhook Endpoint"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 798,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Button, {
+											variant: "ghost",
+											size: "sm",
+											onClick: handleTestPing,
+											className: "h-7 text-xs text-primary gap-1",
+											children: [/* @__PURE__ */ (void 0)(Send, { className: "h-3 w-3" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 800,
+												columnNumber: 27
+											}, this), " Test Webhook Ping"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 799,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 797,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)(Input, {
+										value: form.webhook_url,
+										onChange: (e) => updateField("webhook_url", e.target.value),
+										className: "rounded-xl h-10 font-mono text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 803,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 796,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 808,
+											columnNumber: 25
+										}, this), " Save Integration Keys"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 807,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 806,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 763,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 744,
+						columnNumber: 53
+					}, this),
+					activeCategory === "branding" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300",
+										children: /* @__PURE__ */ (void 0)(Palette, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 822,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 821,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Branding & Corporate Identity"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 825,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Accent colors, brand slogans, portal signatures, and design theme preferences."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 826,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 824,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 820,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs",
+									children: "Customizable"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 831,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 819,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 818,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "space-y-2",
+									children: [/* @__PURE__ */ (void 0)(Label, {
+										className: "text-xs font-semibold",
+										children: "Primary Brand Theme Accent Color"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 838,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "flex flex-wrap gap-3 items-center",
+										children: [
+											{
+												name: "UniQuesta Red",
+												color: "#E52E20"
+											},
+											{
+												name: "Royal Navy",
+												color: "#1E40AF"
+											},
+											{
+												name: "Emerald Forest",
+												color: "#059669"
+											},
+											{
+												name: "Regal Purple",
+												color: "#7C3AED"
+											},
+											{
+												name: "Sunset Gold",
+												color: "#D97706"
+											}
+										].map((c) => /* @__PURE__ */ (void 0)("button", {
+											onClick: () => updateField("brand_color", c.color),
+											className: `flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-medium transition cursor-pointer ${form.brand_color === c.color ? "border-foreground bg-muted font-bold" : "hover:bg-muted/50"}`,
+											children: [/* @__PURE__ */ (void 0)("span", {
+												className: "h-4 w-4 rounded-full border border-black/10 shrink-0",
+												style: { backgroundColor: c.color }
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 856,
+												columnNumber: 29
+											}, this), c.name]
+										}, c.color, true, {
+											fileName: _jsxFileName,
+											lineNumber: 855,
+											columnNumber: 31
+										}, this))
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 839,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 837,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "grid gap-4 sm:grid-cols-2 pt-2",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Brand Tagline / Slogan"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 866,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Input, {
+											value: form.brand_slogan,
+											onChange: (e) => updateField("brand_slogan", e.target.value),
+											className: "rounded-xl h-10"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 867,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 865,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Counselor Signature Designation"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 870,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Input, {
+											value: form.counselor_signature_suffix,
+											onChange: (e) => updateField("counselor_signature_suffix", e.target.value),
+											className: "rounded-xl h-10"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 871,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 869,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 864,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "rounded-xl border p-4 bg-muted/20",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2",
+										children: "Live Preview: Student Portal Brand Header"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 876,
+										columnNumber: 23
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "rounded-lg border bg-card p-3 flex items-center justify-between",
+										children: [/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center gap-3",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "h-8 w-8 rounded-lg flex items-center justify-center text-white font-bold text-sm",
+												style: { backgroundColor: form.brand_color },
+												children: "UQ"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 881,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-sm font-bold text-foreground",
+												children: form.brand_name
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 887,
+												columnNumber: 29
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "text-[11px] text-muted-foreground",
+												children: form.brand_slogan
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 888,
+												columnNumber: 29
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 886,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 880,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Badge, {
+											variant: "outline",
+											className: "text-[10px]",
+											children: "Verified Brand"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 891,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 879,
+										columnNumber: 23
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 875,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 899,
+											columnNumber: 25
+										}, this), " Save Brand Styling"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 898,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 897,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 836,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 817,
+						columnNumber: 49
+					}, this),
+					activeCategory === "billing" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300",
+										children: /* @__PURE__ */ (void 0)(CreditCard, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 913,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 912,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Subscription & Enterprise License"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 916,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Active tier, seats quota, storage usage, and contractual service agreements."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 917,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 915,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 911,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									className: "bg-emerald-600 text-white text-xs",
+									children: "Active & Paid"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 922,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 910,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 909,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "grid gap-4 sm:grid-cols-3",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "rounded-xl border p-4 bg-muted/20",
+											children: [
+												/* @__PURE__ */ (void 0)("span", {
+													className: "text-xs text-muted-foreground font-medium",
+													children: "Licensed Plan"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 930,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (void 0)("div", {
+													className: "text-base font-bold text-foreground mt-1",
+													children: "Enterprise Core"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 931,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (void 0)("p", {
+													className: "text-[11px] text-emerald-600 font-medium mt-0.5",
+													children: "Multi-branch deployment"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 932,
+													columnNumber: 25
+												}, this)
+											]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 929,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "rounded-xl border p-4 bg-muted/20",
+											children: [
+												/* @__PURE__ */ (void 0)("span", {
+													className: "text-xs text-muted-foreground font-medium",
+													children: "Staff Seats"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 935,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (void 0)("div", {
+													className: "text-base font-bold text-foreground mt-1",
+													children: ["42 / ", form.licensed_seats]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 936,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (void 0)("p", {
+													className: "text-[11px] text-muted-foreground mt-0.5",
+													children: "238 Seats Available"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 939,
+													columnNumber: 25
+												}, this)
+											]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 934,
+											columnNumber: 23
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "rounded-xl border p-4 bg-muted/20",
+											children: [
+												/* @__PURE__ */ (void 0)("span", {
+													className: "text-xs text-muted-foreground font-medium",
+													children: "Vault Storage"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 942,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (void 0)("div", {
+													className: "text-base font-bold text-foreground mt-1",
+													children: "38.4 GB / 500 GB"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 943,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (void 0)("p", {
+													className: "text-[11px] text-muted-foreground mt-0.5",
+													children: "7.6% Quota Used"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 944,
+													columnNumber: 25
+												}, this)
+											]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 941,
+											columnNumber: 23
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 928,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "rounded-xl border p-4 space-y-3",
+									children: /* @__PURE__ */ (void 0)("div", {
+										className: "flex items-center justify-between",
+										children: [/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+											className: "text-sm font-semibold",
+											children: "Annual Corporate Subscription Renewal"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 951,
+											columnNumber: 27
+										}, this), /* @__PURE__ */ (void 0)("div", {
+											className: "text-xs text-muted-foreground",
+											children: "Next renewal scheduled for March 31, 2027. Dedicated Enterprise Support SLA included."
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 952,
+											columnNumber: 27
+										}, this)] }, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 950,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Button, {
+											variant: "outline",
+											size: "sm",
+											onClick: () => toast.info("Downloading official GST license certificate..."),
+											className: "rounded-lg text-xs",
+											children: "GST Invoice Copy"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 956,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 949,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 948,
+									columnNumber: 21
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "flex justify-end pt-2",
+									children: /* @__PURE__ */ (void 0)(Button, {
+										onClick: () => saveMutation.mutate(),
+										disabled: saveMutation.isPending,
+										className: "rounded-xl text-xs gap-1.5",
+										children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 964,
+											columnNumber: 25
+										}, this), " Save License Allocation"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 963,
+										columnNumber: 23
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 962,
+									columnNumber: 21
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 927,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 908,
+						columnNumber: 48
+					}, this),
+					activeCategory === "localisation" && /* @__PURE__ */ (void 0)(Card, {
+						className: "rounded-2xl border shadow-soft",
+						children: [/* @__PURE__ */ (void 0)(CardHeader, {
+							className: "border-b pb-4",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-10 w-10 place-items-center rounded-xl bg-teal-100 text-teal-700 dark:bg-teal-900/60 dark:text-teal-300",
+										children: /* @__PURE__ */ (void 0)(Globe, { className: "h-5 w-5" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 978,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 977,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)(CardTitle, {
+										className: "text-lg",
+										children: "Localisation, Currency & Timezone"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 981,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)(CardDescription, {
+										className: "text-xs",
+										children: "Format preferences for dates, monetary values, and regional working cycles."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 982,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 980,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 976,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "text-xs",
+									children: "Asia / Kolkata (IST)"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 987,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 975,
+								columnNumber: 21
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 974,
+							columnNumber: 19
+						}, this), /* @__PURE__ */ (void 0)(CardContent, {
+							className: "space-y-5 p-6",
+							children: [/* @__PURE__ */ (void 0)("div", {
+								className: "grid gap-4 sm:grid-cols-2",
+								children: [
+									/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Standard Workspace Timezone"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 995,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Select, {
+											value: form.timezone,
+											onValueChange: (v) => updateField("timezone", v),
+											children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+												className: "rounded-xl h-10",
+												children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Timezone" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 998,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 997,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "Asia/Kolkata",
+													children: "Asia / Kolkata (GMT +5:30)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1001,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "UTC",
+													children: "Universal Coordinated Time (UTC)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1002,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "Europe/London",
+													children: "Europe / London (GMT +0 / BST)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1003,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "America/Toronto",
+													children: "America / Toronto (EST)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1004,
+													columnNumber: 29
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 1e3,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 996,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 994,
+										columnNumber: 23
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Primary Base Currency"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1010,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Select, {
+											value: form.currency,
+											onValueChange: (v) => updateField("currency", v),
+											children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+												className: "rounded-xl h-10",
+												children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Currency" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1013,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1012,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "INR",
+													children: "INR — Indian Rupee (₹)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1016,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "USD",
+													children: "USD — US Dollar ($)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1017,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "GBP",
+													children: "GBP — British Pound (£)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1018,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "EUR",
+													children: "EUR — Euro (€)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1019,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "CAD",
+													children: "CAD — Canadian Dollar (C$)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1020,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "AUD",
+													children: "AUD — Australian Dollar (A$)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1021,
+													columnNumber: 29
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 1015,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1011,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1009,
+										columnNumber: 23
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Date Display Format"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1027,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Select, {
+											value: form.date_format,
+											onValueChange: (v) => updateField("date_format", v),
+											children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+												className: "rounded-xl h-10",
+												children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Date Format" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1030,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1029,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "DD/MM/YYYY",
+													children: "DD/MM/YYYY (Indian Standard)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1033,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "YYYY-MM-DD",
+													children: "YYYY-MM-DD (ISO 8601)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1034,
+													columnNumber: 29
+												}, this),
+												/* @__PURE__ */ (void 0)(SelectItem, {
+													value: "MM/DD/YYYY",
+													children: "MM/DD/YYYY (US Format)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1035,
+													columnNumber: 29
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 1032,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1028,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1026,
+										columnNumber: 23
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "space-y-1.5",
+										children: [/* @__PURE__ */ (void 0)(Label, {
+											className: "text-xs font-semibold",
+											children: "Number Formatting Scheme"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1041,
+											columnNumber: 25
+										}, this), /* @__PURE__ */ (void 0)(Select, {
+											value: form.number_format,
+											onValueChange: (v) => updateField("number_format", v),
+											children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+												className: "rounded-xl h-10",
+												children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Number Format" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 1044,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1043,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [/* @__PURE__ */ (void 0)(SelectItem, {
+												value: "indian",
+												children: "Indian Lakhs & Crores (e.g. ₹ 10,50,000)"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1047,
+												columnNumber: 29
+											}, this), /* @__PURE__ */ (void 0)(SelectItem, {
+												value: "international",
+												children: "International Millions (e.g. $ 1,050,000)"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1048,
+												columnNumber: 29
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 1046,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1042,
+											columnNumber: 25
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1040,
+										columnNumber: 23
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 993,
+								columnNumber: 21
+							}, this), /* @__PURE__ */ (void 0)("div", {
+								className: "flex justify-end pt-2",
+								children: /* @__PURE__ */ (void 0)(Button, {
+									onClick: () => saveMutation.mutate(),
+									disabled: saveMutation.isPending,
+									className: "rounded-xl text-xs gap-1.5",
+									children: [/* @__PURE__ */ (void 0)(Save, { className: "h-4 w-4" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1056,
+										columnNumber: 25
+									}, this), " Save Localisation"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1055,
+									columnNumber: 23
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 1054,
+								columnNumber: 21
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 992,
+							columnNumber: 19
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 973,
+						columnNumber: 53
+					}, this)
+				] }, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 399,
+					columnNumber: 23
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 395,
+				columnNumber: 9
+			}, this)]
+		}, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 338,
+			columnNumber: 7
+		}, this)]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 312,
+		columnNumber: 10
+	}, this);
+}
+//#endregion
+export { AdvancedSettingsPage as component };

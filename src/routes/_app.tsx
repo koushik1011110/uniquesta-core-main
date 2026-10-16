@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { TopBar } from "@/components/top-bar";
+import { AiCopilotModal } from "@/components/ai-copilot-modal";
 import { isLoggedIn, getUser } from "@/lib/auth";
 import { api } from "@/lib/api";
 
@@ -55,6 +56,7 @@ function AppLayout() {
             </div>
           </main>
         </SidebarInset>
+        <AiCopilotModal />
       </div>
     </SidebarProvider>
   );

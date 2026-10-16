@@ -1,4 +1,4 @@
-import { Bell, Search, HelpCircle, Plus, ChevronDown, LogOut, CheckCheck, Inbox, ArrowRight } from "lucide-react";
+import { Bell, Search, HelpCircle, LogOut, CheckCheck, Inbox, ArrowRight, Sparkles, Crown, Building2, Users, Ticket, Bus } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { getUser, clearToken } from "@/lib/auth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { toast } from "sonner";
+import { openAiCopilot } from "@/lib/ai-assistant";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,11 +80,15 @@ export function TopBar() {
       <SidebarTrigger />
       <Separator orientation="vertical" className="h-6" />
 
-      <div className="relative hidden max-w-md flex-1 md:block">
-        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <div
+        onClick={() => openAiCopilot()}
+        className="relative hidden max-w-md flex-1 md:block cursor-pointer group"
+      >
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground group-hover:text-primary transition" />
         <Input
-          placeholder="Search students, leads, universities, invoices…"
-          className="h-10 rounded-xl border-border bg-muted/60 pl-9 focus-visible:bg-background"
+          readOnly
+          placeholder="Ask AI Copilot or search students, revenue, approvals…"
+          className="h-10 rounded-xl border-border bg-muted/60 pl-9 cursor-pointer group-hover:border-primary/40 focus-visible:bg-background"
         />
         <kbd className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 rounded border bg-background px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground lg:inline-block">
           ⌘K
@@ -91,11 +96,15 @@ export function TopBar() {
       </div>
 
       <div className="ml-auto flex items-center gap-2">
-        <Button variant="outline" size="sm" className="hidden rounded-lg lg:inline-flex" onClick={() => navigate({ to: "/approvals" })}>
-          <Plus className="h-4 w-4" /> New Expense
-        </Button>
-        <Button variant="ghost" size="icon" className="rounded-lg text-muted-foreground">
-          <HelpCircle className="h-5 w-5" />
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => openAiCopilot()}
+          className="rounded-xl gap-1.5 text-xs font-semibold bg-primary-soft text-primary hover:bg-primary hover:text-white transition shadow-2xs border-primary/20 cursor-pointer"
+        >
+          <Sparkles className="h-3.5 w-3.5 text-amber-500 animate-pulse" />
+          <span className="hidden sm:inline">Ask AI Copilot</span>
+          <span className="sm:hidden">AI</span>
         </Button>
 
         {/* Notifications Bell Dropdown */}
@@ -251,8 +260,27 @@ export function TopBar() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLogout} className="gap-2 text-destructive focus:text-destructive">
-              <LogOut className="h-4 w-4" /> Logout
+            <div className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+              Switch Login Portal
+            </div>
+            <DropdownMenuItem onClick={() => navigate({ to: "/super-admin-login" })} className="gap-2 text-xs cursor-pointer">
+              <Crown className="h-3.5 w-3.5 text-red-500" /> Super Admin Portal
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate({ to: "/office-login" })} className="gap-2 text-xs cursor-pointer">
+              <Building2 className="h-3.5 w-3.5 text-indigo-500" /> Office Admin Portal
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate({ to: "/staff-login" })} className="gap-2 text-xs cursor-pointer">
+              <Users className="h-3.5 w-3.5 text-emerald-500" /> Staff & Counsellor Portal
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate({ to: "/traveler-login" })} className="gap-2 text-xs cursor-pointer">
+              <Ticket className="h-3.5 w-3.5 text-blue-500" /> Traveler Boarding Pass
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate({ to: "/driver-login" })} className="gap-2 text-xs cursor-pointer">
+              <Bus className="h-3.5 w-3.5 text-amber-500" /> Driver Mobile Terminal
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleLogout} className="gap-2 text-destructive focus:text-destructive cursor-pointer">
+              <LogOut className="h-4 w-4" /> Logout Session
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

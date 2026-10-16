@@ -1,0 +1,629 @@
+import { o as __toESM } from "../_runtime.mjs";
+import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
+import { t as require_jsx_dev_runtime } from "../_libs/react.mjs";
+import { v as Link, y as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
+import { Bt as Bus, G as Mail, J as LoaderCircle, Vt as Building2, _ as ShieldCheck, _t as Crown, dt as EyeOff, pt as Earth, q as Lock, r as Users, u as Ticket, ut as Eye } from "../_libs/lucide-react.mjs";
+import { t as toast } from "../_libs/sonner.mjs";
+import { F as Badge, I as Card, L as CardContent, S as Input, U as Button, b as setUser, k as api, x as Label, y as setToken } from "./router-CN9U7rpL.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/super-admin-login-DpPPDoAI.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_dev_runtime = require_jsx_dev_runtime();
+var _jsxFileName = "D:/React APP/uniquesta-core-main/src/routes/super-admin-login.tsx?tsr-split=component";
+function SuperAdminLoginPage() {
+	const navigate = useNavigate();
+	const [show, setShow] = (0, import_react.useState)(false);
+	const [loading, setLoading] = (0, import_react.useState)(false);
+	const [form, setForm] = (0, import_react.useState)({
+		email: "admin@uniquesta.com",
+		password: "admin123"
+	});
+	const superAdminPresets = [{
+		name: "Mohammad Iqbal",
+		email: "admin@uniquesta.com",
+		pass: "admin123",
+		role: "CEO & Executive Sign-off",
+		branch: "Guwahati HQ",
+		scope: "Full 14 Branches · Organization-wide Authority"
+	}, {
+		name: "Vivek Ramanathan",
+		email: "director@uniquesta.com",
+		pass: "admin123",
+		role: "Director · Operations & Growth",
+		branch: "Guwahati HQ",
+		scope: "Executive Approvals · Financial Governance"
+	}];
+	const fillPreset = (email, pass) => {
+		setForm({
+			email,
+			password: pass
+		});
+		toast.info(`Loaded executive credentials for ${email}`);
+	};
+	const handleLogin = async (e) => {
+		e.preventDefault();
+		if (!form.email || !form.password) {
+			toast.error("Email and password required");
+			return;
+		}
+		setLoading(true);
+		try {
+			const res = await api.post("/auth/login", form);
+			const { user, token } = res.data ?? res;
+			if (!token) throw new Error("No token returned");
+			setToken(token);
+			setUser(user);
+			if (user.role !== "super_admin") toast.warning(`Notice: You logged in as ${user.role}. Super Admin features require super_admin role.`);
+			else toast.success(`Executive session initiated. Welcome, ${user.name}!`);
+			navigate({ to: "/" });
+		} catch (err) {
+			toast.error(err.message || "Super Admin authentication failed");
+		} finally {
+			setLoading(false);
+		}
+	};
+	return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+		className: "min-h-screen bg-[#07090E] text-slate-100 flex flex-col justify-between selection:bg-[#E52E20] selection:text-white font-sans antialiased",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("header", {
+				className: "border-b border-slate-800/80 bg-slate-950/80 backdrop-blur sticky top-0 z-30 px-4 py-3 sm:px-6",
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "max-w-7xl mx-auto flex items-center justify-between gap-3",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "flex items-center gap-2.5",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "h-9 w-9 rounded-full bg-white p-0.5 shadow flex items-center justify-center shrink-0",
+							children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+								src: "/logo.png",
+								alt: "UniQuesta",
+								className: "h-full w-full object-contain"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 79,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 78,
+							columnNumber: 13
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "text-sm font-black leading-none tracking-tight",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "text-white",
+								children: "Uni"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 83,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "text-[#E52E20]",
+								children: "Questa"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 84,
+								columnNumber: 17
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 82,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "text-[9px] font-bold tracking-widest uppercase text-slate-400 mt-0.5",
+							children: "EXECUTIVE SUITE"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 86,
+							columnNumber: 15
+						}, this)] }, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 81,
+							columnNumber: 13
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 77,
+						columnNumber: 11
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "flex items-center gap-1 sm:gap-2 text-xs overflow-x-auto py-1",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+								className: "hidden md:inline-block text-[11px] text-slate-400 font-semibold mr-1",
+								children: "Switch Portal:"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 94,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								asChild: true,
+								size: "sm",
+								variant: "ghost",
+								className: "h-8 text-xs text-slate-300 hover:text-white hover:bg-slate-800",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+									to: "/office-login",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Building2, { className: "h-3.5 w-3.5 text-indigo-400 mr-1" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 99,
+										columnNumber: 17
+									}, this), " Office Admin"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 98,
+									columnNumber: 15
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 97,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								asChild: true,
+								size: "sm",
+								variant: "ghost",
+								className: "h-8 text-xs text-slate-300 hover:text-white hover:bg-slate-800",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+									to: "/staff-login",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Users, { className: "h-3.5 w-3.5 text-emerald-400 mr-1" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 104,
+										columnNumber: 17
+									}, this), " Staff"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 103,
+									columnNumber: 15
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 102,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								asChild: true,
+								size: "sm",
+								variant: "ghost",
+								className: "h-8 text-xs text-slate-300 hover:text-white hover:bg-slate-800",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+									to: "/traveler-login",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Ticket, { className: "h-3.5 w-3.5 text-blue-400 mr-1" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 109,
+										columnNumber: 17
+									}, this), " Traveler"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 108,
+									columnNumber: 15
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 107,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								asChild: true,
+								size: "sm",
+								variant: "ghost",
+								className: "h-8 text-xs text-slate-300 hover:text-white hover:bg-slate-800",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+									to: "/driver-login",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Bus, { className: "h-3.5 w-3.5 text-amber-400 mr-1" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 114,
+										columnNumber: 17
+									}, this), " Driver"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 113,
+									columnNumber: 15
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 112,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								asChild: true,
+								size: "sm",
+								variant: "outline",
+								className: "h-8 text-xs border-slate-700 text-slate-200 hover:bg-slate-800",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+									to: "/login",
+									children: "All Portals"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 118,
+									columnNumber: 15
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 117,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 93,
+						columnNumber: 11
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 76,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 75,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("main", {
+				className: "flex-1 flex items-center justify-center p-4 sm:p-8",
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "w-full max-w-[480px] space-y-5",
+					children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+						className: "rounded-2xl border-slate-800 bg-slate-900/90 shadow-2xl backdrop-blur text-white overflow-hidden",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "p-4 sm:p-5 bg-gradient-to-r from-red-950/60 via-slate-900 to-amber-950/40 border-b border-slate-800/80",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+										className: "bg-red-500/20 text-red-300 border-red-500/40 text-[11px] font-semibold gap-1.5 px-2.5 py-0.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Crown, { className: "h-3.5 w-3.5 text-[#E52E20]" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 132,
+											columnNumber: 19
+										}, this), " Super Admin Access"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 131,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-[10.5px] font-mono text-slate-400 flex items-center gap-1",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Earth, { className: "h-3 w-3 text-red-400" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 135,
+											columnNumber: 19
+										}, this), " HQ-GOVERNANCE"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 134,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 130,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+									className: "text-xl sm:text-2xl font-black tracking-tight text-white mt-2",
+									children: "Executive & Super Admin Login"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 138,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "text-xs text-slate-300 mt-1 leading-relaxed",
+									children: "Central headquarters management for CEO, Directors & system administrators with full multi-branch jurisdiction."
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 141,
+									columnNumber: 15
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 129,
+							columnNumber: 13
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+							className: "p-5 sm:p-6 space-y-5",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("form", {
+									onSubmit: handleLogin,
+									className: "space-y-4",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+												htmlFor: "email",
+												className: "text-xs font-semibold text-slate-300",
+												children: "Executive Work Email"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 149,
+												columnNumber: 19
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "relative",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Mail, { className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 153,
+													columnNumber: 21
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+													id: "email",
+													type: "email",
+													value: form.email,
+													onChange: (e) => setForm({
+														...form,
+														email: e.target.value
+													}),
+													placeholder: "admin@uniquesta.com",
+													className: "pl-9 bg-slate-950 border-slate-700 text-white rounded-xl text-xs sm:text-sm h-11 placeholder:text-slate-500 focus:border-[#E52E20]",
+													required: true
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 154,
+													columnNumber: 21
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 152,
+												columnNumber: 19
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 148,
+											columnNumber: 17
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "space-y-1.5",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "flex items-center justify-between text-xs",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+													htmlFor: "password",
+													className: "font-semibold text-slate-300",
+													children: "Super Admin Password"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 163,
+													columnNumber: 21
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+													className: "text-slate-500 text-[11px]",
+													children: "256-bit Encrypted"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 166,
+													columnNumber: 21
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 162,
+												columnNumber: 19
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "relative",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Lock, { className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" }, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 169,
+														columnNumber: 21
+													}, this),
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+														id: "password",
+														type: show ? "text" : "password",
+														value: form.password,
+														onChange: (e) => setForm({
+															...form,
+															password: e.target.value
+														}),
+														placeholder: "••••••••",
+														className: "pl-9 pr-10 bg-slate-950 border-slate-700 text-white rounded-xl text-xs sm:text-sm h-11 placeholder:text-slate-500 focus:border-[#E52E20]",
+														required: true
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 170,
+														columnNumber: 21
+													}, this),
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+														type: "button",
+														onClick: () => setShow(!show),
+														className: "absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200",
+														children: show ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(EyeOff, { className: "h-4 w-4" }, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 175,
+															columnNumber: 31
+														}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Eye, { className: "h-4 w-4" }, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 175,
+															columnNumber: 64
+														}, this)
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 174,
+														columnNumber: 21
+													}, this)
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 168,
+												columnNumber: 19
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 161,
+											columnNumber: 17
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+											type: "submit",
+											disabled: loading,
+											className: "w-full h-11 sm:h-12 rounded-xl bg-[#E52E20] hover:bg-[#C82114] active:scale-[0.99] text-white font-bold text-xs sm:text-sm shadow-lg shadow-red-900/40 transition-all flex items-center justify-center gap-2",
+											children: loading ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LoaderCircle, { className: "h-4 w-4 animate-spin" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 182,
+												columnNumber: 23
+											}, this), " Verifying Executive Access..."] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 181,
+												columnNumber: 30
+											}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ShieldCheck, { className: "h-4 w-4" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 184,
+												columnNumber: 23
+											}, this), " Sign in as Super Admin"] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 183,
+												columnNumber: 27
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 180,
+											columnNumber: 17
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 147,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "pt-2",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex items-center gap-2 mb-2.5",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { className: "h-px flex-1 bg-slate-800" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 192,
+												columnNumber: 19
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+												className: "text-[11px] uppercase tracking-wider font-semibold text-slate-400",
+												children: "Executive Demo Credentials (1-Click)"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 193,
+												columnNumber: 19
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { className: "h-px flex-1 bg-slate-800" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 196,
+												columnNumber: 19
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 191,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "space-y-2",
+										children: superAdminPresets.map((p) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+											type: "button",
+											onClick: () => fillPreset(p.email, p.pass),
+											className: "w-full flex items-center justify-between p-2.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800/70 hover:border-red-500/40 text-left transition group",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "min-w-0 pr-2",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "flex items-center gap-2",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "text-xs font-bold text-slate-200 group-hover:text-white",
+														children: p.name
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 203,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "text-[10px] bg-red-950 text-red-300 border border-red-800/80 px-1.5 py-0.2 rounded font-medium",
+														children: p.role
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 206,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 202,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "text-[11px] text-slate-400 truncate mt-0.5",
+													children: [
+														p.email,
+														" · ",
+														p.scope
+													]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 210,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 201,
+												columnNumber: 23
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+												className: "shrink-0 text-[10px] font-mono text-slate-400 bg-slate-900 px-2 py-1 rounded border border-slate-800",
+												children: p.pass
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 214,
+												columnNumber: 23
+											}, this)]
+										}, p.email, true, {
+											fileName: _jsxFileName,
+											lineNumber: 200,
+											columnNumber: 47
+										}, this))
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 199,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 190,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "pt-2 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Multi-branch Audit Active" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 223,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+										to: "/login",
+										className: "text-red-400 hover:underline",
+										children: "Switch to Multi-portal Hub ➔"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 224,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 222,
+									columnNumber: 15
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 146,
+							columnNumber: 13
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 127,
+						columnNumber: 11
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 126,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 125,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("footer", {
+				className: "p-4 border-t border-slate-800/80 text-center text-xs text-slate-500 bg-slate-950/80",
+				children: "UniQuesta International Executive Headquarters · Guwahati HQ · System v2.6"
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 234,
+				columnNumber: 7
+			}, this)
+		]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 73,
+		columnNumber: 10
+	}, this);
+}
+//#endregion
+export { SuperAdminLoginPage as component };

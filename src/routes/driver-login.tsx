@@ -75,12 +75,21 @@ function DriverLoginPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <Button asChild variant="ghost" size="sm" className="text-slate-400 hover:text-white hover:bg-slate-800 text-xs px-2 sm:px-3 h-8 sm:h-9">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          <Button asChild variant="ghost" size="sm" className="hidden md:inline-flex text-slate-400 hover:text-white hover:bg-slate-800 text-xs px-2 h-8">
+            <Link to="/super-admin-login">Super Admin</Link>
+          </Button>
+          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex text-slate-400 hover:text-white hover:bg-slate-800 text-xs px-2 h-8">
+            <Link to="/office-login">Office</Link>
+          </Button>
+          <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex text-slate-400 hover:text-white hover:bg-slate-800 text-xs px-2 h-8">
+            <Link to="/staff-login">Staff</Link>
+          </Button>
+          <Button asChild variant="ghost" size="sm" className="text-blue-400 hover:text-blue-300 hover:bg-slate-800 text-xs px-2 sm:px-2.5 h-8">
             <Link to="/traveler-login">Traveler ➔</Link>
           </Button>
-          <Button asChild variant="outline" size="sm" className="border-slate-800 text-slate-300 hover:bg-slate-800 text-xs px-2.5 sm:px-3 h-8 sm:h-9 rounded-xl">
-            <Link to="/login">Admin</Link>
+          <Button asChild variant="outline" size="sm" className="border-slate-800 text-slate-300 hover:bg-slate-800 text-xs px-2 sm:px-3 h-8 rounded-xl">
+            <Link to="/login">All Portals</Link>
           </Button>
         </div>
       </header>

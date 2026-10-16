@@ -2,7 +2,7 @@ import { o as __toESM, r as __exportAll } from "../_runtime.mjs";
 import { t as require_promise } from "../_libs/mysql2+[...].mjs";
 import { n as compare, r as hash } from "../_libs/bcryptjs.mjs";
 import { t as require_jsonwebtoken } from "../_libs/jsonwebtoken+[...].mjs";
-import { a as numberType, i as literalType, n as booleanType, o as objectType, r as enumType, s as stringType, t as arrayType } from "../_libs/zod.mjs";
+import { a as literalType, c as stringType, i as enumType, n as booleanType, o as numberType, r as coerce, s as objectType, t as arrayType } from "../_libs/zod.mjs";
 import processModule from "node:process";
 import fs from "node:fs";
 import path from "node:path";
@@ -577,6 +577,7 @@ async function createTables() {
     support_email VARCHAR(255) NOT NULL,
     two_factor BOOLEAN DEFAULT TRUE,
     whatsapp_notify BOOLEAN DEFAULT TRUE,
+    config JSON NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );
   CREATE TABLE IF NOT EXISTS travel_bookings (
@@ -657,6 +658,29 @@ async function createTables() {
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   );
+  CREATE TABLE IF NOT EXISTS b2c_partners (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    ambassador_type VARCHAR(100) DEFAULT 'Student Ambassador',
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    branch VARCHAR(100) DEFAULT 'Guwahati HQ',
+    reward_type VARCHAR(20) DEFAULT 'flat_rate',
+    reward_amount INT DEFAULT 15000,
+    reward_pct DECIMAL(5,2) DEFAULT 10.00,
+    tier VARCHAR(50) DEFAULT 'Silver Ambassador',
+    status VARCHAR(20) DEFAULT 'Active',
+    total_referrals INT DEFAULT 0,
+    successful_admissions INT DEFAULT 0,
+    total_earnings INT DEFAULT 0,
+    payout_balance INT DEFAULT 0,
+    payout_mode VARCHAR(50) DEFAULT 'UPI / Direct Bank',
+    notes TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  );
   CREATE TABLE IF NOT EXISTS notifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_email VARCHAR(255) NOT NULL,
@@ -671,6 +695,9 @@ async function createTables() {
   );
   `.split(";").map((s) => s.trim()).filter(Boolean);
 	for (const stmt of statements) await pool.query(stmt);
+	try {
+		await pool.query("ALTER TABLE settings ADD COLUMN config JSON NULL");
+	} catch {}
 }
 async function seedIfEmpty() {
 	if (!pool) return;
@@ -1210,52 +1237,182 @@ function buildSeedData() {
 			{
 				code: "INV-4210",
 				student: "Priya Nair",
+				student_id: 1,
 				amount: "₹ 1,24,000",
 				amount_value: 124e3,
 				currency: "INR",
 				type: "Tuition Instalment",
 				date: "2026-07-23",
-				status: "Paid"
+				due_date: "2026-07-20",
+				status: "Paid",
+				branch: "Mumbai",
+				payment_method: "Bank Transfer",
+				notes: "First semester tuition for Monash University."
 			},
 			{
 				code: "INV-4211",
 				student: "Rohit Verma",
+				student_id: 2,
 				amount: "₹ 45,000",
 				amount_value: 45e3,
 				currency: "INR",
 				type: "Service Fee",
 				date: "2026-07-22",
-				status: "Paid"
+				due_date: "2026-07-25",
+				status: "Paid",
+				branch: "Delhi NCR",
+				payment_method: "UPI (GPay)",
+				notes: "Consultation & documentation processing fee."
 			},
 			{
 				code: "INV-4212",
 				student: "Ananya Iyer",
+				student_id: 3,
 				amount: "₹ 82,500",
 				amount_value: 82500,
 				currency: "INR",
 				type: "Application Fee",
 				date: "2026-07-22",
-				status: "Pending"
+				due_date: "2026-08-05",
+				status: "Pending",
+				branch: "Bengaluru",
+				payment_method: "Net Banking",
+				notes: "3 University direct applications filing charges."
 			},
 			{
 				code: "INV-4213",
 				student: "Vikram Singh",
+				student_id: 4,
 				amount: "₹ 2,10,000",
 				amount_value: 21e4,
 				currency: "INR",
 				type: "Visa & Travel",
 				date: "2026-07-21",
-				status: "Overdue"
+				due_date: "2026-07-15",
+				status: "Overdue",
+				branch: "Guwahati HQ",
+				payment_method: "Bank Transfer",
+				notes: "Priority UK visa express fee & accommodation deposit."
 			},
 			{
 				code: "INV-4214",
 				student: "Sneha Kulkarni",
+				student_id: 5,
 				amount: "€ 6,200",
-				amount_value: 6200,
+				amount_value: 558e3,
 				currency: "EUR",
 				type: "University Fee",
 				date: "2026-07-20",
-				status: "Paid"
+				due_date: "2026-07-18",
+				status: "Paid",
+				branch: "Mumbai",
+				payment_method: "International Wire",
+				notes: "TU Munich semester 1 enrollment remittance."
+			},
+			{
+				code: "INV-4215",
+				student: "Arjun Sengupta",
+				student_id: 6,
+				amount: "₹ 1,50,000",
+				amount_value: 15e4,
+				currency: "INR",
+				type: "Tuition Instalment",
+				date: "2026-07-19",
+				due_date: "2026-07-16",
+				status: "Paid",
+				branch: "Guwahati HQ",
+				payment_method: "Bank Transfer",
+				notes: "B.Sc Nursing Year 1 fee instalment."
+			},
+			{
+				code: "INV-4216",
+				student: "Tanvi Deshmukh",
+				student_id: 7,
+				amount: "₹ 35,000",
+				amount_value: 35e3,
+				currency: "INR",
+				type: "Service Fee",
+				date: "2026-07-18",
+				due_date: "2026-08-02",
+				status: "Pending",
+				branch: "Mumbai",
+				payment_method: "UPI (PhonePe)",
+				notes: "Visa interview preparation & mock tests."
+			},
+			{
+				code: "INV-4217",
+				student: "Manav Chawla",
+				student_id: 8,
+				amount: "$ 3,500",
+				amount_value: 294e3,
+				currency: "USD",
+				type: "University Fee",
+				date: "2026-07-17",
+				due_date: "2026-07-14",
+				status: "Paid",
+				branch: "Delhi NCR",
+				payment_method: "Wire Transfer",
+				notes: "NYU admission confirmation deposit."
+			},
+			{
+				code: "INV-4218",
+				student: "Ishita Baruah",
+				student_id: 9,
+				amount: "₹ 95,000",
+				amount_value: 95e3,
+				currency: "INR",
+				type: "Tuition Instalment",
+				date: "2026-07-16",
+				due_date: "2026-08-10",
+				status: "Pending",
+				branch: "Guwahati HQ",
+				payment_method: "Bank Transfer",
+				notes: "GNM course semester fee instalment."
+			},
+			{
+				code: "INV-4219",
+				student: "Pradeep Reddy",
+				student_id: 10,
+				amount: "₹ 1,75,000",
+				amount_value: 175e3,
+				currency: "INR",
+				type: "Tuition Instalment",
+				date: "2026-07-15",
+				due_date: "2026-07-12",
+				status: "Paid",
+				branch: "Hyderabad",
+				payment_method: "Demand Draft",
+				notes: "M.S. Ramaiah University Allied Health fee."
+			},
+			{
+				code: "INV-4220",
+				student: "Nandini Saxena",
+				student_id: 11,
+				amount: "₹ 48,000",
+				amount_value: 48e3,
+				currency: "INR",
+				type: "Visa & Travel",
+				date: "2026-07-14",
+				due_date: "2026-07-08",
+				status: "Overdue",
+				branch: "Bengaluru",
+				payment_method: "UPI",
+				notes: "Australia biometrics & flight booking assistance."
+			},
+			{
+				code: "INV-4221",
+				student: "Devansh Jain",
+				student_id: 12,
+				amount: "₹ 85,000",
+				amount_value: 85e3,
+				currency: "INR",
+				type: "Application Fee",
+				date: "2026-07-12",
+				due_date: "2026-07-10",
+				status: "Paid",
+				branch: "Mumbai",
+				payment_method: "Credit Card",
+				notes: "Canada SDS visa application and GIC account setup."
 			}
 		],
 		employees: [
@@ -1308,76 +1465,288 @@ function buildSeedData() {
 				status: "Active"
 			}
 		],
-		approvals: [{
-			code: "REIMB-2026-0284",
-			title: "Client visit — Bengaluru university fair",
-			amount: "₹ 48,650",
-			amount_value: 48650,
-			category: "Travel & Meals",
-			submitted_by: "Meera Shah",
-			submitted_date: "22 Jul 2026 · 10:14 AM",
-			period: "18 Jul – 21 Jul 2026",
-			branch: "Mumbai · Andheri West",
-			attachments: 6,
-			status: "In Review",
-			current_stage: 2,
-			steps: [
-				{
-					name: "Meera Shah",
-					role: "Employee · Senior Counsellor",
-					initials: "MS",
-					status: "approved",
-					time: "22 Jul · 10:14 AM",
-					comment: "Submitted with bills.",
-					step_order: 0
-				},
-				{
-					name: "Rahul Deshmukh",
-					role: "Branch Manager · Mumbai",
-					initials: "RD",
-					status: "approved",
-					time: "22 Jul · 03:40 PM",
-					comment: "Verified against plan.",
-					step_order: 1
-				},
-				{
-					name: "Anjali Kapoor",
-					role: "Finance · AP Lead",
-					initials: "AK",
-					status: "current",
-					time: "In review · 6h",
-					comment: "Awaiting cab receipt category.",
-					step_order: 2
-				},
-				{
-					name: "Vivek Ramanathan",
-					role: "Director · Operations",
-					initials: "VR",
-					status: "upcoming",
-					time: "Est. 24 Jul",
-					comment: "",
-					step_order: 3
-				},
-				{
-					name: "Neha Malhotra",
-					role: "CEO",
-					initials: "NM",
-					status: "upcoming",
-					time: "Est. 25 Jul",
-					comment: "",
-					step_order: 4
-				},
-				{
-					name: "Payment Released",
-					role: "Finance · Payouts",
-					initials: "₹",
-					status: "released",
-					time: "Est. 26 Jul",
-					comment: "NEFT within 24h.",
-					step_order: 5
-				}
-			]
-		}],
+		approvals: [
+			{
+				code: "REIMB-2026-0284",
+				title: "Client visit — Bengaluru university fair",
+				amount: "₹ 48,650",
+				amount_value: 48650,
+				category: "Travel & Meals",
+				submitted_by: "Meera Shah",
+				submitted_date: "22 Jul 2026 · 10:14 AM",
+				period: "18 Jul – 21 Jul 2026",
+				branch: "Mumbai · Andheri West",
+				attachments: 6,
+				status: "In Review",
+				current_stage: 2,
+				steps: [
+					{
+						name: "Meera Shah",
+						role: "Employee · Senior Counsellor",
+						initials: "MS",
+						status: "approved",
+						time: "22 Jul · 10:14 AM",
+						comment: "Submitted with flight, hotel and client meet taxi receipts.",
+						step_order: 0
+					},
+					{
+						name: "Rahul Deshmukh",
+						role: "Branch Manager · Mumbai",
+						initials: "RD",
+						status: "approved",
+						time: "22 Jul · 03:40 PM",
+						comment: "Verified against quarterly branch outreach budget. Fully endorsed.",
+						step_order: 1
+					},
+					{
+						name: "Anjali Kapoor",
+						role: "Finance · AP Lead",
+						initials: "AK",
+						status: "current",
+						time: "In review · 6h",
+						comment: "GST invoices verified. Passed for operational review.",
+						step_order: 2
+					},
+					{
+						name: "Vivek Ramanathan",
+						role: "Director · Operations",
+						initials: "VR",
+						status: "upcoming",
+						time: "Est. 24 Jul",
+						comment: "",
+						step_order: 3
+					},
+					{
+						name: "Mohammad Iqbal",
+						role: "CEO · Executive Sign-off",
+						initials: "MI",
+						status: "upcoming",
+						time: "Est. 25 Jul",
+						comment: "",
+						step_order: 4
+					},
+					{
+						name: "Payment Released",
+						role: "Finance · Payouts",
+						initials: "₹",
+						status: "released",
+						time: "Est. 26 Jul",
+						comment: "Direct NEFT release within 24h.",
+						step_order: 5
+					}
+				]
+			},
+			{
+				code: "REIMB-2026-0285",
+				title: "North-East College Outreach & Seminars Tour",
+				amount: "₹ 65,000",
+				amount_value: 65e3,
+				category: "Marketing & Events",
+				submitted_by: "Pranab Barman",
+				submitted_date: "23 Jul 2026 · 11:30 AM",
+				period: "19 Jul – 22 Jul 2026",
+				branch: "Guwahati HQ",
+				attachments: 5,
+				status: "In Review",
+				current_stage: 3,
+				steps: [
+					{
+						name: "Pranab Barman",
+						role: "Regional Coordinator · North East",
+						initials: "PB",
+						status: "approved",
+						time: "23 Jul · 11:30 AM",
+						comment: "Conducting career guidance workshops in 4 nursing institutes.",
+						step_order: 0
+					},
+					{
+						name: "Mohammad Iqbal",
+						role: "Branch Head · Guwahati HQ",
+						initials: "MI",
+						status: "approved",
+						time: "23 Jul · 02:15 PM",
+						comment: "Pre-approved high-impact campaign. Endorsed.",
+						step_order: 1
+					},
+					{
+						name: "Anjali Kapoor",
+						role: "Finance · AP Lead",
+						initials: "AK",
+						status: "approved",
+						time: "23 Jul · 05:45 PM",
+						comment: "Venue hall hire & banner print receipts audited. Within budget.",
+						step_order: 2
+					},
+					{
+						name: "Vivek Ramanathan",
+						role: "Director · Operations",
+						initials: "VR",
+						status: "current",
+						time: "In review · 2h",
+						comment: "Reviewing ROI from 120 seminar attendees.",
+						step_order: 3
+					},
+					{
+						name: "Mohammad Iqbal",
+						role: "CEO · Executive Sign-off",
+						initials: "MI",
+						status: "upcoming",
+						time: "Est. 25 Jul",
+						comment: "",
+						step_order: 4
+					},
+					{
+						name: "Payment Released",
+						role: "Finance · Payouts",
+						initials: "₹",
+						status: "released",
+						time: "Est. 26 Jul",
+						comment: "NEFT release pending.",
+						step_order: 5
+					}
+				]
+			},
+			{
+				code: "REIMB-2026-0286",
+				title: "UK University Delegates Annual Dinner & Networking",
+				amount: "₹ 38,200",
+				amount_value: 38200,
+				category: "Client Fair Advance",
+				submitted_by: "Karan Mehta",
+				submitted_date: "24 Jul 2026 · 09:45 AM",
+				period: "21 Jul 2026",
+				branch: "Delhi NCR",
+				attachments: 4,
+				status: "In Review",
+				current_stage: 4,
+				steps: [
+					{
+						name: "Karan Mehta",
+						role: "Branch Head · Delhi NCR",
+						initials: "KM",
+						status: "approved",
+						time: "24 Jul · 09:45 AM",
+						comment: "Hosted dinner for King's College London and Manchester university deans.",
+						step_order: 0
+					},
+					{
+						name: "Karan Mehta",
+						role: "Branch Manager · Delhi NCR",
+						initials: "KM",
+						status: "approved",
+						time: "24 Jul · 10:15 AM",
+						comment: "Self-sanctioned branch dinner allocation.",
+						step_order: 1
+					},
+					{
+						name: "Anjali Kapoor",
+						role: "Finance · AP Lead",
+						initials: "AK",
+						status: "approved",
+						time: "24 Jul · 12:30 PM",
+						comment: "Itemized hotel banquet bill verified against attendee list.",
+						step_order: 2
+					},
+					{
+						name: "Vivek Ramanathan",
+						role: "Director · Operations",
+						initials: "VR",
+						status: "approved",
+						time: "24 Jul · 03:00 PM",
+						comment: "High-value partner relationship meeting. Sanctioned.",
+						step_order: 3
+					},
+					{
+						name: "Mohammad Iqbal",
+						role: "CEO · Executive Sign-off",
+						initials: "MI",
+						status: "current",
+						time: "In review · 1h",
+						comment: "Final executive sign-off required for disbursement.",
+						step_order: 4
+					},
+					{
+						name: "Payment Released",
+						role: "Finance · Payouts",
+						initials: "₹",
+						status: "released",
+						time: "Est. 26 Jul",
+						comment: "Direct NEFT release.",
+						step_order: 5
+					}
+				]
+			},
+			{
+				code: "REIMB-2026-0287",
+				title: "Regional Office High-Speed Network & Router Setup",
+				amount: "₹ 22,400",
+				amount_value: 22400,
+				category: "Office Supplies",
+				submitted_by: "Divya Rao",
+				submitted_date: "24 Jul 2026 · 02:15 PM",
+				period: "24 Jul 2026",
+				branch: "Bengaluru",
+				attachments: 3,
+				status: "In Review",
+				current_stage: 1,
+				steps: [
+					{
+						name: "Divya Rao",
+						role: "Branch Head · Bengaluru",
+						initials: "DR",
+						status: "approved",
+						time: "24 Jul · 02:15 PM",
+						comment: "Purchased Cisco dual-band gigabit routers for counseling cubicles.",
+						step_order: 0
+					},
+					{
+						name: "Divya Rao",
+						role: "Branch Manager · Bengaluru",
+						initials: "DR",
+						status: "current",
+						time: "In review · 30m",
+						comment: "Awaiting branch head endorsement.",
+						step_order: 1
+					},
+					{
+						name: "Anjali Kapoor",
+						role: "Finance · AP Lead",
+						initials: "AK",
+						status: "upcoming",
+						time: "Est. 25 Jul",
+						comment: "",
+						step_order: 2
+					},
+					{
+						name: "Vivek Ramanathan",
+						role: "Director · Operations",
+						initials: "VR",
+						status: "upcoming",
+						time: "Est. 26 Jul",
+						comment: "",
+						step_order: 3
+					},
+					{
+						name: "Mohammad Iqbal",
+						role: "CEO · Executive Sign-off",
+						initials: "MI",
+						status: "upcoming",
+						time: "Est. 27 Jul",
+						comment: "",
+						step_order: 4
+					},
+					{
+						name: "Payment Released",
+						role: "Finance · Payouts",
+						initials: "₹",
+						status: "released",
+						time: "Est. 28 Jul",
+						comment: "NEFT payout.",
+						step_order: 5
+					}
+				]
+			}
+		],
 		referralStudents: [],
 		commissions: [],
 		paymentRequests: [{
@@ -1658,6 +2027,174 @@ function buildSeedData() {
 				notes: "Corporate executive retreat. Refreshments & bottled water inside bus.",
 				status: "Active"
 			}
+		],
+		b2bPartners: [
+			{
+				code: "B2B-101",
+				name: "Rahul Deshmukh",
+				company_name: "Apex Global Overseas Consultancy",
+				email: "rahul@apexglobal.edu",
+				phone: "+91 98200 44551",
+				city: "Mumbai",
+				branch: "Mumbai",
+				profit_share_type: "percentage",
+				partner_share_pct: 30,
+				admin_share_pct: 70,
+				flat_rate_amount: 25e3,
+				tier: "Gold Partner (30%)",
+				status: "Active",
+				total_students: 8,
+				total_revenue: 68e4,
+				partner_earnings: 204e3,
+				admin_earnings: 476e3,
+				payout_balance: 45e3,
+				notes: "Premier education partner in Western Maharashtra."
+			},
+			{
+				code: "B2B-102",
+				name: "Vikram Singhania",
+				company_name: "EduPathways International",
+				email: "vikram@edupathways.in",
+				phone: "+91 98111 88992",
+				city: "Delhi",
+				branch: "Delhi NCR",
+				profit_share_type: "percentage",
+				partner_share_pct: 35,
+				admin_share_pct: 65,
+				flat_rate_amount: 3e4,
+				tier: "Platinum Partner (35%)",
+				status: "Active",
+				total_students: 12,
+				total_revenue: 114e4,
+				partner_earnings: 399e3,
+				admin_earnings: 741e3,
+				payout_balance: 85e3,
+				notes: "Top volume recruiting partner for Canada & UK universities."
+			},
+			{
+				code: "B2B-103",
+				name: "Meera Shah",
+				company_name: "Southern Skies Study Abroad",
+				email: "meera@southernskies.com",
+				phone: "+91 98450 12344",
+				city: "Bengaluru",
+				branch: "Bengaluru",
+				profit_share_type: "percentage",
+				partner_share_pct: 25,
+				admin_share_pct: 75,
+				flat_rate_amount: 25e3,
+				tier: "Silver Partner (25%)",
+				status: "Active",
+				total_students: 5,
+				total_revenue: 41e4,
+				partner_earnings: 102500,
+				admin_earnings: 307500,
+				payout_balance: 22500,
+				notes: "Specialized in Australian nursing & engineering admissions."
+			},
+			{
+				code: "B2B-104",
+				name: "Pranab Barman",
+				company_name: "Brahmaputra Educational Affiliates",
+				email: "pranab@brahmaputraedu.org",
+				phone: "+91 94350 77112",
+				city: "Guwahati",
+				branch: "Guwahati HQ",
+				profit_share_type: "flat_rate",
+				partner_share_pct: 20,
+				admin_share_pct: 80,
+				flat_rate_amount: 2e4,
+				tier: "Associate Partner (20%)",
+				status: "Active",
+				total_students: 4,
+				total_revenue: 32e4,
+				partner_earnings: 8e4,
+				admin_earnings: 24e4,
+				payout_balance: 1e4,
+				notes: "North-East regional affiliate focusing on UK foundation courses."
+			}
+		],
+		b2cPartners: [
+			{
+				code: "B2C-201",
+				name: "Aarav Sharma",
+				ambassador_type: "Student Ambassador",
+				email: "aarav.sharma@gmail.com",
+				phone: "+91 98640 11223",
+				city: "Guwahati",
+				branch: "Guwahati HQ",
+				reward_type: "flat_rate",
+				reward_amount: 15e3,
+				reward_pct: 10,
+				tier: "Gold Ambassador",
+				status: "Active",
+				total_referrals: 6,
+				successful_admissions: 4,
+				total_earnings: 6e4,
+				payout_balance: 15e3,
+				payout_mode: "UPI (aarav@oksbi)",
+				notes: "University of Toronto 3rd year student. Highly active on Instagram."
+			},
+			{
+				code: "B2C-202",
+				name: "Pooja Das",
+				ambassador_type: "Campus Influencer",
+				email: "pooja.das@cotton.edu",
+				phone: "+91 98540 99881",
+				city: "Guwahati",
+				branch: "Guwahati HQ",
+				reward_type: "flat_rate",
+				reward_amount: 15e3,
+				reward_pct: 10,
+				tier: "Silver Ambassador",
+				status: "Active",
+				total_referrals: 5,
+				successful_admissions: 3,
+				total_earnings: 45e3,
+				payout_balance: 0,
+				payout_mode: "Bank NEFT (HDFC 4921)",
+				notes: "President of student council at Cotton University."
+			},
+			{
+				code: "B2C-203",
+				name: "Rohan Varma",
+				ambassador_type: "Freelance Counselor",
+				email: "rohan.varma@counsel.me",
+				phone: "+91 98200 33445",
+				city: "Mumbai",
+				branch: "Mumbai",
+				reward_type: "percentage",
+				reward_amount: 2e4,
+				reward_pct: 12,
+				tier: "Platinum Ambassador",
+				status: "Active",
+				total_referrals: 9,
+				successful_admissions: 6,
+				total_earnings: 95e3,
+				payout_balance: 25e3,
+				payout_mode: "UPI (rohan@icici)",
+				notes: "Independent career mentor recommending students for overseas master's."
+			},
+			{
+				code: "B2C-204",
+				name: "Tanvi Deshmukh",
+				ambassador_type: "Alumni Ambassador",
+				email: "tanvi.deshmukh@alumni.monash.edu",
+				phone: "+91 98111 66554",
+				city: "Pune",
+				branch: "Mumbai",
+				reward_type: "flat_rate",
+				reward_amount: 15e3,
+				reward_pct: 10,
+				tier: "Silver Ambassador",
+				status: "Active",
+				total_referrals: 3,
+				successful_admissions: 2,
+				total_earnings: 3e4,
+				payout_balance: 15e3,
+				payout_mode: "Bank NEFT (SBI 8820)",
+				notes: "Monash University graduate helping local candidates with visa & admission advice."
+			}
 		]
 	};
 }
@@ -1764,6 +2301,14 @@ function seedMemory() {
 	pushMany("travel_bookings", data.travelBookings.map((b, i) => ({
 		id: i + 1,
 		...b
+	})));
+	pushMany("b2b_partners", data.b2bPartners.map((b, i) => ({
+		id: i + 1,
+		...b
+	})));
+	pushMany("b2c_partners", data.b2cPartners.map((c, i) => ({
+		id: i + 1,
+		...c
 	})));
 	pushMany("settings", [{
 		id: 1,
@@ -1872,10 +2417,10 @@ var universitySchema = objectType({
 	country: stringType().min(2),
 	city: stringType().min(2),
 	tier: stringType().optional(),
-	courses: numberType().optional(),
+	courses: coerce.number().optional(),
 	intakes: stringType().min(2),
 	commission: stringType().min(1),
-	rating: numberType().min(0).max(5).optional()
+	rating: coerce.number().min(0).max(5).optional()
 });
 var collegeSchema = objectType({
 	name: stringType().min(2),
@@ -1898,11 +2443,11 @@ var courseSchema = objectType({
 	name: stringType().min(2),
 	category: stringType().min(2),
 	duration: stringType().min(1),
-	eligibility: stringType().min(5),
-	tuitionFee: stringType().min(2),
+	eligibility: stringType().min(3),
+	tuitionFee: stringType().min(1),
 	registrationFee: stringType().min(1),
-	seatsAvailable: numberType().optional(),
-	totalSeats: numberType().optional(),
+	seatsAvailable: coerce.number().optional(),
+	totalSeats: coerce.number().optional(),
 	session: stringType().min(2),
 	minPercentage: stringType().optional(),
 	description: stringType().optional()
@@ -1940,7 +2485,11 @@ var invoiceSchema = objectType({
 	currency: stringType().optional(),
 	type: stringType().min(2),
 	date: stringType().optional(),
-	status: stringType().optional()
+	status: stringType().optional(),
+	branch: stringType().optional(),
+	payment_method: stringType().optional(),
+	due_date: stringType().optional(),
+	notes: stringType().optional()
 });
 var employeeSchema = objectType({
 	name: stringType().min(2),
@@ -1994,11 +2543,26 @@ var b2bPartnerSchema = objectType({
 	phone: stringType().min(5),
 	city: stringType().min(2),
 	branch: stringType().optional(),
-	profit_share_type: enumType(["percentage", "flat"]).optional(),
-	partner_share_pct: numberType().min(0).max(100).optional(),
-	flat_rate_amount: numberType().min(0).optional(),
+	profit_share_type: stringType().optional(),
+	partner_share_pct: coerce.number().min(0).max(100).optional(),
+	flat_rate_amount: coerce.number().min(0).optional(),
 	tier: stringType().optional(),
 	status: stringType().optional(),
+	notes: stringType().optional()
+});
+var b2cPartnerSchema = objectType({
+	name: stringType().min(2),
+	ambassador_type: stringType().optional(),
+	email: stringType().email(),
+	phone: stringType().min(5),
+	city: stringType().min(2),
+	branch: stringType().optional(),
+	reward_type: stringType().optional(),
+	reward_amount: coerce.number().min(0).optional(),
+	reward_pct: coerce.number().min(0).max(100).optional(),
+	tier: stringType().optional(),
+	status: stringType().optional(),
+	payout_mode: stringType().optional(),
 	notes: stringType().optional()
 });
 function parseOrThrow(schema, data) {
@@ -2355,7 +2919,7 @@ async function handleApi(req) {
 			"/api/auth/register",
 			"/api/auth/driver-login",
 			"/api/auth/traveler-login"
-		].some((p) => path === p) || path.startsWith("/api/dashboard") || path.startsWith("/api/settings");
+		].some((p) => path === p) || path.startsWith("/api/dashboard") || path.startsWith("/api/settings") || path.startsWith("/api/reports") || path.startsWith("/api/ai");
 		if (path === "/api/branches") {
 			if (method === "GET") {
 				const isMem = isMemoryMode();
@@ -3168,6 +3732,8 @@ async function handleApi(req) {
 				}
 			}
 			if (method === "POST") {
+				const userPayload = authMiddleware(req);
+				if (userPayload && userPayload.role !== "super_admin") return errJson(403, "Access restricted: Only Super Admin can add partner universities.");
 				const data = parseOrThrow(universitySchema, await parseBody(req));
 				const isMem = isMemoryMode();
 				let row;
@@ -3240,6 +3806,8 @@ async function handleApi(req) {
 				}
 			}
 			if (method === "DELETE") {
+				const userPayload = authMiddleware(req);
+				if (userPayload && userPayload.role !== "super_admin") return errJson(403, "Access restricted: Only Super Admin can delete partner universities.");
 				if (isMem) {
 					if (!memDelete("universities", id)) return errJson(404, "Not found");
 				} else if ((await execute("DELETE FROM universities WHERE id=?", [id])).affectedRows === 0) return errJson(404, "Not found");
@@ -3470,6 +4038,8 @@ async function handleApi(req) {
 				}
 			}
 			if (method === "POST") {
+				const userPayload = authMiddleware(req);
+				if (userPayload && userPayload.role !== "super_admin") return errJson(403, "Access restricted: Only Super Admin can add courses.");
 				const body = await parseBody(req);
 				const data = parseOrThrow(courseSchema, body);
 				const code = body.code || genCode("CRS");
@@ -3555,6 +4125,8 @@ async function handleApi(req) {
 				}
 			}
 			if (method === "DELETE") {
+				const userPayload = authMiddleware(req);
+				if (userPayload && userPayload.role !== "super_admin") return errJson(403, "Access restricted: Only Super Admin can delete courses.");
 				const existing = await find();
 				if (!existing) return errJson(404, "Not found");
 				if (isMemoryMode()) memDelete("courses", existing.id);
@@ -3797,6 +4369,10 @@ async function handleApi(req) {
 				if (isMem) row = memCreate("invoices", {
 					code,
 					...data,
+					branch: body.branch || "Guwahati HQ",
+					payment_method: body.payment_method || "Bank Transfer",
+					due_date: body.due_date || data.date || (/* @__PURE__ */ new Date()).toISOString().slice(0, 10),
+					notes: body.notes || "",
 					amount_value: amountVal,
 					currency: data.currency || "INR",
 					status: data.status || "Pending",
@@ -3853,7 +4429,11 @@ async function handleApi(req) {
 						"currency",
 						"type",
 						"date",
-						"status"
+						"status",
+						"branch",
+						"payment_method",
+						"due_date",
+						"notes"
 					]) if (body[k] !== void 0) {
 						fields.push(`${k}=?`);
 						vals.push(body[k]);
@@ -4938,7 +5518,7 @@ async function handleApi(req) {
 				});
 			}
 		}
-		if (path === "/api/b2b-partners" || path.startsWith("/api/b2b-partners/")) {
+		if (path === "/api/b2b-partners" || path.startsWith("/api/b2b-partners/") || path === "/api/b2c-partners" || path.startsWith("/api/b2c-partners/")) {
 			const userPayload = authMiddleware(req);
 			if (userPayload) {
 				const role = (userPayload.role || "").toLowerCase();
@@ -5192,6 +5772,235 @@ async function handleApi(req) {
 				});
 			}
 		}
+		if (path === "/api/b2c-partners") {
+			if (method === "GET") {
+				const { page, limit, offset } = pagination(url);
+				const search = qp(url, "search", "").toLowerCase();
+				const branch = qp(url, "branch", "");
+				const tier = qp(url, "tier", "");
+				const status = qp(url, "status", "");
+				if (isMemoryMode()) {
+					let rows = memList("b2c_partners") || [];
+					if (search) rows = rows.filter((p) => p.name?.toLowerCase().includes(search) || p.ambassador_type?.toLowerCase().includes(search) || p.city?.toLowerCase().includes(search) || p.code?.toLowerCase().includes(search));
+					if (branch && branch !== "All Branches") rows = rows.filter((p) => p.branch === branch);
+					if (tier && tier !== "All Tiers") rows = rows.filter((p) => p.tier?.toLowerCase().includes(tier.toLowerCase()));
+					if (status) rows = rows.filter((p) => p.status === status);
+					const total = rows.length;
+					const allB2c = memList("b2c_partners") || [];
+					const stats = {
+						totalPartners: allB2c.length,
+						totalReferrals: allB2c.reduce((acc, p) => acc + (parseInt(p.total_referrals, 10) || 0), 0),
+						successfulAdmissions: allB2c.reduce((acc, p) => acc + (parseInt(p.successful_admissions, 10) || 0), 0),
+						totalEarnings: allB2c.reduce((acc, p) => acc + (parseInt(p.total_earnings, 10) || 0), 0),
+						payoutBalance: allB2c.reduce((acc, p) => acc + (parseInt(p.payout_balance, 10) || 0), 0)
+					};
+					rows = rows.slice(offset, offset + limit);
+					return json({
+						success: true,
+						data: rows,
+						stats,
+						pagination: {
+							page,
+							limit,
+							total,
+							totalPages: Math.ceil(total / limit)
+						}
+					});
+				} else {
+					let where = " WHERE 1=1";
+					const params = [];
+					if (search) {
+						where += " AND (name LIKE ? OR ambassador_type LIKE ? OR city LIKE ? OR code LIKE ?)";
+						params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`);
+					}
+					if (branch && branch !== "All Branches") {
+						where += " AND branch = ?";
+						params.push(branch);
+					}
+					if (tier && tier !== "All Tiers") {
+						where += " AND tier LIKE ?";
+						params.push(`%${tier}%`);
+					}
+					if (status) {
+						where += " AND status = ?";
+						params.push(status);
+					}
+					const total = (await queryOne(`SELECT COUNT(*) as total FROM b2c_partners${where}`, params))?.total || 0;
+					const statsRow = await queryOne(`SELECT 
+            COUNT(*) as totalPartners,
+            COALESCE(SUM(total_referrals), 0) as totalReferrals,
+            COALESCE(SUM(successful_admissions), 0) as successfulAdmissions,
+            COALESCE(SUM(total_earnings), 0) as totalEarnings,
+            COALESCE(SUM(payout_balance), 0) as payoutBalance
+            FROM b2c_partners`);
+					return json({
+						success: true,
+						data: await query(`SELECT * FROM b2c_partners${where} ORDER BY id ASC LIMIT ? OFFSET ?`, [
+							...params,
+							limit,
+							offset
+						]),
+						stats: statsRow,
+						pagination: {
+							page,
+							limit,
+							total,
+							totalPages: Math.ceil(total / limit)
+						}
+					});
+				}
+			}
+			if (method === "POST") {
+				const body = await parseBody(req);
+				const data = parseOrThrow(b2cPartnerSchema, body);
+				const code = body.code || genCode("B2C");
+				const isMem = isMemoryMode();
+				const partnerData = {
+					code,
+					name: data.name,
+					ambassador_type: data.ambassador_type || "Student Ambassador",
+					email: data.email,
+					phone: data.phone,
+					city: data.city,
+					branch: data.branch || "Guwahati HQ",
+					reward_type: data.reward_type || "flat_rate",
+					reward_amount: data.reward_amount ?? 15e3,
+					reward_pct: data.reward_pct ?? 10,
+					tier: data.tier || "Silver Ambassador",
+					status: data.status || "Active",
+					total_referrals: 0,
+					successful_admissions: 0,
+					total_earnings: 0,
+					payout_balance: 0,
+					payout_mode: data.payout_mode || "UPI / Direct Bank",
+					notes: data.notes || ""
+				};
+				let row;
+				if (isMem) row = memCreate("b2c_partners", partnerData);
+				else row = await queryOne("SELECT * FROM b2c_partners WHERE id = ?", [(await execute(`INSERT INTO b2c_partners 
+            (code, name, ambassador_type, email, phone, city, branch, reward_type, reward_amount, reward_pct, tier, status, total_referrals, successful_admissions, total_earnings, payout_balance, payout_mode, notes)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+					partnerData.code,
+					partnerData.name,
+					partnerData.ambassador_type,
+					partnerData.email,
+					partnerData.phone,
+					partnerData.city,
+					partnerData.branch,
+					partnerData.reward_type,
+					partnerData.reward_amount,
+					partnerData.reward_pct,
+					partnerData.tier,
+					partnerData.status,
+					0,
+					0,
+					0,
+					0,
+					partnerData.payout_mode,
+					partnerData.notes
+				])).insertId]);
+				return json({
+					success: true,
+					data: row,
+					message: "B2C Partner added successfully"
+				}, 201);
+			}
+		}
+		const mB2cProfit = path.match(/^\/api\/b2c-partners\/(\d+)\/profit-share$/);
+		if (mB2cProfit) {
+			const id = parseInt(mB2cProfit[1], 10);
+			const isMem = isMemoryMode();
+			if (method === "PUT" || method === "PATCH") {
+				const body = await parseBody(req);
+				const reward_amount = Number(body.reward_amount) || 15e3;
+				const reward_pct = Number(body.reward_pct) || 10;
+				const reward_type = body.reward_type || "flat_rate";
+				const tier = body.tier || "Silver Ambassador";
+				if (isMem) {
+					if (!memGet("b2c_partners", id)) return errJson(404, "B2C Partner not found");
+					return json({
+						success: true,
+						data: memUpdate("b2c_partners", id, {
+							reward_amount,
+							reward_pct,
+							reward_type,
+							tier
+						}),
+						message: "Reward model updated successfully"
+					});
+				} else {
+					await execute(`UPDATE b2c_partners SET reward_amount = ?, reward_pct = ?, reward_type = ?, tier = ? WHERE id = ?`, [
+						reward_amount,
+						reward_pct,
+						reward_type,
+						tier,
+						id
+					]);
+					return json({
+						success: true,
+						data: await queryOne("SELECT * FROM b2c_partners WHERE id = ?", [id]),
+						message: "Reward model updated successfully"
+					});
+				}
+			}
+		}
+		const mB2cSingle = path.match(/^\/api\/b2c-partners\/(\d+)$/);
+		if (mB2cSingle) {
+			const id = parseInt(mB2cSingle[1], 10);
+			const isMem = isMemoryMode();
+			if (method === "GET") {
+				const row = isMem ? memGet("b2c_partners", id) : await queryOne("SELECT * FROM b2c_partners WHERE id = ?", [id]);
+				if (!row) return errJson(404, "B2C Partner not found");
+				return json({
+					success: true,
+					data: row
+				});
+			}
+			if (method === "PUT" || method === "PATCH") {
+				const body = await parseBody(req);
+				if (isMem) return json({
+					success: true,
+					data: memUpdate("b2c_partners", id, body),
+					message: "B2C Partner updated successfully"
+				});
+				else {
+					const fields = [];
+					const vals = [];
+					for (const k of [
+						"name",
+						"ambassador_type",
+						"email",
+						"phone",
+						"city",
+						"branch",
+						"status",
+						"payout_balance",
+						"payout_mode",
+						"notes"
+					]) if (body[k] !== void 0) {
+						fields.push(`${k} = ?`);
+						vals.push(body[k]);
+					}
+					if (fields.length > 0) {
+						vals.push(id);
+						await execute(`UPDATE b2c_partners SET ${fields.join(", ")} WHERE id = ?`, vals);
+					}
+					return json({
+						success: true,
+						data: await queryOne("SELECT * FROM b2c_partners WHERE id = ?", [id])
+					});
+				}
+			}
+			if (method === "DELETE") {
+				if (isMem) {
+					if (!memDelete("b2c_partners", id)) return errJson(404, "B2C Partner not found");
+				} else if ((await execute("DELETE FROM b2c_partners WHERE id = ?", [id])).affectedRows === 0) return errJson(404, "B2C Partner not found");
+				return json({
+					success: true,
+					message: "B2C Partner deleted"
+				});
+			}
+		}
 		if (path === "/api/commissions") {
 			if (method === "GET") return json({
 				success: true,
@@ -5279,7 +6088,9 @@ async function handleApi(req) {
 					two_factor: true,
 					whatsapp_notify: true
 				};
-				else row = await queryOne("SELECT * FROM settings WHERE id=1");
+				else try {
+					row = await queryOne("SELECT * FROM settings WHERE id=1");
+				} catch {}
 				if (!row) row = {
 					id: 1,
 					legal_name: "Uniquesta Overseas Pvt Ltd",
@@ -5287,6 +6098,12 @@ async function handleApi(req) {
 					two_factor: true,
 					whatsapp_notify: true
 				};
+				if (row && row.config) try {
+					row = {
+						...typeof row.config === "string" ? JSON.parse(row.config) : row.config,
+						...row
+					};
+				} catch {}
 				return json({
 					success: true,
 					data: row
@@ -5295,19 +6112,16 @@ async function handleApi(req) {
 			if (method === "PUT" || method === "PATCH" || method === "POST") {
 				const body = await parseBody(req);
 				if (isMemoryMode()) {
-					const existing = memGet("settings", 1) ?? {
-						id: 1,
-						legal_name: "Uniquesta Overseas Pvt Ltd",
-						support_email: "care@uniquesta.com",
-						two_factor: true,
-						whatsapp_notify: true
-					};
 					const upd = {
-						...existing,
-						legal_name: body.legal_name ?? existing.legal_name,
-						support_email: body.support_email ?? existing.support_email,
-						two_factor: body.two_factor ?? existing.two_factor,
-						whatsapp_notify: body.whatsapp_notify ?? existing.whatsapp_notify
+						...memGet("settings", 1) ?? {
+							id: 1,
+							legal_name: "Uniquesta Overseas Pvt Ltd",
+							support_email: "care@uniquesta.com",
+							two_factor: true,
+							whatsapp_notify: true
+						},
+						...body,
+						id: 1
 					};
 					memCreate("settings", upd);
 					const tbl = getMemStore()["settings"];
@@ -5317,27 +6131,244 @@ async function handleApi(req) {
 						data: upd
 					});
 				} else {
-					await execute("INSERT INTO settings (id,legal_name,support_email,two_factor,whatsapp_notify) VALUES (1,?,?,?,?) ON DUPLICATE KEY UPDATE legal_name=VALUES(legal_name), support_email=VALUES(support_email), two_factor=VALUES(two_factor), whatsapp_notify=VALUES(whatsapp_notify)", [
-						body.legal_name || "Uniquesta Overseas Pvt Ltd",
-						body.support_email || "care@uniquesta.com",
-						body.two_factor ? 1 : 0,
-						body.whatsapp_notify ? 1 : 0
-					]);
-					if (body.legal_name === void 0 || body.support_email === void 0) {
-						await queryOne("SELECT * FROM settings WHERE id=1");
-						const patch = {};
-						if (body.legal_name !== void 0) patch.legal_name = body.legal_name;
-						if (body.support_email !== void 0) patch.support_email = body.support_email;
-						if (body.two_factor !== void 0) patch.two_factor = body.two_factor ? 1 : 0;
-						if (body.whatsapp_notify !== void 0) patch.whatsapp_notify = body.whatsapp_notify ? 1 : 0;
-						if (Object.keys(patch).length) await execute(`UPDATE settings SET ${Object.keys(patch).map((k) => `${k}=?`).join(",")} WHERE id=1`, Object.values(patch));
+					let existing = {};
+					try {
+						existing = await queryOne("SELECT * FROM settings WHERE id=1") || {};
+					} catch {}
+					let prevConfig = {};
+					if (existing.config) try {
+						prevConfig = typeof existing.config === "string" ? JSON.parse(existing.config) : existing.config;
+					} catch {}
+					const mergedConfig = {
+						...prevConfig,
+						...body
+					};
+					const configStr = JSON.stringify(mergedConfig);
+					try {
+						await execute("INSERT INTO settings (id, legal_name, support_email, two_factor, whatsapp_notify, config) VALUES (1, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE legal_name=VALUES(legal_name), support_email=VALUES(support_email), two_factor=VALUES(two_factor), whatsapp_notify=VALUES(whatsapp_notify), config=VALUES(config)", [
+							body.legal_name || existing.legal_name || "Uniquesta Overseas Pvt Ltd",
+							body.support_email || existing.support_email || "care@uniquesta.com",
+							body.two_factor !== void 0 ? body.two_factor ? 1 : 0 : existing.two_factor ? 1 : 0,
+							body.whatsapp_notify !== void 0 ? body.whatsapp_notify ? 1 : 0 : existing.whatsapp_notify ? 1 : 0,
+							configStr
+						]);
+					} catch (e) {
+						await execute("INSERT INTO settings (id, legal_name, support_email, two_factor, whatsapp_notify) VALUES (1, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE legal_name=VALUES(legal_name), support_email=VALUES(support_email), two_factor=VALUES(two_factor), whatsapp_notify=VALUES(whatsapp_notify)", [
+							body.legal_name || existing.legal_name || "Uniquesta Overseas Pvt Ltd",
+							body.support_email || existing.support_email || "care@uniquesta.com",
+							body.two_factor !== void 0 ? body.two_factor ? 1 : 0 : existing.two_factor ? 1 : 0,
+							body.whatsapp_notify !== void 0 ? body.whatsapp_notify ? 1 : 0 : existing.whatsapp_notify ? 1 : 0
+						]);
 					}
+					let row = await queryOne("SELECT * FROM settings WHERE id=1");
+					if (row && row.config) try {
+						row = {
+							...typeof row.config === "string" ? JSON.parse(row.config) : row.config,
+							...row
+						};
+					} catch {}
 					return json({
 						success: true,
-						data: await queryOne("SELECT * FROM settings WHERE id=1")
+						data: row || {
+							...existing,
+							...body
+						}
 					});
 				}
 			}
+		}
+		if (path === "/api/ai/chat" && method === "POST") {
+			const query = ((await parseBody(req)).message || "").trim();
+			if (!query) return errJson(400, "Message required");
+			const isMem = isMemoryMode();
+			let studentsCount = 0;
+			let abroadCount = 0;
+			let indiaCount = 0;
+			let leadsCount = 0;
+			let approvalsCount = 0;
+			let pendingApprovalsAmount = 0;
+			let totalRevenue = 0;
+			let travelCount = 0;
+			let travelMargin = 0;
+			let employeesCount = 0;
+			if (isMem) {
+				const s = memList("students") || [];
+				const is = memList("india_students") || [];
+				const l = memList("leads") || [];
+				const a = memList("approvals") || [];
+				const inv = memList("invoices") || [];
+				const tb = memList("travel_bookings") || [];
+				const emp = memList("employees") || [];
+				abroadCount = s.length;
+				indiaCount = is.length;
+				studentsCount = abroadCount + indiaCount;
+				leadsCount = l.length;
+				approvalsCount = a.length;
+				pendingApprovalsAmount = a.filter((item) => (item.status || "").toLowerCase() === "in review").reduce((acc, item) => acc + (parseInt(item.amount_value || 0, 10) || 0), 0);
+				totalRevenue = inv.filter((item) => (item.status || "").toLowerCase() === "paid").reduce((acc, item) => acc + (parseInt(item.amount_value || 0, 10) || 0), 0);
+				travelCount = tb.length;
+				travelMargin = tb.reduce((acc, item) => acc + (parseInt(item.admin_margin || 0, 10) || 0), 0);
+				employeesCount = emp.length;
+			} else try {
+				const sRow = await queryOne("SELECT COUNT(*) as c FROM students");
+				const isRow = await queryOne("SELECT COUNT(*) as c FROM india_students");
+				const lRow = await queryOne("SELECT COUNT(*) as c FROM leads");
+				const aRow = await queryOne("SELECT COUNT(*) as c, COALESCE(SUM(amount_value), 0) as pending FROM approvals WHERE status='In Review'");
+				const invRow = await queryOne("SELECT COALESCE(SUM(amount_value), 0) as rev FROM invoices WHERE status='Paid'");
+				const trvRow = await queryOne("SELECT COUNT(*) as c, COALESCE(SUM(admin_margin), 0) as margin FROM travel_bookings");
+				const empRow = await queryOne("SELECT COUNT(*) as c FROM employees");
+				abroadCount = sRow?.c || 0;
+				indiaCount = isRow?.c || 0;
+				studentsCount = abroadCount + indiaCount;
+				leadsCount = lRow?.c || 0;
+				approvalsCount = aRow?.c || 0;
+				pendingApprovalsAmount = parseInt(aRow?.pending || 0, 10);
+				totalRevenue = parseInt(invRow?.rev || 0, 10);
+				travelCount = trvRow?.c || 0;
+				travelMargin = parseInt(trvRow?.margin || 0, 10);
+				employeesCount = empRow?.c || 0;
+			} catch {}
+			const q = query.toLowerCase();
+			let reply = "";
+			let actions = [];
+			let suggestions = [];
+			if (q.includes("revenue") || q.includes("income") || q.includes("profit") || q.includes("finance") || q.includes("invoice") || q.includes("money") || q.includes("turnover")) {
+				reply = `### 💰 Financial Overview & Revenue Intelligence
+
+Here is the latest financial realization breakdown for UniQuesta ERP:
+
+- **Total Invoiced Realization (Paid):** ₹ ${totalRevenue.toLocaleString("en-IN")}\n- **Tours & Travels Net Margin:** ₹ ${travelMargin.toLocaleString("en-IN")}\n- **Pending Expense Approvals:** ₹ ${pendingApprovalsAmount.toLocaleString("en-IN")}\n\n**Key Insights:**\n1. Tuition fee instalments and visa service invoices represent the primary income driver.\n2. Tours & fleet operations operate at a **24% net margin** across intercity and group excursion bookings.\n3. You can inspect itemized ledgers or download audit reports directly from Finance & Reports.`;
+				actions = [{
+					label: "View Financial Reports",
+					url: "/reports"
+				}, {
+					label: "Audit Expense Approvals",
+					url: "/approvals"
+				}];
+				suggestions = [
+					"How many pending approvals require executive sign-off?",
+					"Show admissions lead conversion rate",
+					"What are the top overseas destinations?"
+				];
+			} else if (q.includes("student") || q.includes("admission") || q.includes("enroll") || q.includes("intake") || q.includes("application")) {
+				reply = `### 🎓 Admissions & Student Pipeline Intelligence\n\nUniQuesta currently has **${studentsCount} active students** registered in the system:\n\n- **International Admissions (Abroad):** ${abroadCount} students\n- **Domestic Admissions (India):** ${indiaCount} students (Nursing, Pharmacy, Allied Health)\n- **Active Inbound Leads:** ${leadsCount} enquiries undergoing counseling\n\n**Workflow Guide:**\n- **To enroll a student:** Navigate to **Students** → click **"+ Add Student"** or convert directly from an existing qualified lead.\n- **Document Vault:** Upload transcripts, passport copy, and English proficiency test (IELTS/PTE) scores in the student profile.\n- **Domestic Admissions:** India admissions include automated fee structure tracking with scholarship and instalment schedules.`;
+				actions = [{
+					label: "Open Students Directory",
+					url: "/students"
+				}, {
+					label: "View Leads Pipeline",
+					url: "/leads"
+				}];
+				suggestions = [
+					"Show top colleges and universities",
+					"What are the visa requirements for the UK?",
+					"How do I export admissions data to CSV?"
+				];
+			} else if (q.includes("approval") || q.includes("expense") || q.includes("voucher") || q.includes("reimburse")) {
+				reply = `### 🛡️ Admin & Expense Approval Workflow\n\nYou currently have **${approvalsCount} active approval vouchers** with **₹ ${pendingApprovalsAmount.toLocaleString("en-IN")}** awaiting review.\n\n**Standard 6-Stage Approval Flow:**\n1. **Employee Submission:** Employee uploads travel, marketing, or outreach bills with GST invoice.\n2. **Branch Manager Endorsement:** Verifies expense against regional quarterly allocation.\n3. **Finance & Accounts (AP Lead):** Audits line items, tax numbers, and hotel/flight tickets.\n4. **Director of Operations:** Sanctions operational necessity.\n5. **CEO / Executive Sign-off:** Grants final disbursement sanction.\n6. **NEFT Payout Release:** Accounts department executes direct bank payment within 24 hours.`;
+				actions = [{
+					label: "Open Approvals Ledger",
+					url: "/approvals"
+				}, {
+					label: "View Admin Reports",
+					url: "/reports"
+				}];
+				suggestions = [
+					"How to submit a new reimbursement?",
+					"What is our monthly expense budget?",
+					"Who has sign-off authority for branches?"
+				];
+			} else if (q.includes("travel") || q.includes("tour") || q.includes("bus") || q.includes("fleet") || q.includes("driver") || q.includes("booking") || q.includes("pnr")) {
+				reply = `### 🚐 Tours & Travel Fleet Management
+
+UniQuesta Tours & Travels manages outstation fleet excursions, airport transfers, and educational college tours.
+
+- **Active Bookings:** ${travelCount} bookings recorded\n- **Accumulated Admin Margin:** ₹ ${travelMargin.toLocaleString("en-IN")}\n- **Fleet Options:** 32-Seater Luxury AC Buses, Force Travellers (17-Seater), Toyota Innova Crysta, and 45-Seater Coach.\n\n**How to dispatch a trip:**\n1. Go to **Tours & Travels** → click **"+ New Booking"**.\n2. Specify Passenger, Origin, Destination, Vehicle type, Customer Price, and Agency Cost.\n3. The system automatically calculates your **Admin Net Margin**.\n4. Assign a verified driver from the fleet roster with automated SMS dispatch.`;
+				actions = [{
+					label: "Go to Tours & Travels",
+					url: "/travel"
+				}, {
+					label: "View Fleet Bookings Report",
+					url: "/reports"
+				}];
+				suggestions = [
+					"How are travel profit margins calculated?",
+					"Can drivers view their assigned trips?",
+					"How to export travel bookings to CSV?"
+				];
+			} else if (q.includes("staff") || q.includes("hr") || q.includes("employee") || q.includes("counsellor") || q.includes("team")) {
+				reply = `### 👥 Human Resources & Counsellor Directory\n\nUniQuesta currently has **${employeesCount} staff members & counsellors** allocated across regional branches.\n\n**Departmental Structure:**\n- **Branch Administration:** Regional heads overseeing Guwahati HQ, Mumbai, Delhi NCR, Bengaluru, and Hyderabad.\n- **Counseling Team:** Senior counsellors and admission advisors managing student inquiries.\n- **Visa & Compliance:** Dedicated officers filing CAS, Visa applications, and embassy mock interviews.\n\nTo manage employee profiles, add new staff, or update supervisor hierarchy, visit the **HR & Staff** module.`;
+				actions = [{
+					label: "Open HR & Staff Directory",
+					url: "/hr"
+				}, {
+					label: "View Counsellor Productivity",
+					url: "/reports"
+				}];
+				suggestions = [
+					"How to appoint a Branch Administrator?",
+					"How do counsellors receive leads?",
+					"What are the staff permission levels?"
+				];
+			} else if (q.includes("report") || q.includes("analytic") || q.includes("export") || q.includes("download") || q.includes("csv") || q.includes("pdf")) {
+				reply = "### 📊 Reports & Executive Analytics Hub\n\nThe **Reports & Analytics** module offers verified audit ledgers and instant exports:\n\n- **Master Export (CSV):** 1-Click download of complete organizational metrics.\n- **Students Admission Report:** International & Domestic admissions with fee collection ledger.\n- **Tours & Travel Report:** Customer prices, agency costs, and net margin retention.\n- **Admin & Approvals Report:** Itemized expense requisitions with audit progression.\n- **Print / Save PDF:** Clean, letterhead-ready printable reports for executive boards.\n\nAll CSV files are encoded with UTF-8 BOM for 100% compatibility with Microsoft Excel and Google Sheets.";
+				actions = [{
+					label: "Go to Reports & Analytics",
+					url: "/reports"
+				}];
+				suggestions = [
+					"What is our net operating profit margin?",
+					"How to filter reports by specific branch?",
+					"Can I print individual student records?"
+				];
+			} else if (q.includes("setting") || q.includes("whatsapp") || q.includes("config") || q.includes("role") || q.includes("security") || q.includes("2fa")) {
+				reply = "### ⚙️ Workspace Configuration & System Settings\n\nUniQuesta ERP features 8 advanced settings pillars in **Settings**:\n\n1. **Organisation & Entity:** Legal entity name, GSTIN, CIN, HQ address, branch network.\n2. **Roles & Permissions:** Interactive permission matrix for 7 staff roles across all modules.\n3. **Security & DPDP:** Enforce 2FA, session inactivity timeout, and audit trail logging.\n4. **Notifications:** Meta WhatsApp Cloud API triggers, student welcome SMS, and SMTP gateway.\n5. **Integrations:** Meta Lead Ads, Zoom auto-scheduler, and Tally Prime sync.\n6. **Branding:** Official theme colors (UniQuesta Red, Royal Navy), slogan, and portal headers.\n7. **Subscription:** Enterprise license, 280 seats quota, 500GB document storage.\n8. **Localisation:** Indian Lakhs/Crores vs International numbering, timezones, and currencies.";
+				actions = [{
+					label: "Open System Settings",
+					url: "/settings"
+				}];
+				suggestions = [
+					"How do I customize staff role permissions?",
+					"How to test the incoming webhook endpoint?",
+					"How to change default currency to INR?"
+				];
+			} else if (q.includes("visa") || q.includes("uk") || q.includes("canada") || q.includes("australia") || q.includes("germany") || q.includes("cas")) {
+				reply = "### 🌍 Global Visa & Compliance Guidelines\n\nHere is a quick reference for our top student study destinations:\n\n- **United Kingdom (UK):** Requires Confirmation of Acceptance for Studies (CAS), 28-day funds maintenance rule, TB test, and ATAS (if applicable).\n- **Canada:** Student Direct Stream (SDS) / Non-SDS, Guaranteed Investment Certificate (GIC) CAD $20,635, upfront medical exam, and biometrics.\n- **Australia:** Genuine Student (GS) assessment, Overseas Student Health Cover (OSHC), financial capacity proof, and Confirmation of Enrolment (CoE).\n- **Germany:** APS Certificate verification, Blocked Account (€ 11,208/year), health insurance, and university admission letter.";
+				actions = [{
+					label: "View Global Universities",
+					url: "/universities"
+				}, {
+					label: "Inspect Student Applications",
+					url: "/applications"
+				}];
+				suggestions = [
+					"Which universities offer September intakes?",
+					"How to track visa stage in student profile?",
+					"What commission do partner universities pay?"
+				];
+			} else {
+				reply = "### 👋 Hello! I am UniQuesta Enterprise AI Copilot\n\nI am your intelligent assistant for UniQuesta ERP & Overseas Education Management. I am grounded in live system data and can answer any question about operations:\n\n**Here is what you can ask me:**\n- 📊 **Financials & Margins:** *\"What is our total revenue and profit margin?\"*\n- 🎓 **Admissions & Pipeline:** *\"How many students and leads are in the pipeline?\"*\n- 🛡️ **Expense Approvals:** *\"Show pending approvals requiring sign-off\"*\n- 🚐 **Fleet & Travels:** *\"How to create and dispatch a travel fleet booking?\"*\n- 👥 **HR & Productivity:** *\"What are the staff roles and counsellor performance?\"*\n- ⚙️ **System Configuration:** *\"How do I configure WhatsApp notifications or role permissions?\"*\n\nHow may I assist you today?";
+				actions = [{
+					label: "View Dashboard Overview",
+					url: "/"
+				}, {
+					label: "Open Reports & Analytics",
+					url: "/reports"
+				}];
+				suggestions = [
+					"What is our current revenue and profit margin?",
+					"How many students and leads are in pipeline?",
+					"Show pending expense approvals"
+				];
+			}
+			return json({
+				success: true,
+				data: {
+					reply,
+					actions,
+					suggestions
+				}
+			});
 		}
 		if (path === "/api/dashboard/stats" && method === "GET") {
 			const isMem = isMemoryMode();
@@ -5381,26 +6412,154 @@ async function handleApi(req) {
 				data: stats
 			});
 		}
-		if (path === "/api/reports" && method === "GET") return json({
-			success: true,
-			data: [
-				{
-					title: "Admissions Funnel",
-					desc: "Lead → Enrolled conversion by branch",
-					tag: "Sales"
-				},
-				{
-					title: "Revenue by Destination",
-					desc: "Country-wise revenue and margin",
-					tag: "Finance"
-				},
-				{
-					title: "Counsellor Productivity",
-					desc: "Applications and offers per counsellor",
-					tag: "HR"
+		if ((path === "/api/reports" || path === "/api/reports/analytics") && method === "GET") {
+			const isMem = isMemoryMode();
+			let students = [];
+			let indiaStudents = [];
+			let leads = [];
+			let applications = [];
+			let employees = [];
+			let approvals = [];
+			let invoices = [];
+			let travelBookings = [];
+			let branches = [];
+			let b2bPartners = [];
+			let b2cPartners = [];
+			if (isMem) {
+				students = memList("students") || [];
+				indiaStudents = memList("india_students") || [];
+				leads = memList("leads") || [];
+				applications = memList("applications") || [];
+				employees = memList("employees") || [];
+				approvals = memList("approvals") || [];
+				invoices = memList("invoices") || [];
+				travelBookings = memList("travel_bookings") || [];
+				branches = memList("branches") || [];
+				b2bPartners = memList("b2b_partners") || [];
+				b2cPartners = memList("b2c_partners") || [];
+			} else {
+				try {
+					students = await query("SELECT * FROM students ORDER BY id DESC");
+				} catch {}
+				try {
+					indiaStudents = await query("SELECT * FROM india_students ORDER BY id DESC");
+				} catch {}
+				try {
+					leads = await query("SELECT * FROM leads ORDER BY id DESC");
+				} catch {}
+				try {
+					applications = await query("SELECT * FROM applications ORDER BY id DESC");
+				} catch {}
+				try {
+					employees = await query("SELECT * FROM employees ORDER BY id DESC");
+				} catch {}
+				try {
+					approvals = await query("SELECT * FROM approvals ORDER BY id DESC");
+				} catch {}
+				try {
+					invoices = await query("SELECT * FROM invoices ORDER BY id DESC");
+				} catch {}
+				try {
+					travelBookings = await query("SELECT * FROM travel_bookings ORDER BY id DESC");
+				} catch {}
+				try {
+					branches = await query("SELECT * FROM branches ORDER BY id ASC");
+				} catch {}
+				try {
+					b2bPartners = await query("SELECT * FROM b2b_partners ORDER BY id DESC");
+				} catch {}
+				try {
+					b2cPartners = await query("SELECT * FROM b2c_partners ORDER BY id DESC");
+				} catch {}
+			}
+			const totalAbroad = students.length;
+			const totalIndia = indiaStudents.length;
+			const totalStudents = totalAbroad + totalIndia;
+			const totalLeads = leads.length;
+			const totalApplications = applications.length;
+			const indiaTotalFee = indiaStudents.reduce((acc, s) => acc + (parseInt(s.total_fee ?? s.totalFee ?? 0, 10) || 0), 0);
+			const indiaPaidFee = indiaStudents.reduce((acc, s) => acc + (parseInt(s.paid_fee ?? s.paidFee ?? 0, 10) || 0), 0);
+			const indiaScholarship = indiaStudents.reduce((acc, s) => acc + (parseInt(s.scholarship ?? 0, 10) || 0), 0);
+			const indiaPendingFee = Math.max(0, indiaTotalFee - indiaPaidFee - indiaScholarship);
+			const totalEmployees = employees.length;
+			const activeEmployees = employees.filter((e) => (e.status || "").toLowerCase() === "active").length;
+			const onLeaveEmployees = employees.filter((e) => (e.status || "").toLowerCase().includes("leave")).length;
+			const totalApprovals = approvals.length;
+			const approvedApprovals = approvals.filter((a) => (a.status || "").toLowerCase() === "approved");
+			const inReviewApprovals = approvals.filter((a) => (a.status || "").toLowerCase() === "in review");
+			approvals.filter((a) => (a.status || "").toLowerCase() === "rejected");
+			const approvedAmount = approvedApprovals.reduce((acc, a) => acc + (parseInt(a.amount_value ?? 0, 10) || 0), 0);
+			const pendingAmount = inReviewApprovals.reduce((acc, a) => acc + (parseInt(a.amount_value ?? 0, 10) || 0), 0);
+			const totalTravelBookings = travelBookings.length;
+			const travelGrossRevenue = travelBookings.reduce((acc, t) => acc + (parseInt(t.customer_price ?? t.amount_value ?? 0, 10) || 0), 0);
+			const travelAgencyCost = travelBookings.reduce((acc, t) => acc + (parseInt(t.agency_cost ?? 0, 10) || 0), 0);
+			const travelAdminMargin = travelBookings.reduce((acc, t) => acc + (parseInt(t.admin_margin ?? 0, 10) || 0), 0);
+			const travelCompleted = travelBookings.filter((t) => (t.trip_status || "").toLowerCase().includes("completed") || (t.trip_status || "").toLowerCase().includes("trip")).length;
+			const paidInvoices = invoices.filter((i) => (i.status || "").toLowerCase() === "paid");
+			const pendingInvoices = invoices.filter((i) => (i.status || "").toLowerCase() === "pending");
+			const overdueInvoices = invoices.filter((i) => (i.status || "").toLowerCase() === "overdue");
+			const invoicesPaidAmount = paidInvoices.reduce((acc, i) => acc + (parseInt(i.amount_value ?? 0, 10) || 0), 0);
+			const invoicesPendingAmount = pendingInvoices.reduce((acc, i) => acc + (parseInt(i.amount_value ?? 0, 10) || 0), 0);
+			const invoicesOverdueAmount = overdueInvoices.reduce((acc, i) => acc + (parseInt(i.amount_value ?? 0, 10) || 0), 0);
+			const totalIncome = invoicesPaidAmount + indiaPaidFee + travelAdminMargin;
+			const totalExpenses = approvedAmount + travelAgencyCost;
+			const netProfit = totalIncome - totalExpenses;
+			const profitMarginPct = totalIncome > 0 ? Math.round(netProfit / totalIncome * 100) : 0;
+			const totalB2b = b2bPartners.length;
+			const totalB2c = b2cPartners.length;
+			b2bPartners.reduce((acc, p) => acc + (parseInt(p.partner_earnings ?? 0, 10) || 0), 0);
+			b2cPartners.reduce((acc, p) => acc + (parseInt(p.total_earnings ?? 0, 10) || 0), 0);
+			const b2bPayoutBalance = b2bPartners.reduce((acc, p) => acc + (parseInt(p.payout_balance ?? 0, 10) || 0), 0);
+			const b2cPayoutBalance = b2cPartners.reduce((acc, p) => acc + (parseInt(p.payout_balance ?? 0, 10) || 0), 0);
+			return json({
+				success: true,
+				data: {
+					summary: {
+						totalStudents,
+						totalAbroad,
+						totalIndia,
+						totalLeads,
+						totalApplications,
+						totalEmployees,
+						activeEmployees,
+						onLeaveEmployees,
+						totalApprovals,
+						approvedAmount,
+						pendingAmount,
+						totalTravelBookings,
+						travelGrossRevenue,
+						travelAgencyCost,
+						travelAdminMargin,
+						travelCompleted,
+						totalIncome,
+						totalExpenses,
+						netProfit,
+						profitMarginPct,
+						invoicesPaidAmount,
+						invoicesPendingAmount,
+						invoicesOverdueAmount,
+						indiaTotalFee,
+						indiaPaidFee,
+						indiaPendingFee,
+						totalPartners: totalB2b + totalB2c,
+						partnerPayoutBalance: b2bPayoutBalance + b2cPayoutBalance
+					},
+					datasets: {
+						students,
+						indiaStudents,
+						leads,
+						applications,
+						employees,
+						approvals,
+						invoices,
+						travelBookings,
+						branches,
+						b2bPartners,
+						b2cPartners
+					}
 				}
-			]
-		});
+			});
+		}
 		if (path === "/api/travel/bookings") {
 			if (method === "GET") {
 				if (isMemoryMode()) return json({
@@ -5627,7 +6786,7 @@ async function handleApi(req) {
 			}
 		}
 		if (path.startsWith("/api/travel/drivers/") && !path.includes("check")) {
-			const driverId = path.split("/").pop();
+			const driverId = path.split("/").pop() || "";
 			const isMem = isMemoryMode();
 			if (method === "GET") {
 				if (isMem) {
@@ -5813,7 +6972,7 @@ async function handleApi(req) {
 }
 var serverEntryPromise;
 async function getServerEntry() {
-	if (!serverEntryPromise) serverEntryPromise = import("./server-ybFvMhwT.mjs").then((n) => n.t).then((m) => m.default ?? m);
+	if (!serverEntryPromise) serverEntryPromise = import("./server-CJBXMDtz.mjs").then((n) => n.t).then((m) => m.default ?? m);
 	return serverEntryPromise;
 }
 async function normalizeCatastrophicSsrResponse(response) {

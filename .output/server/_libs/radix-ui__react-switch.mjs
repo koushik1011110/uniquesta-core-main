@@ -1,6 +1,6 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "./@floating-ui/react-dom+[...].mjs";
-import { l as require_jsx_runtime, o as createContextScope, p as useComposedRefs, s as Primitive } from "./@radix-ui/react-avatar+[...].mjs";
+import { c as createContextScope, i as Primitive, l as require_jsx_runtime, p as useComposedRefs } from "./@radix-ui/react-avatar+[...].mjs";
 import { t as composeEventHandlers } from "./radix-ui__primitive.mjs";
 import { a as useControllableState } from "./@radix-ui/react-collapsible+[...].mjs";
 import { b as useSize } from "./@radix-ui/react-dropdown-menu+[...].mjs";

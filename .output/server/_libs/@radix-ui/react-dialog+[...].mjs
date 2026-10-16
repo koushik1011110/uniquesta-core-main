@@ -1,6 +1,6 @@
 import { o as __toESM } from "../../_runtime.mjs";
 import { l as require_react_dom, u as require_react } from "../@floating-ui/react-dom+[...].mjs";
-import { a as useLayoutEffect2, c as dispatchDiscreteCustomEvent, d as createSlot, i as useCallbackRef$1, l as require_jsx_runtime, o as createContextScope, p as useComposedRefs, s as Primitive } from "./react-avatar+[...].mjs";
+import { a as dispatchDiscreteCustomEvent, c as createContextScope, d as createSlot, i as Primitive, l as require_jsx_runtime, o as useLayoutEffect2, p as useComposedRefs, s as useCallbackRef$1 } from "./react-avatar+[...].mjs";
 import { t as composeEventHandlers } from "../radix-ui__primitive.mjs";
 import { a as useControllableState, i as Presence, o as useId } from "./react-collapsible+[...].mjs";
 //#region node_modules/@radix-ui/react-dismissable-layer/dist/index.mjs

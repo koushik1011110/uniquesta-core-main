@@ -58,10 +58,10 @@ export const universitySchema = z.object({
   country: z.string().min(2),
   city: z.string().min(2),
   tier: z.string().optional(),
-  courses: z.number().optional(),
+  courses: z.coerce.number().optional(),
   intakes: z.string().min(2),
   commission: z.string().min(1),
-  rating: z.number().min(0).max(5).optional(),
+  rating: z.coerce.number().min(0).max(5).optional(),
 });
 
 export const collegeSchema = z.object({
@@ -86,11 +86,11 @@ export const courseSchema = z.object({
   name: z.string().min(2),
   category: z.string().min(2),
   duration: z.string().min(1),
-  eligibility: z.string().min(5),
-  tuitionFee: z.string().min(2),
+  eligibility: z.string().min(3),
+  tuitionFee: z.string().min(1),
   registrationFee: z.string().min(1),
-  seatsAvailable: z.number().optional(),
-  totalSeats: z.number().optional(),
+  seatsAvailable: z.coerce.number().optional(),
+  totalSeats: z.coerce.number().optional(),
   session: z.string().min(2),
   minPercentage: z.string().optional(),
   description: z.string().optional(),
@@ -131,6 +131,10 @@ export const invoiceSchema = z.object({
   type: z.string().min(2),
   date: z.string().optional(),
   status: z.string().optional(),
+  branch: z.string().optional(),
+  payment_method: z.string().optional(),
+  due_date: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 export const employeeSchema = z.object({
@@ -182,11 +186,27 @@ export const b2bPartnerSchema = z.object({
   phone: z.string().min(5),
   city: z.string().min(2),
   branch: z.string().optional(),
-  profit_share_type: z.enum(["percentage", "flat"]).optional(),
-  partner_share_pct: z.number().min(0).max(100).optional(),
-  flat_rate_amount: z.number().min(0).optional(),
+  profit_share_type: z.string().optional(),
+  partner_share_pct: z.coerce.number().min(0).max(100).optional(),
+  flat_rate_amount: z.coerce.number().min(0).optional(),
   tier: z.string().optional(),
   status: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+export const b2cPartnerSchema = z.object({
+  name: z.string().min(2),
+  ambassador_type: z.string().optional(),
+  email: z.string().email(),
+  phone: z.string().min(5),
+  city: z.string().min(2),
+  branch: z.string().optional(),
+  reward_type: z.string().optional(),
+  reward_amount: z.coerce.number().min(0).optional(),
+  reward_pct: z.coerce.number().min(0).max(100).optional(),
+  tier: z.string().optional(),
+  status: z.string().optional(),
+  payout_mode: z.string().optional(),
   notes: z.string().optional(),
 });
 

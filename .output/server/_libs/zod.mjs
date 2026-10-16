@@ -3543,5 +3543,27 @@ ZodOptional.create;
 ZodNullable.create;
 ZodEffects.createWithPreprocess;
 ZodPipeline.create;
+var coerce = {
+	string: ((arg) => ZodString.create({
+		...arg,
+		coerce: true
+	})),
+	number: ((arg) => ZodNumber.create({
+		...arg,
+		coerce: true
+	})),
+	boolean: ((arg) => ZodBoolean.create({
+		...arg,
+		coerce: true
+	})),
+	bigint: ((arg) => ZodBigInt.create({
+		...arg,
+		coerce: true
+	})),
+	date: ((arg) => ZodDate.create({
+		...arg,
+		coerce: true
+	}))
+};
 //#endregion
-export { numberType as a, literalType as i, booleanType as n, objectType as o, enumType as r, stringType as s, arrayType as t };
+export { literalType as a, stringType as c, enumType as i, booleanType as n, numberType as o, coerce as r, objectType as s, arrayType as t };

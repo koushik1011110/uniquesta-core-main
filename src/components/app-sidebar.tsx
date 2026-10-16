@@ -15,12 +15,12 @@ import {
   Settings,
   Plane,
   Compass,
-  ShieldCheck,
   ChevronRight,
   Sparkles,
 } from "lucide-react";
 
 import { getUser, isStaffRole } from "@/lib/auth";
+import { openAiCopilot } from "@/lib/ai-assistant";
 import {
   Sidebar,
   SidebarContent,
@@ -64,7 +64,7 @@ const dropdownMenus: DropdownMenu[] = [
       { title: "Student Admissions", url: "/students", icon: Users },
       { title: "Lead Management", url: "/leads", icon: UserPlus },
       { title: "Applications", url: "/applications", icon: FileText },
-      { title: "Global Universities", url: "/universities", icon: GraduationCap },
+      { title: "University and Courses", url: "/universities", icon: GraduationCap },
     ],
   },
   {
@@ -74,7 +74,6 @@ const dropdownMenus: DropdownMenu[] = [
     subItems: [
       { title: "Travel & Fleet Bookings", url: "/travel", icon: Plane },
       { title: "Destinations & Tours", url: "/travel-destinations", icon: Compass },
-      { title: "Forex & Travel Support", url: "/travel-services", icon: ShieldCheck },
     ],
   },
   {
@@ -82,7 +81,8 @@ const dropdownMenus: DropdownMenu[] = [
     icon: Briefcase,
     subItems: [
       { title: "Finance & Invoices", url: "/finance", icon: Wallet },
-      { title: "Partner Profit Sharing", url: "/partners", icon: Handshake },
+      { title: "B2B Profit Sharing", url: "/partners?tab=b2b", icon: Handshake },
+      { title: "B2C Profit Sharing", url: "/partners?tab=b2c", icon: Users },
       { title: "Expense Approvals", url: "/approvals", icon: CheckSquare },
       { title: "HR & Staff", url: "/hr", icon: Briefcase },
       { title: "Reports & Analytics", url: "/reports", icon: BarChart3 },
@@ -98,12 +98,30 @@ const dropdownMenus: DropdownMenu[] = [
 ];
 
 export function AppSidebar() {
-  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const location = useRouterState({ select: (r) => r.location });
+  const pathname = location.pathname;
+  const searchStr = location.searchStr || "";
   const user = getUser();
   const isStaff = isStaffRole(user);
 
-  const isExactActive = (url: string) => pathname === url;
-  const isSubActive = (url: string) => (url === "/" ? pathname === "/" : pathname.startsWith(url));
+  const isExactActive = (url: string) => {
+    if (url.includes("?")) {
+      const [path, qs] = url.split("?");
+      return pathname === path && searchStr.includes(qs);
+    }
+    return pathname === url;
+  };
+
+  const isSubActive = (url: string) => {
+    if (url === "/") return pathname === "/";
+    if (url.includes("?tab=b2c")) {
+      return pathname.startsWith("/partners") && searchStr.includes("tab=b2c");
+    }
+    if (url.includes("?tab=b2b")) {
+      return pathname.startsWith("/partners") && !searchStr.includes("tab=b2c");
+    }
+    return pathname.startsWith(url.split("?")[0]);
+  };
 
   return (
     <Sidebar collapsible="icon" className="border-r border-slate-200/80 bg-white">
@@ -154,7 +172,7 @@ export function AppSidebar() {
             {dropdownMenus.map((menu) => {
               // Hide restricted items (e.g. Partner Profit Sharing, HR & Staff) for staff portal
               const filteredSubItems = menu.subItems.filter((sub) => {
-                if (sub.url === "/partners" && isStaff) return false;
+                if (sub.url.startsWith("/partners") && isStaff) return false;
                 if (sub.url === "/hr" && isStaff) return false;
                 return true;
               });
@@ -236,6 +254,26 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* ─── AI Copilot Launcher ─── */}
+      <div className="px-3 pb-2 group-data-[collapsible=icon]:hidden">
+        <button
+          type="button"
+          onClick={() => openAiCopilot()}
+          className="w-full flex items-center gap-2.5 rounded-xl border border-primary/20 bg-primary/5 hover:bg-primary/10 p-2.5 text-left transition cursor-pointer group/ai"
+        >
+          <div className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary text-white shadow-2xs group-hover/ai:scale-105 transition">
+            <Sparkles className="h-3.5 w-3.5 text-amber-300 animate-pulse" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-xs font-bold text-foreground flex items-center justify-between">
+              <span>UniQuesta AI</span>
+              <span className="text-[9px] font-mono text-muted-foreground bg-muted px-1 rounded">⌘K</span>
+            </div>
+            <div className="text-[10px] text-muted-foreground truncate">Instant ERP Answers</div>
+          </div>
+        </button>
+      </div>
 
       {/* ─── Footer User Profile ─── */}
       <SidebarFooter className="border-t border-slate-100">

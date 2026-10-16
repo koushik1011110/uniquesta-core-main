@@ -45,7 +45,7 @@ All routes under `/api` — independent from frontend, reusable for mobile.
 
 **Pagination:** `?page=1&limit=20&search=...`
 
-**Fallback:** If MySQL unreachable, server automatically uses in-memory store seeded with demo data — no code change needed. Build passes without DB.
+**Database Requirement:** MySQL database is strictly required. In-memory fallback and temporary data are completely disabled. If MySQL is unreachable, API requests fail with 503 until MySQL is started.
 
 ## Frontend binding
 

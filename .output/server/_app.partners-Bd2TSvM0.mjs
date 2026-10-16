@@ -1,0 +1,4363 @@
+import { o as __toESM } from "./_runtime.mjs";
+import { u as require_react } from "./_libs/@floating-ui/react-dom+[...].mjs";
+import { t as require_jsx_dev_runtime } from "./_libs/react.mjs";
+import { d as useRouterState, v as Link } from "./_libs/@tanstack/react-router+[...].mjs";
+import { i as useQueryClient, n as useQuery, t as useMutation } from "./_libs/tanstack__react-query.mjs";
+import { C as Search, F as Pen, J as LoaderCircle, N as Percent, Vt as Building2, c as TrendingUp, h as SlidersVertical, k as Plus, l as Trash2, m as Sparkles, qt as Award, r as Users, tt as Handshake, v as ShieldAlert, vt as CreditCard } from "./_libs/lucide-react.mjs";
+import { t as toast } from "./_libs/sonner.mjs";
+import { C as Dialog, D as DialogHeader, E as DialogFooter, F as Badge, I as Card, L as CardContent, O as DialogTitle, S as Input, T as DialogDescription, U as Button, V as PageHeader, W as cn, _ as isStaffRole, d as SelectItem, f as SelectTrigger, h as getUser, k as api, l as Select, p as SelectValue, u as SelectContent, w as DialogContent, x as Label } from "./_ssr/router-CN9U7rpL.mjs";
+import { i as SliderTrack, n as SliderRange, r as SliderThumb, t as Slider$1 } from "./_libs/radix-ui__react-slider.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/_app.partners-Bd2TSvM0.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_dev_runtime = require_jsx_dev_runtime();
+var _jsxFileName$1 = "D:/React APP/uniquesta-core-main/src/components/ui/slider.tsx";
+var Slider = import_react.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Slider$1, {
+	ref,
+	className: cn("relative flex w-full touch-none select-none items-center", className),
+	...props,
+	children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SliderTrack, {
+		className: "relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/20",
+		children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SliderRange, { className: "absolute h-full bg-primary" }, void 0, false, {
+			fileName: _jsxFileName$1,
+			lineNumber: 16,
+			columnNumber: 7
+		}, void 0)
+	}, void 0, false, {
+		fileName: _jsxFileName$1,
+		lineNumber: 15,
+		columnNumber: 5
+	}, void 0), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SliderThumb, { className: "block h-4 w-4 rounded-full border border-primary/50 bg-background shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" }, void 0, false, {
+		fileName: _jsxFileName$1,
+		lineNumber: 18,
+		columnNumber: 5
+	}, void 0)]
+}, void 0, true, {
+	fileName: _jsxFileName$1,
+	lineNumber: 10,
+	columnNumber: 3
+}, void 0));
+Slider.displayName = Slider$1.displayName;
+var _jsxFileName = "D:/React APP/uniquesta-core-main/src/routes/_app.partners.tsx?tsr-split=component";
+function PartnerProfitManagementPage() {
+	const qc = useQueryClient();
+	const user = getUser();
+	const isStaff = isStaffRole(user);
+	const location = useRouterState({ select: (r) => r.location });
+	const [activeTab, setActiveTab] = (0, import_react.useState)(() => {
+		if (typeof window !== "undefined") {
+			if (new URLSearchParams(window.location.search).get("tab") === "b2c") return "b2c";
+		}
+		return "b2b";
+	});
+	(0, import_react.useEffect)(() => {
+		if (typeof window !== "undefined") {
+			const p = new URLSearchParams(window.location.search).get("tab");
+			if (p === "b2c" && activeTab !== "b2c") setActiveTab("b2c");
+			else if (p === "b2b" && activeTab !== "b2b") setActiveTab("b2b");
+		}
+	}, [location.searchStr]);
+	const switchTab = (tab) => {
+		setActiveTab(tab);
+		if (typeof window !== "undefined") {
+			const url = new URL(window.location.href);
+			url.searchParams.set("tab", tab);
+			window.history.replaceState(null, "", url.toString());
+		}
+	};
+	const [searchB2b, setSearchB2b] = (0, import_react.useState)("");
+	const [selectedBranchB2b, setSelectedBranchB2b] = (0, import_react.useState)("All Branches");
+	const [selectedTierB2b, setSelectedTierB2b] = (0, import_react.useState)("All Tiers");
+	const [b2bProfitModalOpen, setB2bProfitModalOpen] = (0, import_react.useState)(false);
+	const [b2bAddModalOpen, setB2bAddModalOpen] = (0, import_react.useState)(false);
+	const [b2bEditModalOpen, setB2bEditModalOpen] = (0, import_react.useState)(false);
+	const [b2bPayoutModalOpen, setB2bPayoutModalOpen] = (0, import_react.useState)(false);
+	const [selectedB2bPartner, setSelectedB2bPartner] = (0, import_react.useState)(null);
+	const [b2bProfitForm, setB2bProfitForm] = (0, import_react.useState)({
+		partner_share_pct: 25,
+		profit_share_type: "percentage",
+		flat_rate_amount: 25e3,
+		tier: "Silver Partner (25%)"
+	});
+	const [b2bAddForm, setB2bAddForm] = (0, import_react.useState)({
+		name: "",
+		company_name: "",
+		email: "",
+		phone: "",
+		city: "",
+		branch: "Mumbai",
+		profit_share_type: "percentage",
+		partner_share_pct: 25,
+		flat_rate_amount: 25e3,
+		tier: "Silver Partner (25%)",
+		status: "Active",
+		notes: ""
+	});
+	const [b2bEditForm, setB2bEditForm] = (0, import_react.useState)({
+		name: "",
+		company_name: "",
+		email: "",
+		phone: "",
+		city: "",
+		branch: "Mumbai",
+		status: "Active",
+		notes: ""
+	});
+	const [b2bPayoutAmount, setB2bPayoutAmount] = (0, import_react.useState)(0);
+	const [b2bPayoutNotes, setB2bPayoutNotes] = (0, import_react.useState)("");
+	const [searchB2c, setSearchB2c] = (0, import_react.useState)("");
+	const [selectedBranchB2c, setSelectedBranchB2c] = (0, import_react.useState)("All Branches");
+	const [selectedTypeB2c, setSelectedTypeB2c] = (0, import_react.useState)("All Types");
+	const [b2cRewardModalOpen, setB2cRewardModalOpen] = (0, import_react.useState)(false);
+	const [b2cAddModalOpen, setB2cAddModalOpen] = (0, import_react.useState)(false);
+	const [b2cEditModalOpen, setB2cEditModalOpen] = (0, import_react.useState)(false);
+	const [b2cPayoutModalOpen, setB2cPayoutModalOpen] = (0, import_react.useState)(false);
+	const [selectedB2cPartner, setSelectedB2cPartner] = (0, import_react.useState)(null);
+	const [b2cRewardForm, setB2cRewardForm] = (0, import_react.useState)({
+		reward_amount: 15e3,
+		reward_pct: 10,
+		reward_type: "flat_rate",
+		tier: "Silver Ambassador"
+	});
+	const [b2cAddForm, setB2cAddForm] = (0, import_react.useState)({
+		name: "",
+		ambassador_type: "Student Ambassador",
+		email: "",
+		phone: "",
+		city: "",
+		branch: "Guwahati HQ",
+		reward_type: "flat_rate",
+		reward_amount: 15e3,
+		reward_pct: 10,
+		tier: "Silver Ambassador",
+		status: "Active",
+		payout_mode: "UPI (e.g. name@oksbi)",
+		notes: ""
+	});
+	const [b2cEditForm, setB2cEditForm] = (0, import_react.useState)({
+		name: "",
+		ambassador_type: "Student Ambassador",
+		email: "",
+		phone: "",
+		city: "",
+		branch: "Guwahati HQ",
+		payout_mode: "UPI / Bank NEFT",
+		status: "Active",
+		notes: ""
+	});
+	const [b2cPayoutAmount, setB2cPayoutAmount] = (0, import_react.useState)(0);
+	const [b2cPayoutNotes, setB2cPayoutNotes] = (0, import_react.useState)("");
+	const { data: b2bRes, isLoading: b2bLoading } = useQuery({
+		queryKey: [
+			"b2b-partners",
+			selectedBranchB2b,
+			selectedTierB2b
+		],
+		enabled: !isStaff,
+		queryFn: async () => {
+			const q = { limit: 100 };
+			if (selectedBranchB2b && selectedBranchB2b !== "All Branches") q.branch = selectedBranchB2b;
+			if (selectedTierB2b && selectedTierB2b !== "All Tiers") q.tier = selectedTierB2b;
+			return api.get("/b2b-partners", q);
+		}
+	});
+	const { data: b2cRes, isLoading: b2cLoading } = useQuery({
+		queryKey: [
+			"b2c-partners",
+			selectedBranchB2c,
+			selectedTypeB2c
+		],
+		enabled: !isStaff,
+		queryFn: async () => {
+			const q = { limit: 100 };
+			if (selectedBranchB2c && selectedBranchB2c !== "All Branches") q.branch = selectedBranchB2c;
+			if (selectedTypeB2c && selectedTypeB2c !== "All Types") q.tier = selectedTypeB2c;
+			return api.get("/b2c-partners", q);
+		}
+	});
+	const b2bPartners = Array.isArray(b2bRes?.data) ? b2bRes.data : [];
+	const b2bStats = b2bRes?.stats || {
+		totalPartners: b2bPartners.length || 4,
+		totalRevenue: 255e4,
+		partnerEarnings: 785500,
+		adminEarnings: 1764500,
+		payoutBalance: 162500
+	};
+	const b2cPartners = Array.isArray(b2cRes?.data) ? b2cRes.data : [];
+	const b2cStats = b2cRes?.stats || {
+		totalPartners: b2cPartners.length || 4,
+		totalReferrals: 23,
+		successfulAdmissions: 15,
+		totalEarnings: 23e4,
+		payoutBalance: 55e3
+	};
+	const updateB2bProfitShare = useMutation({
+		mutationFn: async () => api.put(`/b2b-partners/${selectedB2bPartner.id}/profit-share`, b2bProfitForm),
+		onSuccess: (res) => {
+			qc.invalidateQueries({ queryKey: ["b2b-partners"] });
+			setB2bProfitModalOpen(false);
+			toast.success(res?.message || "B2B profit share updated successfully!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to update profit share")
+	});
+	const createB2bPartner = useMutation({
+		mutationFn: async () => api.post("/b2b-partners", b2bAddForm),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2b-partners"] });
+			setB2bAddModalOpen(false);
+			toast.success("New B2B Partner added successfully!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to create partner")
+	});
+	const updateB2bPartner = useMutation({
+		mutationFn: async () => api.put(`/b2b-partners/${selectedB2bPartner.id}`, b2bEditForm),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2b-partners"] });
+			setB2bEditModalOpen(false);
+			toast.success("B2B Partner details updated!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to update partner")
+	});
+	const deleteB2bPartner = useMutation({
+		mutationFn: async (id) => api.del(`/b2b-partners/${id}`),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2b-partners"] });
+			toast.success("B2B Partner removed");
+		},
+		onError: (e) => toast.error(e.message || "Failed to delete partner")
+	});
+	const releaseB2bPayout = useMutation({
+		mutationFn: async () => {
+			const remainingBalance = Math.max(0, (selectedB2bPartner.payout_balance || 0) - b2bPayoutAmount);
+			return api.put(`/b2b-partners/${selectedB2bPartner.id}`, { payout_balance: remainingBalance });
+		},
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2b-partners"] });
+			setB2bPayoutModalOpen(false);
+			toast.success(`B2B Payout of ₹ ${b2bPayoutAmount.toLocaleString("en-IN")} recorded!`);
+		},
+		onError: (e) => toast.error(e.message || "Failed to record payout")
+	});
+	const updateB2cReward = useMutation({
+		mutationFn: async () => api.put(`/b2c-partners/${selectedB2cPartner.id}/profit-share`, b2cRewardForm),
+		onSuccess: (res) => {
+			qc.invalidateQueries({ queryKey: ["b2c-partners"] });
+			setB2cRewardModalOpen(false);
+			toast.success(res?.message || "B2C referral reward model updated!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to update reward model")
+	});
+	const createB2cPartner = useMutation({
+		mutationFn: async () => api.post("/b2c-partners", b2cAddForm),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2c-partners"] });
+			setB2cAddModalOpen(false);
+			toast.success("New B2C Ambassador registered successfully!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to register B2C ambassador")
+	});
+	const updateB2cPartner = useMutation({
+		mutationFn: async () => api.put(`/b2c-partners/${selectedB2cPartner.id}`, b2cEditForm),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2c-partners"] });
+			setB2cEditModalOpen(false);
+			toast.success("B2C Ambassador updated!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to update ambassador")
+	});
+	const deleteB2cPartner = useMutation({
+		mutationFn: async (id) => api.del(`/b2c-partners/${id}`),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2c-partners"] });
+			toast.success("B2C Ambassador deleted");
+		},
+		onError: (e) => toast.error(e.message || "Failed to delete")
+	});
+	const releaseB2cPayout = useMutation({
+		mutationFn: async () => {
+			const remainingBalance = Math.max(0, (selectedB2cPartner.payout_balance || 0) - b2cPayoutAmount);
+			return api.put(`/b2c-partners/${selectedB2cPartner.id}`, { payout_balance: remainingBalance });
+		},
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["b2c-partners"] });
+			setB2cPayoutModalOpen(false);
+			toast.success(`Referral incentive of ₹ ${b2cPayoutAmount.toLocaleString("en-IN")} recorded!`);
+		},
+		onError: (e) => toast.error(e.message || "Failed to record payout")
+	});
+	const filteredB2b = (0, import_react.useMemo)(() => {
+		return b2bPartners.filter((p) => {
+			const q = searchB2b.toLowerCase();
+			if (q && !p.company_name?.toLowerCase().includes(q) && !p.name?.toLowerCase().includes(q) && !p.city?.toLowerCase().includes(q)) return false;
+			return true;
+		});
+	}, [b2bPartners, searchB2b]);
+	const filteredB2c = (0, import_react.useMemo)(() => {
+		return b2cPartners.filter((p) => {
+			const q = searchB2c.toLowerCase();
+			if (q && !p.name?.toLowerCase().includes(q) && !p.ambassador_type?.toLowerCase().includes(q) && !p.city?.toLowerCase().includes(q)) return false;
+			return true;
+		});
+	}, [b2cPartners, searchB2c]);
+	const openB2bProfit = (partner) => {
+		setSelectedB2bPartner(partner);
+		setB2bProfitForm({
+			partner_share_pct: parseFloat(partner.partner_share_pct) || 25,
+			profit_share_type: partner.profit_share_type || "percentage",
+			flat_rate_amount: partner.flat_rate_amount || 25e3,
+			tier: partner.tier || `${partner.partner_share_pct}% Partner Share`
+		});
+		setB2bProfitModalOpen(true);
+	};
+	const openB2bEdit = (partner) => {
+		setSelectedB2bPartner(partner);
+		setB2bEditForm({
+			name: partner.name,
+			company_name: partner.company_name,
+			email: partner.email,
+			phone: partner.phone,
+			city: partner.city,
+			branch: partner.branch,
+			status: partner.status || "Active",
+			notes: partner.notes || ""
+		});
+		setB2bEditModalOpen(true);
+	};
+	const openB2bPayout = (partner) => {
+		setSelectedB2bPartner(partner);
+		setB2bPayoutAmount(parseInt(partner.payout_balance, 10) || 1e4);
+		setB2bPayoutNotes(`Profit payout for student admissions via ${partner.company_name}`);
+		setB2bPayoutModalOpen(true);
+	};
+	const openB2cReward = (partner) => {
+		setSelectedB2cPartner(partner);
+		setB2cRewardForm({
+			reward_amount: partner.reward_amount || 15e3,
+			reward_pct: partner.reward_pct || 10,
+			reward_type: partner.reward_type || "flat_rate",
+			tier: partner.tier || "Silver Ambassador"
+		});
+		setB2cRewardModalOpen(true);
+	};
+	const openB2cEdit = (partner) => {
+		setSelectedB2cPartner(partner);
+		setB2cEditForm({
+			name: partner.name,
+			ambassador_type: partner.ambassador_type || "Student Ambassador",
+			email: partner.email,
+			phone: partner.phone,
+			city: partner.city,
+			branch: partner.branch || "Guwahati HQ",
+			payout_mode: partner.payout_mode || "UPI / Bank NEFT",
+			status: partner.status || "Active",
+			notes: partner.notes || ""
+		});
+		setB2cEditModalOpen(true);
+	};
+	const openB2cPayout = (partner) => {
+		setSelectedB2cPartner(partner);
+		setB2cPayoutAmount(parseInt(partner.payout_balance, 10) || 15e3);
+		setB2cPayoutNotes(`Referral reward payout for student referral via ${partner.name}`);
+		setB2cPayoutModalOpen(true);
+	};
+	if (isStaff) return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+		className: "flex min-h-[70vh] flex-col items-center justify-center p-4 text-center",
+		children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+			className: "max-w-md w-full p-6 sm:p-8 rounded-2xl shadow-xl border-slate-200 bg-white space-y-5",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "h-16 w-16 rounded-2xl bg-red-50 text-[#E52E20] flex items-center justify-center mx-auto shadow-inner border border-red-100",
+					children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ShieldAlert, { className: "h-8 w-8" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 402,
+						columnNumber: 13
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 401,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "space-y-2",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+							variant: "outline",
+							className: "bg-red-50 text-red-700 border-red-200 font-bold px-3 py-1 text-xs",
+							children: "Management Restricted Area"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 405,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+							className: "text-xl font-black text-slate-900 tracking-tight",
+							children: "Access Restricted"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 408,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+							className: "text-xs text-slate-500 leading-relaxed",
+							children: [
+								"The ",
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("strong", { children: "Partner Profit Sharing & Margins" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 410,
+									columnNumber: 19
+								}, this),
+								" module contains confidential company commission structures, B2B percentage splits, and B2C referral incentives."
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 409,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 404,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-left text-xs space-y-1.5",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "flex items-center justify-between",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+							className: "text-slate-500",
+							children: "Logged in as:"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 415,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+							className: "font-bold text-slate-900",
+							children: user?.name || "Staff Member"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 416,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 414,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "flex items-center justify-between",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+							className: "text-slate-500",
+							children: "Role:"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 419,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+							className: "font-mono text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200",
+							children: (user?.role || "Staff").toUpperCase().replace(/_/g, " ")
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 420,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 418,
+						columnNumber: 13
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 413,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+					asChild: true,
+					className: "w-full rounded-xl bg-[#E52E20] hover:bg-[#C82114] text-white font-bold text-xs h-10 shadow-sm",
+					children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Link, {
+						to: "/",
+						children: "Return to Dashboard"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 426,
+						columnNumber: 13
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 425,
+					columnNumber: 11
+				}, this)
+			]
+		}, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 400,
+			columnNumber: 9
+		}, this)
+	}, void 0, false, {
+		fileName: _jsxFileName,
+		lineNumber: 399,
+		columnNumber: 12
+	}, this);
+	return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(PageHeader, {
+			title: activeTab === "b2b" ? "B2B Partner Profit Sharing & Margins" : "B2C Student & Ambassador Profit Sharing",
+			description: activeTab === "b2b" ? "Admin Control: Configure how much profit share each B2B sub-agent receives on student admissions and university commissions." : "Admin Control: Configure direct student ambassador incentives, alumni referral bonuses & customer profit-share margins.",
+			actions: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "flex items-center gap-2",
+				children: activeTab === "b2b" ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+					className: "rounded-xl bg-[#E52E20] hover:bg-[#c92418] text-white shadow-sm font-semibold",
+					onClick: () => setB2bAddModalOpen(true),
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Plus, { className: "h-4 w-4 mr-1.5" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 434,
+						columnNumber: 17
+					}, this), " Add B2B Partner"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 433,
+					columnNumber: 36
+				}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+					className: "rounded-xl bg-[#E52E20] hover:bg-[#c92418] text-white shadow-sm font-semibold",
+					onClick: () => setB2cAddModalOpen(true),
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Plus, { className: "h-4 w-4 mr-1.5" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 436,
+						columnNumber: 17
+					}, this), " Add B2C Ambassador"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 435,
+					columnNumber: 27
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 432,
+				columnNumber: 428
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 432,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+			className: "mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-3.5",
+			children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "inline-flex items-center rounded-2xl bg-slate-100 p-1.5 shadow-inner",
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+					type: "button",
+					onClick: () => switchTab("b2b"),
+					className: `flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all ${activeTab === "b2b" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900"}`,
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Handshake, { className: `h-4 w-4 ${activeTab === "b2b" ? "text-[#E52E20]" : "text-slate-400"}` }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 444,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "B2B Partner Profit Sharing" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 445,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+							variant: "outline",
+							className: "ml-1 text-[10px] font-mono px-1.5 py-0 border-slate-300",
+							children: b2bPartners.length
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 446,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 443,
+					columnNumber: 11
+				}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+					type: "button",
+					onClick: () => switchTab("b2c"),
+					className: `flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold transition-all ${activeTab === "b2c" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900"}`,
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Users, { className: `h-4 w-4 ${activeTab === "b2c" ? "text-emerald-600" : "text-slate-400"}` }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 451,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "B2C Partner Profit Sharing" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 452,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+							variant: "outline",
+							className: "ml-1 text-[10px] font-mono px-1.5 py-0 border-slate-300",
+							children: b2cPartners.length
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 453,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 450,
+					columnNumber: 11
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 442,
+				columnNumber: 9
+			}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "text-xs text-slate-500 font-medium",
+				children: activeTab === "b2b" ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+					className: "flex items-center gap-1.5",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Building2, { className: "h-3.5 w-3.5 text-slate-400" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 461,
+						columnNumber: 15
+					}, this), " Managing Corporate Sub-Agents & Consultancies"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 460,
+					columnNumber: 34
+				}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+					className: "flex items-center gap-1.5",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Users, { className: "h-3.5 w-3.5 text-emerald-600" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 463,
+						columnNumber: 15
+					}, this), " Managing Direct Student Ambassadors & Alumni Referrals"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 462,
+					columnNumber: 23
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 459,
+				columnNumber: 9
+			}, this)]
+		}, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 441,
+			columnNumber: 7
+		}, this),
+		activeTab === "b2b" && /* @__PURE__ */ (void 0)("div", {
+			className: "space-y-6",
+			children: [
+				/* @__PURE__ */ (void 0)("div", {
+					className: "rounded-3xl border border-emerald-200 bg-gradient-to-br from-emerald-50/90 via-white to-slate-50 p-5 shadow-soft",
+					children: /* @__PURE__ */ (void 0)("div", {
+						className: "flex flex-col lg:flex-row lg:items-center justify-between gap-4",
+						children: [/* @__PURE__ */ (void 0)("div", {
+							className: "flex items-start gap-3.5",
+							children: [/* @__PURE__ */ (void 0)("div", {
+								className: "grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-600 text-white font-bold shadow-sm",
+								children: /* @__PURE__ */ (void 0)(Percent, { className: "h-6 w-6" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 477,
+									columnNumber: 19
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 476,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center gap-2",
+								children: [/* @__PURE__ */ (void 0)("h2", {
+									className: "text-base font-black text-slate-900",
+									children: "B2B Middleman Commission Split Active"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 481,
+									columnNumber: 21
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									className: "bg-emerald-600 text-white text-[10px] font-bold",
+									children: "Admin Margin Controlled"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 484,
+									columnNumber: 21
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 480,
+								columnNumber: 19
+							}, this), /* @__PURE__ */ (void 0)("p", {
+								className: "text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed",
+								children: [
+									"UniQuesta retains 100% of global university commissions. Admin configures the profit share percentage (e.g. ",
+									/* @__PURE__ */ (void 0)("strong", { children: "25% – 35%" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 489,
+										columnNumber: 129
+									}, this),
+									") paid out to regional sub-agents, while UniQuesta retains the primary gross margin (",
+									/* @__PURE__ */ (void 0)("strong", { children: "65% – 75%" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 489,
+										columnNumber: 240
+									}, this),
+									")."
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 488,
+								columnNumber: 19
+							}, this)] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 479,
+								columnNumber: 17
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 475,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (void 0)("div", {
+							className: "flex items-center gap-3 bg-white border border-slate-200 rounded-2xl p-3 shadow-sm self-start lg:self-auto",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "text-right",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "text-[11px] font-bold text-slate-500 uppercase",
+										children: "Avg. UniQuesta Retained"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 496,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "text-lg font-black text-[#E52E20]",
+										children: "72% Net Cut"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 497,
+										columnNumber: 19
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 495,
+									columnNumber: 17
+								}, this),
+								/* @__PURE__ */ (void 0)("div", { className: "h-9 w-px bg-slate-200" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 499,
+									columnNumber: 17
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "text-left",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "text-[11px] font-bold text-slate-500 uppercase",
+										children: "Avg. Partner Share"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 501,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "text-lg font-black text-emerald-700",
+										children: "28% Payout"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 502,
+										columnNumber: 19
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 500,
+									columnNumber: 17
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 494,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 474,
+						columnNumber: 13
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 473,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (void 0)("div", {
+					className: "grid gap-3 sm:grid-cols-2 lg:grid-cols-4",
+					children: [
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-slate-200 bg-white shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-slate-100 text-slate-800",
+									children: /* @__PURE__ */ (void 0)(Building2, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 513,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 512,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-slate-900",
+									children: b2bStats.totalPartners || b2bPartners.length
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 516,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-muted-foreground font-medium",
+									children: "Active B2B Partners"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 517,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 515,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 511,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 510,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-blue-100 bg-blue-50/50 shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-600 text-white",
+									children: /* @__PURE__ */ (void 0)(TrendingUp, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 525,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 524,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-blue-950",
+									children: ["₹ ", Number(b2bStats.totalRevenue || 255e4).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 528,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-blue-800 font-medium",
+									children: "Total B2B Revenue"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 529,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 527,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 523,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 522,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-emerald-100 bg-emerald-50/50 shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-600 text-white",
+									children: /* @__PURE__ */ (void 0)(Percent, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 537,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 536,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-emerald-950",
+									children: ["₹ ", Number(b2bStats.partnerEarnings || 785500).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 540,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-emerald-800 font-medium",
+									children: "Partner Margin Distributed"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 541,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 539,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 535,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 534,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-amber-100 bg-amber-50/50 shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-600 text-white",
+									children: /* @__PURE__ */ (void 0)(CreditCard, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 549,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 548,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-amber-950",
+									children: ["₹ ", Number(b2bStats.payoutBalance || 162500).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 552,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-amber-800 font-medium",
+									children: "Pending Payout Balance"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 553,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 551,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 547,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 546,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 509,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (void 0)("div", {
+					className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-white p-3.5 border border-slate-200",
+					children: [/* @__PURE__ */ (void 0)("div", {
+						className: "relative flex-1 max-w-sm",
+						children: [/* @__PURE__ */ (void 0)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 562,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (void 0)(Input, {
+							placeholder: "Search B2B agency, company, contact…",
+							className: "pl-9 h-9 text-xs rounded-xl",
+							value: searchB2b,
+							onChange: (e) => setSearchB2b(e.target.value)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 563,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 561,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (void 0)("div", {
+						className: "flex items-center gap-2",
+						children: /* @__PURE__ */ (void 0)(Select, {
+							value: selectedBranchB2b,
+							onValueChange: setSelectedBranchB2b,
+							children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+								className: "h-9 w-36 text-xs rounded-xl",
+								children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Branch" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 568,
+									columnNumber: 19
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 567,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "All Branches",
+									children: "All Branches"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 571,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Mumbai",
+									children: "Mumbai"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 572,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Delhi NCR",
+									children: "Delhi NCR"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 573,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Bengaluru",
+									children: "Bengaluru"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 574,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Guwahati HQ",
+									children: "Guwahati HQ"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 575,
+									columnNumber: 19
+								}, this)
+							] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 570,
+								columnNumber: 17
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 566,
+							columnNumber: 15
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 565,
+						columnNumber: 13
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 560,
+					columnNumber: 11
+				}, this),
+				b2bLoading ? /* @__PURE__ */ (void 0)("div", {
+					className: "py-20 text-center text-xs text-slate-500",
+					children: [/* @__PURE__ */ (void 0)(LoaderCircle, { className: "h-6 w-6 animate-spin mx-auto text-[#E52E20] mb-2" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 583,
+						columnNumber: 15
+					}, this), "Loading B2B partners and profit margins…"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 582,
+					columnNumber: 25
+				}, this) : filteredB2b.length === 0 ? /* @__PURE__ */ (void 0)("div", {
+					className: "py-16 text-center border-2 border-dashed rounded-3xl border-slate-200 bg-white",
+					children: [
+						/* @__PURE__ */ (void 0)(Building2, { className: "h-10 w-10 text-slate-300 mx-auto mb-2" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 586,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)("p", {
+							className: "text-sm font-bold text-slate-700",
+							children: "No B2B partners found"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 587,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)(Button, {
+							size: "sm",
+							className: "mt-3 bg-[#E52E20] text-white",
+							onClick: () => setB2bAddModalOpen(true),
+							children: "Add First B2B Partner"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 588,
+							columnNumber: 15
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 585,
+					columnNumber: 49
+				}, this) : /* @__PURE__ */ (void 0)("div", {
+					className: "grid gap-4",
+					children: filteredB2b.map((p) => {
+						const partnerPct = parseFloat(p.partner_share_pct) || 25;
+						const adminPct = 100 - partnerPct;
+						return /* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-slate-200 bg-white shadow-soft transition hover:shadow-elevated p-5",
+							children: [/* @__PURE__ */ (void 0)("div", {
+								className: "flex flex-col lg:flex-row lg:items-center justify-between gap-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-start gap-3.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-slate-900 text-white font-bold shadow-sm",
+										children: /* @__PURE__ */ (void 0)(Building2, { className: "h-6 w-6" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 599,
+											columnNumber: 27
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 598,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+										className: "flex items-center gap-2 flex-wrap",
+										children: [
+											/* @__PURE__ */ (void 0)("h3", {
+												className: "text-base font-black text-slate-900",
+												children: p.company_name
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 603,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)(Badge, {
+												variant: "outline",
+												className: "font-mono text-[10px] font-bold text-slate-600",
+												children: p.code
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 604,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)(Badge, {
+												className: "bg-purple-100 text-purple-800 border-purple-200 text-[10.5px] font-bold",
+												children: p.tier || `${partnerPct}% Share`
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 607,
+												columnNumber: 29
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 602,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "flex flex-wrap items-center gap-3 text-xs text-slate-600 mt-1",
+										children: [
+											/* @__PURE__ */ (void 0)("span", {
+												className: "font-semibold text-slate-800",
+												children: ["Contact: ", p.name]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 612,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: "•" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 613,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: p.email }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 614,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: "•" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 615,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: p.phone }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 616,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: "•" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 617,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", {
+												className: "text-[#E52E20] font-semibold",
+												children: [
+													p.city,
+													" (",
+													p.branch,
+													")"
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 618,
+												columnNumber: 29
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 611,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 601,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 597,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2 self-start lg:self-auto",
+									children: [
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "sm",
+											className: "rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm",
+											onClick: () => openB2bProfit(p),
+											children: [/* @__PURE__ */ (void 0)(SlidersVertical, { className: "h-3.5 w-3.5 mr-1.5" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 625,
+												columnNumber: 27
+											}, this), " Set Profit Share"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 624,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "sm",
+											variant: "outline",
+											className: "rounded-xl border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold",
+											onClick: () => openB2bPayout(p),
+											children: [/* @__PURE__ */ (void 0)(CreditCard, { className: "h-3.5 w-3.5 mr-1" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 628,
+												columnNumber: 27
+											}, this), " Payout"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 627,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "icon",
+											variant: "ghost",
+											className: "h-8 w-8 text-slate-400",
+											onClick: () => openB2bEdit(p),
+											children: /* @__PURE__ */ (void 0)(Pen, { className: "h-3.5 w-3.5" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 631,
+												columnNumber: 27
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 630,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "icon",
+											variant: "ghost",
+											className: "h-8 w-8 text-destructive hover:bg-destructive/10",
+											onClick: () => deleteB2bPartner.mutate(p.id),
+											children: /* @__PURE__ */ (void 0)(Trash2, { className: "h-3.5 w-3.5" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 634,
+												columnNumber: 27
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 633,
+											columnNumber: 25
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 623,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 596,
+								columnNumber: 21
+							}, this), /* @__PURE__ */ (void 0)("div", {
+								className: "mt-4 pt-4 border-t border-slate-100 grid gap-4 lg:grid-cols-12 items-center",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "lg:col-span-6 rounded-2xl bg-slate-50 border border-slate-200/80 p-3 space-y-2",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "flex items-center justify-between text-xs font-bold",
+											children: [/* @__PURE__ */ (void 0)("span", {
+												className: "text-emerald-700",
+												children: [
+													"Partner Profit Share: ",
+													partnerPct,
+													"%"
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 643,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("span", {
+												className: "text-[#E52E20]",
+												children: [
+													"UniQuesta Retained: ",
+													adminPct,
+													"%"
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 644,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 642,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "h-3.5 w-full rounded-full bg-slate-200 overflow-hidden flex shadow-inner",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												style: { width: `${partnerPct}%` },
+												className: "h-full bg-emerald-500"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 647,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												style: { width: `${adminPct}%` },
+												className: "h-full bg-[#E52E20]"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 650,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 646,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "text-[11px] text-slate-500 flex justify-between",
+											children: [/* @__PURE__ */ (void 0)("span", { children: ["Referred: ", /* @__PURE__ */ (void 0)("strong", { children: [p.total_students || 0, " Students"] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 655,
+												columnNumber: 43
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 655,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("span", { children: ["Flat Rate: ₹ ", (p.flat_rate_amount || 25e3).toLocaleString("en-IN")] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 656,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 654,
+											columnNumber: 25
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 641,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "lg:col-span-6 grid grid-cols-3 gap-2 text-center text-xs",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "bg-slate-50 p-2.5 rounded-xl border border-slate-100",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-[10px] text-slate-400 font-semibold uppercase",
+												children: "Total Revenue"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 662,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "font-black text-slate-900 mt-0.5",
+												children: ["₹ ", Number(p.total_revenue || 0).toLocaleString("en-IN")]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 663,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 661,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-[10px] text-emerald-700 font-semibold uppercase",
+												children: "Partner Share"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 666,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "font-black text-emerald-900 mt-0.5",
+												children: ["₹ ", Number(p.partner_earnings || 0).toLocaleString("en-IN")]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 667,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 665,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "bg-amber-50/70 p-2.5 rounded-xl border border-amber-100",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-[10px] text-amber-700 font-semibold uppercase",
+												children: "Pending Balance"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 670,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "font-black text-amber-900 mt-0.5",
+												children: ["₹ ", Number(p.payout_balance || 0).toLocaleString("en-IN")]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 671,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 669,
+											columnNumber: 25
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 660,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 640,
+								columnNumber: 21
+							}, this)]
+						}, p.id, true, {
+							fileName: _jsxFileName,
+							lineNumber: 595,
+							columnNumber: 18
+						}, this);
+					})
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 591,
+					columnNumber: 22
+				}, this)
+			]
+		}, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 471,
+			columnNumber: 31
+		}, this),
+		activeTab === "b2c" && /* @__PURE__ */ (void 0)("div", {
+			className: "space-y-6",
+			children: [
+				/* @__PURE__ */ (void 0)("div", {
+					className: "rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50/90 via-white to-slate-50 p-5 shadow-soft",
+					children: /* @__PURE__ */ (void 0)("div", {
+						className: "flex flex-col lg:flex-row lg:items-center justify-between gap-4",
+						children: [/* @__PURE__ */ (void 0)("div", {
+							className: "flex items-start gap-3.5",
+							children: [/* @__PURE__ */ (void 0)("div", {
+								className: "grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-blue-600 text-white font-bold shadow-sm",
+								children: /* @__PURE__ */ (void 0)(Users, { className: "h-6 w-6" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 689,
+									columnNumber: 19
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 688,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center gap-2",
+								children: [/* @__PURE__ */ (void 0)("h2", {
+									className: "text-base font-black text-slate-900",
+									children: "B2C Direct Student & Ambassador Profit Sharing"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 693,
+									columnNumber: 21
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									className: "bg-blue-600 text-white text-[10px] font-bold",
+									children: "Direct Consumer Model"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 696,
+									columnNumber: 21
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 692,
+								columnNumber: 19
+							}, this), /* @__PURE__ */ (void 0)("p", {
+								className: "text-xs text-slate-600 mt-1 max-w-2xl leading-relaxed",
+								children: [
+									"Reward verified student ambassadors, alumni peer referrers, and campus influencers. When a referred student completes admissions, the ambassador receives an instant flat cash incentive (e.g. ",
+									/* @__PURE__ */ (void 0)("strong", { children: "₹ 15,000 – ₹ 25,000" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 702,
+										columnNumber: 128
+									}, this),
+									") or revenue margin share (",
+									/* @__PURE__ */ (void 0)("strong", { children: "10% – 15%" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 702,
+										columnNumber: 191
+									}, this),
+									") credited via direct UPI or Bank NEFT."
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 700,
+								columnNumber: 19
+							}, this)] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 691,
+								columnNumber: 17
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 687,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (void 0)("div", {
+							className: "flex items-center gap-3 bg-white border border-slate-200 rounded-2xl p-3 shadow-sm self-start lg:self-auto",
+							children: [
+								/* @__PURE__ */ (void 0)("div", {
+									className: "text-right",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "text-[11px] font-bold text-slate-500 uppercase",
+										children: "Avg. Ambassador Payout"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 709,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "text-lg font-black text-blue-700",
+										children: "₹ 15,000 / Student"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 710,
+										columnNumber: 19
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 708,
+									columnNumber: 17
+								}, this),
+								/* @__PURE__ */ (void 0)("div", { className: "h-9 w-px bg-slate-200" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 712,
+									columnNumber: 17
+								}, this),
+								/* @__PURE__ */ (void 0)("div", {
+									className: "text-left",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "text-[11px] font-bold text-slate-500 uppercase",
+										children: "UniQuesta Retained"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 714,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "text-lg font-black text-emerald-700",
+										children: "85% – 90% Gross Cut"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 715,
+										columnNumber: 19
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 713,
+									columnNumber: 17
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 707,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 686,
+						columnNumber: 13
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 685,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (void 0)("div", {
+					className: "grid gap-3 sm:grid-cols-2 lg:grid-cols-4",
+					children: [
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-slate-200 bg-white shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-purple-50 text-purple-600",
+									children: /* @__PURE__ */ (void 0)(Users, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 726,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 725,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-slate-900",
+									children: b2cStats.totalPartners || b2cPartners.length
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 729,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-muted-foreground font-medium",
+									children: "Active B2C Ambassadors"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 730,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 728,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 724,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 723,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-blue-100 bg-blue-50/50 shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-600 text-white",
+									children: /* @__PURE__ */ (void 0)(Sparkles, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 738,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 737,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-blue-950",
+									children: [b2cStats.totalReferrals || 23, " Leads"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 741,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-blue-800 font-medium",
+									children: "Referred Students"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 742,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 740,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 736,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 735,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-emerald-100 bg-emerald-50/50 shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-600 text-white",
+									children: /* @__PURE__ */ (void 0)(Award, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 750,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 749,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-emerald-950",
+									children: ["₹ ", Number(b2cStats.totalEarnings || 23e4).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 753,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-emerald-800 font-medium",
+									children: "Ambassador Rewards Distributed"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 754,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 752,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 748,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 747,
+							columnNumber: 13
+						}, this),
+						/* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-amber-100 bg-amber-50/50 shadow-soft",
+							children: /* @__PURE__ */ (void 0)(CardContent, {
+								className: "flex items-center gap-3.5 p-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-600 text-white",
+									children: /* @__PURE__ */ (void 0)(CreditCard, { className: "h-5 w-5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 762,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 761,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+									className: "text-xl font-black text-amber-950",
+									children: ["₹ ", Number(b2cStats.payoutBalance || 55e3).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 765,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "text-xs text-amber-800 font-medium",
+									children: "Pending Payout Balance"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 766,
+									columnNumber: 19
+								}, this)] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 764,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 760,
+								columnNumber: 15
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 759,
+							columnNumber: 13
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 722,
+					columnNumber: 11
+				}, this),
+				/* @__PURE__ */ (void 0)("div", {
+					className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-white p-3.5 border border-slate-200",
+					children: [/* @__PURE__ */ (void 0)("div", {
+						className: "relative flex-1 max-w-sm",
+						children: [/* @__PURE__ */ (void 0)(Search, { className: "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 775,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (void 0)(Input, {
+							placeholder: "Search B2C ambassador, contact, campus…",
+							className: "pl-9 h-9 text-xs rounded-xl",
+							value: searchB2c,
+							onChange: (e) => setSearchB2c(e.target.value)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 776,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 774,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (void 0)("div", {
+						className: "flex items-center gap-2",
+						children: [/* @__PURE__ */ (void 0)(Select, {
+							value: selectedTypeB2c,
+							onValueChange: setSelectedTypeB2c,
+							children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+								className: "h-9 w-44 text-xs rounded-xl",
+								children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Ambassador Type" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 781,
+									columnNumber: 19
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 780,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "All Types",
+									children: "All Types"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 784,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Student Ambassador",
+									children: "Student Ambassador"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 785,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Campus Influencer",
+									children: "Campus Influencer"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 786,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Freelance Counselor",
+									children: "Freelance Counselor"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 787,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Alumni Ambassador",
+									children: "Alumni Ambassador"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 788,
+									columnNumber: 19
+								}, this)
+							] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 783,
+								columnNumber: 17
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 779,
+							columnNumber: 15
+						}, this), /* @__PURE__ */ (void 0)(Select, {
+							value: selectedBranchB2c,
+							onValueChange: setSelectedBranchB2c,
+							children: [/* @__PURE__ */ (void 0)(SelectTrigger, {
+								className: "h-9 w-36 text-xs rounded-xl",
+								children: /* @__PURE__ */ (void 0)(SelectValue, { placeholder: "Branch" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 793,
+									columnNumber: 19
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 792,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (void 0)(SelectContent, { children: [
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "All Branches",
+									children: "All Branches"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 796,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Guwahati HQ",
+									children: "Guwahati HQ"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 797,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Mumbai",
+									children: "Mumbai"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 798,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Delhi NCR",
+									children: "Delhi NCR"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 799,
+									columnNumber: 19
+								}, this),
+								/* @__PURE__ */ (void 0)(SelectItem, {
+									value: "Bengaluru",
+									children: "Bengaluru"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 800,
+									columnNumber: 19
+								}, this)
+							] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 795,
+								columnNumber: 17
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 791,
+							columnNumber: 15
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 778,
+						columnNumber: 13
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 773,
+					columnNumber: 11
+				}, this),
+				b2cLoading ? /* @__PURE__ */ (void 0)("div", {
+					className: "py-20 text-center text-xs text-slate-500",
+					children: [/* @__PURE__ */ (void 0)(LoaderCircle, { className: "h-6 w-6 animate-spin mx-auto text-[#E52E20] mb-2" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 808,
+						columnNumber: 15
+					}, this), "Loading B2C ambassadors and referral margins…"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 807,
+					columnNumber: 25
+				}, this) : filteredB2c.length === 0 ? /* @__PURE__ */ (void 0)("div", {
+					className: "py-16 text-center border-2 border-dashed rounded-3xl border-slate-200 bg-white",
+					children: [
+						/* @__PURE__ */ (void 0)(Users, { className: "h-10 w-10 text-slate-300 mx-auto mb-2" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 811,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)("p", {
+							className: "text-sm font-bold text-slate-700",
+							children: "No B2C ambassadors found"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 812,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)(Button, {
+							size: "sm",
+							className: "mt-3 bg-[#E52E20] text-white",
+							onClick: () => setB2cAddModalOpen(true),
+							children: "Add First B2C Ambassador"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 813,
+							columnNumber: 15
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 810,
+					columnNumber: 49
+				}, this) : /* @__PURE__ */ (void 0)("div", {
+					className: "grid gap-4",
+					children: filteredB2c.map((p) => {
+						const rewardAmount = p.reward_amount || 15e3;
+						const rewardPct = p.reward_pct || 10;
+						const isFlat = p.reward_type !== "percentage";
+						return /* @__PURE__ */ (void 0)(Card, {
+							className: "rounded-2xl border-slate-200 bg-white shadow-soft transition hover:shadow-elevated p-5",
+							children: [/* @__PURE__ */ (void 0)("div", {
+								className: "flex flex-col lg:flex-row lg:items-center justify-between gap-4",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "flex items-start gap-3.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white font-black text-sm shadow-sm",
+										children: p.name.slice(0, 2).toUpperCase()
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 824,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("div", {
+										className: "flex items-center gap-2 flex-wrap",
+										children: [
+											/* @__PURE__ */ (void 0)("h3", {
+												className: "text-base font-black text-slate-900",
+												children: p.name
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 829,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)(Badge, {
+												variant: "outline",
+												className: "font-mono text-[10px] font-bold text-slate-600",
+												children: p.code
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 830,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)(Badge, {
+												className: "bg-blue-50 text-blue-800 border-blue-200 text-[10.5px] font-bold",
+												children: p.ambassador_type || "Student Ambassador"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 833,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)(Badge, {
+												className: "bg-emerald-50 text-emerald-800 border-emerald-200 text-[10.5px] font-bold",
+												children: p.tier || "Silver Ambassador"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 836,
+												columnNumber: 29
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 828,
+										columnNumber: 27
+									}, this), /* @__PURE__ */ (void 0)("div", {
+										className: "flex flex-wrap items-center gap-3 text-xs text-slate-600 mt-1",
+										children: [
+											/* @__PURE__ */ (void 0)("span", { children: p.email }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 841,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: "•" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 842,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: p.phone }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 843,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: "•" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 844,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", {
+												className: "text-slate-800 font-semibold",
+												children: [
+													p.city,
+													" (",
+													p.branch,
+													")"
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 845,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", { children: "•" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 846,
+												columnNumber: 29
+											}, this),
+											/* @__PURE__ */ (void 0)("span", {
+												className: "text-emerald-700 font-mono font-medium",
+												children: ["Payout Mode: ", p.payout_mode || "UPI"]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 847,
+												columnNumber: 29
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 840,
+										columnNumber: 27
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 827,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 823,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-2 self-start lg:self-auto",
+									children: [
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "sm",
+											className: "rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold shadow-sm",
+											onClick: () => openB2cReward(p),
+											children: [/* @__PURE__ */ (void 0)(SlidersVertical, { className: "h-3.5 w-3.5 mr-1.5" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 854,
+												columnNumber: 27
+											}, this), " Set Referral Reward"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 853,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "sm",
+											variant: "outline",
+											className: "rounded-xl border-slate-200 text-slate-700 hover:bg-slate-100 font-semibold",
+											onClick: () => openB2cPayout(p),
+											children: [/* @__PURE__ */ (void 0)(CreditCard, { className: "h-3.5 w-3.5 mr-1" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 857,
+												columnNumber: 27
+											}, this), " Payout"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 856,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "icon",
+											variant: "ghost",
+											className: "h-8 w-8 text-slate-400",
+											onClick: () => openB2cEdit(p),
+											children: /* @__PURE__ */ (void 0)(Pen, { className: "h-3.5 w-3.5" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 860,
+												columnNumber: 27
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 859,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)(Button, {
+											size: "icon",
+											variant: "ghost",
+											className: "h-8 w-8 text-destructive hover:bg-destructive/10",
+											onClick: () => deleteB2cPartner.mutate(p.id),
+											children: /* @__PURE__ */ (void 0)(Trash2, { className: "h-3.5 w-3.5" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 863,
+												columnNumber: 27
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 862,
+											columnNumber: 25
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 852,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 822,
+								columnNumber: 21
+							}, this), /* @__PURE__ */ (void 0)("div", {
+								className: "mt-4 pt-4 border-t border-slate-100 grid gap-4 lg:grid-cols-12 items-center",
+								children: [/* @__PURE__ */ (void 0)("div", {
+									className: "lg:col-span-6 rounded-2xl bg-blue-50/50 border border-blue-100 p-3 space-y-1.5",
+									children: [/* @__PURE__ */ (void 0)("div", {
+										className: "flex items-center justify-between text-xs font-bold text-slate-900",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-blue-800",
+											children: ["Reward Model: ", isFlat ? `₹ ${rewardAmount.toLocaleString("en-IN")} Fixed / Admission` : `${rewardPct}% Commission Split`]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 872,
+											columnNumber: 27
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "text-emerald-700 font-semibold",
+											children: [p.successful_admissions || 0, " Admissions Enrolled"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 875,
+											columnNumber: 27
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 871,
+										columnNumber: 25
+									}, this), /* @__PURE__ */ (void 0)("p", {
+										className: "text-[11px] text-slate-500",
+										children: p.notes || "Active B2C student ambassador for university referral program."
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 879,
+										columnNumber: 25
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 870,
+									columnNumber: 23
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "lg:col-span-6 grid grid-cols-3 gap-2 text-center text-xs",
+									children: [
+										/* @__PURE__ */ (void 0)("div", {
+											className: "bg-slate-50 p-2.5 rounded-xl border border-slate-100",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-[10px] text-slate-400 font-semibold uppercase",
+												children: "Total Referrals"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 886,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "font-black text-slate-900 mt-0.5",
+												children: [p.total_referrals || 0, " Students"]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 887,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 885,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-[10px] text-emerald-700 font-semibold uppercase",
+												children: "Total Earned"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 890,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "font-black text-emerald-900 mt-0.5",
+												children: ["₹ ", Number(p.total_earnings || 0).toLocaleString("en-IN")]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 891,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 889,
+											columnNumber: 25
+										}, this),
+										/* @__PURE__ */ (void 0)("div", {
+											className: "bg-amber-50/70 p-2.5 rounded-xl border border-amber-100",
+											children: [/* @__PURE__ */ (void 0)("div", {
+												className: "text-[10px] text-amber-700 font-semibold uppercase",
+												children: "Pending Balance"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 894,
+												columnNumber: 27
+											}, this), /* @__PURE__ */ (void 0)("div", {
+												className: "font-black text-amber-900 mt-0.5",
+												children: ["₹ ", Number(p.payout_balance || 0).toLocaleString("en-IN")]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 895,
+												columnNumber: 27
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 893,
+											columnNumber: 25
+										}, this)
+									]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 884,
+									columnNumber: 23
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 869,
+								columnNumber: 21
+							}, this)]
+						}, p.id, true, {
+							fileName: _jsxFileName,
+							lineNumber: 821,
+							columnNumber: 18
+						}, this);
+					})
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 816,
+					columnNumber: 22
+				}, this)
+			]
+		}, void 0, true, {
+			fileName: _jsxFileName,
+			lineNumber: 683,
+			columnNumber: 31
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2bProfitModalOpen,
+			onOpenChange: setB2bProfitModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-md",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Configure B2B Profit Share"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 911,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: [
+							"Adjust the commission percentage or flat rate split for ",
+							selectedB2bPartner?.company_name,
+							"."
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 912,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 910,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "space-y-4 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex justify-between font-bold",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Partner Profit Share:" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 920,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+											className: "text-emerald-600 text-sm font-black",
+											children: [b2bProfitForm.partner_share_pct, "%"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 921,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 919,
+										columnNumber: 15
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Slider, {
+										value: [b2bProfitForm.partner_share_pct],
+										min: 10,
+										max: 60,
+										step: 5,
+										onValueChange: (val) => setB2bProfitForm({
+											...b2bProfitForm,
+											partner_share_pct: val[0]
+										})
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 923,
+										columnNumber: 15
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex justify-between text-[10px] text-slate-400",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Min 10%" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 928,
+												columnNumber: 17
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Default 25%" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 929,
+												columnNumber: 17
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Max 60%" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 930,
+												columnNumber: 17
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 927,
+										columnNumber: 15
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 918,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "rounded-xl bg-slate-50 p-3 space-y-1.5 border text-xs",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-slate-500",
+										children: "Partner Receives:"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 936,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "font-bold text-emerald-600",
+										children: [b2bProfitForm.partner_share_pct, "% of Commission"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 937,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 935,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-slate-500",
+										children: "UniQuesta Retains:"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 940,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "font-bold text-[#E52E20]",
+										children: [100 - b2bProfitForm.partner_share_pct, "% Net Margin"]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 941,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 939,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 934,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "space-y-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Tier Category"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 946,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+									value: b2bProfitForm.tier,
+									onValueChange: (v) => setB2bProfitForm({
+										...b2bProfitForm,
+										tier: v
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+										className: "h-9 text-xs",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 952,
+											columnNumber: 19
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 951,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Associate Partner (20%)",
+											children: "Associate Partner (20%)"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 955,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Silver Partner (25%)",
+											children: "Silver Partner (25%)"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 956,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Gold Partner (30%)",
+											children: "Gold Partner (30%)"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 957,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Platinum Partner (35%)",
+											children: "Platinum Partner (35%)"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 958,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Equal Split (50%)",
+											children: "Equal Split (50%)"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 959,
+											columnNumber: 19
+										}, this)
+									] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 954,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 947,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 945,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 917,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2bProfitModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 966,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						className: "bg-emerald-600 hover:bg-emerald-700 text-white",
+						onClick: () => updateB2bProfitShare.mutate(),
+						children: "Save Split Rule"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 967,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 965,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 909,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 908,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2bAddModalOpen,
+			onOpenChange: setB2bAddModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-lg",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Add New B2B Partner"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 978,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: "Register an educational consultancy, sub-agent or coaching partner with profit sharing terms."
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 979,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 977,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "grid gap-3 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Company / Agency Name *"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 986,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									placeholder: "e.g. Apex Global Overseas Education",
+									value: b2bAddForm.company_name,
+									onChange: (e) => setB2bAddForm({
+										...b2bAddForm,
+										company_name: e.target.value
+									}),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 987,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 985,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Contact Person *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 994,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "e.g. Rahul Deshmukh",
+										value: b2bAddForm.name,
+										onChange: (e) => setB2bAddForm({
+											...b2bAddForm,
+											name: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 995,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 993,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Email *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1001,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "contact@agency.com",
+										value: b2bAddForm.email,
+										onChange: (e) => setB2bAddForm({
+											...b2bAddForm,
+											email: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1002,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1e3,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 992,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Phone *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1010,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "+91 98200 12345",
+										value: b2bAddForm.phone,
+										onChange: (e) => setB2bAddForm({
+											...b2bAddForm,
+											phone: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1011,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1009,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "City *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1017,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "e.g. Mumbai",
+										value: b2bAddForm.city,
+										onChange: (e) => setB2bAddForm({
+											...b2bAddForm,
+											city: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1018,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1016,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1008,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Assigned Branch"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1026,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+										value: b2bAddForm.branch,
+										onValueChange: (v) => setB2bAddForm({
+											...b2bAddForm,
+											branch: v
+										}),
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+											className: "h-9 text-xs",
+											children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1032,
+												columnNumber: 21
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1031,
+											columnNumber: 19
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Mumbai",
+												children: "Mumbai"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1035,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Delhi NCR",
+												children: "Delhi NCR"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1036,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Bengaluru",
+												children: "Bengaluru"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1037,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Guwahati HQ",
+												children: "Guwahati HQ"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1038,
+												columnNumber: 21
+											}, this)
+										] }, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1034,
+											columnNumber: 19
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1027,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1025,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Profit Share Percentage"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1043,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										type: "number",
+										placeholder: "e.g. 25",
+										value: b2bAddForm.partner_share_pct,
+										onChange: (e) => setB2bAddForm({
+											...b2bAddForm,
+											partner_share_pct: Number(e.target.value)
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1044,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1042,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1024,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 984,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2bAddModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1053,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						className: "bg-[#E52E20] text-white",
+						disabled: !b2bAddForm.company_name || !b2bAddForm.name || !b2bAddForm.email || createB2bPartner.isPending,
+						onClick: () => createB2bPartner.mutate(),
+						children: [createB2bPartner.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 1055,
+							columnNumber: 46
+						}, this), "Save B2B Partner"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1054,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1052,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 976,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 975,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2bEditModalOpen,
+			onOpenChange: setB2bEditModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-md",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Edit B2B Partner Details"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1066,
+						columnNumber: 13
+					}, this) }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1065,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "grid gap-3 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Company Name"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1070,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: b2bEditForm.company_name,
+									onChange: (e) => setB2bEditForm({
+										...b2bEditForm,
+										company_name: e.target.value
+									}),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1071,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1069,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Contact Person"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1077,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: b2bEditForm.name,
+									onChange: (e) => setB2bEditForm({
+										...b2bEditForm,
+										name: e.target.value
+									}),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1078,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1076,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Email"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1085,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: b2bEditForm.email,
+										onChange: (e) => setB2bEditForm({
+											...b2bEditForm,
+											email: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1086,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1084,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Phone"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1092,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: b2bEditForm.phone,
+										onChange: (e) => setB2bEditForm({
+											...b2bEditForm,
+											phone: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1093,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1091,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1083,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1068,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2bEditModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1101,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						onClick: () => updateB2bPartner.mutate(),
+						disabled: updateB2bPartner.isPending,
+						children: "Save Changes"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1102,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1100,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 1064,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 1063,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2bPayoutModalOpen,
+			onOpenChange: setB2bPayoutModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-md",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Release B2B Partner Payout"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1113,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: [
+							"Record a commission profit payout to ",
+							selectedB2bPartner?.company_name,
+							"."
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1114,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1112,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "space-y-3 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "rounded-xl bg-slate-50 p-3 flex justify-between border",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "text-slate-500",
+									children: "Current Payout Balance:"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1120,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "font-bold text-amber-700",
+									children: ["₹ ", Number(selectedB2bPartner?.payout_balance || 0).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1121,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1119,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Payout Amount (₹) *"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1124,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									type: "number",
+									value: b2bPayoutAmount,
+									onChange: (e) => setB2bPayoutAmount(Number(e.target.value)),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1125,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1123,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Notes / UTR Reference"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1128,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: b2bPayoutNotes,
+									onChange: (e) => setB2bPayoutNotes(e.target.value),
+									placeholder: "NEFT transaction or cheque number…",
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1129,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1127,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1118,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2bPayoutModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1133,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						className: "bg-emerald-600 hover:bg-emerald-700 text-white font-bold",
+						onClick: () => releaseB2bPayout.mutate(),
+						disabled: b2bPayoutAmount <= 0 || releaseB2bPayout.isPending,
+						children: [releaseB2bPayout.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 1135,
+							columnNumber: 46
+						}, this), "Confirm Payout"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1134,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1132,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 1111,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 1110,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2cRewardModalOpen,
+			onOpenChange: setB2cRewardModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-md",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Configure B2C Referral Reward"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1149,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: [
+							"Set the per-student incentive or profit share for ",
+							selectedB2cPartner?.name,
+							"."
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1150,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1148,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "space-y-4 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "space-y-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Reward Structure Type"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1157,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+									value: b2cRewardForm.reward_type,
+									onValueChange: (v) => setB2cRewardForm({
+										...b2cRewardForm,
+										reward_type: v
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+										className: "h-9 text-xs",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1163,
+											columnNumber: 19
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1162,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+										value: "flat_rate",
+										children: "Flat Cash Reward (Per Enrolled Student)"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1166,
+										columnNumber: 19
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+										value: "percentage",
+										children: "Percentage Profit Share (% of Commission)"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1167,
+										columnNumber: 19
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1165,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1158,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1156,
+								columnNumber: 13
+							}, this),
+							b2cRewardForm.reward_type === "flat_rate" ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex justify-between font-bold",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Fixed Reward Amount:" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1174,
+											columnNumber: 19
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+											className: "text-blue-600 text-sm font-black",
+											children: ["₹ ", b2cRewardForm.reward_amount.toLocaleString("en-IN")]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1175,
+											columnNumber: 19
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1173,
+										columnNumber: 17
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Slider, {
+										value: [b2cRewardForm.reward_amount],
+										min: 5e3,
+										max: 5e4,
+										step: 2500,
+										onValueChange: (val) => setB2cRewardForm({
+											...b2cRewardForm,
+											reward_amount: val[0]
+										})
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1177,
+										columnNumber: 17
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex justify-between text-[10px] text-slate-400",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "₹ 5,000" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1182,
+												columnNumber: 19
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Standard ₹ 15,000" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1183,
+												columnNumber: 19
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "₹ 50,000" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1184,
+												columnNumber: 19
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1181,
+										columnNumber: 17
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1172,
+								columnNumber: 58
+							}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "space-y-2",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex justify-between font-bold",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Commission Share Percentage:" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1188,
+											columnNumber: 19
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+											className: "text-emerald-600 text-sm font-black",
+											children: [b2cRewardForm.reward_pct, "%"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1189,
+											columnNumber: 19
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1187,
+										columnNumber: 17
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Slider, {
+										value: [b2cRewardForm.reward_pct],
+										min: 5,
+										max: 25,
+										step: 1,
+										onValueChange: (val) => setB2cRewardForm({
+											...b2cRewardForm,
+											reward_pct: val[0]
+										})
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1191,
+										columnNumber: 17
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex justify-between text-[10px] text-slate-400",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "5%" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1196,
+												columnNumber: 19
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Standard 10%" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1197,
+												columnNumber: 19
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "25%" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1198,
+												columnNumber: 19
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1195,
+										columnNumber: 17
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1186,
+								columnNumber: 24
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "space-y-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Ambassador Tier"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1203,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+									value: b2cRewardForm.tier,
+									onValueChange: (v) => setB2cRewardForm({
+										...b2cRewardForm,
+										tier: v
+									}),
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+										className: "h-9 text-xs",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1209,
+											columnNumber: 19
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1208,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Associate Ambassador",
+											children: "Associate Ambassador"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1212,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Silver Ambassador",
+											children: "Silver Ambassador"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1213,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Gold Ambassador",
+											children: "Gold Ambassador"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1214,
+											columnNumber: 19
+										}, this),
+										/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+											value: "Platinum Ambassador",
+											children: "Platinum Ambassador"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1215,
+											columnNumber: 19
+										}, this)
+									] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1211,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1204,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1202,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1155,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2cRewardModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1222,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						className: "bg-blue-600 hover:bg-blue-700 text-white font-bold",
+						onClick: () => updateB2cReward.mutate(),
+						children: "Save Reward Model"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1223,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1221,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 1147,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 1146,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2cAddModalOpen,
+			onOpenChange: setB2cAddModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-lg",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Add B2C Student Ambassador"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1234,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: "Register a student ambassador, alumni peer, or campus influencer for referral profit sharing."
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1235,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1233,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "grid gap-3 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Full Name *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1243,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "e.g. Aarav Sharma",
+										value: b2cAddForm.name,
+										onChange: (e) => setB2cAddForm({
+											...b2cAddForm,
+											name: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1244,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1242,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Ambassador Category"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1250,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+										value: b2cAddForm.ambassador_type,
+										onValueChange: (v) => setB2cAddForm({
+											...b2cAddForm,
+											ambassador_type: v
+										}),
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+											className: "h-9 text-xs",
+											children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1256,
+												columnNumber: 21
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1255,
+											columnNumber: 19
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Student Ambassador",
+												children: "Student Ambassador"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1259,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Campus Influencer",
+												children: "Campus Influencer"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1260,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Freelance Counselor",
+												children: "Freelance Counselor"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1261,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Alumni Ambassador",
+												children: "Alumni Ambassador"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1262,
+												columnNumber: 21
+											}, this)
+										] }, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1258,
+											columnNumber: 19
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1251,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1249,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1241,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Email *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1270,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "aarav@gmail.com",
+										value: b2cAddForm.email,
+										onChange: (e) => setB2cAddForm({
+											...b2cAddForm,
+											email: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1271,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1269,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Phone *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1277,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "+91 98640 12345",
+										value: b2cAddForm.phone,
+										onChange: (e) => setB2cAddForm({
+											...b2cAddForm,
+											phone: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1278,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1276,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1268,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "City *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1287,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "e.g. Guwahati",
+										value: b2cAddForm.city,
+										onChange: (e) => setB2cAddForm({
+											...b2cAddForm,
+											city: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1288,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1286,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Branch"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1294,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+										value: b2cAddForm.branch,
+										onValueChange: (v) => setB2cAddForm({
+											...b2cAddForm,
+											branch: v
+										}),
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+											className: "h-9 text-xs",
+											children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1300,
+												columnNumber: 21
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 1299,
+											columnNumber: 19
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Guwahati HQ",
+												children: "Guwahati HQ"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1303,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Mumbai",
+												children: "Mumbai"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1304,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Delhi NCR",
+												children: "Delhi NCR"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1305,
+												columnNumber: 21
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+												value: "Bengaluru",
+												children: "Bengaluru"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 1306,
+												columnNumber: 21
+											}, this)
+										] }, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 1302,
+											columnNumber: 19
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 1295,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1293,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1285,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Reward Amount (₹)"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1314,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										type: "number",
+										placeholder: "e.g. 15000",
+										value: b2cAddForm.reward_amount,
+										onChange: (e) => setB2cAddForm({
+											...b2cAddForm,
+											reward_amount: Number(e.target.value)
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1315,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1313,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Payout Account / UPI Mode"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1321,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										placeholder: "e.g. UPI (aarav@oksbi)",
+										value: b2cAddForm.payout_mode,
+										onChange: (e) => setB2cAddForm({
+											...b2cAddForm,
+											payout_mode: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1322,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1320,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1312,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Notes / College Details"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1330,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									placeholder: "e.g. 3rd year student at University of Toronto / Cotton University",
+									value: b2cAddForm.notes,
+									onChange: (e) => setB2cAddForm({
+										...b2cAddForm,
+										notes: e.target.value
+									}),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1331,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1329,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1240,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2cAddModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1339,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						className: "bg-[#E52E20] text-white",
+						disabled: !b2cAddForm.name || !b2cAddForm.email || !b2cAddForm.city || createB2cPartner.isPending,
+						onClick: () => createB2cPartner.mutate(),
+						children: [createB2cPartner.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 1341,
+							columnNumber: 46
+						}, this), "Save Ambassador"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1340,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1338,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 1232,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 1231,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2cEditModalOpen,
+			onOpenChange: setB2cEditModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-md",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Edit Ambassador Details"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1352,
+						columnNumber: 13
+					}, this) }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1351,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "grid gap-3 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Full Name"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1356,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: b2cEditForm.name,
+									onChange: (e) => setB2cEditForm({
+										...b2cEditForm,
+										name: e.target.value
+									}),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1357,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1355,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid grid-cols-2 gap-3",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Email"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1364,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: b2cEditForm.email,
+										onChange: (e) => setB2cEditForm({
+											...b2cEditForm,
+											email: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1365,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1363,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Phone"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1371,
+										columnNumber: 17
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: b2cEditForm.phone,
+										onChange: (e) => setB2cEditForm({
+											...b2cEditForm,
+											phone: e.target.value
+										}),
+										className: "h-9 text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 1372,
+										columnNumber: 17
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1370,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1362,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Payout Account / UPI"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1379,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: b2cEditForm.payout_mode,
+									onChange: (e) => setB2cEditForm({
+										...b2cEditForm,
+										payout_mode: e.target.value
+									}),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1380,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1378,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1354,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2cEditModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1387,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						onClick: () => updateB2cPartner.mutate(),
+						disabled: updateB2cPartner.isPending,
+						children: "Save Changes"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1388,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1386,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 1350,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 1349,
+			columnNumber: 7
+		}, this),
+		/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+			open: b2cPayoutModalOpen,
+			onOpenChange: setB2cPayoutModalOpen,
+			children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+				className: "max-w-md",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold",
+						children: "Release B2C Referral Payout"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1399,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: [
+							"Record a referral incentive payout to ",
+							selectedB2cPartner?.name,
+							"."
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1400,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1398,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "space-y-3 py-2 text-xs",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "rounded-xl bg-slate-50 p-3 flex justify-between border",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "text-slate-500",
+									children: "Pending Referral Balance:"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1406,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+									className: "font-bold text-amber-700",
+									children: ["₹ ", Number(selectedB2cPartner?.payout_balance || 0).toLocaleString("en-IN")]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1407,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1405,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Payout Amount (₹) *"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1410,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									type: "number",
+									value: b2cPayoutAmount,
+									onChange: (e) => setB2cPayoutAmount(Number(e.target.value)),
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1411,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1409,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Payout Destination"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1414,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "rounded-lg bg-emerald-50/70 p-2 text-emerald-800 font-mono text-[11px] border border-emerald-100",
+									children: ["Mode: ", selectedB2cPartner?.payout_mode || "UPI (Direct Transfer)"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 1415,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1413,
+								columnNumber: 13
+							}, this),
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid gap-1.5",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+									className: "text-xs font-semibold",
+									children: "Transaction Reference / Notes"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1420,
+									columnNumber: 15
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									value: b2cPayoutNotes,
+									onChange: (e) => setB2cPayoutNotes(e.target.value),
+									placeholder: "UPI Ref ID or Bank NEFT UTR…",
+									className: "h-9 text-xs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 1421,
+									columnNumber: 15
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 1419,
+								columnNumber: 13
+							}, this)
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1404,
+						columnNumber: 11
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						variant: "outline",
+						size: "sm",
+						onClick: () => setB2cPayoutModalOpen(false),
+						children: "Cancel"
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 1425,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						size: "sm",
+						className: "bg-emerald-600 hover:bg-emerald-700 text-white font-bold",
+						onClick: () => releaseB2cPayout.mutate(),
+						disabled: b2cPayoutAmount <= 0 || releaseB2cPayout.isPending,
+						children: [releaseB2cPayout.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 1427,
+							columnNumber: 46
+						}, this), "Confirm Referral Payout"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1426,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 1424,
+						columnNumber: 11
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 1397,
+				columnNumber: 9
+			}, this)
+		}, void 0, false, {
+			fileName: _jsxFileName,
+			lineNumber: 1396,
+			columnNumber: 7
+		}, this)
+	] }, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 431,
+		columnNumber: 10
+	}, this);
+}
+//#endregion
+export { PartnerProfitManagementPage as component };

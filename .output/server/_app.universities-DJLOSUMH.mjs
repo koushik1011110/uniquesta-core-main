@@ -1,0 +1,2758 @@
+import { o as __toESM } from "./_runtime.mjs";
+import { u as require_react } from "./_libs/@floating-ui/react-dom+[...].mjs";
+import { t as require_jsx_dev_runtime } from "./_libs/react.mjs";
+import { i as useQueryClient, n as useQuery, t as useMutation } from "./_libs/tanstack__react-query.mjs";
+import { C as Search, Ct as Clock, J as LoaderCircle, Vt as Building2, W as MapPin, Wt as BookOpen, _ as ShieldCheck, d as Star, k as Plus, l as Trash2, pt as Earth, r as Users, ut as Eye } from "./_libs/lucide-react.mjs";
+import { t as toast } from "./_libs/sonner.mjs";
+import { B as CardTitle, C as Dialog, D as DialogHeader, E as DialogFooter, F as Badge, I as Card, L as CardContent, O as DialogTitle, S as Input, T as DialogDescription, U as Button, V as PageHeader, a as Tabs, c as TabsTrigger, d as SelectItem, f as SelectTrigger, h as getUser, j as Textarea, k as api, l as Select, o as TabsContent, p as SelectValue, s as TabsList, u as SelectContent, v as isSuperAdminRole, w as DialogContent, x as Label, z as CardHeader } from "./_ssr/router-CN9U7rpL.mjs";
+import { t as Progress } from "./_ssr/progress-ccoC5ctG.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/_app.universities-DJLOSUMH.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
+var import_jsx_dev_runtime = require_jsx_dev_runtime();
+var _jsxFileName = "D:/React APP/uniquesta-core-main/src/routes/_app.universities.tsx?tsr-split=component";
+function UniversitiesAndCoursesPage() {
+	const qc = useQueryClient();
+	const currentUser = getUser() || {
+		name: "Mohammad Iqbal",
+		email: "admin@uniquesta.com",
+		role: "super_admin",
+		branch: "Guwahati HQ"
+	};
+	const isSuperAdmin = isSuperAdminRole(currentUser);
+	const [activeTab, setActiveTab] = (0, import_react.useState)("universities");
+	const [uniSearch, setUniSearch] = (0, import_react.useState)("");
+	const [uniTierFilter, setUniTierFilter] = (0, import_react.useState)("all");
+	const [courseSearch, setCourseSearch] = (0, import_react.useState)("");
+	const [courseCategoryFilter, setCourseCategoryFilter] = (0, import_react.useState)("all");
+	const [addUniOpen, setAddUniOpen] = (0, import_react.useState)(false);
+	const [addCourseOpen, setAddCourseOpen] = (0, import_react.useState)(false);
+	const [viewUniItem, setViewUniItem] = (0, import_react.useState)(null);
+	const [viewCourseItem, setViewCourseItem] = (0, import_react.useState)(null);
+	const [deleteTarget, setDeleteTarget] = (0, import_react.useState)(null);
+	const initialUniForm = {
+		name: "",
+		country: "",
+		city: "",
+		tier: "Tier 1",
+		courses: 120,
+		intakes: "Fall, Winter",
+		commission: "15%",
+		rating: 4.8
+	};
+	const [uniForm, setUniForm] = (0, import_react.useState)(initialUniForm);
+	const initialCourseForm = {
+		name: "",
+		category: "Nursing",
+		duration: "4 Years",
+		session: "2026-27",
+		eligibility: "10+2 with PCB & English (Min 45%)",
+		minPercentage: "45%",
+		tuitionFee: "₹ 1,50,000 / year",
+		registrationFee: "₹ 10,000",
+		totalSeats: 100,
+		seatsAvailable: 60,
+		description: ""
+	};
+	const [courseForm, setCourseForm] = (0, import_react.useState)(initialCourseForm);
+	const { data: uniData, isLoading: uniLoading } = useQuery({
+		queryKey: ["universities", uniSearch],
+		queryFn: async () => {
+			const res = await api.get("/universities", {
+				search: uniSearch,
+				limit: 100
+			});
+			return res.data ?? res ?? [];
+		}
+	});
+	const rawUniList = Array.isArray(uniData) ? uniData : uniData?.data ?? [];
+	const { data: courseData, isLoading: courseLoading } = useQuery({
+		queryKey: [
+			"courses",
+			courseSearch,
+			courseCategoryFilter
+		],
+		queryFn: async () => {
+			const params = { limit: 100 };
+			if (courseSearch) params.search = courseSearch;
+			if (courseCategoryFilter && courseCategoryFilter !== "all") params.category = courseCategoryFilter;
+			const res = await api.get("/courses", params);
+			return res.data ?? res ?? [];
+		}
+	});
+	const rawCourseList = Array.isArray(courseData) ? courseData : courseData?.data ?? [];
+	const filteredUniversities = (0, import_react.useMemo)(() => {
+		return rawUniList.filter((u) => {
+			if (uniTierFilter !== "all" && u.tier !== uniTierFilter) return false;
+			return true;
+		});
+	}, [rawUniList, uniTierFilter]);
+	const courseCategories = (0, import_react.useMemo)(() => {
+		const set = /* @__PURE__ */ new Set();
+		rawCourseList.forEach((c) => {
+			if (c.category) set.add(c.category);
+		});
+		return Array.from(set);
+	}, [rawCourseList]);
+	const createUniMut = useMutation({
+		mutationFn: async () => {
+			return api.post("/universities", {
+				...uniForm,
+				courses: Number(uniForm.courses) || 0,
+				rating: Number(uniForm.rating) || 4.5
+			});
+		},
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["universities"] });
+			setAddUniOpen(false);
+			setUniForm(initialUniForm);
+			toast.success("University added successfully!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to add university")
+	});
+	const deleteUniMut = useMutation({
+		mutationFn: async (id) => api.del(`/universities/${id}`),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["universities"] });
+			setDeleteTarget(null);
+			toast.success("University deleted successfully");
+		},
+		onError: (e) => toast.error(e.message || "Failed to delete university")
+	});
+	const createCourseMut = useMutation({
+		mutationFn: async () => {
+			return api.post("/courses", {
+				...courseForm,
+				totalSeats: Number(courseForm.totalSeats) || 0,
+				seatsAvailable: Number(courseForm.seatsAvailable) || 0
+			});
+		},
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["courses"] });
+			setAddCourseOpen(false);
+			setCourseForm(initialCourseForm);
+			toast.success("Course added successfully!");
+		},
+		onError: (e) => toast.error(e.message || "Failed to add course")
+	});
+	const deleteCourseMut = useMutation({
+		mutationFn: async (idOrCode) => api.del(`/courses/${idOrCode}`),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["courses"] });
+			setDeleteTarget(null);
+			toast.success("Course deleted successfully");
+		},
+		onError: (e) => toast.error(e.message || "Failed to delete course")
+	});
+	const totalUniversitiesCount = rawUniList.length || 6;
+	const totalCoursesCount = rawCourseList.length || 4;
+	const uniqueCountries = (0, import_react.useMemo)(() => {
+		const cSet = /* @__PURE__ */ new Set();
+		rawUniList.forEach((u) => {
+			if (u.country) cSet.add(u.country);
+		});
+		return cSet.size || 6;
+	}, [rawUniList]);
+	const totalSeatsCount = (0, import_react.useMemo)(() => {
+		return rawCourseList.reduce((acc, c) => acc + (c.total_seats ?? c.totalSeats ?? 0), 0) || 360;
+	}, [rawCourseList]);
+	return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+		className: "space-y-6 pb-12",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(PageHeader, {
+				title: "University and Courses",
+				description: "Comprehensive directory of accredited partner universities and specialized academic courses with real-time admissions info.",
+				actions: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "flex flex-wrap items-center gap-2",
+					children: [activeTab === "universities" ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "relative hidden md:block",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Search, { className: "pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 205,
+							columnNumber: 17
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+							placeholder: "Search universities, countries…",
+							className: "h-9 w-60 rounded-lg pl-9 text-xs",
+							value: uniSearch,
+							onChange: (e) => setUniSearch(e.target.value)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 206,
+							columnNumber: 17
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 204,
+						columnNumber: 45
+					}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "relative hidden md:block",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Search, { className: "pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 208,
+							columnNumber: 17
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+							placeholder: "Search courses, categories…",
+							className: "h-9 w-60 rounded-lg pl-9 text-xs",
+							value: courseSearch,
+							onChange: (e) => setCourseSearch(e.target.value)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 209,
+							columnNumber: 17
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 207,
+						columnNumber: 24
+					}, this), isSuperAdmin ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						onClick: () => setAddUniOpen(true),
+						size: "sm",
+						className: "h-9 rounded-lg bg-slate-900 text-white shadow-sm hover:bg-slate-800",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Plus, { className: "mr-1.5 h-3.5 w-3.5" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 215,
+							columnNumber: 19
+						}, this), " Add University"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 214,
+						columnNumber: 17
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+						onClick: () => setAddCourseOpen(true),
+						size: "sm",
+						className: "h-9 rounded-lg bg-[#E52E20] text-white shadow-sm hover:bg-[#c92215]",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Plus, { className: "mr-1.5 h-3.5 w-3.5" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 218,
+							columnNumber: 19
+						}, this), " Add Course"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 217,
+						columnNumber: 17
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 213,
+						columnNumber: 29
+					}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+						variant: "outline",
+						className: "h-9 px-3 text-xs text-muted-foreground",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Eye, { className: "mr-1.5 h-3.5 w-3.5 text-slate-400" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 221,
+							columnNumber: 17
+						}, this), " Read-Only Mode"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 220,
+						columnNumber: 21
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 202,
+					columnNumber: 197
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 202,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "grid grid-cols-2 gap-3 sm:grid-cols-4 lg:gap-4",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+						className: "rounded-2xl border-slate-200/80 shadow-sm transition hover:shadow-md",
+						children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+							className: "p-4 sm:p-5",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-xs font-semibold text-slate-500",
+										children: "Partner Universities"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 230,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid h-8 w-8 place-items-center rounded-lg bg-blue-50 text-blue-600",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Building2, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 232,
+											columnNumber: 17
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 231,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 229,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "mt-2 text-2xl font-black text-slate-900",
+									children: totalUniversitiesCount
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 235,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "mt-0.5 text-[11px] text-slate-500",
+									children: "Tier 1 & accredited partners"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 236,
+									columnNumber: 13
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 228,
+							columnNumber: 11
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 227,
+						columnNumber: 9
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+						className: "rounded-2xl border-slate-200/80 shadow-sm transition hover:shadow-md",
+						children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+							className: "p-4 sm:p-5",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-xs font-semibold text-slate-500",
+										children: "Offered Courses"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 243,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid h-8 w-8 place-items-center rounded-lg bg-red-50 text-[#E52E20]",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(BookOpen, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 245,
+											columnNumber: 17
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 244,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 242,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "mt-2 text-2xl font-black text-slate-900",
+									children: totalCoursesCount
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 248,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "mt-0.5 text-[11px] text-slate-500",
+									children: "Degree & diploma programs"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 249,
+									columnNumber: 13
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 241,
+							columnNumber: 11
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 240,
+						columnNumber: 9
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+						className: "rounded-2xl border-slate-200/80 shadow-sm transition hover:shadow-md",
+						children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+							className: "p-4 sm:p-5",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-xs font-semibold text-slate-500",
+										children: "Global Coverage"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 256,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid h-8 w-8 place-items-center rounded-lg bg-emerald-50 text-emerald-600",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Earth, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 258,
+											columnNumber: 17
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 257,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 255,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "mt-2 text-2xl font-black text-slate-900",
+									children: [uniqueCountries, " Countries"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 261,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "mt-0.5 text-[11px] text-slate-500",
+									children: "UK, Canada, US, EU, Australia"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 262,
+									columnNumber: 13
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 254,
+							columnNumber: 11
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 253,
+						columnNumber: 9
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+						className: "rounded-2xl border-slate-200/80 shadow-sm transition hover:shadow-md",
+						children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+							className: "p-4 sm:p-5",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "flex items-center justify-between",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+										className: "text-xs font-semibold text-slate-500",
+										children: "Total Seat Capacity"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 269,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid h-8 w-8 place-items-center rounded-lg bg-purple-50 text-purple-600",
+										children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Users, { className: "h-4 w-4" }, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 271,
+											columnNumber: 17
+										}, this)
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 270,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 268,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "mt-2 text-2xl font-black text-slate-900",
+									children: [totalSeatsCount, " Seats"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 274,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "mt-0.5 text-[11px] text-slate-500",
+									children: "Admissions for 2026-27 session"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 275,
+									columnNumber: 13
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 267,
+							columnNumber: 11
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 266,
+						columnNumber: 9
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 226,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+				className: "flex items-center justify-between rounded-xl border border-slate-200 bg-white/70 px-4 py-2.5 text-xs text-slate-600 backdrop-blur-sm",
+				children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+					className: "flex items-center gap-2",
+					children: isSuperAdmin ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { className: "flex h-2 w-2 rounded-full bg-emerald-500" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 284,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+							className: "font-semibold text-slate-900",
+							children: "Super Admin Permissions Active:"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 285,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "You have administrative rights to add, edit, and delete partner universities and academic courses." }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 286,
+							columnNumber: 15
+						}, this)
+					] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 283,
+						columnNumber: 27
+					}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, { children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { className: "flex h-2 w-2 rounded-full bg-amber-500" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 288,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+							className: "font-semibold text-slate-900",
+							children: "Read-Only Mode:"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 289,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: "Adding and modifying universities or courses requires Super Admin credentials." }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 290,
+							columnNumber: 15
+						}, this)
+					] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 287,
+						columnNumber: 19
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 282,
+					columnNumber: 9
+				}, this), isSuperAdmin && /* @__PURE__ */ (void 0)("div", {
+					className: "hidden sm:flex items-center gap-1.5 font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 text-[11px]",
+					children: [/* @__PURE__ */ (void 0)(ShieldCheck, { className: "h-3.5 w-3.5" }, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 294,
+						columnNumber: 13
+					}, this), " Super Admin Access"]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 293,
+					columnNumber: 26
+				}, this)]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 281,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Tabs, {
+				value: activeTab,
+				onValueChange: (v) => setActiveTab(v),
+				className: "space-y-6",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+						className: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(TabsList, {
+							className: "h-10 rounded-xl bg-slate-100 p-1",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(TabsTrigger, {
+								value: "universities",
+								className: "gap-2 rounded-lg px-4 text-xs font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Building2, { className: "h-4 w-4 text-primary" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 303,
+										columnNumber: 15
+									}, this),
+									" Universities (",
+									rawUniList.length,
+									")"
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 302,
+								columnNumber: 13
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(TabsTrigger, {
+								value: "courses",
+								className: "gap-2 rounded-lg px-4 text-xs font-semibold data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(BookOpen, { className: "h-4 w-4 text-[#E52E20]" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 306,
+										columnNumber: 15
+									}, this),
+									" Courses & Programs (",
+									rawCourseList.length,
+									")"
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 305,
+								columnNumber: 13
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 301,
+							columnNumber: 11
+						}, this), activeTab === "universities" ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "relative md:hidden w-full sm:w-auto",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Search, { className: "pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 313,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									placeholder: "Search universities…",
+									className: "h-9 w-full sm:w-48 rounded-lg pl-8 text-xs",
+									value: uniSearch,
+									onChange: (e) => setUniSearch(e.target.value)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 314,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 312,
+								columnNumber: 15
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+								value: uniTierFilter,
+								onValueChange: setUniTierFilter,
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+									className: "h-9 w-36 rounded-lg text-xs",
+									children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, { placeholder: "All Tiers" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 318,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 317,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+										value: "all",
+										children: "All Tiers"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 321,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+										value: "Tier 1",
+										children: "Tier 1"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 322,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+										value: "Tier 2",
+										children: "Tier 2"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 323,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+										value: "Premier",
+										children: "Premier"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 324,
+										columnNumber: 19
+									}, this)
+								] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 320,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 316,
+								columnNumber: 15
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 311,
+							columnNumber: 43
+						}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "relative md:hidden w-full sm:w-auto",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Search, { className: "pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 329,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+									placeholder: "Search courses…",
+									className: "h-9 w-full sm:w-48 rounded-lg pl-8 text-xs",
+									value: courseSearch,
+									onChange: (e) => setCourseSearch(e.target.value)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 330,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 328,
+								columnNumber: 15
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+								value: courseCategoryFilter,
+								onValueChange: setCourseCategoryFilter,
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+									className: "h-9 w-40 rounded-lg text-xs",
+									children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, { placeholder: "All Categories" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 334,
+										columnNumber: 19
+									}, this)
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 333,
+									columnNumber: 17
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+									value: "all",
+									children: "All Categories"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 337,
+									columnNumber: 19
+								}, this), courseCategories.map((c) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+									value: c,
+									children: c
+								}, c, false, {
+									fileName: _jsxFileName,
+									lineNumber: 338,
+									columnNumber: 46
+								}, this))] }, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 336,
+									columnNumber: 17
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 332,
+								columnNumber: 15
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 327,
+							columnNumber: 22
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 300,
+						columnNumber: 9
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(TabsContent, {
+						value: "universities",
+						className: "mt-0",
+						children: uniLoading ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "flex items-center justify-center py-20 text-sm text-muted-foreground",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LoaderCircle, { className: "mr-2 h-5 w-5 animate-spin text-primary" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 351,
+								columnNumber: 15
+							}, this), " Loading partner universities…"]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 350,
+							columnNumber: 25
+						}, this) : filteredUniversities.length === 0 ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "rounded-2xl border border-dashed border-slate-300 bg-slate-50/50 p-12 text-center",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Building2, { className: "mx-auto h-10 w-10 text-slate-300" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 353,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h3", {
+									className: "mt-3 text-sm font-bold text-slate-700",
+									children: "No universities found"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 354,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "mt-1 text-xs text-slate-500",
+									children: uniSearch ? `No matches for "${uniSearch}". Try clearing filters.` : "Get started by adding partner institutions."
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 355,
+									columnNumber: 15
+								}, this),
+								isSuperAdmin && /* @__PURE__ */ (void 0)(Button, {
+									onClick: () => setAddUniOpen(true),
+									size: "sm",
+									className: "mt-4 rounded-lg bg-black text-white",
+									children: [/* @__PURE__ */ (void 0)(Plus, { className: "mr-1.5 h-3.5 w-3.5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 359,
+										columnNumber: 19
+									}, this), " Add University"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 358,
+									columnNumber: 32
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 352,
+							columnNumber: 58
+						}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid gap-4 md:grid-cols-2 xl:grid-cols-3",
+							children: filteredUniversities.map((u) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+								className: "group rounded-2xl border border-slate-200/80 bg-white shadow-soft transition hover:border-slate-300 hover:shadow-elevated",
+								children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardHeader, {
+									className: "flex flex-row items-start justify-between gap-3 pb-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "min-w-0",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "flex items-center gap-2",
+											children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardTitle, {
+												className: "truncate text-base font-bold text-slate-900",
+												children: u.name
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 366,
+												columnNumber: 25
+											}, this)
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 365,
+											columnNumber: 23
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "mt-1 flex items-center gap-1.5 text-xs text-muted-foreground",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(MapPin, { className: "h-3.5 w-3.5 text-[#E52E20]" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 371,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", { children: [
+												u.city,
+												", ",
+												u.country
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 372,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 370,
+											columnNumber: 23
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 364,
+										columnNumber: 21
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+										variant: "outline",
+										className: "shrink-0 rounded-md border-primary/30 bg-primary-soft text-primary font-semibold text-[11px]",
+										children: u.tier || "Tier 1"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 377,
+										columnNumber: 21
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 363,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+									className: "space-y-3.5 pt-0",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid grid-cols-3 gap-2 rounded-xl bg-slate-50/80 p-2.5 text-xs border border-slate-100",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "text-[10.5px] font-medium text-slate-400",
+												children: "Courses"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 384,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "mt-0.5 font-bold text-slate-900",
+												children: u.courses || 0
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 385,
+												columnNumber: 25
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 383,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "text-[10.5px] font-medium text-slate-400",
+												children: "Intakes"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 388,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "mt-0.5 truncate font-semibold text-slate-800",
+												title: u.intakes,
+												children: u.intakes || "Fall, Spring"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 389,
+												columnNumber: 25
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 387,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "text-[10.5px] font-medium text-slate-400",
+												children: "Commission"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 394,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "mt-0.5 font-bold text-emerald-600",
+												children: u.commission || "15%"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 395,
+												columnNumber: 25
+											}, this)] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 393,
+												columnNumber: 23
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 382,
+										columnNumber: 21
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "flex items-center justify-between border-t border-slate-100 pt-3",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "flex items-center gap-1.5 text-xs",
+											children: [
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Star, { className: "h-4 w-4 fill-amber-400 text-amber-400" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 401,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+													className: "font-bold text-slate-900",
+													children: u.rating || 4.8
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 402,
+													columnNumber: 25
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+													className: "text-[10.5px] text-slate-400",
+													children: "counsellor rating"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 403,
+													columnNumber: 25
+												}, this)
+											]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 400,
+											columnNumber: 23
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "flex items-center gap-1.5",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+												variant: "outline",
+												size: "sm",
+												className: "h-8 rounded-lg text-xs",
+												onClick: () => setViewUniItem(u),
+												children: "View Details"
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 406,
+												columnNumber: 25
+											}, this), isSuperAdmin && /* @__PURE__ */ (void 0)(Button, {
+												variant: "ghost",
+												size: "icon",
+												className: "h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50",
+												title: "Delete University (Super Admin)",
+												onClick: () => setDeleteTarget({
+													type: "uni",
+													item: u
+												}),
+												children: /* @__PURE__ */ (void 0)(Trash2, { className: "h-4 w-4" }, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 413,
+													columnNumber: 29
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 409,
+												columnNumber: 42
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 405,
+											columnNumber: 23
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 399,
+										columnNumber: 21
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 381,
+									columnNumber: 19
+								}, this)]
+							}, u.id ?? u.name, true, {
+								fileName: _jsxFileName,
+								lineNumber: 362,
+								columnNumber: 53
+							}, this))
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 361,
+							columnNumber: 22
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 349,
+						columnNumber: 9
+					}, this),
+					/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(TabsContent, {
+						value: "courses",
+						className: "mt-0",
+						children: courseLoading ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "flex items-center justify-center py-20 text-sm text-muted-foreground",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(LoaderCircle, { className: "mr-2 h-5 w-5 animate-spin text-[#E52E20]" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 427,
+								columnNumber: 15
+							}, this), " Loading academic courses…"]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 426,
+							columnNumber: 28
+						}, this) : rawCourseList.length === 0 ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "rounded-2xl border border-dashed border-slate-300 bg-slate-50/50 p-12 text-center",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(BookOpen, { className: "mx-auto h-10 w-10 text-slate-300" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 429,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h3", {
+									className: "mt-3 text-sm font-bold text-slate-700",
+									children: "No courses available"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 430,
+									columnNumber: 15
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+									className: "mt-1 text-xs text-slate-500",
+									children: courseSearch ? `No matches for "${courseSearch}". Try clearing filters.` : "Get started by adding certified degree courses."
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 431,
+									columnNumber: 15
+								}, this),
+								isSuperAdmin && /* @__PURE__ */ (void 0)(Button, {
+									onClick: () => setAddCourseOpen(true),
+									size: "sm",
+									className: "mt-4 rounded-lg bg-[#E52E20] text-white",
+									children: [/* @__PURE__ */ (void 0)(Plus, { className: "mr-1.5 h-3.5 w-3.5" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 435,
+										columnNumber: 19
+									}, this), " Add Course"]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 434,
+									columnNumber: 32
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 428,
+							columnNumber: 51
+						}, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid gap-4 md:grid-cols-2 xl:grid-cols-2",
+							children: rawCourseList.map((c) => {
+								const totalSeats = c.total_seats ?? c.totalSeats ?? 0;
+								const seatsAvailable = c.seats_available ?? c.seatsAvailable ?? 0;
+								const tuitionFee = c.tuition_fee || c.tuitionFee || "—";
+								const regFee = c.registration_fee || c.registrationFee || "—";
+								const minPct = c.min_percentage || c.minPercentage || "45%";
+								const pctOccupied = totalSeats > 0 ? Math.round((totalSeats - seatsAvailable) / totalSeats * 100) : 0;
+								return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Card, {
+									className: "group rounded-2xl border border-slate-200/80 bg-white shadow-soft transition hover:border-slate-300 hover:shadow-elevated",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardHeader, {
+										className: "flex flex-row items-start justify-between gap-3 pb-2.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+											className: "min-w-0",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "flex items-center gap-2",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "font-mono text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded",
+														children: c.code || "CRS"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 449,
+														columnNumber: 27
+													}, this),
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+														variant: "outline",
+														className: "border-red-200 bg-red-50 text-[#E52E20] text-[10.5px]",
+														children: c.category || "General"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 452,
+														columnNumber: 27
+													}, this),
+													/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "text-[11px] font-medium text-slate-400",
+														children: ["Session ", c.session || "2026-27"]
+													}, void 0, true, {
+														fileName: _jsxFileName,
+														lineNumber: 455,
+														columnNumber: 27
+													}, this)
+												]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 448,
+												columnNumber: 25
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardTitle, {
+												className: "mt-2 truncate text-base font-bold text-slate-900",
+												children: c.name
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 459,
+												columnNumber: 25
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 447,
+											columnNumber: 23
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Badge, {
+											variant: "outline",
+											className: "shrink-0 bg-slate-50 text-slate-700 text-xs",
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Clock, { className: "mr-1 h-3 w-3 text-slate-400" }, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 464,
+												columnNumber: 25
+											}, this), c.duration || "4 Years"]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 463,
+											columnNumber: 23
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 446,
+										columnNumber: 21
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardContent, {
+										className: "space-y-3.5",
+										children: [
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "rounded-xl border border-slate-100 bg-slate-50/70 p-3 text-xs",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "flex items-center justify-between text-[11px] text-slate-500",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "font-semibold text-slate-700",
+														children: "Eligibility Criteria:"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 473,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "font-mono text-slate-600",
+														children: ["Min ", minPct]
+													}, void 0, true, {
+														fileName: _jsxFileName,
+														lineNumber: 474,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 472,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+													className: "mt-1 line-clamp-2 text-slate-800 leading-relaxed font-medium",
+													children: c.eligibility || "Standard qualification required."
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 476,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 471,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "grid grid-cols-2 gap-3 text-xs",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "rounded-lg border border-slate-100 bg-slate-50 p-2.5",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "text-[10.5px] text-slate-400",
+														children: "Tuition Fee"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 484,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "mt-0.5 font-bold text-slate-900",
+														children: tuitionFee
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 485,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 483,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "rounded-lg border border-slate-100 bg-slate-50 p-2.5",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "text-[10.5px] text-slate-400",
+														children: "Registration Fee"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 488,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+														className: "mt-0.5 font-bold text-emerald-600",
+														children: regFee
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 489,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 487,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 482,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "space-y-1.5 text-xs",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "flex items-center justify-between text-[11.5px]",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "font-medium text-slate-600",
+														children: "Seat Allocation"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 496,
+														columnNumber: 27
+													}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+														className: "font-bold text-slate-900",
+														children: [
+															seatsAvailable,
+															" available ",
+															/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+																className: "font-normal text-slate-400",
+																children: [
+																	"/ ",
+																	totalSeats,
+																	" total"
+																]
+															}, void 0, true, {
+																fileName: _jsxFileName,
+																lineNumber: 498,
+																columnNumber: 56
+															}, this)
+														]
+													}, void 0, true, {
+														fileName: _jsxFileName,
+														lineNumber: 497,
+														columnNumber: 27
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 495,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Progress, {
+													value: pctOccupied,
+													className: "h-2 bg-slate-100"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 501,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 494,
+												columnNumber: 23
+											}, this),
+											/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+												className: "flex items-center justify-between border-t border-slate-100 pt-3",
+												children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("span", {
+													className: "text-[11px] text-slate-400",
+													children: c.description ? c.description.slice(0, 45) + "…" : "Admissions open"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 506,
+													columnNumber: 25
+												}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+													className: "flex items-center gap-1.5",
+													children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+														variant: "outline",
+														size: "sm",
+														className: "h-8 rounded-lg text-xs",
+														onClick: () => setViewCourseItem(c),
+														children: "View Details"
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 510,
+														columnNumber: 27
+													}, this), isSuperAdmin && /* @__PURE__ */ (void 0)(Button, {
+														variant: "ghost",
+														size: "icon",
+														className: "h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50",
+														title: "Delete Course (Super Admin)",
+														onClick: () => setDeleteTarget({
+															type: "course",
+															item: c
+														}),
+														children: /* @__PURE__ */ (void 0)(Trash2, { className: "h-4 w-4" }, void 0, false, {
+															fileName: _jsxFileName,
+															lineNumber: 517,
+															columnNumber: 31
+														}, this)
+													}, void 0, false, {
+														fileName: _jsxFileName,
+														lineNumber: 513,
+														columnNumber: 44
+													}, this)]
+												}, void 0, true, {
+													fileName: _jsxFileName,
+													lineNumber: 509,
+													columnNumber: 25
+												}, this)]
+											}, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 505,
+												columnNumber: 23
+											}, this)
+										]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 469,
+										columnNumber: 21
+									}, this)]
+								}, c.id ?? c.code, true, {
+									fileName: _jsxFileName,
+									lineNumber: 445,
+									columnNumber: 20
+								}, this);
+							})
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 437,
+							columnNumber: 22
+						}, this)
+					}, void 0, false, {
+						fileName: _jsxFileName,
+						lineNumber: 425,
+						columnNumber: 9
+					}, this)
+				]
+			}, void 0, true, {
+				fileName: _jsxFileName,
+				lineNumber: 299,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+				open: addUniOpen,
+				onOpenChange: setAddUniOpen,
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+					className: "max-w-lg",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid h-8 w-8 place-items-center rounded-lg bg-black text-white",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Building2, { className: "h-4 w-4" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 536,
+									columnNumber: 17
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 535,
+								columnNumber: 15
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+								className: "text-base font-bold",
+								children: "Add Partner University"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 539,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+								className: "text-xs",
+								children: "Register a new international or domestic university partner with active admissions tie-up."
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 540,
+								columnNumber: 17
+							}, this)] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 538,
+								columnNumber: 15
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 534,
+							columnNumber: 13
+						}, this) }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 533,
+							columnNumber: 11
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid gap-3.5 py-2 text-xs",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1.5",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "University Name *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 549,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: uniForm.name,
+										onChange: (e) => setUniForm({
+											...uniForm,
+											name: e.target.value
+										}),
+										placeholder: "e.g. University of Toronto",
+										className: "h-9 rounded-lg text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 550,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 548,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Country *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 558,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: uniForm.country,
+											onChange: (e) => setUniForm({
+												...uniForm,
+												country: e.target.value
+											}),
+											placeholder: "e.g. Canada",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 559,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 557,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "City *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 565,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: uniForm.city,
+											onChange: (e) => setUniForm({
+												...uniForm,
+												city: e.target.value
+											}),
+											placeholder: "e.g. Toronto",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 566,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 564,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 556,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Tier Category"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 575,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+											value: uniForm.tier,
+											onValueChange: (v) => setUniForm({
+												...uniForm,
+												tier: v
+											}),
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+												className: "h-9 rounded-lg text-xs",
+												children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 581,
+													columnNumber: 21
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 580,
+												columnNumber: 19
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Tier 1",
+													children: "Tier 1 (Top Ranked)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 584,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Tier 2",
+													children: "Tier 2 (Recognized)"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 585,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Premier",
+													children: "Premier Partner"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 586,
+													columnNumber: 21
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 583,
+												columnNumber: 19
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 576,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 574,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Available Courses Count"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 591,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											type: "number",
+											value: uniForm.courses,
+											onChange: (e) => setUniForm({
+												...uniForm,
+												courses: Number(e.target.value)
+											}),
+											placeholder: "e.g. 150",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 592,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 590,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 573,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Intakes *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 601,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: uniForm.intakes,
+											onChange: (e) => setUniForm({
+												...uniForm,
+												intakes: e.target.value
+											}),
+											placeholder: "e.g. Fall, Winter",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 602,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 600,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Commission Agreement *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 608,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: uniForm.commission,
+											onChange: (e) => setUniForm({
+												...uniForm,
+												commission: e.target.value
+											}),
+											placeholder: "e.g. 15% or € 2,400",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 609,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 607,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 599,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1.5",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Counsellor Rating (0 - 5.0)"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 617,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										type: "number",
+										step: "0.1",
+										min: "0",
+										max: "5",
+										value: uniForm.rating,
+										onChange: (e) => setUniForm({
+											...uniForm,
+											rating: Number(e.target.value)
+										}),
+										className: "h-9 rounded-lg text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 618,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 616,
+									columnNumber: 13
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 547,
+							columnNumber: 11
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, {
+							className: "gap-2 sm:gap-0",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								variant: "outline",
+								size: "sm",
+								onClick: () => setAddUniOpen(false),
+								children: "Cancel"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 626,
+								columnNumber: 13
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								size: "sm",
+								className: "bg-black text-white hover:bg-slate-800",
+								onClick: () => createUniMut.mutate(),
+								disabled: !uniForm.name || !uniForm.country || !uniForm.city || createUniMut.isPending,
+								children: [createUniMut.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 630,
+									columnNumber: 42
+								}, this), "Save University"]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 629,
+								columnNumber: 13
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 625,
+							columnNumber: 11
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 532,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 531,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+				open: addCourseOpen,
+				onOpenChange: setAddCourseOpen,
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+					className: "max-w-lg",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "flex items-center gap-2",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+								className: "grid h-8 w-8 place-items-center rounded-lg bg-[#E52E20] text-white",
+								children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(BookOpen, { className: "h-4 w-4" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 645,
+									columnNumber: 17
+								}, this)
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 644,
+								columnNumber: 15
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+								className: "text-base font-bold",
+								children: "Add Academic Course"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 648,
+								columnNumber: 17
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+								className: "text-xs",
+								children: "Create a new degree, diploma, or certification course eligible for student admissions."
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 649,
+								columnNumber: 17
+							}, this)] }, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 647,
+								columnNumber: 15
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 643,
+							columnNumber: 13
+						}, this) }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 642,
+							columnNumber: 11
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+							className: "grid gap-3.5 py-2 text-xs",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1.5",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Course Title *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 658,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: courseForm.name,
+										onChange: (e) => setCourseForm({
+											...courseForm,
+											name: e.target.value
+										}),
+										placeholder: "e.g. B.Sc Nursing, MBA Global Business, BPT",
+										className: "h-9 rounded-lg text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 659,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 657,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Category *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 667,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Select, {
+											value: courseForm.category,
+											onValueChange: (v) => setCourseForm({
+												...courseForm,
+												category: v
+											}),
+											children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectTrigger, {
+												className: "h-9 rounded-lg text-xs",
+												children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectValue, {}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 673,
+													columnNumber: 21
+												}, this)
+											}, void 0, false, {
+												fileName: _jsxFileName,
+												lineNumber: 672,
+												columnNumber: 19
+											}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectContent, { children: [
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Nursing",
+													children: "Nursing"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 676,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Pharmacy",
+													children: "Pharmacy"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 677,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Allied Health",
+													children: "Allied Health"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 678,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Management",
+													children: "Management"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 679,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Engineering",
+													children: "Engineering"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 680,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Computer Science",
+													children: "Computer Science"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 681,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Hospitality",
+													children: "Hospitality"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 682,
+													columnNumber: 21
+												}, this),
+												/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(SelectItem, {
+													value: "Humanities",
+													children: "Humanities"
+												}, void 0, false, {
+													fileName: _jsxFileName,
+													lineNumber: 683,
+													columnNumber: 21
+												}, this)
+											] }, void 0, true, {
+												fileName: _jsxFileName,
+												lineNumber: 675,
+												columnNumber: 19
+											}, this)]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 668,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 666,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Duration *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 688,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: courseForm.duration,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												duration: e.target.value
+											}),
+											placeholder: "e.g. 4 Years, 2 Years, 18 Months",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 689,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 687,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 665,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Academic Session *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 698,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: courseForm.session,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												session: e.target.value
+											}),
+											placeholder: "e.g. 2026-27",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 699,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 697,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Min Percentage"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 705,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: courseForm.minPercentage,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												minPercentage: e.target.value
+											}),
+											placeholder: "e.g. 45%, 50%",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 706,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 704,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 696,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1.5",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Eligibility Criteria *"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 714,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+										value: courseForm.eligibility,
+										onChange: (e) => setCourseForm({
+											...courseForm,
+											eligibility: e.target.value
+										}),
+										placeholder: "e.g. 10+2 with PCB & English (Min 45%)",
+										className: "h-9 rounded-lg text-xs"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 715,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 713,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Tuition Fee *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 723,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: courseForm.tuitionFee,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												tuitionFee: e.target.value
+											}),
+											placeholder: "e.g. ₹ 1,50,000 / year",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 724,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 722,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Registration Fee *"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 730,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											value: courseForm.registrationFee,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												registrationFee: e.target.value
+											}),
+											placeholder: "e.g. ₹ 10,000",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 731,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 729,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 721,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid grid-cols-2 gap-3",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Total Seats"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 740,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											type: "number",
+											value: courseForm.totalSeats,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												totalSeats: Number(e.target.value)
+											}),
+											placeholder: "e.g. 100",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 741,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 739,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+										className: "grid gap-1.5",
+										children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+											className: "text-xs font-semibold",
+											children: "Seats Available"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 747,
+											columnNumber: 17
+										}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Input, {
+											type: "number",
+											value: courseForm.seatsAvailable,
+											onChange: (e) => setCourseForm({
+												...courseForm,
+												seatsAvailable: Number(e.target.value)
+											}),
+											placeholder: "e.g. 60",
+											className: "h-9 rounded-lg text-xs"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 748,
+											columnNumber: 17
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 746,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 738,
+									columnNumber: 13
+								}, this),
+								/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+									className: "grid gap-1.5",
+									children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Label, {
+										className: "text-xs font-semibold",
+										children: "Description / Notes"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 756,
+										columnNumber: 15
+									}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Textarea, {
+										value: courseForm.description,
+										onChange: (e) => setCourseForm({
+											...courseForm,
+											description: e.target.value
+										}),
+										placeholder: "Detailed curriculum, accreditation, career pathways…",
+										className: "text-xs resize-none h-18"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 757,
+										columnNumber: 15
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 755,
+									columnNumber: 13
+								}, this)
+							]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 656,
+							columnNumber: 11
+						}, this),
+						/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, {
+							className: "gap-2 sm:gap-0",
+							children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								variant: "outline",
+								size: "sm",
+								onClick: () => setAddCourseOpen(false),
+								children: "Cancel"
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 765,
+								columnNumber: 13
+							}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+								size: "sm",
+								className: "bg-[#E52E20] text-white hover:bg-[#c92215]",
+								onClick: () => createCourseMut.mutate(),
+								disabled: !courseForm.name || !courseForm.category || !courseForm.duration || !courseForm.eligibility || !courseForm.tuitionFee || createCourseMut.isPending,
+								children: [createCourseMut.isPending && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 769,
+									columnNumber: 45
+								}, this), "Save Course"]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 768,
+								columnNumber: 13
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 764,
+							columnNumber: 11
+						}, this)
+					]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 641,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 640,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+				open: !!viewUniItem,
+				onOpenChange: () => setViewUniItem(null),
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+					className: "max-w-md",
+					children: viewUniItem && /* @__PURE__ */ (void 0)(import_jsx_dev_runtime.Fragment, { children: [
+						/* @__PURE__ */ (void 0)(DialogHeader, { children: [
+							/* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center justify-between",
+								children: [/* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "border-primary/30 bg-primary-soft text-primary font-bold",
+									children: viewUniItem.tier || "Tier 1"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 784,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)("div", {
+									className: "flex items-center gap-1 text-xs",
+									children: [/* @__PURE__ */ (void 0)(Star, { className: "h-4 w-4 fill-amber-400 text-amber-400" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 788,
+										columnNumber: 21
+									}, this), /* @__PURE__ */ (void 0)("span", {
+										className: "font-bold",
+										children: viewUniItem.rating || 4.8
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 789,
+										columnNumber: 21
+									}, this)]
+								}, void 0, true, {
+									fileName: _jsxFileName,
+									lineNumber: 787,
+									columnNumber: 19
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 783,
+								columnNumber: 17
+							}, this),
+							/* @__PURE__ */ (void 0)(DialogTitle, {
+								className: "mt-2 text-lg font-bold",
+								children: viewUniItem.name
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 792,
+								columnNumber: 17
+							}, this),
+							/* @__PURE__ */ (void 0)(DialogDescription, {
+								className: "flex items-center gap-1 text-xs text-slate-500",
+								children: [
+									/* @__PURE__ */ (void 0)(MapPin, { className: "h-3.5 w-3.5 text-[#E52E20]" }, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 794,
+										columnNumber: 19
+									}, this),
+									viewUniItem.city,
+									", ",
+									viewUniItem.country
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 793,
+								columnNumber: 17
+							}, this)
+						] }, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 782,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)("div", {
+							className: "space-y-3 py-3 text-xs",
+							children: /* @__PURE__ */ (void 0)("div", {
+								className: "rounded-xl bg-slate-50 p-3 space-y-2 border",
+								children: [
+									/* @__PURE__ */ (void 0)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-slate-500",
+											children: "Active Courses:"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 802,
+											columnNumber: 21
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "font-bold text-slate-900",
+											children: viewUniItem.courses || 0
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 803,
+											columnNumber: 21
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 801,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-slate-500",
+											children: "Upcoming Intakes:"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 806,
+											columnNumber: 21
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "font-semibold text-slate-900",
+											children: viewUniItem.intakes || "Fall, Winter"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 807,
+											columnNumber: 21
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 805,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-slate-500",
+											children: "Partner Commission:"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 810,
+											columnNumber: 21
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "font-bold text-emerald-600",
+											children: viewUniItem.commission || "15%"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 811,
+											columnNumber: 21
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 809,
+										columnNumber: 19
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 800,
+								columnNumber: 17
+							}, this)
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 799,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)(DialogFooter, { children: /* @__PURE__ */ (void 0)(Button, {
+							size: "sm",
+							onClick: () => setViewUniItem(null),
+							children: "Close"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 817,
+							columnNumber: 17
+						}, this) }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 816,
+							columnNumber: 15
+						}, this)
+					] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 781,
+						columnNumber: 27
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 780,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 779,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+				open: !!viewCourseItem,
+				onOpenChange: () => setViewCourseItem(null),
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+					className: "max-w-md",
+					children: viewCourseItem && /* @__PURE__ */ (void 0)(import_jsx_dev_runtime.Fragment, { children: [
+						/* @__PURE__ */ (void 0)(DialogHeader, { children: [
+							/* @__PURE__ */ (void 0)("div", {
+								className: "flex items-center gap-2",
+								children: [/* @__PURE__ */ (void 0)("span", {
+									className: "font-mono text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded",
+									children: viewCourseItem.code
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 833,
+									columnNumber: 19
+								}, this), /* @__PURE__ */ (void 0)(Badge, {
+									variant: "outline",
+									className: "border-red-200 bg-red-50 text-[#E52E20] text-xs",
+									children: viewCourseItem.category
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 836,
+									columnNumber: 19
+								}, this)]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 832,
+								columnNumber: 17
+							}, this),
+							/* @__PURE__ */ (void 0)(DialogTitle, {
+								className: "mt-2 text-lg font-bold",
+								children: viewCourseItem.name
+							}, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 840,
+								columnNumber: 17
+							}, this),
+							/* @__PURE__ */ (void 0)(DialogDescription, {
+								className: "text-xs text-slate-500",
+								children: [
+									"Duration: ",
+									viewCourseItem.duration,
+									" · Academic Session ",
+									viewCourseItem.session
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 841,
+								columnNumber: 17
+							}, this)
+						] }, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 831,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)("div", {
+							className: "space-y-3 py-3 text-xs",
+							children: [/* @__PURE__ */ (void 0)("div", {
+								className: "rounded-xl bg-slate-50 p-3 space-y-2 border",
+								children: [
+									/* @__PURE__ */ (void 0)("div", { children: [/* @__PURE__ */ (void 0)("span", {
+										className: "text-slate-500 block mb-0.5 font-medium",
+										children: "Eligibility Requirement:"
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 849,
+										columnNumber: 21
+									}, this), /* @__PURE__ */ (void 0)("span", {
+										className: "font-semibold text-slate-800",
+										children: viewCourseItem.eligibility
+									}, void 0, false, {
+										fileName: _jsxFileName,
+										lineNumber: 850,
+										columnNumber: 21
+									}, this)] }, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 848,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "flex justify-between border-t pt-2",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-slate-500",
+											children: "Tuition Fee:"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 853,
+											columnNumber: 21
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "font-bold text-slate-900",
+											children: viewCourseItem.tuition_fee || viewCourseItem.tuitionFee
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 854,
+											columnNumber: 21
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 852,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-slate-500",
+											children: "Registration Fee:"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 857,
+											columnNumber: 21
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "font-bold text-emerald-600",
+											children: viewCourseItem.registration_fee || viewCourseItem.registrationFee
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 858,
+											columnNumber: 21
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 856,
+										columnNumber: 19
+									}, this),
+									/* @__PURE__ */ (void 0)("div", {
+										className: "flex justify-between",
+										children: [/* @__PURE__ */ (void 0)("span", {
+											className: "text-slate-500",
+											children: "Seats Remaining:"
+										}, void 0, false, {
+											fileName: _jsxFileName,
+											lineNumber: 861,
+											columnNumber: 21
+										}, this), /* @__PURE__ */ (void 0)("span", {
+											className: "font-bold text-slate-900",
+											children: [
+												viewCourseItem.seats_available ?? viewCourseItem.seatsAvailable,
+												" of",
+												" ",
+												viewCourseItem.total_seats ?? viewCourseItem.totalSeats,
+												" seats"
+											]
+										}, void 0, true, {
+											fileName: _jsxFileName,
+											lineNumber: 862,
+											columnNumber: 21
+										}, this)]
+									}, void 0, true, {
+										fileName: _jsxFileName,
+										lineNumber: 860,
+										columnNumber: 19
+									}, this)
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 847,
+								columnNumber: 17
+							}, this), viewCourseItem.description && /* @__PURE__ */ (void 0)("div", {
+								className: "rounded-lg bg-slate-50/50 p-2.5 text-xs text-slate-600 border border-slate-100",
+								children: [/* @__PURE__ */ (void 0)("span", {
+									className: "font-semibold text-slate-700 block mb-1",
+									children: "Description:"
+								}, void 0, false, {
+									fileName: _jsxFileName,
+									lineNumber: 870,
+									columnNumber: 21
+								}, this), viewCourseItem.description]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 869,
+								columnNumber: 48
+							}, this)]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 846,
+							columnNumber: 15
+						}, this),
+						/* @__PURE__ */ (void 0)(DialogFooter, { children: /* @__PURE__ */ (void 0)(Button, {
+							size: "sm",
+							onClick: () => setViewCourseItem(null),
+							children: "Close"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 876,
+							columnNumber: 17
+						}, this) }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 875,
+							columnNumber: 15
+						}, this)
+					] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 830,
+						columnNumber: 30
+					}, this)
+				}, void 0, false, {
+					fileName: _jsxFileName,
+					lineNumber: 829,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 828,
+				columnNumber: 7
+			}, this),
+			/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Dialog, {
+				open: !!deleteTarget,
+				onOpenChange: () => setDeleteTarget(null),
+				children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogContent, {
+					className: "max-w-sm",
+					children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogHeader, { children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogTitle, {
+						className: "text-base font-bold text-red-600 flex items-center gap-1.5",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Trash2, { className: "h-4 w-4" }, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 891,
+							columnNumber: 15
+						}, this), " Confirm Deletion"]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 890,
+						columnNumber: 13
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogDescription, {
+						className: "text-xs",
+						children: [
+							"Are you sure you want to permanently delete",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("strong", {
+								className: "text-slate-900",
+								children: [
+									"\"",
+									deleteTarget?.item?.name,
+									"\""
+								]
+							}, void 0, true, {
+								fileName: _jsxFileName,
+								lineNumber: 895,
+								columnNumber: 15
+							}, this),
+							"? This action cannot be undone."
+						]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 893,
+						columnNumber: 13
+					}, this)] }, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 889,
+						columnNumber: 11
+					}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(DialogFooter, {
+						className: "gap-2 sm:gap-0",
+						children: [/* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+							variant: "outline",
+							size: "sm",
+							onClick: () => setDeleteTarget(null),
+							children: "Cancel"
+						}, void 0, false, {
+							fileName: _jsxFileName,
+							lineNumber: 899,
+							columnNumber: 13
+						}, this), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Button, {
+							variant: "destructive",
+							size: "sm",
+							onClick: () => {
+								if (!deleteTarget) return;
+								if (deleteTarget.type === "uni") deleteUniMut.mutate(deleteTarget.item.id);
+								else deleteCourseMut.mutate(deleteTarget.item.id ?? deleteTarget.item.code);
+							},
+							disabled: deleteUniMut.isPending || deleteCourseMut.isPending,
+							children: [(deleteUniMut.isPending || deleteCourseMut.isPending) && /* @__PURE__ */ (void 0)(LoaderCircle, { className: "mr-1.5 h-3.5 w-3.5 animate-spin" }, void 0, false, {
+								fileName: _jsxFileName,
+								lineNumber: 910,
+								columnNumber: 73
+							}, this), "Confirm Delete"]
+						}, void 0, true, {
+							fileName: _jsxFileName,
+							lineNumber: 902,
+							columnNumber: 13
+						}, this)]
+					}, void 0, true, {
+						fileName: _jsxFileName,
+						lineNumber: 898,
+						columnNumber: 11
+					}, this)]
+				}, void 0, true, {
+					fileName: _jsxFileName,
+					lineNumber: 888,
+					columnNumber: 9
+				}, this)
+			}, void 0, false, {
+				fileName: _jsxFileName,
+				lineNumber: 887,
+				columnNumber: 7
+			}, this)
+		]
+	}, void 0, true, {
+		fileName: _jsxFileName,
+		lineNumber: 200,
+		columnNumber: 10
+	}, this);
+}
+//#endregion
+export { UniversitiesAndCoursesPage as component };

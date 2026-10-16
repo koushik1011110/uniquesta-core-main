@@ -61,6 +61,7 @@ export async function listInvoices(params?:any){ const qs=params?"?"+new URLSear
 export async function listEmployees(params?:any){ const qs=params?"?"+new URLSearchParams(Object.entries(params).filter(([,v])=>v!==""&&v!==undefined).map(([k,v])=>[k,String(v)])).toString():""; return request<any[]>(`/employees${qs}`); }
 export async function listApprovals(params?:any){ const qs=params?"?"+new URLSearchParams(Object.entries(params).filter(([,v])=>v!==""&&v!==undefined).map(([k,v])=>[k,String(v)])).toString():""; return request<any[]>(`/approvals${qs}`); }
 export async function listReferrals(params?:any){ const qs=params?"?"+new URLSearchParams(Object.entries(params).filter(([,v])=>v!==""&&v!==undefined).map(([k,v])=>[k,String(v)])).toString():""; return request<any[]>(`/referrals${qs}`); }
+export async function getReportsAnalytics(params?:any){ const qs=params?"?"+new URLSearchParams(Object.entries(params).filter(([,v])=>v!==""&&v!==undefined).map(([k,v])=>[k,String(v)])).toString():""; return request<any>(`/reports/analytics${qs}`); }
 
 // small helper to normalize DB snake_case -> camel for frontend mapping if needed
 export function normalizeRow(row:any){

@@ -29,6 +29,11 @@ import {
   RefreshCw,
   ExternalLink,
   Lock,
+  Printer,
+  ChevronRight,
+  SlidersHorizontal,
+  Wallet,
+  CheckSquare,
 } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
@@ -44,7 +49,7 @@ import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getUser, setUser } from "@/lib/auth";
+import { getUser } from "@/lib/auth";
 
 export const Route = createFileRoute("/_app/approvals")({
   head: () => ({
@@ -107,7 +112,7 @@ function isMyTurn(item: ApprovalItem, currentUser: any): boolean {
     return stepRoleLower.includes("director") || stepNameLower.includes("vivek");
   }
   if (roleLower === "branch_admin") {
-    return stepRoleLower.includes("branch manager") || stepRoleLower.includes("branch admin");
+    return stepRoleLower.includes("branch manager") || stepRoleLower.includes("branch admin") || stepRoleLower.includes("branch head");
   }
   if (roleLower === "finance") {
     return stepRoleLower.includes("finance");
@@ -135,7 +140,7 @@ function hasUserAlreadyApproved(item: ApprovalItem, currentUser: any): boolean {
       return sRole.includes("ceo") || sName.includes("iqbal");
     }
     if (roleLower === "branch_admin") {
-      return sRole.includes("branch manager") || sRole.includes("branch admin");
+      return sRole.includes("branch manager") || sRole.includes("branch admin") || sRole.includes("branch head");
     }
     if (roleLower === "finance") {
       return sRole.includes("finance");
@@ -147,12 +152,6 @@ function hasUserAlreadyApproved(item: ApprovalItem, currentUser: any): boolean {
 // -------------------------------------------------------------
 // HELPER: Visibility Rule
 // "jab tak uska turn naa aaa jaye usko wo application show bhi nahi hona sahie faltu mai"
-// An application is strictly visible ONLY IF:
-// 1. It is currently their active turn to review, OR
-// 2. They already approved it in the past (History / Tracking), OR
-// 3. They submitted it themselves.
-// If it is STILL in preceding stages (e.g. at Branch Manager when user is Director or CEO),
-// it is 100% HIDDEN from their portal!
 // -------------------------------------------------------------
 function canUserSeeApplication(item: ApprovalItem, currentUser: any): boolean {
   if (!item || !currentUser) return false;
@@ -181,21 +180,35 @@ function canUserSeeApplication(item: ApprovalItem, currentUser: any): boolean {
   return false;
 }
 
-function ApprovalsPage() {
+export function ApprovalsPage() {
   const qc = useQueryClient();
   const currentUser = getUser() ?? {
-    name: "Vivek Ramanathan",
-    email: "director@uniquesta.com",
-    role: "director",
+    name: "Mohammad Iqbal",
+    email: "admin@uniquesta.com",
+    role: "super_admin",
     branch: "Guwahati HQ",
   };
 
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  // Default tab is "turn" (Awaiting My Turn)
   const [filterTab, setFilterTab] = useState<"turn" | "passed" | "my_submissions" | "all">("turn");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [branchFilter, setBranchFilter] = useState("all");
+  const [actionType, setActionType] = useState<"approve" | "send_back" | "reject">("approve");
   const [passMessage, setPassMessage] = useState("");
+
+  // Audit Checklist items
+  const [checklist, setChecklist] = useState({
+    billsValid: true,
+    budgetWithin: true,
+    policyCompliant: true,
+  });
+
+  // Modals
   const [createOpen, setCreateOpen] = useState(false);
+  const [voucherModalOpen, setVoucherModalOpen] = useState(false);
+
+  // New Claim Form
   const [createForm, setCreateForm] = useState({
     title: "",
     amount: "",
@@ -254,7 +267,7 @@ function ApprovalsPage() {
     return rawApprovals.filter((a) => canUserSeeApplication(a, currentUser));
   }, [rawApprovals, currentUser]);
 
-  // 2. Filter by search and selected tab
+  // 2. Filter by search, category, branch, and selected tab
   const filteredApprovals = useMemo(() => {
     return visibleApprovals.filter((a) => {
       const matchSearch =
@@ -264,7 +277,10 @@ function ApprovalsPage() {
         a.submitted_by.toLowerCase().includes(search.toLowerCase()) ||
         a.branch.toLowerCase().includes(search.toLowerCase());
 
-      if (!matchSearch) return false;
+      const matchCat = categoryFilter === "all" || a.category === categoryFilter;
+      const matchBr = branchFilter === "all" || a.branch.includes(branchFilter);
+
+      if (!matchSearch || !matchCat || !matchBr) return false;
 
       if (filterTab === "turn") return isMyTurn(a, currentUser);
       if (filterTab === "passed") return hasUserAlreadyApproved(a, currentUser);
@@ -276,12 +292,11 @@ function ApprovalsPage() {
       }
       return true;
     });
-  }, [visibleApprovals, search, filterTab, currentUser]);
+  }, [visibleApprovals, search, categoryFilter, branchFilter, filterTab, currentUser]);
 
   // Determine active item
   const selectedItem = useMemo(() => {
     if (!filteredApprovals.length) {
-      // Fallback to visible if available
       return visibleApprovals.length ? visibleApprovals[0] : null;
     }
     if (selectedCode) {
@@ -291,11 +306,20 @@ function ApprovalsPage() {
     return filteredApprovals[0];
   }, [filteredApprovals, visibleApprovals, selectedCode]);
 
-  const actionNeededCount = visibleApprovals.filter((a) => isMyTurn(a, currentUser)).length;
-  const passedCount = visibleApprovals.filter((a) => hasUserAlreadyApproved(a, currentUser)).length;
+  // Statistics
+  const actionNeededItems = visibleApprovals.filter((a) => isMyTurn(a, currentUser));
+  const actionNeededCount = actionNeededItems.length;
+  const actionNeededTotal = actionNeededItems.reduce((acc, i) => acc + (i.amount_value || 0), 0);
+
+  const passedItems = visibleApprovals.filter((a) => hasUserAlreadyApproved(a, currentUser));
+  const passedCount = passedItems.length;
+  const passedTotal = passedItems.reduce((acc, i) => acc + (i.amount_value || 0), 0);
+
   const mySubmissionsCount = visibleApprovals.filter((a) =>
     a.submitted_by.toLowerCase().includes(currentUser.name.toLowerCase())
   ).length;
+
+  const totalPipelineAmount = rawApprovals.reduce((acc, i) => acc + (i.amount_value || 0), 0);
 
   const myTurnNow = selectedItem ? isMyTurn(selectedItem, currentUser) : false;
   const alreadyApprovedByMe = selectedItem ? hasUserAlreadyApproved(selectedItem, currentUser) : false;
@@ -397,137 +421,164 @@ function ApprovalsPage() {
     ];
   }, [currentUser]);
 
-  // Helper to switch demo persona quickly for smooth testing
-  const switchRole = (name: string, email: string, role: string, branch: string) => {
-    setUser({ name, email, role, branch });
-    qc.invalidateQueries({ queryKey: ["notifications"] });
-    toast.info(`Switched view to ${name} (${role.replace(/_/g, " ").toUpperCase()})`);
-    window.location.reload();
-  };
+
 
   const steps = selectedItem?.steps || [];
   const currentStepIndex = steps.findIndex((s) => s.status === "current");
   const activeStep = steps[currentStepIndex];
   const nextStep = steps[currentStepIndex + 1];
 
+
+
   return (
-    <div className="flex flex-col gap-5">
-      {/* Top Header */}
+    <div className="flex flex-col gap-5 pb-10">
+      {/* ─── Top Header ─── */}
       <PageHeader
         title="Expense Approval Workflow"
-        description="Turn-based sequential approval chain. Reviewers only see applications when it arrives at their desk, and pass with their own verified remarks."
+        description="Sequential multi-tier authorization chain. Applications strictly route desk-by-desk with verified digital audit remarks."
         actions={
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" onClick={() => refetch()} className="gap-1.5 text-xs">
               <RefreshCw className="h-3.5 w-3.5" /> Refresh
             </Button>
-            <Button size="sm" onClick={() => setCreateOpen(true)} className="gap-1.5 bg-[#E52E20] hover:bg-[#c92418] text-white">
+            {selectedItem && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setVoucherModalOpen(true)}
+                className="gap-1.5 text-xs border-slate-300 text-slate-700 hover:bg-slate-50"
+              >
+                <Printer className="h-3.5 w-3.5" /> Print Claim Voucher
+              </Button>
+            )}
+            <Button
+              size="sm"
+              onClick={() => setCreateOpen(true)}
+              className="gap-1.5 bg-[#E52E20] hover:bg-[#c92418] text-white font-semibold text-xs shadow-sm"
+            >
               <Plus className="h-4 w-4" /> New Expense Claim
             </Button>
           </div>
         }
       />
 
-      {/* Quick Role Tester Strip */}
-      <Card className="border-border/60 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-3 shadow-sm rounded-xl">
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="font-semibold text-slate-200">Current Portal:</span>
-            <span className="font-bold text-white bg-white/10 px-2.5 py-0.5 rounded-md border border-white/10">
-              {currentUser.name} ({currentUser.role?.replace(/_/g, " ").toUpperCase()})
-            </span>
-            <span className="text-slate-400 hidden sm:inline">· {currentUser.email}</span>
-          </div>
+      {/* ─── Executive Approvals KPI Metric Strip ─── */}
+      <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Metric 1: Action Required */}
+        <Card className="rounded-xl border-border/70 shadow-sm relative overflow-hidden bg-gradient-to-br from-white via-white to-red-50/30">
+          <div className={`absolute top-0 left-0 h-1 w-full ${actionNeededCount > 0 ? "bg-[#E52E20]" : "bg-slate-300"}`} />
+          <CardContent className="p-4.5">
+            <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold">
+              <span>Awaiting My Action</span>
+              <div className={`h-7 w-7 rounded-lg flex items-center justify-center ${actionNeededCount > 0 ? "bg-red-100 text-[#E52E20]" : "bg-slate-100 text-slate-500"}`}>
+                <BellRing className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="mt-2 text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+              <span>{actionNeededCount} Claims</span>
+              {actionNeededCount > 0 && (
+                <span className="flex h-2.5 w-2.5 rounded-full bg-[#E52E20] animate-ping" />
+              )}
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground border-t pt-2">
+              <span className="font-semibold text-[#E52E20]">
+                {actionNeededCount > 0 ? `₹ ${actionNeededTotal.toLocaleString("en-IN")} Pending Sign-off` : "All Clear"}
+              </span>
+              <span>Action Desk</span>
+            </div>
+          </CardContent>
+        </Card>
 
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-slate-400 text-[11px] font-medium mr-1">Switch Portal Persona:</span>
-            <button
-              type="button"
-              onClick={() => switchRole("Vivek Ramanathan", "director@uniquesta.com", "director", "Guwahati HQ")}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currentUser.email === "director@uniquesta.com"
-                  ? "bg-purple-600 text-white shadow-sm ring-1 ring-white/50"
-                  : "bg-white/10 text-slate-300 hover:bg-white/20"
-              }`}
-            >
-              Director (Vivek)
-            </button>
-            <button
-              type="button"
-              onClick={() => switchRole("Mohammad Iqbal", "admin@uniquesta.com", "super_admin", "Guwahati HQ")}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currentUser.email.includes("admin") || currentUser.email.includes("ceo")
-                  ? "bg-[#E52E20] text-white shadow-sm ring-1 ring-white/50"
-                  : "bg-white/10 text-slate-300 hover:bg-white/20"
-              }`}
-            >
-              CEO (Mohammad Iqbal)
-            </button>
-            <button
-              type="button"
-              onClick={() => switchRole("Rahul Deshmukh", "mumbai.admin@uniquesta.com", "branch_admin", "Mumbai · Andheri West")}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currentUser.email === "mumbai.admin@uniquesta.com"
-                  ? "bg-blue-600 text-white shadow-sm ring-1 ring-white/50"
-                  : "bg-white/10 text-slate-300 hover:bg-white/20"
-              }`}
-            >
-              Branch Head (Rahul)
-            </button>
-            <button
-              type="button"
-              onClick={() => switchRole("Anjali Kapoor", "anjali.finance@uniquesta.com", "finance", "Mumbai · Andheri West")}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currentUser.email === "anjali.finance@uniquesta.com"
-                  ? "bg-emerald-600 text-white shadow-sm ring-1 ring-white/50"
-                  : "bg-white/10 text-slate-300 hover:bg-white/20"
-              }`}
-            >
-              Finance (Anjali)
-            </button>
-            <button
-              type="button"
-              onClick={() => switchRole("Meera Shah", "meera.counselor@uniquesta.com", "counselor", "Mumbai · Andheri West")}
-              className={`px-2 py-1 rounded text-[11px] font-semibold transition ${
-                currentUser.email === "meera.counselor@uniquesta.com"
-                  ? "bg-cyan-600 text-white shadow-sm ring-1 ring-white/50"
-                  : "bg-white/10 text-slate-300 hover:bg-white/20"
-              }`}
-            >
-              Staff (Meera)
-            </button>
-          </div>
-        </div>
-      </Card>
+        {/* Metric 2: Sanctioned By Me */}
+        <Card className="rounded-xl border-border/70 shadow-sm relative overflow-hidden bg-gradient-to-br from-white via-white to-emerald-50/30">
+          <div className="absolute top-0 left-0 h-1 w-full bg-emerald-500" />
+          <CardContent className="p-4.5">
+            <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold">
+              <span>Passed & Endorsed by Me</span>
+              <div className="h-7 w-7 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="mt-2 text-2xl font-black text-emerald-700 tracking-tight">
+              {passedCount} Approved
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground border-t pt-2">
+              <span className="font-semibold text-emerald-700">₹ {passedTotal.toLocaleString("en-IN")} Endorsed</span>
+              <span>Audit Verified</span>
+            </div>
+          </CardContent>
+        </Card>
 
-      {/* Strict Turn Banner */}
+        {/* Metric 3: Total Claims in Pipeline */}
+        <Card className="rounded-xl border-border/70 shadow-sm relative overflow-hidden bg-gradient-to-br from-white via-white to-slate-50">
+          <div className="absolute top-0 left-0 h-1 w-full bg-slate-900" />
+          <CardContent className="p-4.5">
+            <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold">
+              <span>Total Active Pipeline</span>
+              <div className="h-7 w-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700">
+                <Receipt className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="mt-2 text-2xl font-black text-slate-900 tracking-tight">
+              ₹ {totalPipelineAmount.toLocaleString("en-IN")}
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground border-t pt-2">
+              <span>{rawApprovals.length} Claims Company-wide</span>
+              <span>5 Stages</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Metric 4: Turnaround SLA */}
+        <Card className="rounded-xl border-border/70 shadow-sm relative overflow-hidden bg-gradient-to-br from-white via-white to-blue-50/30">
+          <div className="absolute top-0 left-0 h-1 w-full bg-blue-500" />
+          <CardContent className="p-4.5">
+            <div className="flex items-center justify-between text-muted-foreground text-xs font-semibold">
+              <span>Compliance & Turnaround SLA</span>
+              <div className="h-7 w-7 rounded-lg bg-blue-100 flex items-center justify-center text-blue-700">
+                <ShieldCheck className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="mt-2 text-2xl font-black text-blue-700 tracking-tight">
+              &lt; 24h Avg
+            </div>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground border-t pt-2">
+              <span className="font-semibold text-blue-700">100% Policy Compliant</span>
+              <span>ISO-9001 Trail</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+
+
+      {/* Strict Turn Privacy Banner */}
       <div className="rounded-xl border border-primary/20 bg-primary/[0.04] p-3 text-xs flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <ShieldCheck className="h-4 w-4 text-primary shrink-0" />
           <span className="text-foreground">
-            <strong>Turn-Based Privacy Active:</strong> Applications only appear in this portal when it arrives at your desk. Applications still pending at previous levels are hidden to prevent inbox clutter.
+            <strong>Turn-Based Privacy Active:</strong> Applications strictly appear in this portal when it arrives at your desk. Applications still in preceding stages are hidden to prevent email clutter.
           </span>
         </div>
-        <span className="text-[11px] font-semibold bg-white border px-2 py-0.5 rounded shadow-sm text-foreground">
-          {actionNeededCount} Action Required · {passedCount} History
+        <span className="text-[11px] font-semibold bg-white border px-2.5 py-0.5 rounded shadow-sm text-foreground">
+          {actionNeededCount} Action Required · {passedCount} Reviewed & Passed
         </span>
       </div>
 
-      {/* EMAIL-STYLE SPLIT LAYOUT */}
+      {/* ─── EMAIL-STYLE SPLIT LAYOUT ─── */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-start">
-        {/* LEFT COLUMN: EMAIL INBOX LIST (4 cols) */}
+        {/* LEFT COLUMN: EMAIL INBOX & APPLICATION LIST (4 cols) */}
         <div className="lg:col-span-4 flex flex-col gap-3">
-          <Card className="shadow-sm border-border/80 overflow-hidden">
+          <Card className="shadow-sm border-border/80 overflow-hidden bg-white">
             {/* Search & Inbox Filter Tabs */}
-            <div className="p-3 border-b bg-muted/40 space-y-2.5">
+            <div className="p-3 border-b bg-slate-50/70 space-y-2.5">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                 <Input
-                  placeholder="Search in visible applications…"
+                  placeholder="Search in visible claims…"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="h-8 pl-8 text-xs bg-background"
+                  className="h-8 pl-8 text-xs bg-white"
                 />
               </div>
 
@@ -572,17 +623,45 @@ function ApprovalsPage() {
                   All Visible ({visibleApprovals.length})
                 </button>
               </div>
+
+              {/* Category Filter Dropdown */}
+              <div className="grid grid-cols-2 gap-1.5 pt-1">
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="h-7 text-[10.5px] rounded border border-slate-200 bg-white px-2 text-slate-700"
+                >
+                  <option value="all">All Categories</option>
+                  <option value="Travel & Meals">Travel & Meals</option>
+                  <option value="Marketing & Events">Marketing & Events</option>
+                  <option value="Client Fair Advance">Client Fair</option>
+                  <option value="Office Supplies">Office Supplies</option>
+                </select>
+
+                <select
+                  value={branchFilter}
+                  onChange={(e) => setBranchFilter(e.target.value)}
+                  className="h-7 text-[10.5px] rounded border border-slate-200 bg-white px-2 text-slate-700"
+                >
+                  <option value="all">All Branches</option>
+                  <option value="Guwahati">Guwahati HQ</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Delhi">Delhi NCR</option>
+                  <option value="Bengaluru">Bengaluru</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                </select>
+              </div>
             </div>
 
-            {/* List of Applications (Email List style) */}
-            <div className="divide-y divide-border/60 max-h-[720px] overflow-y-auto">
+            {/* List of Applications */}
+            <div className="divide-y divide-border/60 max-h-[680px] overflow-y-auto">
               {filteredApprovals.length === 0 ? (
                 <div className="py-12 px-4 text-center text-xs text-muted-foreground">
                   <Receipt className="mx-auto mb-2 h-8 w-8 opacity-25" />
                   <p className="font-semibold text-foreground">No applications in this view</p>
                   <p className="mt-1 text-[11px] leading-relaxed">
                     {filterTab === "turn"
-                      ? "All clear! There are currently no applications waiting for your action. You will be alerted the moment an expense is forwarded to your portal."
+                      ? "All clear! There are currently no applications waiting for your action. You will be alerted the moment an expense is forwarded to your desk."
                       : "No matching applications found."}
                   </p>
                 </div>
@@ -631,7 +710,7 @@ function ApprovalsPage() {
                         </p>
                       </div>
 
-                      {/* Last message snippet (Email preview style) */}
+                      {/* Last message snippet */}
                       {lastStepWithComment?.comment && (
                         <p className="mt-1 text-[11px] text-muted-foreground line-clamp-1 italic bg-muted/30 px-2 py-0.5 rounded border border-border/40">
                           💬 "{lastStepWithComment.comment}"
@@ -672,20 +751,20 @@ function ApprovalsPage() {
           </Card>
         </div>
 
-        {/* RIGHT COLUMN: EMAIL-THREAD DETAIL & FORWARDING COMPOSER (8 cols) */}
+        {/* RIGHT COLUMN: APPLICATION DETAILS, STEPPER & ACTION DESK (8 cols) */}
         <div className="lg:col-span-8 flex flex-col gap-4">
           {selectedItem ? (
             <>
-              {/* 1. Email Header Card */}
-              <Card className="border-border/80 shadow-sm overflow-hidden">
-                <div className="p-5 border-b bg-gradient-to-r from-muted/60 via-muted/30 to-background">
+              {/* 1. Claim Header Card */}
+              <Card className="border-border/80 shadow-sm overflow-hidden bg-white">
+                <div className="p-5 border-b bg-gradient-to-r from-slate-50 via-white to-slate-50">
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="min-w-0 space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <Badge className="bg-primary/10 text-primary border border-primary/20 font-bold hover:bg-primary/10">
                           {selectedItem.category}
                         </Badge>
-                        <span className="font-mono text-xs font-semibold text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                        <span className="font-mono text-xs font-semibold text-muted-foreground bg-slate-100 px-2 py-0.5 rounded">
                           {selectedItem.code}
                         </span>
                         <Badge variant="outline" className="text-[11px] font-semibold border-amber-300 bg-amber-50 text-amber-800">
@@ -693,36 +772,33 @@ function ApprovalsPage() {
                         </Badge>
                       </div>
 
-                      <h2 className="text-xl font-black text-foreground pt-1">{selectedItem.title}</h2>
+                      <h2 className="text-xl font-black text-slate-900 pt-1">{selectedItem.title}</h2>
 
                       <p className="text-xs text-muted-foreground">
-                        Submitted by <span className="font-semibold text-foreground">{selectedItem.submitted_by}</span> ({selectedItem.branch}) · {selectedItem.submitted_date}
+                        Submitted by <span className="font-semibold text-slate-800">{selectedItem.submitted_by}</span> ({selectedItem.branch}) · {selectedItem.submitted_date}
                       </p>
                     </div>
 
-                    <div className="text-right bg-white p-3 rounded-xl border border-border/80 shadow-sm min-w-[150px]">
+                    <div className="text-right bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm min-w-[170px]">
                       <span className="text-[10.5px] uppercase font-bold text-muted-foreground tracking-wider block">
-                        Claim Amount
+                        Claimed Amount
                       </span>
-                      <span className="text-2xl font-black text-foreground tracking-tight flex items-center justify-end gap-0.5 text-emerald-600">
+                      <span className="text-2xl font-black text-emerald-700 tracking-tight flex items-center justify-end gap-0.5">
                         {selectedItem.amount}
-                      </span>
-                      <span className="text-[10px] text-muted-foreground block mt-0.5 font-medium">
-                        {selectedItem.attachments || 4} verified invoices attached
                       </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Metadata Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-muted/20 text-xs border-b">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-slate-50/50 text-xs border-b">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-muted-foreground">Period / Dates</span>
-                    <p className="font-semibold text-foreground mt-0.5">{selectedItem.period || "18 Jul – 21 Jul 2026"}</p>
+                    <p className="font-semibold text-slate-800 mt-0.5">{selectedItem.period || "18 Jul – 21 Jul 2026"}</p>
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-bold text-muted-foreground">Cost Centre / Branch</span>
-                    <p className="font-semibold text-foreground mt-0.5">{selectedItem.branch}</p>
+                    <p className="font-semibold text-slate-800 mt-0.5">{selectedItem.branch}</p>
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-bold text-muted-foreground">Current Authority</span>
@@ -739,13 +815,13 @@ function ApprovalsPage() {
                 </div>
 
                 {/* 2. Visual Staged Stepper */}
-                <div className="p-4 bg-background border-b">
+                <div className="p-4 bg-white border-b">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-1.5">
+                    <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
                       <CheckCheck className="h-4 w-4 text-primary" /> Staged Approval Sequence (Stage {selectedItem.current_stage || 1} of 5)
                     </h3>
                     {myTurnNow && (
-                      <span className="text-[11px] font-bold text-[#E52E20] bg-red-50 border border-red-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="text-[11px] font-bold text-[#E52E20] bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
                         <AlertCircle className="h-3 w-3" /> It is your turn to review & pass
                       </span>
                     )}
@@ -762,10 +838,10 @@ function ApprovalsPage() {
                           key={st.name + idx}
                           className={`flex flex-col items-center text-center p-2 rounded-lg border transition ${
                             isActive
-                              ? "bg-primary/10 border-primary ring-2 ring-primary/20"
+                              ? "bg-primary/10 border-primary ring-2 ring-primary/20 shadow-sm"
                               : isDone
                               ? "bg-emerald-50/70 border-emerald-200 text-emerald-800"
-                              : "bg-muted/40 border-border/50 text-muted-foreground"
+                              : "bg-slate-50 border-slate-200 text-slate-400"
                           }`}
                         >
                           <div
@@ -774,7 +850,7 @@ function ApprovalsPage() {
                                 ? "bg-primary text-primary-foreground animate-pulse"
                                 : isDone
                                 ? "bg-emerald-600 text-white"
-                                : "bg-muted text-muted-foreground"
+                                : "bg-slate-200 text-slate-600"
                             }`}
                           >
                             {isDone ? <Check className="h-4 w-4" /> : idx + 1}
@@ -782,7 +858,7 @@ function ApprovalsPage() {
                           <span className="text-[11px] font-bold truncate max-w-full leading-tight">
                             {idx === 0 ? "Submitter" : idx === 1 ? "Branch Head" : idx === 2 ? "Finance" : idx === 3 ? "Director" : idx === 4 ? "CEO" : "Payout"}
                           </span>
-                          <span className="text-[9.5px] truncate max-w-full text-muted-foreground mt-0.5">
+                          <span className="text-[9.5px] truncate max-w-full text-slate-500 mt-0.5">
                             {st.name}
                           </span>
                         </div>
@@ -791,10 +867,12 @@ function ApprovalsPage() {
                   </div>
                 </div>
 
-                {/* 3. EMAIL DISCUSSION THREAD (CHRONOLOGICAL MESSAGES) */}
-                <div className="p-5 space-y-4 bg-muted/10">
+
+
+                {/* 4. EMAIL DISCUSSION THREAD (REMARKS & MESSAGES) */}
+                <div className="p-5 space-y-4 bg-white">
                   <div className="flex items-center justify-between border-b pb-2">
-                    <h3 className="text-xs font-bold text-foreground uppercase tracking-wider flex items-center gap-1.5">
+                    <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
                       <MessageSquare className="h-4 w-4 text-primary" /> Approval Discussion & Remarks Thread
                     </h3>
                     <span className="text-[11px] text-muted-foreground">Sequential Reviewer Messages</span>
@@ -808,7 +886,7 @@ function ApprovalsPage() {
                           key={st.name + idx}
                           className="rounded-xl border border-border/80 bg-white p-4 shadow-sm space-y-2.5 transition hover:border-primary/40"
                         >
-                          {/* Email card header: From, Role, Time, Status */}
+                          {/* Card header */}
                           <div className="flex items-start justify-between gap-3">
                             <div className="flex items-center gap-2.5">
                               <Avatar className="h-9 w-9 text-xs font-bold bg-primary/10 text-primary border">
@@ -836,11 +914,11 @@ function ApprovalsPage() {
                                   : "bg-blue-100 text-blue-800"
                               }`}
                             >
-                              {idx === 0 ? "Application Filed" : "Passed & Endorsed"}
+                              {idx === 0 ? "Claim Submitted" : "Passed & Endorsed"}
                             </Badge>
                           </div>
 
-                          {/* Email message body */}
+                          {/* Message body */}
                           <div className="pl-11">
                             <div className="rounded-lg bg-slate-50 p-3 text-xs leading-relaxed text-slate-800 border border-slate-200/80 font-normal">
                               {st.comment || "Approved without additional comments."}
@@ -850,7 +928,7 @@ function ApprovalsPage() {
                       ))}
                   </div>
 
-                  {/* 4. TURN-RESTRICTED ACTION COMPOSER */}
+                  {/* 5. TURN-RESTRICTED ACTION COMPOSER */}
                   {myTurnNow ? (
                     <Card className="border-2 border-primary/30 bg-white rounded-xl shadow-md overflow-hidden mt-6">
                       <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent px-4 py-3 border-b flex flex-wrap items-center justify-between gap-2">
@@ -867,12 +945,12 @@ function ApprovalsPage() {
                         )}
                       </div>
 
-                      <CardContent className="p-4 space-y-3">
+                      <CardContent className="p-4 space-y-3.5">
                         <div className="p-2.5 rounded-lg text-xs flex items-center justify-between gap-2 bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
                           <span className="flex items-center gap-1.5">
                             <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
                             <span>
-                              Active Turn: <strong>{currentUser.name}</strong> ({currentUser.role?.replace(/_/g, " ").toUpperCase()}). Add your message and pass.
+                              Active Desk: <strong>{currentUser.name}</strong> ({currentUser.role?.replace(/_/g, " ").toUpperCase()}). Complete verification & forward.
                             </span>
                           </span>
                           <span className="text-[10.5px] font-mono uppercase bg-white px-2 py-0.5 rounded border">
@@ -880,10 +958,46 @@ function ApprovalsPage() {
                           </span>
                         </div>
 
+                        {/* Internal Audit Checklist */}
+                        <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 space-y-2 text-xs">
+                          <span className="font-bold text-slate-800 text-[11px] uppercase tracking-wider flex items-center gap-1">
+                            <CheckSquare className="h-3.5 w-3.5 text-primary" /> Pre-Flight Audit Checklist
+                          </span>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11.5px]">
+                            <label className="flex items-center gap-2 cursor-pointer text-slate-700">
+                              <input
+                                type="checkbox"
+                                checked={checklist.billsValid}
+                                onChange={(e) => setChecklist({ ...checklist, billsValid: e.target.checked })}
+                                className="h-3.5 w-3.5 rounded text-primary"
+                              />
+                              <span>Claim particulars verified</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer text-slate-700">
+                              <input
+                                type="checkbox"
+                                checked={checklist.budgetWithin}
+                                onChange={(e) => setChecklist({ ...checklist, budgetWithin: e.target.checked })}
+                                className="h-3.5 w-3.5 rounded text-primary"
+                              />
+                              <span>Within cost centre budget</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer text-slate-700">
+                              <input
+                                type="checkbox"
+                                checked={checklist.policyCompliant}
+                                onChange={(e) => setChecklist({ ...checklist, policyCompliant: e.target.checked })}
+                                className="h-3.5 w-3.5 rounded text-primary"
+                              />
+                              <span>Per-diem policy verified</span>
+                            </label>
+                          </div>
+                        </div>
+
                         {/* Quick preset chips */}
                         <div className="space-y-1.5">
                           <Label className="text-[11px] font-semibold text-muted-foreground flex items-center gap-1">
-                            <Sparkles className="h-3 w-3 text-amber-500" /> Quick Message Presets (1-Click Fill):
+                            <Sparkles className="h-3 w-3 text-amber-500" /> 1-Click Approval Remarks:
                           </Label>
                           <div className="flex flex-wrap gap-1.5">
                             {presetChips.map((chip, idx) => (
@@ -902,7 +1016,7 @@ function ApprovalsPage() {
                         {/* Message Textarea */}
                         <div className="space-y-1">
                           <Label htmlFor="passMsg" className="text-xs font-semibold text-foreground">
-                            Your Approval Remarks / Message to Next Reviewer:
+                            Your Approval Remarks / Audit Note:
                           </Label>
                           <Textarea
                             id="passMsg"
@@ -914,8 +1028,8 @@ function ApprovalsPage() {
                           />
                         </div>
 
-                        {/* Action Buttons: Pass (Green), Send Back (Amber), Reject (Red) */}
-                        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t">
+                        {/* Action Buttons */}
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t">
                           <div className="flex items-center gap-2">
                             <Button
                               type="button"
@@ -935,7 +1049,7 @@ function ApprovalsPage() {
                               disabled={passMut.isPending}
                               className="gap-1.5 text-xs text-red-700 border-red-300 hover:bg-red-50"
                             >
-                              <X className="h-3.5 w-3.5" /> Reject Application
+                              <X className="h-3.5 w-3.5" /> Reject Claim
                             </Button>
                           </div>
 
@@ -969,12 +1083,12 @@ function ApprovalsPage() {
                         <p className="text-xs text-muted-foreground max-w-md">
                           {alreadyApprovedByMe ? (
                             <span>
-                              You have already reviewed and forwarded this application from your portal. You can view the message thread above as subsequent authorities complete their review.
+                              You have already reviewed and forwarded this application from your desk. You can monitor the sequential audit thread above as subsequent authorities complete their review.
                             </span>
                           ) : (
                             <span>
                               This application is currently awaiting review by{" "}
-                              <strong className="text-foreground">{activeStep?.name} ({activeStep?.role})</strong>. Each authority can only respond and enter comments when the application reaches their portal.
+                              <strong className="text-foreground">{activeStep?.name} ({activeStep?.role})</strong>. Each authority can only respond when the application arrives at their portal.
                             </span>
                           )}
                         </p>
@@ -985,7 +1099,7 @@ function ApprovalsPage() {
               </Card>
             </>
           ) : (
-            <Card className="p-12 text-center text-muted-foreground">
+            <Card className="p-12 text-center text-muted-foreground bg-white">
               <Receipt className="mx-auto mb-3 h-10 w-10 opacity-30" />
               <p className="text-sm font-semibold">No expense applications currently awaiting your action.</p>
               <p className="text-xs text-muted-foreground mt-1">
@@ -996,9 +1110,112 @@ function ApprovalsPage() {
         </div>
       </div>
 
-      {/* NEW REIMBURSEMENT MODAL */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* MODAL 1: PRINT CLAIM VOUCHER MODAL                         */}
+      {/* ═══════════════════════════════════════════════════════════ */}
+      <Dialog open={voucherModalOpen} onOpenChange={setVoucherModalOpen}>
+        <DialogContent className="max-w-2xl p-0 overflow-hidden bg-white">
+          {selectedItem && (
+            <div className="flex flex-col max-h-[85vh]">
+              <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="h-7 w-7 rounded-full bg-white flex items-center justify-center p-0.5">
+                    <img src="/logo.png" alt="Logo" className="h-full w-full object-contain" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">Official Expense Reimbursement Voucher</h3>
+                    <p className="text-[10px] text-slate-300 font-mono">Claim ID: {selectedItem.code}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" onClick={() => window.print()} className="h-7 text-xs bg-white text-slate-900 gap-1 font-bold">
+                    <Printer className="h-3 w-3" /> Print Voucher
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => setVoucherModalOpen(false)} className="h-7 text-xs text-white">
+                    Close
+                  </Button>
+                </div>
+              </div>
+
+              <div className="p-6 overflow-y-auto space-y-5 text-xs text-slate-800">
+                <div className="border-b pb-3">
+                  <h2 className="text-base font-black text-slate-900">UNIQUESTA OVERSEAS PRIVATE LIMITED</h2>
+                  <p className="text-[10.5px] text-slate-600">Employee Expense Reimbursement & Internal Audit Sanction Voucher</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 p-3 bg-slate-50 rounded-lg border">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold text-slate-500">Claimant Details</span>
+                    <p className="font-bold text-slate-900 mt-0.5">{selectedItem.submitted_by}</p>
+                    <p className="text-slate-600">{selectedItem.branch}</p>
+                    <p className="text-slate-600">Date: {selectedItem.submitted_date}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] uppercase font-bold text-slate-500">Sanctioned Amount</span>
+                    <p className="text-xl font-black text-emerald-700 mt-0.5">{selectedItem.amount}</p>
+                    <p className="text-slate-600">Category: {selectedItem.category}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="font-bold text-slate-800 mb-2">Sequential Verification & Audit Trail:</h4>
+                  <div className="border rounded-lg overflow-hidden">
+                    <table className="w-full text-xs">
+                      <thead className="bg-slate-100 font-bold text-slate-600 border-b">
+                        <tr>
+                          <th className="px-3 py-2 text-left">Level</th>
+                          <th className="px-3 py-2 text-left">Authority</th>
+                          <th className="px-3 py-2 text-left">Status</th>
+                          <th className="px-3 py-2 text-left">Timestamp</th>
+                          <th className="px-3 py-2 text-left">Remarks</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y">
+                        {steps.map((st, i) => (
+                          <tr key={i}>
+                            <td className="px-3 py-2 font-mono">Stage {i + 1}</td>
+                            <td className="px-3 py-2 font-bold">{st.name} ({st.role})</td>
+                            <td className="px-3 py-2">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${st.status === "approved" ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-600"}`}>
+                                {st.status.toUpperCase()}
+                              </span>
+                            </td>
+                            <td className="px-3 py-2 text-slate-500">{st.time}</td>
+                            <td className="px-3 py-2 text-slate-700">{st.comment || "—"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className="pt-6 border-t flex justify-between text-[11px] text-slate-600">
+                  <div className="text-center">
+                    <div className="h-10 border-b border-dashed w-32 mx-auto mb-1" />
+                    <span>Claimant Signature</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="h-10 border-b border-dashed w-32 mx-auto mb-1" />
+                    <span>Finance Officer</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="h-10 border-b border-dashed w-32 mx-auto mb-1" />
+                    <span>Executive Director / CEO</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+
+
+      {/* ═══════════════════════════════════════════════════════════ */}
+      {/* MODAL 3: NEW REIMBURSEMENT CLAIM                           */}
+      {/* ═══════════════════════════════════════════════════════════ */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white">
           <DialogHeader>
             <DialogTitle className="text-base font-bold flex items-center gap-2">
               <Receipt className="h-4 w-4 text-[#E52E20]" /> New Reimbursement Claim
@@ -1023,7 +1240,7 @@ function ApprovalsPage() {
                   placeholder="e.g. 34,500"
                   value={createForm.amount}
                   onChange={(e) => setCreateForm({ ...createForm, amount: e.target.value })}
-                  className="text-xs"
+                  className="text-xs font-bold"
                 />
               </div>
 
@@ -1114,10 +1331,10 @@ function ApprovalsPage() {
             </div>
 
             <div className="space-y-1">
-              <Label className="text-xs font-semibold">Submission Notes & Receipts Summary</Label>
+              <Label className="text-xs font-semibold">Submission Notes</Label>
               <Textarea
                 rows={2}
-                placeholder="Itemised taxi bills, hotel receipt #402, client meet agenda attached."
+                placeholder="Client meet agenda, project purpose and details."
                 value={createForm.notes}
                 onChange={(e) => setCreateForm({ ...createForm, notes: e.target.value })}
                 className="text-xs resize-none"

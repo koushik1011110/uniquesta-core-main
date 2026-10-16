@@ -43,3 +43,29 @@ export function isStaffRole(user?: any | null): boolean {
 
   return !isManagementOrAdmin;
 }
+
+export function isSuperAdminRole(user?: any | null): boolean {
+  const u = user !== undefined ? user : getUser();
+  if (!u) return false;
+  const role = (u.role || "").toLowerCase();
+  const email = (u.email || "").toLowerCase();
+  return (
+    role === "super_admin" ||
+    role === "super admin" ||
+    role.includes("super") ||
+    email === "admin@uniquesta.com"
+  );
+}
+
+export function isBranchAdminRole(user?: any | null): boolean {
+  const u = user !== undefined ? user : getUser();
+  if (!u) return false;
+  const role = (u.role || "").toLowerCase();
+  return (
+    role === "branch_admin" ||
+    role === "branch admin" ||
+    role === "office_admin" ||
+    role.includes("branch")
+  );
+}
+

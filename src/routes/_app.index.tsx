@@ -575,7 +575,7 @@ function DashboardPage() {
                   </div>
                   <div>
                     <div className="text-xs font-bold text-black group-hover:text-[#E52E20] transition">
-                      Global Universities
+                      University and Courses
                     </div>
                     <div className="text-[11px] text-slate-500">
                       Institutions, courses & tie-ups
